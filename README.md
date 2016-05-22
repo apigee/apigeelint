@@ -4,6 +4,38 @@
 
 Static code analysis for Apigee proxy bundles to encourage API developers to use best practices and avoid anti-patterns.
 
+## Status
+
+At this point we are focused on plugin execution and modelling the various lintable assets including Bundles, Proxies, Targets, Flows, Steps, and Policies.
+
+Plugins that test these abstractions are being developed concurrently.
+
+Reporters (the means to report out results), Ingesters (bundle loaders) are to be developed with Filesystem being the only supported means of loading a bundle and all reporting now going to console.
+
+## Usage
+
+A simple script based approach is used right now. The sample.js configuration at root executes a linting session against the default bundle:
+
+var bl = require("./package/bundleLinter.js");
+
+	var configuration = {
+	    debug: true,
+	    "source": {
+	        "type":"filesystem",
+	        "path": "../sampleProxy",
+	    }
+	};
+
+	bl.lint(configuration);
+
+
+## Contributing
+
+In lieu of a formal style guide, take care to maintain the existing coding style.
+Add unit tests for any new or changed functionality. Lint and test your code.
+
+## Scope
+
 Linting and reporting will fall into one of the following broad categories:
 
  1. Bundle

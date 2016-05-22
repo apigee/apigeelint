@@ -10,7 +10,7 @@ var name = "Check number of policies present in the bundle",
 var checkBundle = function(bundle) {
     var limit = 2; //for testing set to 200 on release
 
-    if (bundle.policies.length > limit) {
+    if (bundle.policies && bundle.policies.length > limit) {
         bundle.warn({
             name: "Bundle size (" + bundle.policies.length + ") exceeds recommended limit of " + limit + ". Consider refactoring into two or more bundles.",
             guidance: "Large bundle take longer to deploy and are more difficult to debug and maintain."
