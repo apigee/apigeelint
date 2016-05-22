@@ -8,7 +8,7 @@ var name = "Check File and Policy Naming",
     description = "Check that file names correspond to policy names.";
 
 var checkPolicy = function(policy) {
-    var fname = policy.getFileName().split('.xml')[0];
+    var fname = policy.getFileName().split(".xml")[0];
 
     if (fname !== policy.getName()) {
         policy.warn({

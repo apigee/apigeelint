@@ -1,8 +1,9 @@
 //bundleLinter.js
-var findfolder = require('node-find-folder'),
+var findfolder = require("node-find-folder"),
     fs = require("fs"),
     path = require("path"),
-    Policy = require('./Policy.js');
+    Policy = require("./Policy.js"),
+    config;
 
 function print(msg) {
     try {
@@ -62,33 +63,13 @@ function report(b) {
     });
 }
 
-var lint = function(aconfig) {
-    //the config
-    try {
-        config = aconfig;
-        var bundle = init.config(config);
-        //for each plugin
-        var normalizedPath = path.join(__dirname, "plugins");
-        fs.readdirSync(normalizedPath).forEach(function(file) {
-            var plugin = require("./plugins/" + file);
-            //lets see if this really is a plugin
-            plugin.checkBundle && plugin.checkBundle(bundle);
-            plugin.checkPolicy && bundle.policies.forEach(plugin.checkPolicy);
-        });
-    } catch (error) {
-        console.log(error);
-        console.log(getStackTrace(error));
-    }
-    report(bundle);
-}
-
 var init = {
-    config: function(config) {
+    config(config) {
         //lets preload the bundle structure here
         var bundle = this[config.source.type](config);
         return bundle;
     },
-    filesystem: function(config) {
+    filesystem(config) {
         process.chdir(config.source.path);
 
         //ok lets build our bundle representation from file system
@@ -101,17 +82,17 @@ var init = {
                 root: config.source.path,
                 policies: [],
                 messages: { warnings: [], errors: [] },
-                warn: function(msg) {
+                warn(msg) {
                     return this.messages.warnings.push(msg);
                 },
-                err: function(msg) {
+                err(msg) {
                     return this.messages.errors.push(msg);
                 }
             },
-            folders = new findfolder('apiproxy');
+            folders = new findfolder("apiproxy");
 
         folders.some(function(folder) {
-            if (folder.indexOf('target/') === -1) {
+            if (folder.indexOf("target/") === -1) {
                 bundle.proxyRoot = folder;
                 return;
             }
@@ -127,6 +108,26 @@ var init = {
             console.log(error);
         }
         return bundle;
+    }
+}
+
+var lint = function(aconfig) {
+    //the config
+    try {
+        config = aconfig;
+        var bundle = init.config(config);
+        //for each plugin
+        var normalizedPath = path.join(__dirname, "plugins");
+        fs.readdirSync(normalizedPath).forEach(function(file) {
+            var plugin = require("./plugins/" + file);
+            //lets see if this really is a plugin
+            plugin.checkBundle && plugin.checkBundle(bundle);
+            plugin.checkPolicy && bundle.policies.forEach(plugin.checkPolicy);
+        });
+        report(bundle);
+    } catch (error) {
+        console.log(error);
+        console.log(getStackTrace(error));
     }
 }
 
