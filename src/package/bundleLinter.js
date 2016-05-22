@@ -114,7 +114,7 @@ var FindFolder = require("node-find-folder"),
             console.log(error);
             console.log(getStackTrace(error));
         }
-    }
+    };
 
 module.exports = {
     lint,
