@@ -58,28 +58,22 @@ function Bundle(config) {
 
 Bundle.prototype.lint = function(config) {
     //the config
-    try {
-        var bundle = init.config(config);
-        //for each plugin
-        var normalizedPath = path.join(__dirname, "plugins");
-        fs.readdirSync(normalizedPath).forEach(function(file) {
-            var plugin = require("./plugins/" + file);
-            //lets see if this really is a plugin
-            plugin.checkBundle && plugin.checkBundle(bundle);
-            plugin.checkPolicy && bundle.checkPolicy(plugin.checkPolicy);
-        });
-    } catch (error) {
-        console.log(error);
-        console.log(getStackTrace(error));
-    }
+    var bundle = init.config(config);
+    //for each plugin
+    var normalizedPath = path.join(__dirname, "plugins");
+    fs.readdirSync(normalizedPath).forEach(function(file) {
+        var plugin = require("./plugins/" + file);
+        //lets see if this really is a plugin
+        plugin.checkBundle && plugin.checkBundle(bundle);
+        plugin.checkPolicy && bundle.checkPolicy(plugin.checkPolicy);
+    });
 };
 
 Bundle.prototype.checkPolicies = function(pluginFunction) {
-    debugger;
     if (this.policies) {
         this.policies.forEach(pluginFunction);
     }
-}
+};
 
 //Public
 module.exports = Bundle;
