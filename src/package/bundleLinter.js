@@ -1,4 +1,6 @@
 //bundleLinter.js
+var config;
+
 function print(msg) {
     try {
         if (msg && (typeof msg === "object")) {
@@ -47,7 +49,6 @@ var FindFolder = require("node-find-folder"),
     fs = require("fs"),
     path = require("path"),
     Policy = require("./Policy.js"),
-    config,
     init = {
         config(config) {
             //lets preload the bundle structure here
