@@ -8,19 +8,12 @@ var FindFolder = require("node-find-folder"),
     xpath = require("xpath"),
     Dom = require("xmldom").DOMParser;
 
-function Bundle(config) {
-    init.config(config, this);
-    //this.bundle.config = config;
-}
-
-
 var init = {
     config(config, bundle) {
         //lets preload the bundle structure here
         this[config.source.type](config, bundle);
     },
     filesystem(config, bundle) {
-        debugger;
         process.chdir(config.source.path);
 
         //ok lets build our bundle representation from file system
@@ -37,7 +30,7 @@ var init = {
         };
         bundle.err = function(msg) {
             return this.messages.errors.push(msg);
-        }
+        };
         var folders = new FindFolder("apiproxy");
 
         folders.some(function(folder) {
@@ -59,10 +52,13 @@ var init = {
     }
 };
 
-Bundle.prototype.lint = function(aconfig) {
+function Bundle(config) {
+    init.config(config, this);
+}
+
+Bundle.prototype.lint = function(config) {
     //the config
     try {
-        config = aconfig;
         var bundle = init.config(config);
         //for each plugin
         var normalizedPath = path.join(__dirname, "plugins");
@@ -72,7 +68,6 @@ Bundle.prototype.lint = function(aconfig) {
             plugin.checkBundle && plugin.checkBundle(bundle);
             plugin.checkPolicy && bundle.checkPolicy(plugin.checkPolicy);
         });
-        report(bundle);
     } catch (error) {
         console.log(error);
         console.log(getStackTrace(error));

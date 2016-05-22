@@ -52,22 +52,17 @@ function report(b) {
 var Bundle = require("./Bundle.js"),
     lint = function(aconfig) {
         //the config
-        try {
-            config = aconfig;
-            var bundle = new Bundle(config);
-            //for each plugin
-            var normalizedPath = path.join(__dirname, "plugins");
-            fs.readdirSync(normalizedPath).forEach(function(file) {
-                var plugin = require("./plugins/" + file);
-                //lets see if this really is a plugin
-                plugin.checkBundle && plugin.checkBundle(bundle);
-                plugin.checkPolicy && bundle.checkPolicies(plugin.checkPolicy);
-            });
-            report(bundle);
-        } catch (error) {
-            console.log(error);
-            console.log(getStackTrace(error));
-        }
+        config = aconfig;
+        var bundle = new Bundle(config);
+        //for each plugin
+        var normalizedPath = path.join(__dirname, "plugins");
+        fs.readdirSync(normalizedPath).forEach(function(file) {
+            var plugin = require("./plugins/" + file);
+            //lets see if this really is a plugin
+            plugin.checkBundle && plugin.checkBundle(bundle);
+            plugin.checkPolicy && bundle.checkPolicies(plugin.checkPolicy);
+        });
+        report(bundle);
     };
 
 module.exports = {
