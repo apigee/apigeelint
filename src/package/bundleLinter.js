@@ -48,6 +48,10 @@ function getStackTrace(e) {
 var config = {};
 
 function report(b) {
+    if (b.messages) {
+        print(b.messages);
+        print("");
+    }
     b.policies.forEach(function(policy) {
         if (policy.messages) {
             print(policy.getFileName());
@@ -96,7 +100,13 @@ var init = {
         var bundle = {
                 root: config.source.path,
                 policies: [],
-                result: { messages: [] }
+                messages: { warnings: [], errors: [] },
+                warn: function(msg) {
+                    return this.messages.warnings.push(msg);
+                },
+                err: function(msg) {
+                    return this.messages.errors.push(msg);
+                }
             },
             folders = new findfolder('apiproxy');
 
