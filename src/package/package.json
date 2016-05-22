@@ -1,0 +1,34 @@
+{
+    "name": "apilint",
+    "version": "0.1.0",
+    "description": "Node module to lint and Apigee Edge bundle.",
+    "main": "apilint.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/apigeecs/bundle-linter"
+    },
+    "keywords": [
+        "API",
+        "bundle",
+        "lint",
+        "linter",
+        "Apigee",
+        "Edge"
+    ],
+    "author": "David Allen <dallen@apigee.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/apigeecs/bundle-linter/issues"
+    },
+    "private": true,
+    "dependencies": {
+        "xml2js": ">= 0.4.5",
+        "jshint": ">= 2.6.0",
+        "xml-stream":">= 0.4.5",
+        "path": ">= 0.11.14",
+        "node-inspector": ">= 0.12.3"
+    }
+}

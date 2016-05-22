@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExtractVariables async="false" continueOnError="false" enabled="true" name="ExtractParamVariables">
+    <DisplayName>ExtractParamVariables</DisplayName>
+    <FaultRules/>
+    <Properties/>
+    <QueryParam name="numbers">
+        <Pattern ignoreCase="true">{numArray}</Pattern>
+    </QueryParam>
+  <Source clearPayload="false">request</Source>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+ </ExtractVariables>

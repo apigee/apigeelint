@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ProxyEndpoint name="default">
+    <Description/>
+    <PreFlow name="PreFlow">
+        <Request>
+            <Step>
+                <FaultRules/>
+                <Name>JSONThreatProtection</Name>
+                <Condition>request.verb="POST"</Condition>
+            </Step>
+            <Step>
+                <FaultRules/>
+                <Name>ExtractParamVariables</Name>
+                <Condition>request.verb="GET"</Condition>
+            </Step>
+            <Step>
+                <FaultRules/>
+                <Name>ExtractPayloadVariables</Name>
+                <Condition>request.verb="POST" and request.header.contenttype="application/json"</Condition>
+            </Step>
+        </Request>
+        <Response/>
+    </PreFlow>
+    <Flows/>
+    <PostFlow name="PostFlow">
+        <Request/>
+        <Response>
+            <Step>
+                <FaultRules/>
+                <Name>jsCalculate</Name>
+            </Step>
+        </Response>
+    </PostFlow>
+    <HTTPProxyConnection>
+        <BasePath>/24solver</BasePath>
+        <VirtualHost>default</VirtualHost>
+        <VirtualHost>secure</VirtualHost>
+    </HTTPProxyConnection>
+    <RouteRule name="noroute"/>
+</ProxyEndpoint>
