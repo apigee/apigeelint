@@ -1,10 +1,4 @@
 //bundleLinter.js
-var findfolder = require("node-find-folder"),
-    fs = require("fs"),
-    path = require("path"),
-    Policy = require("./Policy.js"),
-    config;
-
 function print(msg) {
     try {
         if (msg && (typeof msg === "object")) {
@@ -33,20 +27,6 @@ function getStackTrace(e) {
         .replace(/^Object.<anonymous>\s*\(/gm, "{anonymous}()@")
         .split("\n");
 }
-//break down into a series of rules modules for
-//bundles
-//policies
-//resources
-
-//execute with a config object that controls what runs
-//the reporter implementation
-//the input implementation (files system, GIT, or org/env/api/rev on Edge, eventually codacy)
-
-//define the bundle
-//bundle will contain precalculated values including arrays of policies by name and type with paths as state - we won't hold full values of the policies however
-
-
-var config = {};
 
 function report(b) {
     if (b.messages) {
@@ -63,73 +43,77 @@ function report(b) {
     });
 }
 
-var init = {
-    config(config) {
-        //lets preload the bundle structure here
-        var bundle = this[config.source.type](config);
-        return bundle;
-    },
-    filesystem(config) {
-        process.chdir(config.source.path);
+var FindFolder = require("node-find-folder"),
+    fs = require("fs"),
+    path = require("path"),
+    Policy = require("./Policy.js"),
+    config,
+    init = {
+        config(config) {
+            //lets preload the bundle structure here
+            var bundle = this[config.source.type](config);
+            return bundle;
+        },
+        filesystem(config) {
+            process.chdir(config.source.path);
 
-        //ok lets build our bundle representation from file system
-        //note all methods ultimately will call this init
-        //usually after they retrieve the bundle from a remote
-        //two structures are supported
-        //apiproxy at root of config.path or one level deeper
-        //this will facilitate analyzing pom files as well
-        var bundle = {
-                root: config.source.path,
-                policies: [],
-                messages: { warnings: [], errors: [] },
-                warn(msg) {
-                    return this.messages.warnings.push(msg);
+            //ok lets build our bundle representation from file system
+            //note all methods ultimately will call this init
+            //usually after they retrieve the bundle from a remote
+            //two structures are supported
+            //apiproxy at root of config.path or one level deeper
+            //this will facilitate analyzing pom files as well
+            var bundle = {
+                    root: config.source.path,
+                    policies: [],
+                    messages: { warnings: [], errors: [] },
+                    warn(msg) {
+                        return this.messages.warnings.push(msg);
+                    },
+                    err(msg) {
+                        return this.messages.errors.push(msg);
+                    }
                 },
-                err(msg) {
-                    return this.messages.errors.push(msg);
+                folders = new FindFolder("apiproxy");
+
+            folders.some(function(folder) {
+                if (folder.indexOf("target/") === -1) {
+                    bundle.proxyRoot = folder;
+                    return;
                 }
-            },
-            folders = new findfolder("apiproxy");
-
-        folders.some(function(folder) {
-            if (folder.indexOf("target/") === -1) {
-                bundle.proxyRoot = folder;
-                return;
-            }
-        });
-
-        //get the list of policies and create the policy objects
-        try {
-            var files = fs.readdirSync(bundle.proxyRoot + "/policies");
-            files.forEach(function(policyFile) {
-                bundle.policies.push(new Policy(bundle.proxyRoot + "/policies", policyFile));
             });
+
+            //get the list of policies and create the policy objects
+            try {
+                var files = fs.readdirSync(bundle.proxyRoot + "/policies");
+                files.forEach(function(policyFile) {
+                    bundle.policies.push(new Policy(bundle.proxyRoot + "/policies", policyFile));
+                });
+            } catch (error) {
+                console.log(error);
+            }
+            return bundle;
+        }
+    },
+    lint = function(aconfig) {
+        //the config
+        try {
+            config = aconfig;
+            var bundle = init.config(config);
+            //for each plugin
+            var normalizedPath = path.join(__dirname, "plugins");
+            fs.readdirSync(normalizedPath).forEach(function(file) {
+                var plugin = require("./plugins/" + file);
+                //lets see if this really is a plugin
+                plugin.checkBundle && plugin.checkBundle(bundle);
+                plugin.checkPolicy && bundle.policies.forEach(plugin.checkPolicy);
+            });
+            report(bundle);
         } catch (error) {
             console.log(error);
+            console.log(getStackTrace(error));
         }
-        return bundle;
     }
-}
-
-var lint = function(aconfig) {
-    //the config
-    try {
-        config = aconfig;
-        var bundle = init.config(config);
-        //for each plugin
-        var normalizedPath = path.join(__dirname, "plugins");
-        fs.readdirSync(normalizedPath).forEach(function(file) {
-            var plugin = require("./plugins/" + file);
-            //lets see if this really is a plugin
-            plugin.checkBundle && plugin.checkBundle(bundle);
-            plugin.checkPolicy && bundle.policies.forEach(plugin.checkPolicy);
-        });
-        report(bundle);
-    } catch (error) {
-        console.log(error);
-        console.log(getStackTrace(error));
-    }
-}
 
 module.exports = {
     lint,
