@@ -8,7 +8,7 @@ var checkStep = function(step) {
 };
 
 var checkPolicy = function(policy) {
-    if (!policy.getSteps() || policy.getSteps().length == 0) {
+    if (!policy.getSteps() || policy.getSteps().length === 0) {
         policy.warn({
             name: "Policy \"" + policy.getFileName() + "\" is not attached to a Step in the bundle.",
             guidance: "Remove unused policies."

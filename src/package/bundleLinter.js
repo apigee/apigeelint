@@ -34,12 +34,12 @@ function getStackTrace(e) {
 
 function report(b) {
     if (b.messages) {
-        print("Bundle:")
+        print("Bundle:");
         print(b.messages);
         print("");
     }
     if (b.steps) {
-        print("Steps:")
+        print("Steps:");
         b.steps.forEach(function(step) {
             if (step.messages) {
                 print(step.getFileName() + ": " + step.getFlowName());
@@ -50,7 +50,7 @@ function report(b) {
         });
     }
     if (b.policies) {
-        print("Policies:")
+        print("Policies:");
         b.policies.forEach(function(policy) {
             if (policy.messages) {
                 print(policy.getFileName());

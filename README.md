@@ -63,6 +63,7 @@ Linting and reporting will fall into one of the following broad categories:
   * Policy file naming convention check
   * Policy name attribute naming convention check
   * Policy file name and name attribute consistency check
+  * Policy name attribute and display name attribute consistency check
   * Service Callouts that target Mgmt Server - warn.
   * JSHint/ESLint to all Javascript Resource Callouts
   * PMD and Checkstyle for all Java Resource Callouts
