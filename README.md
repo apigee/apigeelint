@@ -56,11 +56,13 @@ Linting and reporting will fall into one of the following broad categories:
   * Warn if unconditional flow is defined more than once, defined other than last - unreachable flow error.
  6. Conditionals
   * Conditionals that check “” or Null - is there a preferred approach - would we warn against one way or the other on this - should the developer always redundantly check?
+  * JSON Threat protection policy should have a condition check for a body.
+  * XML Threat protection policy should have a condition check for a body.
+  * ExtractVariable accessing body without a conditional that guards against requests without a body.
  5. Policies
   * Policy file naming convention check
   * Policy name attribute naming convention check
   * Policy file name and name attribute consistency check
-  * ExtractVariable accessing body without a conditional that guards against requests without a body.
   * Service Callouts that target Mgmt Server - warn.
   * JSHint/ESLint to all Javascript Resource Callouts
   * PMD and Checkstyle for all Java Resource Callouts

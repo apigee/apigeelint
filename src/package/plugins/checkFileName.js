@@ -1,9 +1,5 @@
 //checkFileName.js
 
-//for every policy check fileName per Apigee recommendations
-//for every policy check if fileName matches policyName
-//plugin methods and variables
-
 var name = "Check File and Policy Naming",
     description = "Check that file names correspond to policy names.";
 
@@ -17,9 +13,6 @@ var checkPolicy = function(policy) {
         });
     }
 };
-
-//var checkBundle = function(bundle) {};
-
 
 module.exports = {
     name,

@@ -34,10 +34,23 @@ function getStackTrace(e) {
 
 function report(b) {
     if (b.messages) {
+        print("Bundle:")
         print(b.messages);
         print("");
     }
+    if (b.steps) {
+        print("Steps:")
+        b.steps.forEach(function(step) {
+            if (step.messages) {
+                print(step.getFileName() + ": " + step.getFlowName());
+                print("-----------");
+                print(step.getMessages());
+                print("");
+            }
+        });
+    }
     if (b.policies) {
+        print("Policies:")
         b.policies.forEach(function(policy) {
             if (policy.messages) {
                 print(policy.getFileName());
@@ -47,6 +60,7 @@ function report(b) {
             }
         });
     }
+
 }
 
 var Bundle = require("./Bundle.js"),
@@ -60,6 +74,7 @@ var Bundle = require("./Bundle.js"),
             var plugin = require("./plugins/" + file);
             //lets see if this really is a plugin
             plugin.checkBundle && plugin.checkBundle(bundle);
+            plugin.checkStep && bundle.checkSteps(plugin.checkStep);
             plugin.checkPolicy && bundle.checkPolicies(plugin.checkPolicy);
         });
         report(bundle);

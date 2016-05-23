@@ -29,8 +29,8 @@ Policy.prototype.getName = function() {
     return this.name;
 };
 
-Policy.prototype.select = function(xs) {    
-        return xpath.select(xs, new Dom().parseFromString(this.getContent()));
+Policy.prototype.select = function(xs) {
+    return xpath.select(xs, new Dom().parseFromString(this.getContent()));
 };
 
 Policy.prototype.getContent = function() {
@@ -59,6 +59,10 @@ Policy.prototype.err = function(msg) {
 
 Policy.prototype.getMessages = function() {
     return this.messages;
+};
+
+Policy.prototype.getSteps = function() {
+    return this.steps;
 };
 
 //Public
