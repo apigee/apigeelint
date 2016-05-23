@@ -93,7 +93,7 @@ Bundle.prototype.checkSteps = function(pluginFunction) {
         //walk all the target files
     }
     bundle.steps.forEach(pluginFunction);
-}
+};
 
 //Public
 module.exports = Bundle;

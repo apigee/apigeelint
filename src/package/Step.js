@@ -11,6 +11,17 @@ function Step(content, fn) {
     this.messages = { warnings: [], errors: [] };
 }
 
+function buildTagBreadCrumb(doc) {
+    return r_buildTagBreadCrumb(doc, "");
+}
+
+function r_buildTagBreadCrumb(doc, bc) {
+    if (doc.parentNode) {
+        bc = r_buildTagBreadCrumb(doc.parentNode, doc.parentNode.nodeName + ":" + bc);
+    }
+    return bc;
+}
+
 Step.prototype.getName = function() {
     if (!this.name) {
         var doc = xpath.select("./Name", this.content);
@@ -21,7 +32,14 @@ Step.prototype.getName = function() {
 
 Step.prototype.getFlowName = function() {
     if (!this.flowName) {
-        this.flowName =  this.content.parentNode.parentNode.parentNode.attributes[0].nodeValue + ":" + this.content.parentNode.parentNode.parentNode.nodeName + ":" + this.content.parentNode.parentNode.nodeName + ":" + this.content.parentNode.nodeName;
+        /*if (this.content.parentNode.parentNode.parentNode.attributes && this.content.parentNode.parentNode.parentNode.attributes[0]) {
+            this.flowName = this.content.parentNode.parentNode.parentNode.attributes[0].nodeValue;
+        } else if (this.content.parentNode.parentNode.parentNode.parentNode && this.content.parentNode.parentNode.parentNode.parentNode.tagName) {
+            this.flowName = this.content.parentNode.parentNode.parentNode.parentNode.tagName;
+        } else { debugger; }
+        this.flowName += ":" + this.content.parentNode.parentNode.parentNode.nodeName + ":" + this.content.parentNode.parentNode.nodeName + ":" + this.content.parentNode.nodeName;
+        this.flowName += "-" + this.getName();*/
+        this.flowName = buildTagBreadCrumb(this.content) + this.getName();
     }
     return this.flowName;
 };
@@ -61,6 +79,7 @@ Step.prototype.err = function(msg) {
 Step.prototype.getMessages = function() {
     return this.messages;
 };
+
 
 //Public
 module.exports = Step;

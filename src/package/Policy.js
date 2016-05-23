@@ -23,7 +23,9 @@ function getAttributeValue(attributes, name) {
 Policy.prototype.getName = function() {
     if (!this.name) {
         var doc = xpath.select("/", new Dom().parseFromString(this.getContent()));
-        this.type = doc[0].documentElement.tagName;
+        if(!doc[0].documentElement) debugger;
+
+        this.type = doc && doc[0] && doc[0].documentElement.tagName || "";
         this.name = getAttributeValue(doc[0].documentElement.attributes, "name");
     }
     return this.name;

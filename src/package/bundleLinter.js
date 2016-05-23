@@ -42,7 +42,7 @@ function report(b) {
         print("Steps:");
         b.steps.forEach(function(step) {
             if (step.messages) {
-                print(step.getFileName() + ": " + step.getFlowName());
+                print(step.getFileName() + ":" + step.getFlowName());
                 print("-----------");
                 print(step.getMessages());
                 print("");
