@@ -11,15 +11,15 @@ function Step(content, fn) {
     this.messages = { warnings: [], errors: [] };
 }
 
-function buildTagBreadCrumb(doc) {
-    return r_buildTagBreadCrumb(doc, "");
-}
-
-function r_buildTagBreadCrumb(doc, bc) {
+function rBuildTagBreadCrumb(doc, bc) {
     if (doc.parentNode) {
-        bc = r_buildTagBreadCrumb(doc.parentNode, doc.parentNode.nodeName + ":" + bc);
+        bc = rBuildTagBreadCrumb(doc.parentNode, doc.parentNode.nodeName + ":" + bc);
     }
     return bc;
+}
+
+function buildTagBreadCrumb(doc) {
+    return rBuildTagBreadCrumb(doc, "");
 }
 
 Step.prototype.getName = function() {
@@ -32,13 +32,6 @@ Step.prototype.getName = function() {
 
 Step.prototype.getFlowName = function() {
     if (!this.flowName) {
-        /*if (this.content.parentNode.parentNode.parentNode.attributes && this.content.parentNode.parentNode.parentNode.attributes[0]) {
-            this.flowName = this.content.parentNode.parentNode.parentNode.attributes[0].nodeValue;
-        } else if (this.content.parentNode.parentNode.parentNode.parentNode && this.content.parentNode.parentNode.parentNode.parentNode.tagName) {
-            this.flowName = this.content.parentNode.parentNode.parentNode.parentNode.tagName;
-        } else { debugger; }
-        this.flowName += ":" + this.content.parentNode.parentNode.parentNode.nodeName + ":" + this.content.parentNode.parentNode.nodeName + ":" + this.content.parentNode.nodeName;
-        this.flowName += "-" + this.getName();*/
         this.flowName = buildTagBreadCrumb(this.content) + this.getName();
     }
     return this.flowName;

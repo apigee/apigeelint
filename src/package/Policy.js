@@ -22,23 +22,29 @@ function getAttributeValue(attributes, name) {
 
 Policy.prototype.getName = function() {
     if (!this.name) {
-        var doc = xpath.select("/", new Dom().parseFromString(this.getContent()));
-        if(!doc[0].documentElement) debugger;
-
+        var doc = xpath.select("/", this.getContent());
         this.type = doc && doc[0] && doc[0].documentElement.tagName || "";
         this.name = getAttributeValue(doc[0].documentElement.attributes, "name");
     }
     return this.name;
 };
 
+Policy.prototype.getDisplayName = function() {
+    if (!this.displayName) {
+        var doc = xpath.select("//DisplayName", this.getContent());
+        this.displayName = doc[0].childNodes[0].nodeValue;
+    }
+    return this.displayName;
+};
+
 Policy.prototype.select = function(xs) {
-    return xpath.select(xs, new Dom().parseFromString(this.getContent()));
+    return xpath.select(xs, this.getContent());
 };
 
 Policy.prototype.getContent = function() {
     //read the contents of the file and return it raw
     if (!this.content) {
-        this.content = fs.readFileSync(this.filePath).toString();
+        this.content = new Dom().parseFromString(fs.readFileSync(this.filePath).toString());
     }
     return this.content;
 };
