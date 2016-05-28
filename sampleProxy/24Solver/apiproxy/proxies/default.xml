@@ -18,6 +18,8 @@
                 <Name>ExtractPayloadVariables</Name>
                 <Condition>request.verb="POST" and request.header.contenttype="application/json"</Condition>
             </Step>
+            <Step>
+            </Step>
         </Request>
         <Response/>
     </PreFlow>

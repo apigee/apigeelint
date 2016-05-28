@@ -7,7 +7,7 @@
 var name = "Check complexity of Step conditions.",
     description = "Overly complext conditions on Stesp are difficult to debug and maintain.";
 
-var checkStep = function(step) {
+var checkCondition = function(step) {
     var lengthLimit = 64,
         condition = step.getCondition();
 
@@ -26,5 +26,5 @@ var checkStep = function(step) {
 module.exports = {
     name,
     description,
-    checkStep
+    checkCondition
 };

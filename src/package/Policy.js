@@ -11,15 +11,6 @@ function Policy(path, fn) {
     this.messages = { warnings: [], errors: [] };
 }
 
-function getAttributeValue(attributes, name) {
-    name = name.toUpperCase();
-    for (var key in attributes) {
-        if (attributes[key].name.toUpperCase() === name) {
-            return attributes[key].value;
-        }
-    }
-}
-
 Policy.prototype.getName = function() {
     if (!this.name) {
         var doc = xpath.select("/", this.getContent());
