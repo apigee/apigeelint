@@ -13,9 +13,12 @@ function Policy(path, fn) {
 
 Policy.prototype.getName = function() {
     if (!this.name) {
+        var attr = xpath.select("./@name", this.getContent());
+        this.name = attr[0] && attr[0].value || "";
+    }
+    if (!this.type) {
         var doc = xpath.select("/", this.getContent());
         this.type = doc && doc[0] && doc[0].documentElement.tagName || "";
-        this.name = getAttributeValue(doc[0].documentElement.attributes, "name");
     }
     return this.name;
 };

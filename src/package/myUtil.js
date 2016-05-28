@@ -2,7 +2,7 @@
 var fs = require("fs"),
     xpath = require("xpath"),
     Dom = require("xmldom").DOMParser,
-    util = require('util');
+    util = require("util");
 
 function rBuildTagBreadCrumb(doc, bc) {
     if (doc && doc.parentNode) {
@@ -18,7 +18,7 @@ function buildTagBreadCrumb(doc) {
 
 function getFileName(obj) {
     if (obj.fileName) {
-        return obj.fileName
+        return obj.fileName;
     } else {
         return getFileName(obj.parent);
     }
@@ -56,11 +56,6 @@ function warn(msg) {
     print(msg);
 }
 
-function debugPrint(msg) {
-    if (config.debug) {
-        print(msg);
-    }
-}
 
 function getStackTrace(e) {
     return e.stack.replace(/^[^\(]+?[\n$]/gm, "")
@@ -83,7 +78,6 @@ module.exports = {
     buildTagBreadCrumb,
     processTagsFromFolder,
     print,
-    debugPrint,
     getStackTrace,
     getAttributeValue,
     inspect,

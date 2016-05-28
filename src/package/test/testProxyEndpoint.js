@@ -12,5 +12,5 @@ var configuration = {
     }
 };
 
-bundle = new Bundle(configuration);
+var bundle = new Bundle(configuration);
 myUtil.inspect(bundle.summarize());

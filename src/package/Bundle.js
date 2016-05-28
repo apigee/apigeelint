@@ -157,7 +157,8 @@ Bundle.prototype.summarize = function() {
         messages: this.messages,
         root: this.root,
         policies: this.policies
-    }
+    };
+    
     summary.proxyEndpoints = [];
     if (this.getProxyEndpoints()) {
         this.getProxyEndpoints().forEach(function(ep) {

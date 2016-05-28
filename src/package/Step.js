@@ -62,7 +62,7 @@ Step.prototype.getMessages = function() {
 Step.prototype.summarize = function() {
     var summary = {
         messages: this.messages,
-    }
+    };
     summary.name = this.getName();
     summary.flowName = this.getFlowName();
     summary.condition = this.getCondition();

@@ -102,7 +102,8 @@ Flow.prototype.getMessages = function() {
 Flow.prototype.summarize = function() {
     var summary = {
         messages: this.messages,
-    }
+    };
+    
     summary.name = this.getName();
     summary.description = this.getDescription();
     summary.type = this.getType();

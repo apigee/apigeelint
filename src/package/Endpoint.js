@@ -55,7 +55,7 @@ Endpoint.prototype.getPostFlow = function() {
         //find the preflow tag
         var doc = xpath.select("./PostFlow", this.element);
         if (doc && doc[0]) {
-            this.postFlow = new Flow(doc[0], this)
+            this.postFlow = new Flow(doc[0], this);
         }
     }
     return this.postFlow;
@@ -112,7 +112,8 @@ Endpoint.prototype.getMessages = function() {
 Endpoint.prototype.summarize = function() {
     var summary = {
         messages: this.messages,
-    }
+    };
+    
     summary.name = this.getName();
     summary.type = this.getType();
     summary.proxyName = this.getProxyName();

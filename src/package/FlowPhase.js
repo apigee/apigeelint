@@ -20,7 +20,6 @@ FlowPhase.prototype.getType = function() {
 };
 
 FlowPhase.prototype.getSteps = function() {
-    if (this.parent.getType() === "Flows") debugger;
     if (!this.steps) {
         var doc = xpath.select("./Step", this.element),
             fp = this;
@@ -62,7 +61,7 @@ FlowPhase.prototype.getMessages = function() {
 FlowPhase.prototype.summarize = function() {
     var summary = {
         messages: this.messages,
-    }
+    };
     summary.steps = [];
     var theSteps = this.getSteps();
     theSteps.forEach(function(step) {
