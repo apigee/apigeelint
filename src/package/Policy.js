@@ -16,10 +16,6 @@ Policy.prototype.getName = function() {
         var attr = xpath.select("//@name", this.getContent());
         this.name = attr[0] && attr[0].value || "";
     }
-    if (!this.type) {
-        var doc = xpath.select("/", this.getContent());
-        this.type = doc && doc[0] && doc[0].documentElement.tagName || "";
-    }
     return this.name;
 };
 
@@ -48,6 +44,10 @@ Policy.prototype.getFileName = function() {
 };
 
 Policy.prototype.getType = function() {
+    if (!this.type) {
+        var doc = xpath.select("/", this.getContent());
+        this.type = doc && doc[0] && doc[0].documentElement.tagName || "";
+    }
     return this.type;
 };
 
