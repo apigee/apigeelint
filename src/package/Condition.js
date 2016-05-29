@@ -33,7 +33,7 @@ Condition.prototype.err = function(msg) {
 
 Condition.prototype.checkConditions = function(pluginFunction) {
     pluginFunction(this);
-}
+};
 
 Condition.prototype.summarize = function() {
     var summary = {};

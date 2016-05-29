@@ -1,7 +1,8 @@
 //stepTest.js
 
 var name = "Empty Steps",
-    description = "Empty steps clutter a bundle.";
+    description = "Empty steps clutter a bundle.",
+    myUtil=require("../myUtil.js");
 
 var checkStep = function(step) {
 

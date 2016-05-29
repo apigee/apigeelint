@@ -2,8 +2,8 @@
 
 //Private
 var fs = require("fs"),
-    Condition = require("./Condition.js")
-xpath = require("xpath"),
+    Condition = require("./Condition.js"),
+    xpath = require("xpath"),
     Dom = require("xmldom").DOMParser,
     myUtil = require("./myUtil.js");
 
@@ -61,7 +61,7 @@ Step.prototype.checkConditions = function(pluginFunction) {
         pluginFunction(this.getCondition());
     }
     //fault rules
-}
+};
 
 Step.prototype.summarize = function() {
     var summary = {};

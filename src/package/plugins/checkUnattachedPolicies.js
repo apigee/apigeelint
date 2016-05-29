@@ -7,9 +7,9 @@ var name = "Check for unattached policies.",
 var checkStep = function(step) {
     //the name tag on a step contains the policy name
     var policyName = step.getName();
-    if (!policies[policyName]) policies[policyName] = [];
+    if (!policies[policyName]) { policies[policyName] = []; }
     policies[policyName].push(step);
-}
+};
 
 var checkPolicy = function(policy) {
     if (!policies[policy.getName()]) {

@@ -38,7 +38,7 @@ FlowPhase.prototype.checkSteps = function(pluginFunction) {
 
 FlowPhase.prototype.checkConditions = function(pluginFunction) {
     this.getSteps() && this.getSteps().forEach(function(st) { st.checkConditions(pluginFunction); });
-}
+};
 
 FlowPhase.prototype.getElement = function() {
     return this.element;
