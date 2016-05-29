@@ -7,7 +7,8 @@ var checkStep = function(step) {
 
     if (step.getName() === "") {
         step.warn({
-            name: "Step at " + step.getFlowName() + "("+step.getElement().lineNumber+":"+ step.getElement().columnNumber+")"+" is empty.",
+            name: "Step at " + myUtil.getFileName(step) + "(" + step.getElement().lineNumber + ":" + step.getElement().columnNumber + ")" +
+                " is empty.",
             guidance: "Empty steps clutter a bundle."
         });
     }

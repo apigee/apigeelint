@@ -13,7 +13,7 @@ function Policy(path, fn) {
 
 Policy.prototype.getName = function() {
     if (!this.name) {
-        var attr = xpath.select("./@name", this.getContent());
+        var attr = xpath.select("//@name", this.getContent());
         this.name = attr[0] && attr[0].value || "";
     }
     if (!this.type) {

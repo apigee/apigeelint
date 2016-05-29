@@ -12,7 +12,6 @@ var Step = require("./Step.js"),
 function Endpoint(element, parent, fname) {
     this.fileName=fname;
     this.parent = parent;
-    this.messages = { warnings: [], errors: [] };
     this.element = element;
 }
 
@@ -27,7 +26,7 @@ Endpoint.prototype.getName = function() {
 Endpoint.prototype.getType = function() {
     if (!this.type) {
         var doc = xpath.select("/", this.element);
-        this.type = doc && doc[0] && doc[0].documentElement.tagName || "";
+        this.type = doc && doc[0] && doc[0].documentElement.tagName;
     }
     return this.type;
 };
@@ -72,7 +71,7 @@ Endpoint.prototype.getFlows = function() {
                 var fdoc = xpath.select("./Flow", flowsElement);
                 if (fdoc) {
                     fdoc.forEach(function(flowElement) {
-                        ep.flows.push(new Flow(flowElement, flowsElement));
+                        ep.flows.push(new Flow(flowElement, ep));
                     });
                 }
             });
@@ -87,6 +86,14 @@ Endpoint.prototype.checkSteps = function(pluginFunction) {
     this.getPostFlow() && this.getPostFlow().checkSteps(pluginFunction);
     //defaultFaultRule
     //FaultRules
+};
+
+Endpoint.prototype.checkConditions = function(pluginFunction) {
+    this.getPreFlow() && this.getPreFlow().checkConditions(pluginFunction);
+    this.getFlows() && this.getFlows().forEach(function(fl) { fl.checkConditions(pluginFunction); });
+    this.getPostFlow() && this.getPostFlow().checkConditions(pluginFunction);
+    //FaultRules
+    //RouteRules
 };
 
 Endpoint.prototype.getElement = function() {
@@ -105,15 +112,9 @@ Endpoint.prototype.err = function(msg) {
     this.parent.err.push(msg);
 };
 
-Endpoint.prototype.getMessages = function() {
-    return this.messages;
-};
-
 Endpoint.prototype.summarize = function() {
-    var summary = {
-        messages: this.messages,
-    };
-    
+    var summary = {};
+
     summary.name = this.getName();
     summary.type = this.getType();
     summary.proxyName = this.getProxyName();

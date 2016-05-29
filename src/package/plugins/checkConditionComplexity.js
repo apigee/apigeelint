@@ -4,24 +4,21 @@
 //for every policy check if fileName matches policyName
 //plugin methods and variables
 
-var name = "Check complexity of Step conditions.",
-    description = "Overly complext conditions on Stesp are difficult to debug and maintain.";
+var myUtil = require("../myUtil.js"),
+    name = "Check length of condition.",
+    description = "Overly long conditions on Stesp are difficult to debug and maintain.";
 
-var checkCondition = function(step) {
+var checkCondition = function(condition) {
     var lengthLimit = 64,
-        condition = step.getCondition();
+        expression = condition.getExpression();
 
-    if (condition && condition.length > lengthLimit) {
-        step.warn({
-            name: "Step condition \""+ condition+"\" size (" + condition.length + ") exceeds recommended length limit of " + lengthLimit + " characters. Review condition statement to see if it can be simplified.",
+    if (expression && expression.length > lengthLimit) {
+        condition.warn({
+            name: "Condition at " + myUtil.getFileName(condition) + "(" + condition.getElement().lineNumber + ":" + condition.getElement().columnNumber + ")" + " \"" + condition.getExpression() + "\" size (" + condition.getExpression().length + ") exceeds recommended length limit of " + lengthLimit + " characters. Review condition statement to see if it can be simplified.",
             guidance: "Large conditionals are more difficult to debug and maintain."
         });
     }
-    //review the complexity of the condition itself - consider number of terms, nesting, etc
 };
-
-//var checkBundle = function(bundle) {};
-
 
 module.exports = {
     name,

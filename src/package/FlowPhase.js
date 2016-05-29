@@ -9,7 +9,6 @@ var xpath = require("xpath"),
 function FlowPhase(element, parent) {
     this.parent = parent;
     this.element = element;
-    this.messages = { warnings: [], errors: [] };
 }
 
 FlowPhase.prototype.getType = function() {
@@ -37,6 +36,10 @@ FlowPhase.prototype.checkSteps = function(pluginFunction) {
     this.getSteps() && this.getSteps().forEach(pluginFunction);
 };
 
+FlowPhase.prototype.checkConditions = function(pluginFunction) {
+    this.getSteps() && this.getSteps().forEach(function(st) { st.checkConditions(pluginFunction); });
+}
+
 FlowPhase.prototype.getElement = function() {
     return this.element;
 };
@@ -53,15 +56,8 @@ FlowPhase.prototype.err = function(msg) {
     this.parent.err(msg);
 };
 
-FlowPhase.prototype.getMessages = function() {
-    return this.messages;
-};
-
-
 FlowPhase.prototype.summarize = function() {
-    var summary = {
-        messages: this.messages,
-    };
+    var summary = {};
     summary.steps = [];
     var theSteps = this.getSteps();
     theSteps.forEach(function(step) {

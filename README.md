@@ -80,6 +80,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; | [] | PO016 | Resoure Call Out - Python |  Pylint. |
 | &nbsp; | [] | PO016 | Statistics Collector - duplicate variables |  Warn on duplicate variables. |
 | &nbsp; | [] | PO016 | Statistics Collector - reserved variables |  Warn on insertion of duplicate variables. |
+| &nbsp; | [] | PO017 | Misconfigured - FaultRules/Fault Rule in Policy |  FaultRules are configured in ProxyEndpoints and TargetEndpoints. |
 | Conditional | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; | [] | CC001 | Literals in Conditionals |  Warn on literals in any conditional statement. |
 | &nbsp; | [] | CC002 | Null Blank Checks |  Blank checks should also check for null conditions. (to be reviewed) |

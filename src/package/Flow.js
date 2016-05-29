@@ -3,13 +3,13 @@
 //Private
 var xpath = require("xpath"),
     FlowPhase = require("./FlowPhase.js"),
+    Condition = require("./Condition.js"),
     Dom = require("xmldom").DOMParser,
     myUtil = require("./myUtil.js");
 
 function Flow(element, parent) {
     this.parent = parent;
     this.element = element;
-    this.messages = { warnings: [], errors: [] };
 }
 
 Flow.prototype.getName = function() {
@@ -46,7 +46,7 @@ Flow.prototype.getDescription = function() {
 Flow.prototype.getCondition = function() {
     if (!this.condition) {
         var doc = xpath.select("./Condition", this.element);
-        this.condition = doc && doc[0] && doc[0].childNodes[0] && doc[0].childNodes[0].nodeValue || "";
+        this.condition = doc && doc[0] && new Condition(doc[0], this);
     }
     return this.condition;
 };
@@ -78,6 +78,13 @@ Flow.prototype.checkSteps = function(pluginFunction) {
     this.getFlowResponse() && this.getFlowResponse().checkSteps(pluginFunction);
 };
 
+Flow.prototype.checkConditions = function(pluginFunction) {
+    this.getFlowRequest() && this.getFlowRequest().checkConditions(pluginFunction);
+    this.getFlowResponse() && this.getFlowResponse().checkConditions(pluginFunction);
+    //the local condition should also be checked
+    this.getCondition() && pluginFunction(this.getCondition());
+};
+
 Flow.prototype.getElement = function() {
     return this.element;
 };
@@ -94,16 +101,9 @@ Flow.prototype.err = function(msg) {
     this.parent.err(msg);
 };
 
-Flow.prototype.getMessages = function() {
-    return this.messages;
-};
-
-
 Flow.prototype.summarize = function() {
-    var summary = {
-        messages: this.messages,
-    };
-    
+    var summary = {};
+
     summary.name = this.getName();
     summary.description = this.getDescription();
     summary.type = this.getType();

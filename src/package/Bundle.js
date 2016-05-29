@@ -95,20 +95,6 @@ Bundle.prototype.getPolicyByName = function(pname) {
     return result;
 };
 
-Bundle.prototype.checkSteps = function(pluginFunction) {
-    var processSteps = function(snip, fname, bundle) {
-        var step = new Step(snip, fname);
-        //now populate the policies on the step
-        step.policy = bundle.getPolicyByName(step.getName());
-        step.policy.steps = step.policy.steps || [];
-        step.policy.steps.push(step);
-        bundle.steps.push(step);
-    };
-    this.steps = this.steps || [];
-    myUtil.processTagsFromFolder(this.proxyRoot + "/proxies/", ".//Step", this, processSteps, pluginFunction);
-    myUtil.processTagsFromFolder(this.proxyRoot + "/targets/", ".//Step", this, processSteps, pluginFunction);
-};
-
 Bundle.prototype.checkResources = function(pluginFunction) {
 
 };
@@ -126,7 +112,8 @@ Bundle.prototype.checkSteps = function(pluginFunction) {
 };
 
 Bundle.prototype.checkConditions = function(pluginFunction) {
-
+    this.getProxyEndpoints()&&this.getProxyEndpoints().forEach(function(ep) { ep.checkConditions(pluginFunction); });
+    this.getTargetEndpoints()&&this.getTargetEndpoints().forEach(function(ep) { ep.checkConditions(pluginFunction); });
 };
 
 Bundle.prototype.checkProxyEndpoints = function(pluginFunction) {
@@ -158,7 +145,7 @@ Bundle.prototype.summarize = function() {
         root: this.root,
         policies: this.policies
     };
-    
+
     summary.proxyEndpoints = [];
     if (this.getProxyEndpoints()) {
         this.getProxyEndpoints().forEach(function(ep) {

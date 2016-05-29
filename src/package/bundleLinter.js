@@ -35,12 +35,12 @@ var Bundle = require("./Bundle.js"),
             var plugin = require("./plugins/" + file);
             //lets see if this really is a plugin
             plugin.checkBundle && plugin.checkBundle(bundle);
-            plugin.checkResource && bundle.checkResources(plugin.checkResource);
-            plugin.checkPolicy && bundle.checkPolicies(plugin.checkPolicy);
             plugin.checkStep && bundle.checkSteps(plugin.checkStep);
             plugin.checkCondition && bundle.checkConditions(plugin.checkCondition);
             plugin.checkProxyEndpoint && bundle.checkProxyEndpoints(plugin.checkCondition);
             plugin.checkTargetEndpoint && bundle.checkTargetEndpoints(plugin.checkCondition);
+            plugin.checkResource && bundle.checkResources(plugin.checkResource);
+            plugin.checkPolicy && bundle.checkPolicies(plugin.checkPolicy);
         });
         report(bundle);
     };
