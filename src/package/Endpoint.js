@@ -5,12 +5,13 @@ var Step = require("./Step.js"),
     Policy = require("./Policy.js"),
     Flow = require("./Flow.js"),
     FlowPhase = require("./FlowPhase.js"),
+    RouteRule = require("./RouteRule.js"),
     xpath = require("xpath"),
     Dom = require("xmldom").DOMParser,
     myUtil = require("./myUtil.js");
 
 function Endpoint(element, parent, fname) {
-    this.fileName=fname;
+    this.fileName = fname;
     this.parent = parent;
     this.element = element;
 }
@@ -24,11 +25,7 @@ Endpoint.prototype.getName = function() {
 };
 
 Endpoint.prototype.getType = function() {
-    if (!this.type) {
-        var doc = xpath.select("/", this.element);
-        this.type = doc && doc[0] && doc[0].documentElement.tagName;
-    }
-    return this.type;
+    return this.element.tagName;
 };
 
 Endpoint.prototype.getProxyName = function() {
@@ -58,6 +55,21 @@ Endpoint.prototype.getPostFlow = function() {
         }
     }
     return this.postFlow;
+};
+
+Endpoint.prototype.getRouteRules = function() {
+    if (!this.routeRules) {
+        var doc = xpath.select("./RouteRule", this.element),
+            ep = this;
+        ep.routeRules = [];
+        if (doc) {
+            doc.forEach(function(rrElement) {
+                //flows get a flow from here
+                ep.routeRules.push(new RouteRule(rrElement, ep));
+            });
+        }
+    }
+    return this.routeRules;
 };
 
 Endpoint.prototype.getFlows = function() {
@@ -94,6 +106,7 @@ Endpoint.prototype.checkConditions = function(pluginFunction) {
     this.getPostFlow() && this.getPostFlow().checkConditions(pluginFunction);
     //FaultRules
     //RouteRules
+    this.getRouteRules() && this.getRouteRules().forEach(function(rr) { rr.checkConditions(pluginFunction); });
 };
 
 Endpoint.prototype.getElement = function() {
@@ -125,6 +138,10 @@ Endpoint.prototype.summarize = function() {
         summary.flows.push(flow.summarize());
     });
     summary.postFlow = this.getPostFlow().summarize();
+    summary.routeRules = [];
+    this.getRouteRules().forEach(function(rr) {
+        summary.routeRules.push(rr.summarize());
+    });
 
     return summary;
 };

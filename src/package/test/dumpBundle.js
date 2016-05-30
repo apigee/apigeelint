@@ -1,4 +1,4 @@
-//testEndpoint.js
+//dumpBundle.js
 
 var Bundle = require("../Bundle.js"),
     myUtil = require("../myUtil.js");

@@ -20,6 +20,10 @@ Step.prototype.getName = function() {
     return this.name;
 };
 
+Step.prototype.getType = function() {
+    return this.element.tagName;
+};
+
 Step.prototype.getFlowName = function() {
     if (!this.flowName) {
         this.flowName = myUtil.getFileName(this) + ":" + myUtil.buildTagBreadCrumb(this.element) + this.getName();

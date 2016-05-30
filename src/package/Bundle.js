@@ -143,7 +143,7 @@ Bundle.prototype.summarize = function() {
     var summary = {
         messages: this.messages,
         root: this.root,
-        policies: this.policies
+        //policies: this.policies
     };
 
     summary.proxyEndpoints = [];

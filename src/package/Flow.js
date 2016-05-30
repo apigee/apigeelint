@@ -21,10 +21,7 @@ Flow.prototype.getName = function() {
 };
 
 Flow.prototype.getType = function() {
-    if (!this.type) {
-        this.type = this.element.tagName;
-    }
-    return this.type;
+    return this.element.tagName;
 };
 
 Flow.prototype.getFlowName = function() {
@@ -108,7 +105,7 @@ Flow.prototype.summarize = function() {
     summary.description = this.getDescription();
     summary.type = this.getType();
     summary.flowName = this.getFlowName();
-    summary.condition = this.getCondition();
+    summary.condition = this.getCondition() && this.getCondition().summarize() || {};
     summary.requestPhase = this.getFlowRequest() && this.getFlowRequest().summarize() || {};
     summary.responsePhase = this.getFlowResponse() && this.getFlowResponse().summarize() || {};
     return summary;
