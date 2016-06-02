@@ -32,12 +32,12 @@ FlowPhase.prototype.getSteps = function() {
     return this.steps;
 };
 
-FlowPhase.prototype.checkSteps = function(pluginFunction) {
+FlowPhase.prototype.onSteps = function(pluginFunction) {
     this.getSteps() && this.getSteps().forEach(pluginFunction);
 };
 
-FlowPhase.prototype.checkConditions = function(pluginFunction) {
-    this.getSteps() && this.getSteps().forEach(function(st) { st.checkConditions(pluginFunction); });
+FlowPhase.prototype.onConditions = function(pluginFunction) {
+    this.getSteps() && this.getSteps().forEach(function(st) { st.onConditions(pluginFunction); });
 };
 
 FlowPhase.prototype.getElement = function() {

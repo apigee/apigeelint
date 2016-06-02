@@ -95,32 +95,32 @@ Bundle.prototype.getPolicyByName = function(pname) {
     return result;
 };
 
-Bundle.prototype.checkResources = function(pluginFunction) {
+Bundle.prototype.onResources = function(pluginFunction) {
 
 };
 
-Bundle.prototype.checkPolicies = function(pluginFunction) {
+Bundle.prototype.onPolicies = function(pluginFunction) {
     if (this.policies) {
         this.policies.forEach(pluginFunction);
     }
 };
 
 
-Bundle.prototype.checkSteps = function(pluginFunction) {
-    this.getProxyEndpoints()&&this.getProxyEndpoints().forEach(function(ep) { ep.checkSteps(pluginFunction); });
-    this.getTargetEndpoints()&&this.getTargetEndpoints().forEach(function(ep) { ep.checkSteps(pluginFunction); });
+Bundle.prototype.onSteps = function(pluginFunction) {
+    this.getProxyEndpoints()&&this.getProxyEndpoints().forEach(function(ep) { ep.onSteps(pluginFunction); });
+    this.getTargetEndpoints()&&this.getTargetEndpoints().forEach(function(ep) { ep.onSteps(pluginFunction); });
 };
 
-Bundle.prototype.checkConditions = function(pluginFunction) {
-    this.getProxyEndpoints()&&this.getProxyEndpoints().forEach(function(ep) { ep.checkConditions(pluginFunction); });
-    this.getTargetEndpoints()&&this.getTargetEndpoints().forEach(function(ep) { ep.checkConditions(pluginFunction); });
+Bundle.prototype.onConditions = function(pluginFunction) {
+    this.getProxyEndpoints()&&this.getProxyEndpoints().forEach(function(ep) { ep.onConditions(pluginFunction); });
+    this.getTargetEndpoints()&&this.getTargetEndpoints().forEach(function(ep) { ep.onConditions(pluginFunction); });
 };
 
-Bundle.prototype.checkProxyEndpoints = function(pluginFunction) {
+Bundle.prototype.onProxyEndpoints = function(pluginFunction) {
 
 };
 
-Bundle.prototype.checkTargetEndpoints = function(pluginFunction) {
+Bundle.prototype.onTargetEndpoints = function(pluginFunction) {
 
 };
 

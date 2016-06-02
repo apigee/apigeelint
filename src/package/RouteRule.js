@@ -61,7 +61,7 @@ RouteRule.prototype.err = function(msg) {
 };
 
 
-RouteRule.prototype.checkConditions = function(pluginFunction) {
+RouteRule.prototype.onConditions = function(pluginFunction) {
     if (this.getCondition()) {
         pluginFunction(this.getCondition());
     }

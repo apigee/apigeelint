@@ -31,6 +31,21 @@ Step.prototype.getFlowName = function() {
     return this.flowName;
 };
 
+Step.prototype.getFaultRules = function() {
+    if (!this.routeRules) {
+        var doc = xpath.select("./FaultRules/FaultRule", this.element),
+            st = this;
+        st.faultRules = [];
+        if (doc) {
+            doc.forEach(function(frElement) {
+                //flows get a flow from here
+                st.faultRules.push(new FaultRule(frElement, st));
+            });
+        }
+    }
+    return this.routeRules;
+};
+
 Step.prototype.getCondition = function() {
     if (!this.condition) {
         var doc = xpath.select("./Condition", this.element);
@@ -60,7 +75,7 @@ Step.prototype.err = function(msg) {
 };
 
 
-Step.prototype.checkConditions = function(pluginFunction) {
+Step.prototype.onConditions = function(pluginFunction) {
     if (this.getCondition()) {
         pluginFunction(this.getCondition());
     }
@@ -71,7 +86,13 @@ Step.prototype.summarize = function() {
     var summary = {};
     summary.name = this.getName();
     summary.flowName = this.getFlowName();
-    summary.condition = this.getCondition() && this.getCondition().summarize() || {};
+    var faultRules = this.getFaultRules();
+    if(faultRules)
+{    summary.faultRules = [];
+    faultRules.forEach(function(fr) {
+        summary.faultRules.push(fr.summarize());
+    });
+}    summary.condition = this.getCondition() && this.getCondition().summarize() || {};
     return summary;
 };
 

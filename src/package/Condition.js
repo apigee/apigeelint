@@ -31,7 +31,7 @@ Condition.prototype.err = function(msg) {
     this.parent.err(msg);
 };
 
-Condition.prototype.checkConditions = function(pluginFunction) {
+Condition.prototype.onConditions = function(pluginFunction) {
     pluginFunction(this);
 };
 

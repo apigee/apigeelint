@@ -6,6 +6,7 @@ var Step = require("./Step.js"),
     Flow = require("./Flow.js"),
     FlowPhase = require("./FlowPhase.js"),
     RouteRule = require("./RouteRule.js"),
+    FaultRule=require("./FaultRule.js"),
     xpath = require("xpath"),
     Dom = require("xmldom").DOMParser,
     myUtil = require("./myUtil.js");
@@ -92,21 +93,48 @@ Endpoint.prototype.getFlows = function() {
     return this.flows;
 };
 
-Endpoint.prototype.checkSteps = function(pluginFunction) {
-    this.getPreFlow() && this.getPreFlow().checkSteps(pluginFunction);
-    this.getFlows() && this.getFlows().forEach(function(fl) { fl.checkSteps(pluginFunction); });
-    this.getPostFlow() && this.getPostFlow().checkSteps(pluginFunction);
+Endpoint.prototype.getFaultRules = function() {
+    if (!this.faultRules) {
+        var doc = xpath.select("./FaultRules/FaultRule", this.element),
+            ep = this;
+        ep.faultRules = [];
+        if (doc) {
+            doc.forEach(function(frElement) {
+                ep.faultRules.push(new FaultRule(frElement, ep));
+            });
+        }
+    }
+    return this.routeRules;
+};
+
+Endpoint.prototype.getDefaultFaultRule = function() {
+    if (!this.defaultFaultRule) {
+        var doc = xpath.select("./DefaultFaultRule", this.element),
+            ep = this;
+        if (doc) {
+            doc.forEach(function(frElement) {
+                ep.defaultFaultRule = new FaultRule(frElement, ep);
+            });
+        }
+    }
+    return this.defaultFaultRule;
+};
+
+Endpoint.prototype.onSteps = function(pluginFunction) {
+    this.getPreFlow() && this.getPreFlow().onSteps(pluginFunction);
+    this.getFlows() && this.getFlows().forEach(function(fl) { fl.onSteps(pluginFunction); });
+    this.getPostFlow() && this.getPostFlow().onSteps(pluginFunction);
     //defaultFaultRule
     //FaultRules
 };
 
-Endpoint.prototype.checkConditions = function(pluginFunction) {
-    this.getPreFlow() && this.getPreFlow().checkConditions(pluginFunction);
-    this.getFlows() && this.getFlows().forEach(function(fl) { fl.checkConditions(pluginFunction); });
-    this.getPostFlow() && this.getPostFlow().checkConditions(pluginFunction);
+Endpoint.prototype.onConditions = function(pluginFunction) {
+    this.getPreFlow() && this.getPreFlow().onConditions(pluginFunction);
+    this.getFlows() && this.getFlows().forEach(function(fl) { fl.onConditions(pluginFunction); });
+    this.getPostFlow() && this.getPostFlow().onConditions(pluginFunction);
     //FaultRules
     //RouteRules
-    this.getRouteRules() && this.getRouteRules().forEach(function(rr) { rr.checkConditions(pluginFunction); });
+    this.getRouteRules() && this.getRouteRules().forEach(function(rr) { rr.onConditions(pluginFunction); });
 };
 
 Endpoint.prototype.getElement = function() {
@@ -131,6 +159,16 @@ Endpoint.prototype.summarize = function() {
     summary.name = this.getName();
     summary.type = this.getType();
     summary.proxyName = this.getProxyName();
+
+    var faultRules = this.getFaultRules();
+    if (faultRules) {
+        summary.faultRules = [];
+        faultRules.forEach(function(fr) {
+            summary.faultRules.push(fr.summarize());
+        });
+    }
+
+    summary.defaultFaultRule = this.getDefaultFaultRule() && this.getDefaultFaultRule().summarize() || {};
 
     summary.preFlow = this.getPreFlow().summarize();
     summary.flows = [];

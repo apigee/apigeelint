@@ -70,14 +70,14 @@ Flow.prototype.getFlowResponse = function() {
     return this.flowResponse;
 };
 
-Flow.prototype.checkSteps = function(pluginFunction) {
-    this.getFlowRequest() && this.getFlowRequest().checkSteps(pluginFunction);
-    this.getFlowResponse() && this.getFlowResponse().checkSteps(pluginFunction);
+Flow.prototype.onSteps = function(pluginFunction) {
+    this.getFlowRequest() && this.getFlowRequest().onSteps(pluginFunction);
+    this.getFlowResponse() && this.getFlowResponse().onSteps(pluginFunction);
 };
 
-Flow.prototype.checkConditions = function(pluginFunction) {
-    this.getFlowRequest() && this.getFlowRequest().checkConditions(pluginFunction);
-    this.getFlowResponse() && this.getFlowResponse().checkConditions(pluginFunction);
+Flow.prototype.onConditions = function(pluginFunction) {
+    this.getFlowRequest() && this.getFlowRequest().onConditions(pluginFunction);
+    this.getFlowResponse() && this.getFlowResponse().onConditions(pluginFunction);
     //the local condition should also be checked
     this.getCondition() && pluginFunction(this.getCondition());
 };

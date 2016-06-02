@@ -34,13 +34,13 @@ var Bundle = require("./Bundle.js"),
         fs.readdirSync(normalizedPath).forEach(function(file) {
             var plugin = require("./plugins/" + file);
             //lets see if this really is a plugin
-            plugin.checkBundle && plugin.checkBundle(bundle);
-            plugin.checkStep && bundle.checkSteps(plugin.checkStep);
-            plugin.checkCondition && bundle.checkConditions(plugin.checkCondition);
-            plugin.checkProxyEndpoint && bundle.checkProxyEndpoints(plugin.checkCondition);
-            plugin.checkTargetEndpoint && bundle.checkTargetEndpoints(plugin.checkCondition);
-            plugin.checkResource && bundle.checkResources(plugin.checkResource);
-            plugin.checkPolicy && bundle.checkPolicies(plugin.checkPolicy);
+            plugin.onBundle && plugin.onBundle(bundle);
+            plugin.onStep && bundle.onSteps(plugin.onStep);
+            plugin.onCondition && bundle.onConditions(plugin.onCondition);
+            plugin.onProxyEndpoint && bundle.onProxyEndpoints(plugin.onCondition);
+            plugin.onTargetEndpoint && bundle.onTargetEndpoints(plugin.onCondition);
+            plugin.onResource && bundle.onResources(plugin.onResource);
+            plugin.onPolicy && bundle.onPolicies(plugin.onPolicy);
         });
         report(bundle);
     };
