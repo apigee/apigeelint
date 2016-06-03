@@ -81,11 +81,14 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_medium_square:| PO016 | Statistics Collector - duplicate variables |  Warn on duplicate variables. |
 | &nbsp; |:white_medium_square:| PO016 | Statistics Collector - reserved variables |  Warn on insertion of duplicate variables. |
 | &nbsp; |:white_medium_square:| PO017 | Misconfigured - FaultRules/Fault Rule in Policy |  FaultRules are configured in ProxyEndpoints and TargetEndpoints. |
+| &nbsp; |:white_medium_square:| PO018 | Regex Lookahead/Lookbehind are Expensive - Threat Protection Policy |  Regular expressions that include lookahead or lookbehind perform slowly on large payloads and are typically not required.|
+| &nbsp; |:white_medium_square:| PO019 | Reserved words as variables - ServiceCallout Request |  Using "request" as the name of a Request may cause unexpected side effects.|
 | Conditional | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_medium_square:| CC001 | Literals in Conditionals |  Warn on literals in any conditional statement. |
 | &nbsp; |:white_medium_square:| CC002 | Null Blank Checks |  Blank checks should also check for null conditions. (to be reviewed) |
 | &nbsp; |:white_check_mark:| CC003 | Long condition statement |  Conditions should not be long. |
 | &nbsp; |:white_medium_square:| CC004 | Overly complex condition |  Condition complexity should be limited to fix number of variables and conjunctions. |
+| &nbsp; |:white_medium_square:| PO018 | Regex Lookahead/Lookbehind are Expensive - COnditions |  Regular expressions that include lookahead or lookbehind perform slowly on large payloads and are typically not required.|
 
 
 From an implementation perspective the focus is on plugin support and flexibility over performance. Compute is cheap. 
