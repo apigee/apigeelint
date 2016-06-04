@@ -4,14 +4,14 @@ var name = "Check for unattached policies.",
     description = "Unattached policies are dead code. They should be removed from bundles before releasing the bundle to produciton.",
     policies = {};
 
-var checkStep = function(step) {
+var onStep = function(step) {
     //the name tag on a step contains the policy name
     var policyName = step.getName();
     if (!policies[policyName]) { policies[policyName] = []; }
     policies[policyName].push(step);
 };
 
-var checkPolicy = function(policy) {
+var onPolicy = function(policy) {
     if (!policies[policy.getName()]) {
         policy.warn({
             name: "Policy \"" + policy.getFileName() + "\" is not attached to a Step in the bundle.",
@@ -24,6 +24,6 @@ var checkPolicy = function(policy) {
 module.exports = {
     name,
     description,
-    checkStep,
-    checkPolicy
+    onStep,
+    onPolicy
 };

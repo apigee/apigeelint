@@ -4,7 +4,7 @@ var myUtil = require("../myUtil.js"),
     name = "Check length of condition.",
     description = "Overly long conditions on Stesp are difficult to debug and maintain.";
 
-var checkCondition = function(condition) {
+var onCondition = function(condition) {
     var lengthLimit = 256,
         expression = condition.getExpression();
 
@@ -19,5 +19,5 @@ var checkCondition = function(condition) {
 module.exports = {
     name,
     description,
-    checkCondition
+    onCondition
 };

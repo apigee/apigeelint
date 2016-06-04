@@ -3,6 +3,7 @@
 //Private
 var fs = require("fs"),
     Step = require("./Step.js"),
+    Condition = require("./Condition.js"),
     xpath = require("xpath"),
     Dom = require("xmldom").DOMParser,
     myUtil = require("./myUtil.js");

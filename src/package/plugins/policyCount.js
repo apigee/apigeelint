@@ -7,7 +7,7 @@
 var name = "Check number of policies present in the bundle",
     description = "Large bundles can be problematic in development and difficult to maintain.";
 
-var checkBundle = function(bundle) {
+var onBundle = function(bundle) {
     var limit = 2; //for testing set to 200 on release
 
     if (bundle.policies && bundle.policies.length > limit) {
@@ -24,5 +24,5 @@ var checkBundle = function(bundle) {
 module.exports = {
     name,
     description,
-    checkBundle
+    onBundle
 };

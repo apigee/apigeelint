@@ -3,6 +3,7 @@
 //Private
 var fs = require("fs"),
     Condition = require("./Condition.js"),
+    FaultRule = require("./FaultRule.js"),
     xpath = require("xpath"),
     Dom = require("xmldom").DOMParser,
     myUtil = require("./myUtil.js");

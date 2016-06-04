@@ -3,7 +3,7 @@
 var name = "Check File and Display Naming",
     description = "Check that file names correspond to policy display names.";
 
-var checkPolicy = function(policy) {
+var onPolicy = function(policy) {
     var fname = policy.getFileName().split(".xml")[0];
 
     if (fname !== policy.getDisplayName()) {
@@ -17,5 +17,5 @@ var checkPolicy = function(policy) {
 module.exports = {
     name,
     description,
-    checkPolicy
+    onPolicy
 };

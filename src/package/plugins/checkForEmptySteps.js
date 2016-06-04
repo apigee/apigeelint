@@ -1,10 +1,8 @@
-//stepTest.js
-
 var name = "Empty Steps",
     description = "Empty steps clutter a bundle.",
     myUtil=require("../myUtil.js");
 
-var checkStep = function(step) {
+var onStep = function(step) {
 
     if (step.getName() === "") {
         step.warn({
@@ -18,5 +16,5 @@ var checkStep = function(step) {
 module.exports = {
     name,
     description,
-    checkStep
+    onStep
 };

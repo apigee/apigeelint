@@ -64,22 +64,23 @@ function getStackTrace(e) {
         .split("\n");
 }
 
-function getAttributeValue(attributes, name) {
-    name = name.toUpperCase();
-    for (var key in attributes) {
-        if (attributes[key].name.toUpperCase() === name) {
-            return attributes[key].value;
-        }
-    }
+function selectAttributeValue(item, path) {
+    var attr = xpath.select(path, item.getElement());
+    return attr[0] && attr[0].value || "";
 }
 
+function selectTagValue(item, path) {
+    var doc = xpath.select(path, item.getElement());
+    return doc && doc[0] && doc[0].childNodes && doc[0].childNodes[0].nodeValue;
+}
 
 module.exports = {
     buildTagBreadCrumb,
     processTagsFromFolder,
     print,
     getStackTrace,
-    getAttributeValue,
+    selectAttributeValue,
+    selectTagValue,
     inspect,
     getFileName
 };
