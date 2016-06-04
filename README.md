@@ -52,9 +52,9 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_medium_square:| BN009 | Statistics Collector - duplicate policies |  Warn on duplicate policies when no conditions are present or conditions are duplicates. |
 | Proxy Definition | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_medium_square:| PD001 | RouteRules to Targets |  RouteRules should map to defined Targets. |
-| &nbsp; |:white_medium_square:| PD002 | Unreachable Route Rules - defaults |  Only one RouteRule should be present without a condition |
-| &nbsp; |:white_medium_square:| PD003 | Unreachable Route Rules |  RouteRule without a condition should be last. |
-| &nbsp; |:white_medium_square:| PD004 | Condition Complexity |  Ovelry complext Condition statements make RouteRules difficult to debug and maintain |
+| &nbsp; |:white_check_mark:| PD002 | Unreachable Route Rules - defaults |  Only one RouteRule should be present without a condition |
+| &nbsp; |:white_check_mark:| PD003 | Unreachable Route Rules |  RouteRule without a condition should be last. |
+| &nbsp; |:white_medium_square:| PD004 | Condition Complexity |  Overly complext Condition statements make RouteRules difficult to debug and maintain |
 | Target Definition | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_medium_square:| TD001 | Mgmt Server as Target |  Discourage calls to the Management Server from a Proxy. |
 | &nbsp; |:white_medium_square:| TD002 | Use Target Servers |  Encourage the use of target servers |
@@ -89,7 +89,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_medium_square:| CC002 | Null Blank Checks |  Blank checks should also check for null conditions. (to be reviewed) |
 | &nbsp; |:white_check_mark:| CC003 | Long condition statement |  Conditions should not be long. |
 | &nbsp; |:white_medium_square:| CC004 | Overly complex condition |  Condition complexity should be limited to fix number of variables and conjunctions. |
-| &nbsp; |:white_medium_square:| PO018 | Regex Lookahead/Lookbehind are Expensive - COnditions |  Regular expressions that include lookahead or lookbehind perform slowly on large payloads and are typically not required.|
+| &nbsp; |:white_medium_square:| CC005 | Regex Lookahead/Lookbehind are Expensive - Conditions |  Regular expressions that include lookahead or lookbehind perform slowly on large payloads and are typically not required.|
 
 
 From an implementation perspective the focus is on plugin support and flexibility over performance. Compute is cheap. 

@@ -37,8 +37,8 @@ var Bundle = require("./Bundle.js"),
             plugin.onBundle && plugin.onBundle(bundle);
             plugin.onStep && bundle.onSteps(plugin.onStep);
             plugin.onCondition && bundle.onConditions(plugin.onCondition);
-            plugin.onProxyEndpoint && bundle.onProxyEndpoints(plugin.onCondition);
-            plugin.onTargetEndpoint && bundle.onTargetEndpoints(plugin.onCondition);
+            plugin.onProxyEndpoint && bundle.onProxyEndpoints(plugin.onProxyEndpoint);
+            plugin.onTargetEndpoint && bundle.onTargetEndpoints(plugin.onTargetEndpoint);
             plugin.onResource && bundle.onResources(plugin.onResource);
             plugin.onPolicy && bundle.onPolicies(plugin.onPolicy);
         });

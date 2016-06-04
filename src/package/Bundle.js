@@ -107,21 +107,31 @@ Bundle.prototype.onPolicies = function(pluginFunction) {
 
 
 Bundle.prototype.onSteps = function(pluginFunction) {
-    this.getProxyEndpoints()&&this.getProxyEndpoints().forEach(function(ep) { ep.onSteps(pluginFunction); });
-    this.getTargetEndpoints()&&this.getTargetEndpoints().forEach(function(ep) { ep.onSteps(pluginFunction); });
+    this.getProxyEndpoints() && this.getProxyEndpoints().forEach(function(ep) { ep.onSteps(pluginFunction); });
+    this.getTargetEndpoints() && this.getTargetEndpoints().forEach(function(ep) { ep.onSteps(pluginFunction); });
 };
 
 Bundle.prototype.onConditions = function(pluginFunction) {
-    this.getProxyEndpoints()&&this.getProxyEndpoints().forEach(function(ep) { ep.onConditions(pluginFunction); });
-    this.getTargetEndpoints()&&this.getTargetEndpoints().forEach(function(ep) { ep.onConditions(pluginFunction); });
+    this.getProxyEndpoints() && this.getProxyEndpoints().forEach(function(ep) { ep.onConditions(pluginFunction); });
+    this.getTargetEndpoints() && this.getTargetEndpoints().forEach(function(ep) { ep.onConditions(pluginFunction); });
 };
 
 Bundle.prototype.onProxyEndpoints = function(pluginFunction) {
-
+    var eps = this.getProxyEndpoints();
+    if (eps) {
+        eps.forEach(function(ep) {
+            pluginFunction(ep);
+        });
+    }
 };
 
 Bundle.prototype.onTargetEndpoints = function(pluginFunction) {
-
+    var eps = this.getTargetEndpoints();
+    if (eps) {
+        eps.forEach(function(ep) {
+            pluginFunction(ep);
+        });
+    }
 };
 
 Bundle.prototype.getProxyEndpoints = function() {

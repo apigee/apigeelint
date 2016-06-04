@@ -25,6 +25,10 @@ Endpoint.prototype.getName = function() {
     return this.name;
 };
 
+Endpoint.prototype.getFileName = function() {
+    return this.fileName;
+};
+
 Endpoint.prototype.getType = function() {
     return this.element.tagName;
 };

@@ -12,7 +12,7 @@ function Condition(element, parent) {
 }
 
 Condition.prototype.getExpression = function() {
-    return this.element.childNodes[0].nodeValue || "";
+    return this.element.childNodes && this.element.childNodes[0] && this.element.childNodes[0].nodeValue || "";
 };
 
 Condition.prototype.getElement = function() {

@@ -33,10 +33,25 @@
             </Step>
         </Response>
     </PostFlow>
+    <RouteRule name="foo">
+        <Condition>(proxy.pathsuffix MatchesPath "/{version}/profile/{profile.id}/pin**")</Condition>
+        <TargetEndpoint>foo</TargetEndpoint>
+    </RouteRule>
+    <RouteRule name="bar">
+        <Condition>(proxy.pathsuffix MatchesPath "/{version}/profile/{profile.id}/preferredversion")</Condition>
+        <TargetEndpoint>bar</TargetEndpoint>
+    </RouteRule>
+    <RouteRule name="noCond1">
+        <Condition></Condition>
+        <TargetEndpoint>nc1</TargetEndpoint>
+    </RouteRule>
+    <RouteRule name="noCond2">
+        <TargetEndpoint>nc2</TargetEndpoint>
+    </RouteRule>
     <HTTPProxyConnection>
         <BasePath>/24solver</BasePath>
         <VirtualHost>default</VirtualHost>
         <VirtualHost>secure</VirtualHost>
     </HTTPProxyConnection>
-    <RouteRule name="noroute"/>
+    <RouteRule name="noroute" />
 </ProxyEndpoint>
