@@ -23,7 +23,14 @@
         </Request>
         <Response/>
     </PreFlow>
-    <Flows/>
+    <Flows>
+        <Flow name="flow1">
+            <Condition/>
+        </Flow>
+        <Flow name="flow2">
+            <Condition/>
+        </Flow>
+    </Flows>
     <PostFlow name="PostFlow">
         <Request/>
         <Response>

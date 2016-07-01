@@ -65,7 +65,7 @@ function getStackTrace(e) {
 }
 
 function selectAttributeValue(item, path) {
-    var attr = xpath.select(path, item.getElement());
+    var attr = xpath.select(path, item);
     return attr[0] && attr[0].value || "";
 }
 

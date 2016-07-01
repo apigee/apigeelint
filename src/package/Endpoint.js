@@ -20,7 +20,7 @@ function Endpoint(element, parent, fname) {
 Endpoint.prototype.getName = function() {
     if (!this.name) {
         var doc = xpath.select("/", this.element);
-        this.name = myUtil.getAttributeValue(doc[0].documentElement.attributes, "name");
+        this.name = myUtil.selectAttributeValue(doc[0].documentElement.attributes, "name");
     }
     return this.name;
 };
@@ -154,7 +154,7 @@ Endpoint.prototype.warn = function(msg) {
 };
 
 Endpoint.prototype.err = function(msg) {
-    this.parent.err.push(msg);
+    this.parent.err(msg);
 };
 
 Endpoint.prototype.summarize = function() {
