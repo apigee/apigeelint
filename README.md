@@ -59,7 +59,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_medium_square:| TD001 | Mgmt Server as Target |  Discourage calls to the Management Server from a Proxy. |
 | &nbsp; |:white_medium_square:| TD002 | Use Target Servers |  Encourage the use of target servers |
 | Flow | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
-| &nbsp; |:white_medium_square:| FL001 | Unconditional Flows |  Only one unconditional flow will get executed. Error if more than one was detected. |
+| &nbsp; |:white_check_mark:| FL001 | Unconditional Flows |  Only one unconditional flow will get executed. Error if more than one was detected. |
 | Step | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| ST001 | Empty Step |  Empty steps clutter the bundle. |
 | Policy | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
