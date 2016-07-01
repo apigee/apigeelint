@@ -1,55 +1,55 @@
 #Object model
 
-Bundle
-	|-ProxyEndpoint
-	|	|-PreFlow
-	|	|	|-Request
-	|	|	|	|-Step
-	|	|	|		|-Condition
-	|	|	|		|-Name
-	|	|	|		|-FaultRules
-	|	|	|			|-FaultRule
-	|	|	|				|-Step
-	|	|	|					|-Name
-	|	|	|					|-Condition
-	|	|	|-Response
-	|	|		|-Step
-	|	|-Flows
-	|	|	|-Flow
-	|	|		|-Condition		
-	|	|		|-Request
-	|	|		|	|-Step
-	|	|		|-Response
-	|	|			|-Step
-	|	|-PostFlow
-	|	|	|-Step
-	|	|-RouteRules
-	|	|	|-Condition
-	|	|-DefaultFaultRule
-	|	|	|-FaultRule
-	|	|-FaultRules
-	|	|	|-FaultRule
-	|	|		|-Condition
-	|	|-HTTPProxyConnection
-	|-TargetEndpoint
-	|	|-PreFlow
-	|	|-Flows
-	|	|-PostFlow
-	|	|-DefaultFaultRule
-	|	|-FaultRules
-	|	|-HTTPTargetConnection
-	|-Policies
-	|-Resources
+    Bundle
+    	|-ProxyEndpoint
+    	|	|-PreFlow
+    	|	|	|-Request
+    	|	|	|	|-Step
+    	|	|	|		|-Condition
+    	|	|	|		|-Name
+    	|	|	|		|-FaultRules
+    	|	|	|			|-FaultRule
+    	|	|	|				|-Step
+    	|	|	|					|-Name
+    	|	|	|					|-Condition
+    	|	|	|-Response
+    	|	|		|-Step
+    	|	|-Flows
+    	|	|	|-Flow
+    	|	|		|-Condition		
+    	|	|		|-Request
+    	|	|		|	|-Step
+    	|	|		|-Response
+    	|	|			|-Step
+    	|	|-PostFlow
+    	|	|	|-Step
+    	|	|-RouteRules
+    	|	|	|-Condition
+    	|	|-DefaultFaultRule
+    	|	|	|-FaultRule
+    	|	|-FaultRules
+    	|	|	|-FaultRule
+    	|	|		|-Condition
+    	|	|-HTTPProxyConnection
+    	|-TargetEndpoint
+    	|	|-PreFlow
+    	|	|-Flows
+    	|	|-PostFlow
+    	|	|-DefaultFaultRule
+    	|	|-FaultRules
+    	|	|-HTTPTargetConnection
+    	|-Policies
+    	|-Resources
 
 RouteRules, FaultRules, DefaultFaultRule, HTTPProxyConnection, and HTTPTargetConnection are not yet implemented. 
 
 #Processing Flow
 
 Instantiating a bundle instantiates the top level subobjects in the following order:
-	1. Resources - TBD
-	2. Policies
-	3. ProxyEndpoints
-	4. TargetEndpoints
+    #. Resources - TBD
+	#. Policies
+	#. ProxyEndpoints
+	#. TargetEndpoints
 
 Nested resources are resolved lazily.
 
