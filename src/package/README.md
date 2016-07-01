@@ -46,22 +46,24 @@ RouteRules, FaultRules, DefaultFaultRule, HTTPProxyConnection, and HTTPTargetCon
 #Processing Flow
 
 Instantiating a bundle instantiates the top level subobjects in the following order:
-    #. Resources - TBD
-	#. Policies
-	#. ProxyEndpoints
-	#. TargetEndpoints
+
+1. Resources - TBD
+2. Policies
+3. ProxyEndpoints
+4. TargetEndpoints
 
 Nested resources are resolved lazily.
 
 Iterating over Conditions begins with ProxyEndpoints, then proceeds to TargetEndpoints progessing through PreFlow, Flows, PostFlow, DefaultFaultRule, FaultRules, and then RouteRules (ProxyEndpoints only). Plugins should not rely on order when processing.
 
 Plugin methods are called in the following order:
-	#. checkBundle
-	#. checkSteps (ProxyEndpoints followed by TargetEndpoints)
-	#. checkConditions (ProxyEndpoints followed by TargetEndpoints)
-	#. checkProxyEndpoints
-	#. checkTargetEndpoints
-	#. checkResources
-	#. checkPolicies
+
+1. checkBundle
+1. checkSteps (ProxyEndpoints followed by TargetEndpoints)
+1. checkConditions (ProxyEndpoints followed by TargetEndpoints)
+1. checkProxyEndpoints
+1. checkTargetEndpoints
+1. checkResources
+1. checkPolicies
 
 Plugins that rely a particular order should perform all work within the checkBundle phase. The entire object model is navigable (i.e. bundle.getPolicies returns all policies in the bundle, policy.getSteps returns all the steps using the policy, step.getFlow returns the flow the step lives within, etc).
