@@ -154,7 +154,7 @@ Endpoint.prototype.warn = function(msg) {
 };
 
 Endpoint.prototype.err = function(msg) {
-    this.parent.err.push(msg);
+    this.parent.err(msg);
 };
 
 Endpoint.prototype.summarize = function() {

@@ -16,7 +16,7 @@
             <Step>
                 <FaultRules/>
                 <Name>ExtractPayloadVariables</Name>
-                <Condition>request.verb="POST" and request.header.contenttype="application/json"</Condition>
+                <Condition>{wackyvar.foo} and request.verb="POST" and request.header.contenttype="application/json" or {foovar}</Condition>
             </Step>
             <Step>
             </Step>
