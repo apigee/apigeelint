@@ -9,11 +9,11 @@ var name="Unused variables",
 var varFinder = /{([^}\.]+?)(\.[^}]+?)??}/g;
 
 // preload the symbol table with framework globals
-var symtab = {
-	"proxy":[ "Edge Global" ],
-	"request": [ "Edge Global" ],
-	"response": [ "Edge Global" ]
-};
+var globalSymtab = [
+	"proxy",
+	"request",
+	"response"
+];
 
 // errors that will be reported at the end of the process
 var errors = [];
@@ -34,28 +34,67 @@ var warnings = [];
 // TODO: inspect things referenced by steps to populate symbol table and check for bad var references.
 var onBundle = function (bundle) {
 	bundle.getProxyEndpoints().forEach(function(endpoint){
-		endpoint.getPreFlow().getFlowRequest().getSteps().forEach( function(step) {
-			if( step.getName()) {
-				var badVars = getUndefinedVariables(step.getName());
-				badVars.forEach(function(badvar){
-					step.err("Variable {" + badvar + "} was used in step name, but not previously defined");
-				});
-			} else {
-				step.warn("Step in preFlow does not seem to call anything (empty <Name> node)");
-			}
-			if( step.getCondition()) {
-				var badVars = getUndefinedVariables(step.getCondition().getExpression());
-				badVars.forEach(function(badvar){
-					step.err("Variable {" + badvar + "} was used in step condition, but not previously defined");
-				});
-			}
+		var localSymtab = [];
+		evaluateSteps(endpoint.getPreFlow().getFlowRequest().getSteps(), localSymtab);
+		endpoint.getFlows().forEach(function(flow) {
+			evaluateSteps(flow.getFlowRequest().getSteps(), localSymtab);
 		});
+		evaluateSteps(endpoint.getPostFlow().getFlowRequest().getSteps(), localSymtab);
+
+		var intermediateSymtab = localSymtab.slice(0); // don't update orig array references!
+		// iterate through routerules now ...
+		bundle.getTargetEndpoints().forEach(function(target){
+			localSymtab = intermediateSymtab.slice(0); // reset the local symbol table
+
+			// evaluate the target's inbound request flow(s)
+			evaluateSteps(target.getPreFlow().getFlowRequest().getSteps(), localSymtab)
+			target.getFlows().forEach(function(flow){
+				evaluateSteps(flow.getFlowRequest().getSteps(), localSymtab);
+			});
+			evaluateSteps(target.getPostFlow().getFlowRequest().getSteps(), localSymtab);
+
+			// assume the target was called, evalute the response flow(s)
+			evaluateSteps(target.getPreFlow().getFlowResponse().getSteps(), localSymtab)
+			target.getFlows().forEach(function(flow){
+				evaluateSteps(flow.getFlowResponse().getSteps(), localSymtab);
+			});
+			evaluateSteps(target.getPostFlow().getFlowResponse().getSteps(), localSymtab);
+
+			// finally, evalute the response flow(s) for the endpoint with this set of
+			// 	local symbols...
+			evaluateSteps(endpoint.getPreFlow().getFlowResponse().getSteps(), localSymtab)
+			endpoint.getFlows().forEach(function(flow){
+				evaluateSteps(flow.getFlowResponse().getSteps(), localSymtab);
+			});
+			evaluateSteps(endpoint.getPostFlow().getFlowResponse().getSteps(), localSymtab);			
+		});
+	});
+}
+
+// TODO: evalute where symbols are added, and record them in our symbol table.
+var evaluateSteps = function(steps, localSymtab) {
+	steps.forEach( function(step) {
+		if( step.getName()) {
+			var badVars = getUndefinedVariables(step.getName(), localSymtab);
+			badVars.forEach(function(badvar){
+				step.err("Variable {" + badvar + "} was used in step name, but not previously defined");
+			});
+		} else {
+			step.warn("Step does not seem to call anything (empty <Name> node)");
+		}
+		if( step.getCondition()) {
+			var badVars = getUndefinedVariables(step.getCondition().getExpression());
+			badVars.forEach(function(badvar){
+				step.err("Variable {" + badvar + "} was used in step condition, but not previously defined");
+			});
+		}
 	});
 }
 
 // return a list of variables referenced in this string 
 // that are undefined (may be empty)
-var getUndefinedVariables = function (value) {
+var getUndefinedVariables = function (value, localSymtab) {
+	var symtab = globalSymtab.concat(localSymtab);
 	var undefinedVars = [];
 	while((match = varFinder.exec(value)) != null) {
 		var variable = match[1];
