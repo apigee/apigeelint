@@ -15,6 +15,8 @@ var globalSymtab = [
 	"response"
 ];
 
+var usageMetrics = {};
+
 // errors that will be reported at the end of the process
 var errors = [];
 
@@ -42,9 +44,11 @@ var onBundle = function (bundle) {
 		evaluateSteps(endpoint.getPostFlow().getFlowRequest().getSteps(), localSymtab);
 
 		var intermediateSymtab = localSymtab.slice(0); // don't update orig array references!
+		var intermediateUsage = JSON.parse(JSON.stringify(usageMetrics)); // save usage metrics
 		// iterate through routerules now ...
 		bundle.getTargetEndpoints().forEach(function(target){
 			localSymtab = intermediateSymtab.slice(0); // reset the local symbol table
+			usageMetrics = JSON.parse(JSON.stringify(intermediateUsage)); // reset usage for this iteration
 
 			// evaluate the target's inbound request flow(s)
 			evaluateSteps(target.getPreFlow().getFlowRequest().getSteps(), localSymtab)
@@ -66,7 +70,14 @@ var onBundle = function (bundle) {
 			endpoint.getFlows().forEach(function(flow){
 				evaluateSteps(flow.getFlowResponse().getSteps(), localSymtab);
 			});
-			evaluateSteps(endpoint.getPostFlow().getFlowResponse().getSteps(), localSymtab);			
+			evaluateSteps(endpoint.getPostFlow().getFlowResponse().getSteps(), localSymtab);
+
+			// TODO: report on variables defined but not used in this target flow
+			localSymtab.forEach(function(symbol){
+				if( !usageMetrics[symbol]) {
+					target.warn("Target flow defines but does not use symbol " + symbol);
+				}
+			});
 		});
 	});
 }
@@ -75,7 +86,7 @@ var onBundle = function (bundle) {
 var evaluateSteps = function(steps, localSymtab) {
 	steps.forEach( function(step) {
 		if( step.getName()) {
-			var badVars = getUndefinedVariables(step.getName(), localSymtab);
+			var badVars = analyzeVariables(step.getName(), localSymtab);
 			badVars.forEach(function(badvar){
 				step.err("Variable {" + badvar + "} was used in step name, but not previously defined");
 			});
@@ -83,7 +94,7 @@ var evaluateSteps = function(steps, localSymtab) {
 			step.warn("Step does not seem to call anything (empty <Name> node)");
 		}
 		if( step.getCondition()) {
-			var badVars = getUndefinedVariables(step.getCondition().getExpression());
+			var badVars = analyzeVariables(step.getCondition().getExpression());
 			badVars.forEach(function(badvar){
 				step.err("Variable {" + badvar + "} was used in step condition, but not previously defined");
 			});
@@ -93,11 +104,12 @@ var evaluateSteps = function(steps, localSymtab) {
 
 // return a list of variables referenced in this string 
 // that are undefined (may be empty)
-var getUndefinedVariables = function (value, localSymtab) {
+var analyzeVariables = function (value, localSymtab) {
 	var symtab = globalSymtab.concat(localSymtab);
 	var undefinedVars = [];
 	while((match = varFinder.exec(value)) != null) {
 		var variable = match[1];
+		usageMetrics[variable] = (usageMetrics[variable]||0) + 1;
 		if( ! (variable in symtab)) {
 			undefinedVars.push(variable)
 		}
