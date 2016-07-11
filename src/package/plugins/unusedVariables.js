@@ -43,6 +43,8 @@ var onBundle = function (bundle) {
 		});
 		evaluateSteps(endpoint.getPostFlow().getFlowRequest().getSteps(), localSymtab);
 
+		// TODO: evalute routrule conditions
+
 		var intermediateSymtab = localSymtab.slice(0); // don't update orig array references!
 		var intermediateUsage = JSON.parse(JSON.stringify(usageMetrics)); // save usage metrics
 		// iterate through routerules now ...
@@ -72,7 +74,6 @@ var onBundle = function (bundle) {
 			});
 			evaluateSteps(endpoint.getPostFlow().getFlowResponse().getSteps(), localSymtab);
 
-			// TODO: report on variables defined but not used in this target flow
 			localSymtab.forEach(function(symbol){
 				if( !usageMetrics[symbol]) {
 					target.warn("Target flow defines but does not use symbol " + symbol);
