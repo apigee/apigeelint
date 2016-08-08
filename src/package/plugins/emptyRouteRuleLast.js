@@ -1,5 +1,5 @@
 var name = "Unreachable Route Rules - empty last",
-    description = "Check RouteRules in a TargetEndpoint to ensure that empty condition is last.",
+    description = "Check RouteRules in a ProxyEndpoint to ensure that empty condition is last.",
     myUtil = require("../myUtil.js");
 
 var onProxyEndpoint = function(ep) {
@@ -13,7 +13,6 @@ var onProxyEndpoint = function(ep) {
                     name: "RouteRule at line " + routeRules[i].getElement().lineNumber + " has an empty condition and is not the last RouteRule defined.",
                     guidance: "Evaluation of RouteRules proceeds from top to bottom, the first match is executed. Additional RouteRules are therefore unreachable."
                 });
-                break;
             }
         }
     }

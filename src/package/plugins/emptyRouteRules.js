@@ -1,5 +1,5 @@
 var name = "Unreachable Route Rules - defaults",
-    description = "Check RouteRules in a TargetEndpoint to ensure that one and only one has a blank set of conditions.",
+    description = "Check RouteRules in a ProxyEndpoint to ensure that one and only one has a blank set of conditions.",
     myUtil = require("../myUtil.js");
 
 var onProxyEndpoint = function(ep) {

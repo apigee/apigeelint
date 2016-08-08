@@ -2,7 +2,6 @@
 
 //Private
 var fs = require("fs"),
-    Step = require("./Step.js"),
     Condition = require("./Condition.js"),
     xpath = require("xpath"),
     Dom = require("xmldom").DOMParser,
@@ -28,7 +27,8 @@ FaultRule.prototype.getType = function() {
 FaultRule.prototype.getSteps = function() {
     if (!this.steps) {
         var doc = xpath.select("./Step", this.element),
-            fr = this;
+            fr = this,
+            Step = require("./Step.js");
         fr.steps = [];
         if (doc) {
             doc.forEach(function(stElement) {
@@ -74,7 +74,7 @@ FaultRule.prototype.summarize = function() {
     var summary = {};
     summary.name = this.getName();
     var theSteps = this.getSteps();
-    summary.steps=[];
+    summary.steps = [];
     theSteps.forEach(function(step) {
         summary.steps.push(step.summarize());
     });

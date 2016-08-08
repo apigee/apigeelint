@@ -4,6 +4,8 @@
 
 Static code analysis for Apigee proxy bundles to encourage API developers to use best practices and avoid anti-patterns.
 
+This utility is intended to capture the best practices knowledge from across Apigee including our Global Support Center team, Customer Success, Engineering, and our product team in a tool that will help developers create more scalable, performant, and stable API bundles using the Apigee DSL.
+
 ## Status
 
 At this point we are focused on plugin execution and modelling the various lintable assets including Bundles, Proxies, Targets, Flows, Steps, and Policies.
@@ -75,7 +77,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_medium_square:| PO010 | Service Callout Target - Target Server |  Encourage use of target servers. |
 | &nbsp; |:white_medium_square:| PO011 | Service Callout Target - Dynamic URLs |  Error on dynamic URLs in target server URL tag. |
 | &nbsp; |:white_medium_square:| PO012 | Service Callout Target - Script Target Node |  JSHint, ESLint. |
-| &nbsp; |:white_medium_square:| PO013 | Resoure Call Out - Javascript |  JSHint, ESLint. |
+| &nbsp; |:white_check_mark:| PO013 | Resoure Call Out - Javascript |  JSHint, ESLint. |
 | &nbsp; |:white_medium_square:| PO014 | Resoure Call Out - Java |  PMD, Checkstyle. |
 | &nbsp; |:white_medium_square:| PO016 | Resoure Call Out - Python |  Pylint. |
 | &nbsp; |:white_medium_square:| PO016 | Statistics Collector - duplicate variables |  Warn on duplicate variables. |

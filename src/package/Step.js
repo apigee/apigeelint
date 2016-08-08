@@ -88,12 +88,13 @@ Step.prototype.summarize = function() {
     summary.name = this.getName();
     summary.flowName = this.getFlowName();
     var faultRules = this.getFaultRules();
-    if(faultRules)
-{    summary.faultRules = [];
-    faultRules.forEach(function(fr) {
-        summary.faultRules.push(fr.summarize());
-    });
-}    summary.condition = this.getCondition() && this.getCondition().summarize() || {};
+    if (faultRules) {
+        summary.faultRules = [];
+        faultRules.forEach(function(fr) {
+            summary.faultRules.push(fr.summarize());
+        });
+    }
+    summary.condition = this.getCondition() && this.getCondition().summarize() || {};
     return summary;
 };
 
