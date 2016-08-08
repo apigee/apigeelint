@@ -4,7 +4,6 @@
 var fs = require("fs"),
     xpath = require("xpath"),
     Dom = require("xmldom").DOMParser,
-    fs = require("fs"),
     path = require("path"),
     myUtil = require("./myUtil.js");
 
@@ -46,9 +45,7 @@ Resource.prototype.summarize = function() {
 Resource.prototype.getContents = function() {
     if (!this.contents) {
         //read the file contents and return them
-        debugger;
-
-        this.contents = fs.readFileSync("./"+this.path).toString()
+        this.contents = fs.readFileSync("./"+this.path).toString();
     }
     return this.contents;
 };

@@ -9,15 +9,15 @@ var name = "jsHint",
 
 
 var onResource = function(resource) {
-    var jshint = require('jshint');
+    var jshint = require("jshint");
     if (!jshint.JSHINT(resource.getContents())) {
         var errors = jshint.JSHINT.errors;
         //now walk through each error
         errors.forEach(function(error) {
             if (error.code !== "W087") {
                 resource.warn({
-                    'name': "JSHint on file " + resource.getFileName() + " line " + error.line + " column " + error.character + " \"" + error.evidence + "\".",
-                    'guidance': error.reason,
+                    "name": "JSHint on file " + resource.getFileName() + " line " + error.line + " column " + error.character + " \"" + error.evidence + "\".",
+                    "guidance": error.reason,
                 });
             }
         });

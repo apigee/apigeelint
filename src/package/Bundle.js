@@ -40,12 +40,6 @@ function buildPolicies(bundle) {
     });
 }
 
-function buildResources(bundle) {
-    //get the list of policies and create the resources objects - must recurse
-    bundle.resources = [];
-    _buildResources(bundle, bundle.proxyRoot + "/resources", bundle.resources);
-}
-
 function _buildResources(parent, path, resources) {
     //given the passed path append resources
     //if the path is dir then recurse
@@ -59,6 +53,11 @@ function _buildResources(parent, path, resources) {
     });
 }
 
+function buildResources(bundle) {
+    //get the list of policies and create the resources objects - must recurse
+    bundle.resources = [];
+    _buildResources(bundle, bundle.proxyRoot + "/resources", bundle.resources);
+}
 
 var init = {
     config(config, bundle) {
