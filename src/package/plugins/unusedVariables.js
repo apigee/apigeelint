@@ -1,3 +1,5 @@
+var xpath = require("xpath");
+
 var name="Unused variables",
 	description="Look for variables that were defined but not referenced";
 
@@ -14,6 +16,10 @@ var globalSymtab = [
 	"request",
 	"response"
 ];
+
+// global bundle ... until I objectize this...
+// TODO Objectize.
+var glBundle;
 
 var usageMetrics = {};
 
@@ -35,6 +41,7 @@ var warnings = [];
 //       . post - response
 // TODO: inspect things referenced by steps to populate symbol table and check for bad var references.
 var onBundle = function (bundle) {
+	glBundle = bundle;
 	bundle.getProxyEndpoints().forEach(function(endpoint){
 		var localSymtab = [];
 		evaluateSteps(endpoint.getPreFlow().getFlowRequest().getSteps(), localSymtab);
@@ -76,7 +83,7 @@ var onBundle = function (bundle) {
 
 			localSymtab.forEach(function(symbol){
 				if( !usageMetrics[symbol]) {
-					target.warn("Target flow defines but does not use symbol " + symbol);
+					target.warn("Target flow defines but does not use symbol '" + symbol + "'");
 				}
 			});
 		});
@@ -100,6 +107,11 @@ var evaluateSteps = function(steps, localSymtab) {
 				step.err("Variable {" + badvar + "} was used in step condition, but not previously defined");
 			});
 		}
+
+		// TODO: dispatch to handlers to evaluate the assignment and use of variables.
+		var policy = glBundle.getPolicyByName(step.getName());
+		policy && handlers[policy.getType()] && handlers[policy.getType()](policy, localSymtab);
+		policy && !handlers[policy.getType()] && step.warn("No handler for policy type '" + policy.getType() + "'");
 	});
 }
 
@@ -116,6 +128,21 @@ var analyzeVariables = function (value, localSymtab) {
 		}
 	}
 	return undefinedVars;
+}
+
+var _identity = function(policy, localSymtab) {};
+var handlers = {
+	// TODO: lots more handlers!
+	ExtractVariables: function( policy, localSymtab ) {
+		var payloadVariablesXpath = "/ExtractVariables/*[self::JSONPayload or self::XMLPayload]/Variable/@name";
+		var payloadVariables = policy.select(payloadVariablesXpath);
+		payloadVariables.forEach( function(variableDecl){
+			var variableName = variableDecl.value
+			console.log(variableName);
+			localSymtab.push(variableName);
+		});
+	},
+	JSONThreatProtection: _identity
 }
 
 module.exports = {
