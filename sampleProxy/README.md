@@ -4,7 +4,7 @@
 A very simple no target proxy useful for demonstrating simple javascript callout debugging practices. 24Solver takes 4 numbers as input and returns a list of possible formulas using each and every number to arrive at the result of 24. More info about the game can be found here: http://en.wikipedia.org/wiki/24_Game
 
 For instance if you want to see how many ways 1, 2, 4, and 6 can be combined to arrive at 24:
-	calling: http://davidwallen2014-test.apigee.net/24solver?numbers=1,2,4,6
+	calling: http://davidwallen2014-prod.apigee.net/24solver?numbers=1,2,4,6
 	results in:
 		{
 		    "numbers": "1,2,4,6",
@@ -21,7 +21,7 @@ There is a zip bundle in the targets directory that can be uploaded to Edge thro
 As well, you can edit the POM files and use Maven to deploy. More information on using Maven to deploy Edge proxies can be found at: 
 https://github.com/apigee/apigee-deploy-maven-plugin
 
-Alternatively, you can simply hit the API at http://davidwallen2014-test.apigee.net/24solver?numbers=1,1,24,24 if you want to play with it.
+Alternatively, you can simply hit the API at http://davidwallen2014-prod.apigee.net/24solver?numbers=1,1,24,24 if you want to play with it.
 
 ## Tests
 
