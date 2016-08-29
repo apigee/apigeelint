@@ -69,7 +69,7 @@ var onBundle = function (bundle) {
 			// assume the target was called, evalute the response flow(s)
 			evaluateSteps(target.getPreFlow().getFlowResponse().getSteps(), localSymtab)
 			target.getFlows().forEach(function(flow){
-				evaluateSteps(flow.getFlowResponse().getSteps(), localSymtab);
+				flow.getFlowResponse() && evaluateSteps(flow.getFlowResponse().getSteps(), localSymtab);
 			});
 			evaluateSteps(target.getPostFlow().getFlowResponse().getSteps(), localSymtab);
 
@@ -77,7 +77,7 @@ var onBundle = function (bundle) {
 			// 	local symbols...
 			evaluateSteps(endpoint.getPreFlow().getFlowResponse().getSteps(), localSymtab)
 			endpoint.getFlows().forEach(function(flow){
-				evaluateSteps(flow.getFlowResponse().getSteps(), localSymtab);
+				flow.getFlowResponse() && evaluateSteps(flow.getFlowResponse().getSteps(), localSymtab);
 			});
 			evaluateSteps(endpoint.getPostFlow().getFlowResponse().getSteps(), localSymtab);
 
