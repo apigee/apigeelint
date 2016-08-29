@@ -345,38 +345,46 @@ Condition.prototype.getVariables = function() {
         this.variables = getTokensByType(this.getTokens(), "variable");
     }
     return this.variables;
-}
+};
 
 Condition.prototype.getConstants = function() {
     if (!this.constants) {
         this.constants = getTokensByType(this.getTokens(), "constants");
     }
     return this.constants;
-}
+};
 
 Condition.prototype.getAST = function() {
-    var tokens;
-
-    function node(action, args, parent) {
-        return {
-            action: translate[action] || action,
-            args,
-            parent
+    var tokens = this.getTokens(),
+        translate = {
+            "!": "negation",
+            "|": "disjunction",
+            "&": "conjunction",
+            "->": "implication",
+            "<->": "equivalence",
+            "!!": "notEquivalence"
         };
-    }
-
-    function isUnary(op) {
-        return op === "!";
-    }
 
     function process(operation) {
         operation = operation || null;
         var args = [];
 
+        function node(action, args, parent) {
+            return {
+                action: translate[action] || action,
+                args,
+                parent
+            };
+        }
+
+        function isUnary(op) {
+            return op === "!";
+        }
+
         for (var i = 0; i < tokens.length; i++) {
             var token = tokens[i];
-            if (token.type == "boundary") {
-                if (token.value == "(") {
+            if (token.type === "boundary") {
+                if (token.value === "(") {
                     var result = process();
                     if (result.action === null && result.args.length === 1) {
                         args.push(result.args[0]);
@@ -386,7 +394,7 @@ Condition.prototype.getAST = function() {
                 } else if (token.value === ")") {
                     return node(operation, args, token);
                 }
-            } else if (token.type == "variable" || token.type == "constant") {
+            } else if (token.type === "variable" || token.type === "constant") {
                 args.push(node("substitution", [token], token));
                 if (isUnary(operation)) {
                     if (operation === null && args.length === 1) {
@@ -394,7 +402,7 @@ Condition.prototype.getAST = function() {
                     }
                     return node(operation, args, token);
                 }
-            } else if (token.type == "operator") {
+            } else if (token.type === "operator") {
                 if (isUnary(token.value)) {
                     args.push(process(token));
                     continue;
@@ -407,26 +415,17 @@ Condition.prototype.getAST = function() {
                 operation = token.value;
             }
         }
-        if (operation === null && args.length == 1) {
+        if (operation === null && args.length === 1) {
             return args[0];
         }
         return node(operation, args, token);
     }
 
     if (!this.ast) {
-        tokens = this.getTokens(),
-            translate = {
-                "!": "negation",
-                "|": "disjunction",
-                "&": "conjunction",
-                "->": "implication",
-                "<->": "equivalence",
-                "!!": "notEquivalence"
-            };
         this.ast = process();
     }
     return this.ast;
-}
+};
 
 //for n = 2 it returns
 // [ 0, 0 ]
