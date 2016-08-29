@@ -7,12 +7,13 @@ var Condition = require("../Condition.js"),
         var doc = new Dom().parseFromString(exp);
         var c = new Condition(doc, this);
         var tt = c.getTruthTable();
-        if (tt.evaluation !== assertion)
+        if (tt.evaluation !== assertion) {
             myUtil.inspect({
                 expression: c.getExpression(),
                 assertion,
                 evaluation: tt.evaluation
             });
+        }
     };
 
 test("b=c", "valid");

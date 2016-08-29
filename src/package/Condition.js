@@ -81,27 +81,39 @@ function interpret(tree, substitutions) {
         }
     };
 
-    var result = process(iTree);
-    return result;
-
     function process(node) {
 
         var action = node.action,
             args = node.args;
 
         for (var i = 0; i < args.length; i++) {
-            if (args[i] && args[i].args)
-                args[i] = process(args[i]);
+            if (args[i] && args[i].args) { args[i] = process(args[i]); }
         }
         if (typeof actions[action] !== "function") {
             if (typeof action === "object") {
                 action = JSON.stringify(action) + " action should be string not object";
             }
-            throw new Error('Process error on  action "' + action + '"');
+            throw new Error("Process error on  action \"" + action + "\"");
         }
         node.result = actions[action](args);
         return node.result;
     }
+
+    var result = process(iTree);
+    return result;
+}
+
+function getInitializator(variables) {
+    return function() {
+        var substitutions = {},
+            values = arguments;
+
+        variables.forEach(function(primitive, index) {
+            substitutions[primitive.value] = !!values[index];
+        });
+
+        return substitutions;
+    };
 }
 
 function _evaluate(evaluation, tree, vars) {
@@ -128,25 +140,29 @@ Condition.prototype.getTruthTable = function() {
     //based on the values in truth table assess validity
     var trueCount = 0;
     truthTable.evaluations.forEach(function(run) {
-        if (run.evaluation) trueCount++;
+        if (run.evaluation) { trueCount++; }
     });
 
     if (trueCount === 0) {
-        truthTable.evaluation = 'absurdity';
+        truthTable.evaluation = "absurdity";
     } else {
-        truthTable.evaluation = 'valid';
+        truthTable.evaluation = "valid";
     }
     return truthTable;
 };
 
 Condition.prototype.getTokens = function() {
+    var pointer = 0,
+        tokens = [],
+        c, operator = "";
+
     function _escapeRegExp(str) {
         return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
     }
 
     function _encodeWithin(s, f, r, ch) {
         var result = s.split(ch),
-            regex = new RegExp(_escapeRegExp(f), 'g');
+            regex = new RegExp(_escapeRegExp(f), "g");
 
         for (var i = 1; i < result.length; i += 2) {
             result[i] = result[i].replace(regex, r);
@@ -155,16 +171,16 @@ Condition.prototype.getTokens = function() {
     }
 
     function encodeQuotedChars(source, find, replace) {
-        if (!replace) replace = encodeURI(find);
+        if (!replace) { replace = encodeURI(find); }
 
         var result = _encodeWithin(source, find, replace, "\"");
-        result = _encodeWithin(result, find, replace, "\'");
+        result = _encodeWithin(result, find, replace, "\"");
 
         return (result);
     }
 
     function replaceAll(s, f, r) {
-        var regex = new RegExp(_escapeRegExp(f), 'g');
+        var regex = new RegExp(_escapeRegExp(f), "g");
         return s.replace(regex, r);
     }
 
@@ -175,8 +191,8 @@ Condition.prototype.getTokens = function() {
 
     function push(type, value) {
         tokens.push({
-            type: type,
-            value: value
+            type,
+            value
         });
     }
 
@@ -194,10 +210,12 @@ Condition.prototype.getTokens = function() {
 
     function isConstant(c) {
         if (typeof c === "string") {
-            var up = c.toUpperCase(c)
-            if (up === "FALSE" || up === "TRUE") return true
+            var up = c.toUpperCase(c);
+            if (up === "FALSE" || up === "TRUE") {
+                return true;
+            }
         }
-        return /[0-9\"\']/.test(c);
+        return /[0-9\"\"]/.test(c);
     }
 
     function isExpressionBoundary(c) {
@@ -205,17 +223,14 @@ Condition.prototype.getTokens = function() {
     }
 
     function operatorExists(op) {
-        return ['!', '|', '&', '->', '<->', '!!'].indexOf(op) !== -1;
+        return ["!", "|", "&", "->", "<->", "!!"].indexOf(op) !== -1;
     }
 
     function unrecognizedToken(token, position) {
-        throw new Error('Unrecognized token "' + token + '" on position ' + position + '!');
+        throw new Error("Unrecognized token \"" + token + "\" on position " + position + "!");
     }
-    if (!this.tokens) {
-        var pointer = 0,
-            tokens = [],
-            c, operator = '';
 
+    if (!this.tokens) {
         var expression = this.getExpression();
         expression = encodeQuotedChars(expression, "%");
         expression = encodeQuotedChars(expression, " ");
@@ -281,22 +296,20 @@ Condition.prototype.getTokens = function() {
                 if (isSpecial(c)) {
                     operator += c;
                     if (operatorExists(operator)) {
-                        push('operator', operator);
-                        operator = '';
+                        push("operator", operator);
+                        operator = "";
                     }
                 } else {
-                    if (operator.length) unrecognizedToken(operator, pointer - operator.length - 1);
+                    if (operator.length) { unrecognizedToken(operator, pointer - operator.length - 1); }
 
-                    if (isWhiteSpace(c)) continue;
-                    else if (isExpressionBoundary(c)) push("boundary", c);
-                    else if (isConstant(c)) push("constant", c);
-                    else if (isVariable(c)) push("variable", c);
-                    else unrecognizedToken(c, pointer - 2);
+                    if (isWhiteSpace(c)) {
+                        continue;
+                    } else if (isExpressionBoundary(c)) { push("boundary", c); } else if (isConstant(c)) { push("constant", c); } else if (isVariable(c)) { push("variable", c); } else { unrecognizedToken(c, pointer - 2); }
                 }
             }
         } catch (e) {
             console.log(e);
-            throw new Error('Lex error on "' + input);
+            throw new Error("Lex error on \"" + input + "\"");
         }
 
         this.tokens = tokens;
@@ -317,7 +330,7 @@ function containsToken(a, obj) {
 function getTokensByType(tokens, type) {
     var result = [];
     for (var i = 0; i < tokens.length; i++) {
-        if (tokens[i].type == type && !containsToken(result, tokens[i])) {
+        if (tokens[i].type === type && !containsToken(result, tokens[i])) {
             result.push(tokens[i]);
         }
     }
@@ -331,32 +344,20 @@ function getTokensByType(tokens, type) {
 
 Condition.prototype.getVariables = function() {
     if (!this.variables) {
-        this.variables = getTokensByType(this.getTokens(), 'variable');
+        this.variables = getTokensByType(this.getTokens(), "variable");
     }
     return this.variables;
 }
 
 Condition.prototype.getConstants = function() {
     if (!this.constants) {
-        this.constants = getTokensByType(this.getTokens(), 'constants');
+        this.constants = getTokensByType(this.getTokens(), "constants");
     }
     return this.constants;
 }
 
 Condition.prototype.getAST = function() {
-    if (!this.ast) {
-        var tokens = this.getTokens(),
-            translate = {
-                '!': 'negation',
-                '|': 'disjunction',
-                '&': 'conjunction',
-                '->': 'implication',
-                '<->': 'equivalence',
-                '!!': 'notEquivalence'
-            };
-        this.ast = process();
-    }
-    return this.ast;
+    var tokens;
 
     function process(operation) {
         operation = operation || null;
@@ -364,26 +365,26 @@ Condition.prototype.getAST = function() {
 
         for (var i = 0; i < tokens.length; i++) {
             var token = tokens[i];
-            if (token.type == 'boundary') {
-                if (token.value == '(') {
+            if (token.type == "boundary") {
+                if (token.value == "(") {
                     var result = process();
                     if (result.action === null && result.args.length == 1) {
                         args.push(result.args[0]);
                     } else {
                         args.push(result);
                     }
-                } else if (token.value == ')') {
+                } else if (token.value == ")") {
                     return node(operation, args, token);
                 }
-            } else if (token.type == 'variable' || token.type == 'constant') {
-                args.push(node('substitution', [token], token));
+            } else if (token.type == "variable" || token.type == "constant") {
+                args.push(node("substitution", [token], token));
                 if (isUnary(operation)) {
                     if (operation === null && args.length == 1) {
                         return args[0];
                     }
                     return node(operation, args, token);
                 }
-            } else if (token.type == 'operator') {
+            } else if (token.type == "operator") {
                 if (isUnary(token.value)) {
                     args.push(process(token));
                     continue;
@@ -402,6 +403,20 @@ Condition.prototype.getAST = function() {
         return node(operation, args, token);
     }
 
+    if (!this.ast) {
+        tokens = this.getTokens(),
+            translate = {
+                "!": "negation",
+                "|": "disjunction",
+                "&": "conjunction",
+                "->": "implication",
+                "<->": "equivalence",
+                "!!": "notEquivalence"
+            };
+        this.ast = process();
+    }
+    return this.ast;
+
     function node(action, args, parent) {
         return {
             action: translate[action] || action,
@@ -411,7 +426,7 @@ Condition.prototype.getAST = function() {
     }
 
     function isUnary(op) {
-        return op === '!';
+        return op === "!";
     }
 }
 
@@ -436,19 +451,6 @@ function generateCombinations(n) {
     }
 
     return combs;
-}
-
-function getInitializator(variables) {
-    return function() {
-        var substitutions = {},
-            values = arguments;
-
-        variables.forEach(function(primitive, index) {
-            substitutions[primitive.value] = !!values[index];
-        });
-
-        return substitutions;
-    };
 }
 
 //Public

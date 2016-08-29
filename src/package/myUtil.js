@@ -50,7 +50,7 @@ function print(msg) {
 
 function inspect(obj, showHidden) {
     var showHidden = showHidden && true;
-    console.log(util.inspect(obj, { 'showHidden': showHidden, depth: 9, maxArrayLength: 10 }));
+    console.log(util.inspect(obj, { showHidden, depth: 9, maxArrayLength: 10 }));
 }
 
 function warn(msg) {
