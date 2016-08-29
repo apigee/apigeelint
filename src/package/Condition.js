@@ -44,38 +44,38 @@ Condition.prototype.summarize = function() {
 function interpret(tree, substitutions) {
     var tree = JSON.parse(JSON.stringify(tree));
     var actions = {
-        substitution: function(args) {
-            debugger;
-            var result = { value: !!args[0].value, type: args[0].type, expressionValue: args[0].value, parent:args[0].parent };
+        substitution(args) {
+            var result = { value: !!args[0].value, type: args[0].type, expressionValue: args[0].value, parent: args[0].parent };
             if (args[0].type === "variable") {
                 result.value = substitutions[args[0].value];
             } else if (args[0].type === "constant") {
-                if (args[0].value.toUpperCase() === "FALSE") result.value = false;
+                if (args[0].value.toUpperCase() === "FALSE") {
+                    result.value = false;
+                }
             }
             return result;
         },
-        negation: function(args) {
+        negation(args) {
             var result = { value: !args[0].value };
             return result;
         },
-        disjunction: function(args) {
+        disjunction(args) {
             var result = { value: args[0].value || args[1].value };
             return result;
         },
-        conjunction: function(args) {
+        conjunction(args) {
             var result = { value: args[0].value && args[1].value };
             return result;
         },
-        implication: function(args) {
+        implication(args) {
             var result = { value: !args[0].value || args[1].value };
             return result;
         },
-        equivalence: function(args) {
-            debugger;
+        equivalence(args) {
             var result = { value: (args[0].value && args[1].value) || (!args[0].value && !args[1].value) };
             return result;
         },
-        notEquivalence: function(args) {
+        notEquivalence(args) {
             var result = { value: (args[0].value && !args[1].value) || (!args[0].value && args[1].value) };
             return result;
         }
@@ -93,9 +93,9 @@ function interpret(tree, substitutions) {
             if (args[i] && args[i].args)
                 args[i] = process(args[i]);
         }
-        if (typeof actions[action] !== 'function') {
-            if (typeof action === 'object') {
-                action = JSON.stringify(action) + ' action should be string not object';
+        if (typeof actions[action] !== "function") {
+            if (typeof action === "object") {
+                action = JSON.stringify(action) + " action should be string not object";
             }
             throw new Error('Process error on  action "' + action + '"');
         }
@@ -119,8 +119,8 @@ Condition.prototype.getTruthTable = function() {
 
     for (var i = 0, count = Math.pow(2, vars.length); i < count; i++) {
         var run = {
-            'substitutions': combinations[i],
-            'evaluation': _evaluate(combinations[i], tree, vars).value,
+            substitutions: combinations[i],
+            evaluation: _evaluate(combinations[i], tree, vars).value,
         };
         truthTable.evaluations.push(run);
     }
@@ -137,41 +137,40 @@ Condition.prototype.getTruthTable = function() {
         truthTable.evaluation = 'valid';
     }
     return truthTable;
-}
+};
 
 Condition.prototype.getTokens = function() {
+    function _escapeRegExp(str) {
+        return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+    }
+
+    function _encodeWithin(s, f, r, ch) {
+        var result = s.split(ch),
+            regex = new RegExp(_escapeRegExp(f), 'g');
+
+        for (var i = 1; i < result.length; i += 2) {
+            result[i] = result[i].replace(regex, r);
+        }
+        return result.join(ch);
+    }
+
+    function encodeQuotedChars(source, find, replace) {
+        if (!replace) replace = encodeURI(find);
+
+        var result = _encodeWithin(source, find, replace, "\"");
+        result = _encodeWithin(result, find, replace, "\'");
+
+        return (result);
+    }
+
+    function replaceAll(s, f, r) {
+        var regex = new RegExp(_escapeRegExp(f), 'g');
+        return s.replace(regex, r);
+    }
     if (!this.tokens) {
         var pointer = 0,
             tokens = [],
             c, operator = '';
-
-        function _escapeRegExp(str) {
-            return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
-        }
-
-        function _encodeWithin(s, f, r, ch) {
-            var result = s.split(ch),
-                regex = new RegExp(_escapeRegExp(f), 'g');
-
-            for (var i = 1; i < result.length; i += 2) {
-                result[i] = result[i].replace(regex, r);
-            }
-            return result.join(ch);
-        }
-
-        function encodeQuotedChars(source, find, replace) {
-            if (!replace) replace = encodeURI(find);
-
-            var result = _encodeWithin(source, find, replace, "\"");
-            result = _encodeWithin(result, find, replace, "\'");
-
-            return (result);
-        }
-
-        function replaceAll(s, f, r) {
-            var regex = new RegExp(_escapeRegExp(f), 'g');
-            return s.replace(regex, r);
-        }
 
         var expression = this.getExpression();
         expression = encodeQuotedChars(expression, "%");
@@ -232,7 +231,7 @@ Condition.prototype.getTokens = function() {
             expression = replaceAll(expression, "  ", " ");
         }
 
-        var input = expression.split(' ');
+        var input = expression.split(" ");
         try {
             while (next()) {
                 if (isSpecial(c)) {
@@ -245,9 +244,9 @@ Condition.prototype.getTokens = function() {
                     if (operator.length) unrecognizedToken(operator, pointer - operator.length - 1);
 
                     if (isWhiteSpace(c)) continue;
-                    else if (isExpressionBoundary(c)) push('boundary', c);
-                    else if (isConstant(c)) push('constant', c);
-                    else if (isVariable(c)) push('variable', c);
+                    else if (isExpressionBoundary(c)) push("boundary", c);
+                    else if (isConstant(c)) push("constant", c);
+                    else if (isVariable(c)) push("variable", c);
                     else unrecognizedToken(c, pointer - 2);
                 }
             }

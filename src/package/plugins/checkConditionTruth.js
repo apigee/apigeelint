@@ -8,7 +8,7 @@ var myUtil = require("../myUtil.js"),
 var onCondition = function(condition) {
     var truthTable=condition.getTruthTable();
 
-    if (truthTable.evaluation === 'absurdity') {
+    if (truthTable.evaluation === "absurdity") {
         condition.warn({
             name: "Condition " + " \"" + condition.getExpression() + "\" has a truth table issue.",
             guidance: "Review conditional, simplify if possible. Steps, Flow, Routerules, etc with a conditional that can never evaluate to True are considered dead code.",
@@ -16,10 +16,6 @@ var onCondition = function(condition) {
         });
     }
 };
-
-
-
-
 
 
 
