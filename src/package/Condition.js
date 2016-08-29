@@ -42,7 +42,7 @@ Condition.prototype.summarize = function() {
 };
 
 function interpret(tree, substitutions) {
-    var tree = JSON.parse(JSON.stringify(tree));
+    var iTree = JSON.parse(JSON.stringify(tree));
     var actions = {
         substitution(args) {
             var result = { value: !!args[0].value, type: args[0].type, expressionValue: args[0].value, parent: args[0].parent };
@@ -81,7 +81,7 @@ function interpret(tree, substitutions) {
         }
     };
 
-    var result = process(tree);
+    var result = process(iTree);
     return result;
 
     function process(node) {
@@ -166,6 +166,50 @@ Condition.prototype.getTokens = function() {
     function replaceAll(s, f, r) {
         var regex = new RegExp(_escapeRegExp(f), 'g');
         return s.replace(regex, r);
+    }
+
+    function next() {
+        //find next space char as we are space delimited
+        return (c = input[pointer++]);
+    }
+
+    function push(type, value) {
+        tokens.push({
+            type: type,
+            value: value
+        });
+    }
+
+    function isWhiteSpace(c) {
+        return /\s/.test(c);
+    }
+
+    function isVariable(c) {
+        return /[A-Za-z]/.test(c);
+    }
+
+    function isSpecial(c) {
+        return /[<>\-|&!]/.test(c);
+    }
+
+    function isConstant(c) {
+        if (typeof c === "string") {
+            var up = c.toUpperCase(c)
+            if (up === "FALSE" || up === "TRUE") return true
+        }
+        return /[0-9\"\']/.test(c);
+    }
+
+    function isExpressionBoundary(c) {
+        return /[\(\)]/.test(c);
+    }
+
+    function operatorExists(op) {
+        return ['!', '|', '&', '->', '<->', '!!'].indexOf(op) !== -1;
+    }
+
+    function unrecognizedToken(token, position) {
+        throw new Error('Unrecognized token "' + token + '" on position ' + position + '!');
     }
     if (!this.tokens) {
         var pointer = 0,
@@ -256,50 +300,6 @@ Condition.prototype.getTokens = function() {
         }
 
         this.tokens = tokens;
-
-        function next() {
-            //find next space char as we are space delimited
-            return (c = input[pointer++]);
-        }
-
-        function push(type, value) {
-            tokens.push({
-                type: type,
-                value: value
-            });
-        }
-
-        function isWhiteSpace(c) {
-            return /\s/.test(c);
-        }
-
-        function isVariable(c) {
-            return /[A-Za-z]/.test(c);
-        }
-
-        function isSpecial(c) {
-            return /[<>\-|&!]/.test(c);
-        }
-
-        function isConstant(c) {
-            if (typeof c === "string") {
-                var up = c.toUpperCase(c)
-                if (up === "FALSE" || up === "TRUE") return true
-            }
-            return /[0-9\"\']/.test(c);
-        }
-
-        function isExpressionBoundary(c) {
-            return /[\(\)]/.test(c);
-        }
-
-        function operatorExists(op) {
-            return ['!', '|', '&', '->', '<->', '!!'].indexOf(op) !== -1;
-        }
-
-        function unrecognizedToken(token, position) {
-            throw new Error('Unrecognized token "' + token + '" on position ' + position + '!');
-        }
     }
     return this.tokens;
 };
