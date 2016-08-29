@@ -19,13 +19,8 @@ function Endpoint(element, parent, fname) {
 
 Endpoint.prototype.getName = function() {
     if (!this.name) {
-
-        var attr = xpath.select("./@name", this.element);
-        this.name = attr[0] && attr[0].value || "";
-
-
-        //var doc = xpath.select("/", this.element);
-        //this.name = myUtil.getAttributeValue(doc[0].documentElement.attributes, "name");
+        var doc = xpath.select("/", this.element);
+        this.name = myUtil.selectAttributeValue(doc[0].documentElement.attributes, "name");
     }
     return this.name;
 };
