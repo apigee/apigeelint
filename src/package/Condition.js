@@ -172,10 +172,8 @@ Condition.prototype.getTokens = function() {
 
     function encodeQuotedChars(source, find, replace) {
         if (!replace) { replace = encodeURI(find); }
-
         var result = _encodeWithin(source, find, replace, "\"");
         result = _encodeWithin(result, find, replace, "\"");
-
         return (result);
     }
 
@@ -185,7 +183,7 @@ Condition.prototype.getTokens = function() {
     }
 
     function next() {
-        //find next space char as we are space delimited
+        //find next space delimited word
         return (c = input[pointer++]);
     }
 
@@ -337,7 +335,7 @@ function getTokensByType(tokens, type) {
     result.sort(function(a, b) {
         return a.value > b.value ? 1 : -1;
     }).filter(function(item, index, arr) {
-        return arr.indexOf(item) == index;
+        return arr.indexOf(item) === index;
     });
     return result;
 }
@@ -359,6 +357,18 @@ Condition.prototype.getConstants = function() {
 Condition.prototype.getAST = function() {
     var tokens;
 
+    function node(action, args, parent) {
+        return {
+            action: translate[action] || action,
+            args,
+            parent
+        };
+    }
+
+    function isUnary(op) {
+        return op === "!";
+    }
+
     function process(operation) {
         operation = operation || null;
         var args = [];
@@ -368,18 +378,18 @@ Condition.prototype.getAST = function() {
             if (token.type == "boundary") {
                 if (token.value == "(") {
                     var result = process();
-                    if (result.action === null && result.args.length == 1) {
+                    if (result.action === null && result.args.length === 1) {
                         args.push(result.args[0]);
                     } else {
                         args.push(result);
                     }
-                } else if (token.value == ")") {
+                } else if (token.value === ")") {
                     return node(operation, args, token);
                 }
             } else if (token.type == "variable" || token.type == "constant") {
                 args.push(node("substitution", [token], token));
                 if (isUnary(operation)) {
-                    if (operation === null && args.length == 1) {
+                    if (operation === null && args.length === 1) {
                         return args[0];
                     }
                     return node(operation, args, token);
@@ -416,18 +426,6 @@ Condition.prototype.getAST = function() {
         this.ast = process();
     }
     return this.ast;
-
-    function node(action, args, parent) {
-        return {
-            action: translate[action] || action,
-            args: args,
-            parent
-        };
-    }
-
-    function isUnary(op) {
-        return op === "!";
-    }
 }
 
 //for n = 2 it returns
@@ -444,9 +442,9 @@ function generateCombinations(n) {
         str = i.toString(2);
         comb = [];
 
-        for (var j = 0; j < n; j++)
+        for (var j = 0; j < n; j++) {
             comb.push(j < n - str.length ? 0 : +str[j - n + str.length]);
-
+        }
         combs.push(comb.slice(0));
     }
 

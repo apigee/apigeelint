@@ -6,7 +6,7 @@ var name="Unconditional Flows",
 var searchUnconditionalFlowsInEndpoint = function ( endpoint) {
 	var unconditionalFlows = 0;
 	endpoint.getFlows() && endpoint.getFlows().forEach(function(fl) { 
-		if( ! fl.getCondition() || fl.getCondition().getExpression() == "") {
+		if( ! fl.getCondition() || fl.getCondition().getExpression() === "") {
 			unconditionalFlows++;
 		}
 	});
