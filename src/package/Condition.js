@@ -89,12 +89,6 @@ function interpret(tree, substitutions) {
         for (var i = 0; i < args.length; i++) {
             if (args[i] && args[i].args) { args[i] = process(args[i]); }
         }
-        if (typeof actions[action] !== "function") {
-            if (typeof action === "object") {
-                action = JSON.stringify(action) + " action should be string not object";
-            }
-            throw new Error("Process error on  action \"" + action + "\"");
-        }
         node.result = actions[action](args);
         return node.result;
     }
@@ -140,21 +134,18 @@ Condition.prototype.getTruthTable = function() {
     //based on the values in truth table assess validity
     var trueCount = 0;
     truthTable.evaluations.forEach(function(run) {
-        if (run.evaluation) { trueCount++; }
+        trueCount += 0 + run.evaluation;
     });
+    truthTable.evaluation = (trueCount === 0) ? "absurdity" : "valid";
 
-    if (trueCount === 0) {
-        truthTable.evaluation = "absurdity";
-    } else {
-        truthTable.evaluation = "valid";
-    }
     return truthTable;
 };
 
 Condition.prototype.getTokens = function() {
     var pointer = 0,
         tokens = [],
-        c, operator = "";
+        c = "",
+        operator = "";
 
     function _escapeRegExp(str) {
         return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
@@ -298,11 +289,20 @@ Condition.prototype.getTokens = function() {
                         operator = "";
                     }
                 } else {
-                    if (operator.length) { unrecognizedToken(operator, pointer - operator.length - 1); }
-
+                    if (operator.length) {
+                        unrecognizedToken(operator, pointer - operator.length - 1);
+                    }
                     if (isWhiteSpace(c)) {
                         continue;
-                    } else if (isExpressionBoundary(c)) { push("boundary", c); } else if (isConstant(c)) { push("constant", c); } else if (isVariable(c)) { push("variable", c); } else { unrecognizedToken(c, pointer - 2); }
+                    } else if (isExpressionBoundary(c)) {
+                        push("boundary", c);
+                    } else if (isConstant(c)) {
+                        push("constant", c);
+                    } else if (isVariable(c)) {
+                        push("variable", c);
+                    } else {
+                        unrecognizedToken(c, pointer - 2);
+                    }
                 }
             }
         } catch (e) {
@@ -367,19 +367,17 @@ Condition.prototype.getAST = function() {
 
     function process(operation) {
         operation = operation || null;
-        var args = [];
-
-        function node(action, args, parent) {
-            return {
-                action: translate[action] || action,
-                args,
-                parent
-            };
-        }
-
-        function isUnary(op) {
-            return op === "!";
-        }
+        var args = [],
+            node = function(action, args, parent) {
+                return {
+                    action: translate[action] || action,
+                    args,
+                    parent
+                };
+            },
+            isUnary = function(op) {
+                return op === "!";
+            }
 
         for (var i = 0; i < tokens.length; i++) {
             var token = tokens[i];

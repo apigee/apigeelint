@@ -7,6 +7,8 @@ var Condition = require("../Condition.js"),
         var doc = new Dom().parseFromString(exp);
         var c = new Condition(doc, this);
         var tt = c.getTruthTable();
+        myUtil.inspect(c.getExpression());
+        myUtil.inspect(c.getAST());
         if (tt.evaluation !== assertion) {
             myUtil.inspect({
                 expression: c.getExpression(),
@@ -27,8 +29,7 @@ test("true", "valid");
 test("true OR false", "valid");
 test("b=1 and b!=1", "absurdity");
 test("request.verb=\"POST\" and request.verb!=\"POST\"", "absurdity");
-
-//test("(a = b) and (b=c) and (a!=c)");
+test("(a = b) and (b=c) and (a!=c)");
 //test("(b=1)")
 //test("(b=2)")
 //test("(b=0)")

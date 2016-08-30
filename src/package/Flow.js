@@ -53,9 +53,8 @@ Flow.prototype.getFlowRequest = function() {
         //odd... in preflow I need the parentNode
         //in Flow I don't... what is wrong
         var doc = xpath.select("./Request", this.element);
-        if (doc && doc[0]) {
-            this.flowRequest = new FlowPhase(doc[0], this);
-        }
+        this.flowRequest = new FlowPhase(doc[0] || "", this);
+        if (!this.flowRequest) debugger;
     }
     return this.flowRequest;
 };
