@@ -65,11 +65,10 @@ Policy.prototype.getMessages = function() {
 };
 
 Policy.prototype.getSteps = function() {
-    //if steps not defined get parse the endpoints in the bundle to build them
-    var policyName=this.getName();
     if (!this.steps) {
         if (this.parent) {
-            steps = [];
+            var policyName = this.getName(),
+                steps = [];
             //bundle -> endpoints -> flows -> flowphases -> steps.getName()
             this.parent.getEndpoints().forEach(function(ep) {
                 ep.getAllFlows().forEach(function(fl) {
@@ -84,7 +83,7 @@ Policy.prototype.getSteps = function() {
                     });
                 });
             });
-            this.steps=steps;
+            this.steps = steps;
         } else { this.steps = ["no parent to parse for steps"]; }
     }
     return this.steps;
@@ -92,14 +91,13 @@ Policy.prototype.getSteps = function() {
 
 Policy.prototype.summarize = function() {
     var summary = {};
-
     summary.name = this.getName();
     summary.displayName = this.getDisplayName();
     summary.fileName = this.fileName;
     summary.filePay = this.filePath;
     summary.type = this.getType();
-    summary.steps=[];
-    this.getSteps().forEach(function(step){
+    summary.steps = [];
+    this.getSteps().forEach(function(step) {
         summary.steps.push(step.summarize());
     });
     return summary;
