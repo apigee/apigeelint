@@ -43,8 +43,6 @@ var warnings = [];
 var onBundle = function(bundle) {
     glBundle = bundle;
     bundle.getProxyEndpoints().forEach(function(endpoint) {
-        debugger;
-
         var localSymtab = [];
         evaluateSteps(endpoint.getPreFlow().getFlowRequest().getSteps(), localSymtab);
         endpoint.getFlows().forEach(function(flow) {

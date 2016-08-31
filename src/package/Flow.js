@@ -54,7 +54,6 @@ Flow.prototype.getFlowRequest = function() {
         //in Flow I don't... what is wrong
         var doc = xpath.select("./Request", this.element);
         this.flowRequest = new FlowPhase(doc[0] || "", this);
-        if (!this.flowRequest) debugger;
     }
     return this.flowRequest;
 };

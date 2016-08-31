@@ -377,7 +377,7 @@ Condition.prototype.getAST = function() {
             },
             isUnary = function(op) {
                 return op === "!";
-            }
+            };
 
         for (var i = 0; i < tokens.length; i++) {
             var token = tokens[i];

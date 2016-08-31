@@ -5,9 +5,10 @@ var fs = require("fs"),
     xpath = require("xpath"),
     Dom = require("xmldom").DOMParser;
 
-function Policy(path, fn) {
+function Policy(path, fn, parent) {
     this.fileName = fn;
     this.filePath = path + "/" + fn;
+    this.parent = parent;
     this.messages = { warnings: [], errors: [] };
 }
 
@@ -64,7 +65,44 @@ Policy.prototype.getMessages = function() {
 };
 
 Policy.prototype.getSteps = function() {
+    //if steps not defined get parse the endpoints in the bundle to build them
+    var policyName=this.getName();
+    if (!this.steps) {
+        if (this.parent) {
+            steps = [];
+            //bundle -> endpoints -> flows -> flowphases -> steps.getName()
+            this.parent.getEndpoints().forEach(function(ep) {
+                ep.getAllFlows().forEach(function(fl) {
+                    var fps = [fl.getFlowRequest()];
+                    fps.concat(fl.getFlowResponse());
+                    fps.forEach(function(fp) {
+                        fp.getSteps().forEach(function(st) {
+                            if (st.getName() === policyName) {
+                                steps.push(st);
+                            }
+                        });
+                    });
+                });
+            });
+            this.steps=steps;
+        } else { this.steps = ["no parent to parse for steps"]; }
+    }
     return this.steps;
+};
+
+Policy.prototype.summarize = function() {
+    var summary = {};
+
+    summary.name = this.getName();
+    summary.displayName = this.getDisplayName();
+    summary.fileName = this.fileName;
+    summary.filePay = this.filePath;
+    summary.type = this.getType();
+    summary.steps=[];
+    this.getSteps().forEach(function(step){
+        summary.steps.push(step.summarize());
+    });
+    return summary;
 };
 
 //Public

@@ -6,7 +6,7 @@ var Step = require("./Step.js"),
     Flow = require("./Flow.js"),
     FlowPhase = require("./FlowPhase.js"),
     RouteRule = require("./RouteRule.js"),
-    FaultRule=require("./FaultRule.js"),
+    FaultRule = require("./FaultRule.js"),
     xpath = require("xpath"),
     Dom = require("xmldom").DOMParser,
     myUtil = require("./myUtil.js");
@@ -95,6 +95,15 @@ Endpoint.prototype.getFlows = function() {
         }
     }
     return this.flows;
+};
+
+Endpoint.prototype.getAllFlows = function() {
+    if (!this.allFlows) {
+        this.allFlows = [this.getPreFlow()];
+        this.allFlows.concat(this.getPostFlow());
+        this.allFlows.concat(this.getFlows());
+    }
+    return this.allFlows;
 };
 
 Endpoint.prototype.getFaultRules = function() {

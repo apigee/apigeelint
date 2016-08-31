@@ -66,7 +66,6 @@ context.setVariable("response.content", JSON.stringify(result));
 
 function permutator(input) {
     var set = [];
-    debugger;
     return permute(input);
 
     function permute(arr, data) {

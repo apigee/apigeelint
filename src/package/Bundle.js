@@ -36,7 +36,7 @@ function buildPolicies(bundle) {
     //get the list of policies and create the policy objects
     var files = fs.readdirSync(bundle.proxyRoot + "/policies");
     files.forEach(function(policyFile) {
-        bundle.policies.push(new Policy(bundle.proxyRoot + "/policies", policyFile));
+        bundle.policies.push(new Policy(bundle.proxyRoot + "/policies", policyFile, bundle));
     });
 }
 
@@ -171,11 +171,26 @@ Bundle.prototype.getTargetEndpoints = function() {
     return this.targetEndpoints;
 };
 
+Bundle.prototype.getEndpoints = function() {
+    if (!this.endpoints) {
+        this.endpoints = this.getProxyEndpoints();
+        this.endpoints.concat(this.getTargetEndpoints());
+    }
+    return this.endpoints;
+};
+
 Bundle.prototype.getResources = function() {
     if (!this.resources) {
         buildResources(this);
     }
     return this.resources;
+};
+
+Bundle.prototype.getPolicies = function() {
+    if (!this.policies) {
+        buildPolicies(this);
+    }
+    return this.policies;
 };
 
 Bundle.prototype.summarize = function() {
@@ -202,6 +217,13 @@ Bundle.prototype.summarize = function() {
     if (this.getResources()) {
         this.getResources().forEach(function(re) {
             summary.resources.push(re.summarize());
+        });
+    }
+
+    summary.policies = [];
+    if (this.getPolicies()) {
+        this.getPolicies().forEach(function(po) {
+            summary.policies.push(po.summarize());
         });
     }
 
