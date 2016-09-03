@@ -65,12 +65,15 @@ var init = {
         this[config.source.type](config, bundle);
     },
     filesystem(config, bundle) {
+        debugger;
         process.chdir(config.source.path);
 
         //ok lets build our bundle representation from file system
         //note all methods ultimately will call this init
         //usually after they retrieve the bundle from a remote
-        bundle.root = config.source.path;
+        //set bundle.root to absolute path
+        console.log("setting root to: " + path.resolve(config.source.path));
+        bundle.root = path.resolve(config.source.path);
         bundle.policies = [];
         bundle.messages = { warnings: [], errors: [] };
         bundle.warn = function(msg) {

@@ -7,8 +7,8 @@ var configuration = {
     debug: true,
     "source": {
         "type": "filesystem",
-        "path": "../../../sampleProxy",
-        //"path": "/Users/davidallen/Projects/apigee-bbcww-store/gateway/Store/target",
+        //"path": "../../../sampleProxy",
+        "path": "/Users/davidallen/Projects/apigee-bbcww-store/gateway/Store/target",
     }
 };
 
