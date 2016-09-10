@@ -11,74 +11,130 @@ var plugin = {
     },
     bundleStructure = {
         name: "apiproxy",
-        files: { extension: [".xml"], maxCount: 1 },
+        files: { extensions: ["xml", "md"], maxCount: 1 },
         folders: [
-            { name: "policies", required: true, files: { extensions: ['.xml'] } },
-            { name: "proxies", required: true, files: { extensions: ['.xml'] } },
-            { name: "targets", required: true, files: { extensions: ['.xml'] } }, {
+            { name: "policies", required: true, files: { extensions: ["xml"] } },
+            { name: "proxies", required: true, files: { extensions: ["xml", "flowfrag"] } },
+            { name: "targets", required: true, files: { extensions: ["xml"] } }, {
                 name: "resources",
                 required: true,
                 folders: [{
                     name: "jsc",
                     required: false,
-                    files: { extensions: ['.js', '.jsc', '.json'] }
-                }, {
-                    name: "node",
-                    required: false,
-                    files: { extensions: ['.js', '.jsc', '.json'] }
+                    files: { extensions: ["js", "jsc", "json"] }
                 }, {
                     name: "java",
                     required: false,
                     files: {
-                        extensions: ['.jar', '.properties', '.inf']
+                        extensions: ["jar", "properties", "inf"]
                     },
-                    folders: { any: true },
+                    folders: { any: true }
+                }, {
+                    name: "py",
+                    required: false,
+                    files: {
+                        extensions: ["py"]
+                    }
+                }, {
+                    name: "xsl",
+                    required: false,
+                    files: {
+                        extensions: ["xsl"]
+                    }
+                }, {
+                    name: "node",
+                    required: false,
+                    files: {
+                        extensions: ["js", "jsc", "json", "zip"]
+                    },
+                    folders: { any: true }
                 }]
             }
         ]
     },
+    root,
     fs = require("fs"),
+    myUtil = require("../myUtil.js"),
     onBundle = function(bundle) {
-        debugger;
-        checkNode(bundleStructure, bundle.root + "/" + bundle.proxyRoot, bundle);
+        root = bundle.root + "/" + bundle.proxyRoot;
+        checkNode(bundleStructure, bundle.warn);
     },
-    path = require('path');
+    path = require("path"),
+    debug = false;
 
-function nodeHasFolder(ns, f) {
-    var result = false;
-    if (ns.folders) {
-        ns.folders.some(function(n) {
-            if (n.name === f) {
-                result = true;
-            }
-            return result;
-        });
+function eq(lh, rh) {
+    return lh === rh;
+};
+
+function contains(a, obj, f) {
+
+    if (!a || !a.length) {
+        console.log("error on contains call - empty or undefined array encountered - continuing anyway");
+        debugger;
+        return false;
     }
-    return result;
+    if (!a || !a.length) { debugger; }
+    if (!f) f = eq;
+    for (var i = 0; i < a.length; i++) {
+        if (f(a[i], obj)) {
+            return a[i];
+        }
+    }
+    return false;
 }
 
-function checkNode(node, root, bundle) {
+function checkNode(node, warn, curRoot) {
     //node has two arrays files and folders
     //check if files is correct
+    var files;
 
-    var files = fs.readdirSync(root);
-    if (node.required && files.length === 0) {
-        plugin.warning = "Required folder " + node.name + "not found."
-        bundle.warn(plugin);
+    if (!curRoot) { curRoot = root };
+
+    if (debug) {
+        myUtil.inspect({ name: node.name, curRoot });
     }
 
+    try {
+        files = fs.readdirSync(curRoot),
+            compareNodeToFolder = function(n, f) {
+                return (n.name === f);
+            };
+    } catch (e) {
+        plugin.warning = "Exception thrown in reading bundle";
+        warn({ plugin, e });
+        return;
+    }
+
+    if (node.required && (!files || files.length === 0)) {
+        plugin.warning = "Required folder " + node.name + "not found."
+        warn(plugin);
+    }
 
     //walk the folders in files
     files.forEach(function(file) {
-        if (fs.statSync(root + "/" + file).isDirectory()) {
+        if (fs.statSync(curRoot + "/" + file).isDirectory()) {
             //is there a child node that matches? if not error if so recurse
-            if (nodeHasFolder(node.folders, file)) {
-
+            var foundNode = contains(node.folders, file, compareNodeToFolder);
+            if(!foundNode && node.folders.any === true) {
+                //create a node that corresponds to the current node with the correct name
+                foundNode = node;
+                node.name = file;
+            }
+            if (foundNode) {
+                //good then recurse
+                checkNode(foundNode, warn, curRoot + "/" + foundNode.name)
             } else {
-
+                //we have an unknown folder
+                plugin.warning = "Unexpected folder found \"" + curRoot + "/" + file + "\".";
+                warn(plugin);
             }
         } else if (file !== ".DS_Store") {
             //does the file extension match those valid for this node
+            var extension = file.split(".")[file.split(".").length - 1];
+            if (node.files && node.files.extensions && !contains(node.files.extensions, extension)) {
+                plugin.warning = "Unexpected extension found with file \"" + curRoot + "/" + file + "\". Valid extensions: " + JSON.stringify(node.files.extensions);
+                warn(plugin);
+            }
         }
     });
 
