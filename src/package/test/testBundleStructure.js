@@ -8,7 +8,7 @@ var myUtil = require("../myUtil.js"),
             root,
             proxyRoot: "apiproxy",
             warn: myUtil.inspect
-        })
+        });
     };
 
 //test("/Users/davidallen/Projects/cambia/Plans/");

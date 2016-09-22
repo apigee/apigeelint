@@ -65,7 +65,6 @@ var init = {
         this[config.source.type](config, bundle);
     },
     filesystem(config, bundle) {
-        debugger;
         process.chdir(config.source.path);
 
         //ok lets build our bundle representation from file system
