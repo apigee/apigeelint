@@ -2,20 +2,20 @@
 
 //call the plugin against an arbitrary folder
 var myUtil = require("../myUtil.js"),
-    bs = require("../plugins/bundleStructure.js"),
-    test = function(root) {
-        bs.onBundle({
-            root,
-            proxyRoot: "apiproxy",
-            warn: myUtil.inspect
-        });
-    };
+    bs = require("../plugins/bundleStructure.js");
+test = function(root) {
+	var results = {root,warnings:[]};
 
-//test("/Users/davidallen/Projects/cambia/Plans/");
+    bs.onBundle({
+        root,
+        proxyRoot: "apiproxy",
+        warn(warning) { results.warnings.push(warning); }
+    });
+    myUtil.inspect(results);
+};
 
-
-//now lets get really fancy and check structure on every bundle in my current projects folder
-process.chdir("/Users/davidallen/Projects/");
+//process.chdir("/Users/davidallen/Projects/");
+process.chdir("/Users/davidallen/Projects/samples/");
 
 var FindFolder = require("node-find-folder"),
     folders = new FindFolder("apiproxy/proxies");
