@@ -5,7 +5,8 @@ var xpath = require("xpath"),
     FlowPhase = require("./FlowPhase.js"),
     Condition = require("./Condition.js"),
     Dom = require("xmldom").DOMParser,
-    myUtil = require("./myUtil.js");
+    myUtil = require("./myUtil.js"),
+    debug = require('debug')('bundlelinter:Flow');;
 
 function Flow(element, parent) {
     this.parent = parent;
@@ -61,6 +62,7 @@ Flow.prototype.getFlowRequest = function() {
 Flow.prototype.getFlowResponse = function() {
     if (!this.flowResponse) {
         var doc = xpath.select("./Response", this.element);
+        debug("getFlowResponse() doc:" + doc);
         if (doc && doc[0]) {
             this.flowResponse = new FlowPhase(doc[0], this);
         }

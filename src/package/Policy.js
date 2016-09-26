@@ -3,7 +3,8 @@
 //Private
 var fs = require("fs"),
     xpath = require("xpath"),
-    Dom = require("xmldom").DOMParser;
+    Dom = require("xmldom").DOMParser,
+    debug = require('debug')('bundlelinter:Policy');
 
 function Policy(path, fn, parent) {
     this.fileName = fn;
@@ -70,13 +71,18 @@ Policy.prototype.getSteps = function() {
             var policyName = this.getName(),
                 steps = [];
             //bundle -> endpoints -> flows -> flowphases -> steps.getName()
+            debug("number of endpoints for this policy: " + this.parent.getEndpoints().length);
             this.parent.getEndpoints().forEach(function(ep) {
+                debug("endpoint name: " + ep.getName() + "; endpoint type: " + ep.getType());
                 ep.getAllFlows().forEach(function(fl) {
+                    debug("flow name: " + fl.getName() + "; flow type: " + fl.getType() + "; flow.getFlowName(): " + fl.getFlowName());
                     var fps = [fl.getFlowRequest()];
-                    fps.concat(fl.getFlowResponse());
+                    fps.push(fl.getFlowResponse());
+                    //fps.concat(fl.getFlowResponse());
                     fps.forEach(function(fp) {
                         fp.getSteps().forEach(function(st) {
                             if (st.getName() === policyName) {
+                                debug("step " + st.getName() + " pushed onto steps array");
                                 steps.push(st);
                             }
                         });

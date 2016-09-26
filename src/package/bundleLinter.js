@@ -43,6 +43,7 @@ var Bundle = require("./Bundle.js"),
             plugin.onPolicy && bundle.onPolicies(plugin.onPolicy);
         });
         report(bundle);
+        return bundle;
     };
 
 module.exports = {
