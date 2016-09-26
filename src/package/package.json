@@ -30,6 +30,8 @@
         "node-inspector": ">= 0.12.3",
         "xmldom": ">= 0.1.22",
         "node-find-folder":">=0.1.25",
-        "xpath":"latest"
+        "xpath":"latest",
+        "decache":"latest",
+        "debug":"latest"
     }
 }
