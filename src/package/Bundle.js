@@ -36,7 +36,10 @@ function buildPolicies(bundle) {
     //get the list of policies and create the policy objects
     var files = fs.readdirSync(bundle.proxyRoot + "/policies");
     files.forEach(function(policyFile) {
-        bundle.policies.push(new Policy(bundle.proxyRoot + "/policies", policyFile, bundle));
+        var ext = policyFile.split(".").pop();
+        if(ext === "xml") {
+            bundle.policies.push(new Policy(bundle.proxyRoot + "/policies", policyFile, bundle));
+        }
     });
 }
 
