@@ -9,7 +9,8 @@ var Step = require("./Step.js"),
     FaultRule = require("./FaultRule.js"),
     xpath = require("xpath"),
     Dom = require("xmldom").DOMParser,
-    myUtil = require("./myUtil.js");
+    myUtil = require("./myUtil.js"),
+    debug = require('debug')('bundlelinter:Endpoint');
 
 function Endpoint(element, parent, fname) {
     this.fileName = fname;
@@ -48,17 +49,21 @@ Endpoint.prototype.getPreFlow = function() {
             this.preFlow = new Flow(doc[0], this);
         }
     }
+    debug("preflow summary: " + JSON.stringify(this.preFlow.summarize()));
     return this.preFlow;
 };
 
 Endpoint.prototype.getPostFlow = function() {
+  debug("enter getPostFlow() for " + this.getProxyName());
     if (!this.postFlow) {
         //find the preflow tag
         var doc = xpath.select("./PostFlow", this.element);
+        debug("PostFlow doc is: " + doc);
         if (doc && doc[0]) {
             this.postFlow = new Flow(doc[0], this);
         }
     }
+    debug("post flow summary: " + JSON.stringify(this.postFlow.summarize()));
     return this.postFlow;
 };
 
@@ -100,8 +105,12 @@ Endpoint.prototype.getFlows = function() {
 Endpoint.prototype.getAllFlows = function() {
     if (!this.allFlows) {
         this.allFlows = [this.getPreFlow()];
-        this.allFlows.concat(this.getPostFlow());
+        debug("count of allFlows after getPreFlow(): " + this.allFlows.length );
+        this.allFlows.push(this.getPostFlow());
+        //this.allFlows.concat(this.getPostFlow());
+        debug("count of allFlows after getPostFlow(): " + this.allFlows.length );
         this.allFlows.concat(this.getFlows());
+        debug("count of allFlows after getFlows(): " + this.allFlows.length );
     }
     return this.allFlows;
 };

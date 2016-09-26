@@ -34,3 +34,5 @@ node_modules
 
 #Private files
 private*
+
+.DS_Store
