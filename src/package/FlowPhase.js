@@ -18,6 +18,13 @@ FlowPhase.prototype.getType = function() {
     return this.type;
 };
 
+FlowPhase.prototype.getPhase = function() {
+    if (!this.phase) {
+        this.phase = this.element.tagName;
+    }
+    return this.phase;
+};
+
 FlowPhase.prototype.getSteps = function() {
     if (!this.steps) {
         var doc = xpath.select("./Step", this.element),
