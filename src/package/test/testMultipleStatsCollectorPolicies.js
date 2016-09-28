@@ -228,3 +228,65 @@ var debug = require('debug')('bundlelinter:testMultipleStatsCollectorPolicies');
     });
 
   });
+
+
+
+  describe("Multiple stats collector policies attached to different flow types.", function() {
+    delete bundle;
+    delete bl;
+    decache("../Bundle.js");
+    debug("Resetting the configuration...");
+    mypath = path.resolve('');
+    mypath = mypath.replace("multiple_stats_collector_missing_conditions", "multiple_stats_collector_attached_to_different_flows");
+    debug(mypath);
+
+    var configuration = {
+            debug: true,
+            "source": {
+                "type":"filesystem",
+                //"path": "./resources/statistics_collector/multiple_stats_collector_missing_conditions"
+                "path": mypath,
+            }
+        };
+    debug("configuration object:" + JSON.stringify(configuration));
+    //var Bundle = require("../Bundle.js");
+    //bundle = new Bundle(configuration);
+    var bl = require("../bundleLinter.js");
+    var bundle = bl.lint(configuration);
+    //debug("calling bundle.summarize()...");
+    //bundle.summarize();
+
+    var policies = bundle.getPolicies();
+
+    debug("Number of policies: " + policies.length);
+    it('should return 4 policies', function() {
+      assert.equal( -1, 4);
+    });
+  /*
+    it('should return 1 step for all policies', function() {
+      policies.forEach(function(policy){
+        var steps = policy.getSteps();
+        assert.equal(steps.length, 1);
+      });
+    });
+
+    it('all policies should have warnings.', function() {
+      policies.forEach(function(policy){
+        //debug("Policy: " + policy.getName());
+        var messages = policy.getMessages();
+        assert.equal( messages.warnings.length, 1);
+      });
+    });
+
+    it('Policy guidance should be: If you have more than two Statistics Collector policies, only the last one in the flow will execute.  Include a condition to make sure the correct one executes.', function() {
+        policies.forEach(function(policy){
+          var guidance = policy.getMessages().warnings[0].guidance;
+          assert.equal( guidance, "If you have more than two Statistics Collector policies, only the last one in the flow will execute.  Include a condition to make sure the correct one executes.");
+        });
+    });
+
+    it('Bundle guidance should be: There are several Statistics Collector policies attached to a step without a condition.', function() {
+      assert.equal(bundle.messages.warnings[0].name, "There are several Statistics Collector policies attached to a step without a condition." );
+    });
+    */
+  });
