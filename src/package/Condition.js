@@ -82,6 +82,7 @@ function interpret(tree, substitutions) {
     };
 
     function process(node) {
+        debugger;
 
         var action = node.action,
             args = node.args;
@@ -274,10 +275,13 @@ Condition.prototype.getTokens = function() {
         expression = replaceAll(expression, "&&", " & ");
         expression = replaceAll(expression, "||", " | ");
         expression = replaceAll(expression, "%", "x");
+        expression = replaceAll(expression, "!", " ! ");
+        expression = replaceAll(expression, " !  ! ", " !! ");
         //remove duplicate spaces 
         while (expression.indexOf("  ") >= 0) {
             expression = replaceAll(expression, "  ", " ");
         }
+        expression = expression.trim();
 
         var input = expression.split(" ");
         try {
@@ -309,7 +313,6 @@ Condition.prototype.getTokens = function() {
             console.log(e);
             throw new Error("Lex error on \"" + input + "\"");
         }
-
         this.tokens = tokens;
     }
     return this.tokens;
@@ -356,6 +359,7 @@ Condition.prototype.getConstants = function() {
 
 Condition.prototype.getAST = function() {
     var tokens = this.getTokens(),
+        curToken = 0,
         translate = {
             "!": "negation",
             "|": "disjunction",
@@ -366,6 +370,7 @@ Condition.prototype.getAST = function() {
         };
 
     function process(operation) {
+
         operation = operation || null;
         var args = [],
             node = function(action, args, parent) {
@@ -379,10 +384,14 @@ Condition.prototype.getAST = function() {
                 return op === "!";
             };
 
-        for (var i = 0; i < tokens.length; i++) {
-            var token = tokens[i];
+
+        var token;
+
+        for (; curToken < tokens.length; curToken++) {
+            token = tokens[curToken];
             if (token.type === "boundary") {
                 if (token.value === "(") {
+                    curToken++;
                     var result = process();
                     if (result.action === null && result.args.length === 1) {
                         args.push(result.args[0]);
@@ -395,6 +404,7 @@ Condition.prototype.getAST = function() {
             } else if (token.type === "variable" || token.type === "constant") {
                 args.push(node("substitution", [token], token));
                 if (isUnary(operation)) {
+                    debugger;
                     if (operation === null && args.length === 1) {
                         return args[0];
                     }
@@ -402,7 +412,11 @@ Condition.prototype.getAST = function() {
                 }
             } else if (token.type === "operator") {
                 if (isUnary(token.value)) {
-                    args.push(process(token));
+                    debugger;
+                    curToken++;
+                    var t = process(token);
+                    args.push(t);
+                    operation = t.action.value;
                     continue;
                 }
                 if (operation) {
@@ -414,6 +428,7 @@ Condition.prototype.getAST = function() {
             }
         }
         if (operation === null && args.length === 1) {
+            //this needs to be converted to a node
             return args[0];
         }
         return node(operation, args, token);

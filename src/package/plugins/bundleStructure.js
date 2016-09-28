@@ -70,7 +70,7 @@ var plugin = {
 
 function eq(lh, rh) {
     return lh === rh;
-};
+}
 
 function contains(a, obj, f) {
     if (!a || !a.length) {
