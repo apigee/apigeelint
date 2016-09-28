@@ -75,17 +75,19 @@ Policy.prototype.getSteps = function() {
             this.parent.getEndpoints().forEach(function(ep) {
                 debug("endpoint name: " + ep.getName() + "; endpoint type: " + ep.getType());
                 ep.getAllFlows().forEach(function(fl) {
-                    debug("flow name: " + fl.getName() + "; flow type: " + fl.getType() + "; flow.getFlowName(): " + fl.getFlowName());
+                    debug("flow name: " + "; flow type: " + "; flow.getFlowName(): ");
                     var fps = [fl.getFlowRequest()];
                     fps.push(fl.getFlowResponse());
                     //fps.concat(fl.getFlowResponse());
                     fps.forEach(function(fp) {
-                        fp.getSteps().forEach(function(st) {
-                            if (st.getName() === policyName) {
-                                debug("step " + st.getName() + " pushed onto steps array");
-                                steps.push(st);
-                            }
-                        });
+                        if(fp){
+                          fp.getSteps().forEach(function(st) {
+                              if (st.getName() === policyName) {
+                                  debug("step " + st.getName() + " pushed onto steps array");
+                                  steps.push(st);
+                              }
+                          });
+                        }
                     });
                 });
             });

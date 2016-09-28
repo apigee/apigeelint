@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<StatisticsCollector async="false" continueOnError="false" enabled="true" name="StatisticsCollectorFlows2">
+    <DisplayName>StatisticsCollectorFlows2</DisplayName>
+    <Properties/>
+    <Statistics>
+        <Statistic name="name2" ref="" type="STRING">value</Statistic>
+        <Statistic name="name3" ref="" type="STRING">value</Statistic>
+        <Statistic name="name4" ref="" type="STRING">value</Statistic>
+    </Statistics>
+</StatisticsCollector>

@@ -18,7 +18,7 @@ var onBundle = function(bundle) {
       debug("number of statistics collector policies: " + statsPolicies.length);
       if(statsPolicies.length > 1){
         checkForDuplicatePolicies(statsPolicies);
-        //checkForMoreThanOneStatsPolicyOnFlow(statsPolicies, bundle);
+        checkForMoreThanOneStatsPolicyOnFlow(statsPolicies, bundle);
         checkPoliciesForMissingConditions(statsPolicies, bundle);
       }
 
@@ -96,6 +96,18 @@ function getDuplicatePolicies(policies){
 
 function checkForMoreThanOneStatsPolicyOnFlow(policies, bundle){
   //identify policies on same flow
+  var flowList = {"preflow":[],
+                  "postflow":[],
+                  "flows": {}};
+  policies.forEach(function (policy){
+      var steps = policy.getSteps();
+      steps.forEach(function (step) {
+        var flow = step.getParent();
+        debug(flow.summarize());
+        debug("Policy: " + policy.getName() + " flow.getName: " + " flow.getType:" + flow.getType()) ;
+      });
+  });
+  debug("flowlist: " + JSON.stringify(flowList));
 
 }
 
