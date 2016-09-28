@@ -49,23 +49,23 @@ Endpoint.prototype.getPreFlow = function() {
             this.preFlow = new Flow(doc[0], this);
         }
     }
-    //debug("preflow summary: " + JSON.stringify(this.preFlow.summarize()));
+    debug("preflow summary: " + JSON.stringify(this.preFlow.summarize()));
     return this.preFlow;
 };
 
 Endpoint.prototype.getPostFlow = function() {
-  //debug("enter getPostFlow() for " + this.getProxyName());
+  debug("enter getPostFlow() for " + this.getProxyName());
     if (!this.postFlow) {
         //find the preflow tag
         var doc = xpath.select("./PostFlow", this.element);
-        //debug("PostFlow doc is: " + doc);
+        debug("PostFlow doc is: " + doc);
         if (doc && doc[0]) {
             debug("postflow doc[0]: " + doc[0]);
             this.postFlow = new Flow(doc[0], this);
         }
     }
 
-    //debug("post flow summary: " + JSON.stringify(this.postFlow.summarize()));
+    debug("post flow summary: " + JSON.stringify(this.postFlow.summarize()));
     return this.postFlow;
 };
 
@@ -123,10 +123,7 @@ Endpoint.prototype.getFlows = function() {
 
 Endpoint.prototype.getAllFlows = function() {
     if (!this.allFlows) {
-        //this.allFlows = [this.getPreFlow()];
-        self = this;
-        this.allFlows = [];
-        this.allFlows.push(this.getPreFlow());
+        this.allFlows = [this.getPreFlow()];
         debug("count of allFlows after getPreFlow(): " + this.allFlows.length );
         this.allFlows.push(this.getPostFlow());
         //this.allFlows.concat(this.getPostFlow());
