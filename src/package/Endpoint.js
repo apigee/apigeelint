@@ -64,8 +64,7 @@ Endpoint.prototype.getPostFlow = function() {
             this.postFlow = new Flow(doc[0], this);
         }
     }
-
-    //debug("post flow summary: " + JSON.stringify(this.postFlow.summarize()));
+    debug("post flow summary: " + JSON.stringify(this.postFlow.summarize()));
     return this.postFlow;
 };
 

@@ -75,7 +75,7 @@ Policy.prototype.getSteps = function() {
             this.parent.getEndpoints().forEach(function(ep) {
                 debug("endpoint name: " + ep.getName() + "; endpoint type: " + ep.getType());
                 ep.getAllFlows().forEach(function(fl) {
-                    debug("flow name: " + "; flow type: " + "; flow.getFlowName(): ");
+                    debug("flow name: " + fl.getName() + "; flow type: " + fl.getType() + "; flow.getFlowName(): " + fl.getFlowName());
                     var fps = [fl.getFlowRequest()];
                     fps.push(fl.getFlowResponse());
                     //fps.concat(fl.getFlowResponse());
