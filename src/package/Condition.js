@@ -32,6 +32,7 @@ Condition.prototype.onConditions = function (pluginFunction) {
 Condition.prototype.summarize = function () {
     var summary = {};
     summary.condition = this.getExpression();
+    summary.validity = this.getTruthTable().evaluation;
     return summary;
 };
 
