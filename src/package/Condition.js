@@ -7,7 +7,7 @@ var fs = require("fs"),
     myUtil = require("./myUtil.js");
 
 function Condition(element, parent) {
-    //this.parent = parent;
+    this.parent = parent;
     this.element = element;
 }
 
@@ -45,7 +45,7 @@ function interpret(tree, substitutions) {
     var iTree = JSON.parse(JSON.stringify(tree));
     var actions = {
         substitution(args) {
-            var result = { value: !!args[0].value, type: args[0].type, expressionValue: args[0].value }; //, parent: args[0].parent };
+            var result = { value: !!args[0].value, type: args[0].type, expressionValue: args[0].value, parent: args[0].parent };
             if (args[0].type === "variable") {
                 result.value = substitutions[args[0].value];
             } else if (args[0].type === "constant") {
@@ -77,6 +77,14 @@ function interpret(tree, substitutions) {
         notEquivalence(args) {
             var result = { value: (args[0].value && !args[1].value) || (!args[0].value && args[1].value) };
             return result;
+        },
+        startsWith(args) {
+            return actions.equivalence(args);
+            //TODO: flesh out something more than simple equivalence here
+            //this includes looking at domains of values based on siblings in the experssion
+
+            //var result = { value: (args[0].value.startsWith(args[1].value)) };
+            //return result;
         }
     };
 
@@ -127,7 +135,6 @@ Condition.prototype.getTruthTable = function () {
         combinations = generateCombinations(vars.length),
         truthTable = { expression: this.getExpression(), evaluations: [] },
         tree = this.getAST();
-
 
     for (var i = 0, count = Math.pow(2, vars.length); i < count; i++) {
         var run = {
@@ -200,6 +207,11 @@ Condition.prototype.getTokens = function () {
     }
 
     function isSpecial(c) {
+        //isSpecial is looking for operators
+        //this can get confused with some string constants including regex
+        if (typeof c === "string" && c.startsWith("\"")) {
+            return false;
+        }
         return /[<>\-|&!]/.test(c);
     }
 
@@ -218,7 +230,7 @@ Condition.prototype.getTokens = function () {
     }
 
     function operatorExists(op) {
-        return ["!", "|", "&", "->", "<->", "!!"].indexOf(op) !== -1;
+        return ["!", "|", "&", "->", "<->", "!!", "=|"].indexOf(op) !== -1;
     }
 
     function unrecognizedToken(token, position) {
@@ -271,9 +283,12 @@ Condition.prototype.getTokens = function () {
         expression = replaceAll(expression, "\t", " ");
         expression = replaceAll(expression, "\n", " ");
         expression = expression.trim();
-        expression = replaceAll(expression, "=|", " <-> ");
+        //expression = replaceAll(expression, "=|", " <-> ");
+        expression = replaceAll(expression, "==", " <-> ");
         expression = replaceAll(expression, "!=", " !! ");
         expression = replaceAll(expression, "=", " <-> ");
+        expression = replaceAll(expression, "<-> |", " =| ");
+
         expression = replaceAll(expression, ":=", " <-> ");
         expression = replaceAll(expression, "~~", " <-> ");
         expression = replaceAll(expression, "~/", " <-> ");
@@ -369,11 +384,12 @@ Condition.prototype.getAST = function () {
             translate = {
                 //highest precedence is 0 
                 "!": { operation: "negation", precedence: 0 },
-                "|": { operation: "disjunction", precedence: 1 },
-                "&": { operation: "conjunction", precedence: 1 },
+                "|": { operation: "disjunction", precedence: 3 },
+                "&": { operation: "conjunction", precedence: 3 },
                 "->": { operation: "implication", precedence: 2 },
-                "<->": { operation: "equivalence", precedence: 3 },
-                "!!": { operation: "notEquivalence", precedence: 3 }
+                "<->": { operation: "equivalence", precedence: 1 },
+                "!!": { operation: "notEquivalence", precedence: 1 },
+                "=|": { operation: "startsWith", precedence: 1 }
             }, curToken = 0;
 
         function node(action, args) {
@@ -423,7 +439,9 @@ Condition.prototype.getAST = function () {
                         //handle boundaries - essentially we want to reset the max on the open paren
                         if (tokenSeg[i].value === "(") {
                             //fast forward to the closing boundary
-                            while (tokenSeg[i].value !== ")") { i++; }
+                            while (i < tokenSeg.length && tokenSeg[i].value !== ")") {
+                                i++;
+                            }
                         }
                     }
                 }
@@ -432,16 +450,19 @@ Condition.prototype.getAST = function () {
                     //we need to create a node from the max index
                     var cNode = node(tokenSeg[maxIndex].value, []),
                         lhTokens = tokenSeg.slice(0, maxIndex),
-                        leftHand = processHangLine(lhTokens),
+                        leftHand = processHangLine(lhTokens, cNode),
                         rhTokens = tokenSeg.slice(maxIndex + 1),
-                        rightHand = processHangLine(rhTokens);
+                        rightHand = processHangLine(rhTokens, cNode);
                     if (leftHand) { cNode.args.push(leftHand); }
-                    if (rightHand) { cNode.args.push(rightHand); }
+                    if (rightHand) { cNode.args.push(rightHand); } node
                     return cNode;
                 }
             }
 
             if (tokenSeg[0].type === "variable" || tokenSeg[0].type === "constant") {
+                //ok for a substitution we need to provide a type and seed values for the type
+                //how do we get the type? - we have to look at if this is RH or LH
+                //we actually want the operator (parent) and then at eval time can get the sibling and comparators
                 return node("substitution", [tokenSeg[0]]);
             } else if (tokenSeg[0].type === "boundary") {
                 //condition here is no operator with boundary
@@ -454,34 +475,10 @@ Condition.prototype.getAST = function () {
                 if (rightHand) { cNode.args.push(rightHand); }
                 return cNode;
             } else {
+                debugger;
                 throw new Error("no token translation executed for " + JSON.stringify(tokenSeg[0]));
             }
         }
-
-        function process() {
-            var token, cNode;
-            while (curToken < tokens.length) {
-                token = tokens[curToken];
-                curToken++;
-                if (token.type === "variable" || token.type === "constant") {
-                    //add this to the left hand or right hand of the current node
-                    if (!cNode) cNode = { args: [] };
-                    cNode.args.push(node(token.type, [token]));
-                } else if (token.type === "operator") {
-                    //when we come across a new operator
-                    //we either drop it down or make it parent
-                    //based on precedence
-                    if (cNode.args.length >= 2 || !cNode.action || !cNode.action.operation || translate[token.value] < translate[cNode.action.operation]) {
-                        cNode = node(token.value, [cNode]);
-                    } else {
-                        cNode.args.push(node(token.type, [token]));
-                        cNode.args.push(process());
-                    }
-                }
-            }
-            return cNode;
-        }
-
         return processHangLine(tokens);
     }
 

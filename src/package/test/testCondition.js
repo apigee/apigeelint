@@ -51,7 +51,12 @@ test("b=c and d=e", "valid");
 test("(b=c) and (d=e)", "valid");
 test("true AND false", "absurdity");
 test("(a = b) and (b=c) and (a!=c)", "absurdity");
-test("(a STARTSWITH b OR c=d) AND (d=c OR x=y) AND a!=b and c=e and e=d and c!=d", "valid");
+test("(a = b OR c=d) AND a!=b AND c!=d", "absurdity");
+
+//est("a StartsWith \"foo\" AND a =\"foobar\"", "valid");
+//test("a StartsWith \"foo\" AND a !=\"foobar\"", "valid");
+
+test("(a StartsWith b OR c=d) AND (d=c OR x=y) AND a!=b and c=e and e=d and c!=d", "absurdity");
 test("b and b", "valid");
 test("(b and b)", "valid");
 test("((b and b))", "valid");
@@ -63,3 +68,5 @@ test("((b) and !(b))", "absurdity");
 test("b and !b", "absurdity");
 test("(b=1) and (b!=1)", "absurdity");
 test("request.verb=\"POST\" and request.verb!=\"POST\"", "absurdity");
+test("(req.pin.value ~~ \"[0-9][0-9][0-9][0-9]\")", "valid");
+test("req.pin.value=\"\" or req.pin.value=null or not (req.pin.value ~~ \"[0-9][0-9][0-9][0-9]\")", "valid");

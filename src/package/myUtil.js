@@ -17,6 +17,7 @@ function buildTagBreadCrumb(doc) {
 }
 
 function getFileName(obj) {
+    if (!obj) return ("filename undefined");
     if (obj.fileName) {
         return obj.fileName;
     } else {
@@ -28,10 +29,10 @@ function getFileName(obj) {
 function processTagsFromFolder(folder, tag, bundle, processFunction) {
     if (fs.existsSync(folder)) {
         var files = fs.readdirSync(folder);
-        files.forEach(function(proxyFile) {
+        files.forEach(function (proxyFile) {
             var fname = folder + proxyFile;
             var doc = xpath.select(tag, new Dom().parseFromString(fs.readFileSync(fname).toString()));
-            doc.forEach(function(element) { processFunction(element, fname, bundle); });
+            doc.forEach(function (element) { processFunction(element, fname, bundle); });
         });
     }
 }
