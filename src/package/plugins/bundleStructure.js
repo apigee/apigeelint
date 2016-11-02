@@ -2,6 +2,13 @@
 //for every policy check fileName per Apigee recommendations
 //for every policy check if fileName matches policyName
 //plugin methods and variables
+var root, plugin = {
+    code: "BN001",
+    name: "Bundle Structure",
+    description: "Check bundle structure, bundles have a specific structure, extra folder or files may be problematic.",
+    warnings: []
+}, fs = require("fs");
+
 function eq(lh, rh) {
     return lh === rh;
 }
@@ -79,60 +86,51 @@ function checkNode(node, warn, curRoot) {
     });
 }
 
-var plugin = {
-    code: "BN001",
-    name: "Bundle Structure",
-    description: "Check bundle structure, bundles have a specific structure, extra folder or files may be problematic.",
-    warnings: []
-},
-    bundleStructure = {
-        name: "apiproxy",
-        files: { extensions: ["xml", "md"], maxCount: 1 },
-        folders: [
-            { name: "policies", required: false, files: { extensions: ["xml"] } },
-            { name: "stepdefinitions", required: false, files: { extensions: ["xml"] } },
-            { name: "proxies", required: true, files: { extensions: ["xml", "flowfrag"] } },
-            { name: "targets", required: false, files: { extensions: ["xml"] } }, {
-                name: "resources",
+var bundleStructure = {
+    name: "apiproxy",
+    files: { extensions: ["xml", "md"], maxCount: 1 },
+    folders: [
+        { name: "policies", required: false, files: { extensions: ["xml"] } },
+        { name: "stepdefinitions", required: false, files: { extensions: ["xml"] } },
+        { name: "proxies", required: true, files: { extensions: ["xml", "flowfrag"] } },
+        { name: "targets", required: false, files: { extensions: ["xml"] } }, {
+            name: "resources",
+            required: false,
+            folders: [{
+                name: "jsc",
                 required: false,
-                folders: [{
-                    name: "jsc",
-                    required: false,
-                    files: { extensions: ["js", "jsc", "json"] },
-                    folders: { any: true }
-                }, {
-                    name: "java",
-                    required: false,
-                    files: {
-                        extensions: ["jar", "properties", "inf"]
-                    },
-                    folders: { any: true }
-                }, {
-                    name: "py",
-                    required: false,
-                    files: {
-                        extensions: ["py", ""]
-                    }
-                }, {
-                    name: "xsl",
-                    required: false,
-                    files: {
-                        extensions: ["xslt", "xsl"]
-                    }
-                }, {
-                    name: "node",
-                    required: false,
-                    files: {
-                        extensions: ["js", "jsc", "json", "zip", "png", "jpg", "jpeg", "css", "ejs", "eot", "svg", "ttf", "woff", "html", "htm"]
-                    },
-                    folders: { any: true }
-                }]
-            }
-        ]
-    },
-    root,
-    fs = require("fs"),
-    myUtil = require("../myUtil.js"),
+                files: { extensions: ["js", "jsc", "json"] },
+                folders: { any: true }
+            }, {
+                name: "java",
+                required: false,
+                files: {
+                    extensions: ["jar", "properties", "inf"]
+                },
+                folders: { any: true }
+            }, {
+                name: "py",
+                required: false,
+                files: {
+                    extensions: ["py", ""]
+                }
+            }, {
+                name: "xsl",
+                required: false,
+                files: {
+                    extensions: ["xslt", "xsl"]
+                }
+            }, {
+                name: "node",
+                required: false,
+                files: {
+                    extensions: ["js", "jsc", "json", "zip", "png", "jpg", "jpeg", "css", "ejs", "eot", "svg", "ttf", "woff", "html", "htm"]
+                },
+                folders: { any: true }
+            }]
+        }
+    ]
+},
     onBundle = function (bundle) {
         plugin.warnings = [];
         root = bundle.root + "/" + bundle.proxyRoot;
@@ -140,8 +138,7 @@ var plugin = {
         if (plugin.warnings.length > 0) {
             bundle.warn(plugin);
         }
-    },
-    path = require("path");
+    };
 
 module.exports = {
     plugin,

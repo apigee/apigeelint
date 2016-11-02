@@ -1,7 +1,6 @@
 //checkConditionTruth.js
 
-var myUtil = require("../myUtil.js"),
-    name = "Check truth table of a condition.",
+var name = "Check truth table of a condition.",
     description = "Conditions that can never be true should be avoided.";
 
 var onCondition = function (condition) {

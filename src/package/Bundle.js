@@ -5,17 +5,14 @@ var myUtil = require("./myUtil.js"),
     FindFolder = require("node-find-folder"),
     fs = require("fs"),
     path = require("path"),
-    Step = require("./Step.js"),
     Resource = require("./Resource.js"),
     Policy = require("./Policy.js"),
-    Endpoint = require("./Endpoint.js"),
-    xpath = require("xpath"),
-    Dom = require("xmldom").DOMParser;
+    Endpoint = require("./Endpoint.js");
 
 function buildProxyEndpoints(bundle) {
     var folder = bundle.proxyRoot + "/proxies/",
         tag = "ProxyEndpoint",
-        processFunction = function(element, fname, bundle) {
+        processFunction = function (element, fname, bundle) {
             bundle.proxyEndpoints = bundle.proxyEndpoints || [];
             bundle.proxyEndpoints.push(new Endpoint(element, bundle, fname));
         };
@@ -25,7 +22,7 @@ function buildProxyEndpoints(bundle) {
 function buildTargetEndpoints(bundle) {
     var folder = bundle.proxyRoot + "/targets/",
         tag = "TargetEndpoint",
-        processFunction = function(element, fname, bundle) {
+        processFunction = function (element, fname, bundle) {
             bundle.targetEndpoints = bundle.targetEndpoints || [];
             bundle.targetEndpoints.push(new Endpoint(element, bundle, fname));
         };
@@ -35,9 +32,9 @@ function buildTargetEndpoints(bundle) {
 function buildPolicies(bundle) {
     //get the list of policies and create the policy objects
     var files = fs.readdirSync(bundle.proxyRoot + "/policies");
-    files.forEach(function(policyFile) {
+    files.forEach(function (policyFile) {
         var ext = policyFile.split(".").pop();
-        if(ext === "xml") {
+        if (ext === "xml") {
             bundle.policies.push(new Policy(bundle.proxyRoot + "/policies", policyFile, bundle));
         }
     });
@@ -47,7 +44,7 @@ function _buildResources(parent, path, resources) {
     //given the passed path append resources
     //if the path is dir then recurse
     var files = fs.readdirSync(path);
-    files.forEach(function(policyFile) {
+    files.forEach(function (policyFile) {
         if (fs.statSync(path + "/" + policyFile).isDirectory()) {
             _buildResources(parent, path + "/" + policyFile, resources);
         } else if (policyFile !== ".DS_Store") {
@@ -78,15 +75,15 @@ var init = {
         bundle.root = path.resolve(config.source.path);
         bundle.policies = [];
         bundle.messages = { warnings: [], errors: [] };
-        bundle.warn = function(msg) {
+        bundle.warn = function (msg) {
             return this.messages.warnings.push(msg);
         };
-        bundle.err = function(msg) {
+        bundle.err = function (msg) {
             return this.messages.errors.push(msg);
         };
         var folders = new FindFolder("apiproxy");
 
-        folders.some(function(folder) {
+        folders.some(function (folder) {
             if (folder.indexOf("target/") === -1) {
                 bundle.proxyRoot = folder;
                 return;
@@ -105,9 +102,9 @@ function Bundle(config) {
 }
 
 
-Bundle.prototype.getPolicyByName = function(pname) {
+Bundle.prototype.getPolicyByName = function (pname) {
     var result;
-    this.policies.some(function(policy) {
+    this.policies.some(function (policy) {
         if (policy.getName() === pname) {
             result = policy;
             return true;
@@ -116,52 +113,52 @@ Bundle.prototype.getPolicyByName = function(pname) {
     return result;
 };
 
-Bundle.prototype.onResources = function(pluginFunction) {
+Bundle.prototype.onResources = function (pluginFunction) {
     if (this.resources) {
         this.resources.forEach(pluginFunction);
     }
 };
 
-Bundle.prototype.onPolicies = function(pluginFunction) {
+Bundle.prototype.onPolicies = function (pluginFunction) {
     if (this.policies) {
         this.policies.forEach(pluginFunction);
     }
 };
 
 
-Bundle.prototype.onSteps = function(pluginFunction) {
-    this.getProxyEndpoints() && this.getProxyEndpoints().forEach(function(ep) { ep.onSteps(pluginFunction); });
-    this.getTargetEndpoints() && this.getTargetEndpoints().forEach(function(ep) { ep.onSteps(pluginFunction); });
+Bundle.prototype.onSteps = function (pluginFunction) {
+    this.getProxyEndpoints() && this.getProxyEndpoints().forEach(function (ep) { ep.onSteps(pluginFunction); });
+    this.getTargetEndpoints() && this.getTargetEndpoints().forEach(function (ep) { ep.onSteps(pluginFunction); });
 };
 
-Bundle.prototype.onConditions = function(pluginFunction) {
-    this.getProxyEndpoints() && this.getProxyEndpoints().forEach(function(ep) { ep.onConditions(pluginFunction); });
-    this.getTargetEndpoints() && this.getTargetEndpoints().forEach(function(ep) { ep.onConditions(pluginFunction); });
+Bundle.prototype.onConditions = function (pluginFunction) {
+    this.getProxyEndpoints() && this.getProxyEndpoints().forEach(function (ep) { ep.onConditions(pluginFunction); });
+    this.getTargetEndpoints() && this.getTargetEndpoints().forEach(function (ep) { ep.onConditions(pluginFunction); });
 };
 
-Bundle.prototype.onResources = function(pluginFunction) {
-    this.getResources() && this.getResources().forEach(function(re) { re.onResources(pluginFunction); });
+Bundle.prototype.onResources = function (pluginFunction) {
+    this.getResources() && this.getResources().forEach(function (re) { re.onResources(pluginFunction); });
 };
 
-Bundle.prototype.onProxyEndpoints = function(pluginFunction) {
+Bundle.prototype.onProxyEndpoints = function (pluginFunction) {
     var eps = this.getProxyEndpoints();
     if (eps) {
-        eps.forEach(function(ep) {
+        eps.forEach(function (ep) {
             pluginFunction(ep);
         });
     }
 };
 
-Bundle.prototype.onTargetEndpoints = function(pluginFunction) {
+Bundle.prototype.onTargetEndpoints = function (pluginFunction) {
     var eps = this.getTargetEndpoints();
     if (eps) {
-        eps.forEach(function(ep) {
+        eps.forEach(function (ep) {
             pluginFunction(ep);
         });
     }
 };
 
-Bundle.prototype.getProxyEndpoints = function() {
+Bundle.prototype.getProxyEndpoints = function () {
 
     if (!this.proxyEndpoints) {
         buildProxyEndpoints(this);
@@ -169,14 +166,14 @@ Bundle.prototype.getProxyEndpoints = function() {
     return this.proxyEndpoints;
 };
 
-Bundle.prototype.getTargetEndpoints = function() {
+Bundle.prototype.getTargetEndpoints = function () {
     if (!this.targetEndpoints) {
         buildTargetEndpoints(this);
     }
     return this.targetEndpoints;
 };
 
-Bundle.prototype.getEndpoints = function() {
+Bundle.prototype.getEndpoints = function () {
     if (!this.endpoints) {
         this.endpoints = this.getProxyEndpoints();
         this.endpoints.concat(this.getTargetEndpoints());
@@ -184,21 +181,21 @@ Bundle.prototype.getEndpoints = function() {
     return this.endpoints;
 };
 
-Bundle.prototype.getResources = function() {
+Bundle.prototype.getResources = function () {
     if (!this.resources) {
         buildResources(this);
     }
     return this.resources;
 };
 
-Bundle.prototype.getPolicies = function() {
+Bundle.prototype.getPolicies = function () {
     if (!this.policies) {
         buildPolicies(this);
     }
     return this.policies;
 };
 
-Bundle.prototype.summarize = function() {
+Bundle.prototype.summarize = function () {
     var summary = {
         messages: this.messages,
         root: this.root,
@@ -207,27 +204,27 @@ Bundle.prototype.summarize = function() {
 
     summary.proxyEndpoints = [];
     if (this.getProxyEndpoints()) {
-        this.getProxyEndpoints().forEach(function(ep) {
+        this.getProxyEndpoints().forEach(function (ep) {
             summary.proxyEndpoints.push(ep.summarize());
         });
     }
     summary.targetEndpoints = [];
     if (this.getTargetEndpoints()) {
-        this.getTargetEndpoints().forEach(function(ep) {
+        this.getTargetEndpoints().forEach(function (ep) {
             summary.targetEndpoints.push(ep.summarize());
         });
     }
 
     summary.resources = [];
     if (this.getResources()) {
-        this.getResources().forEach(function(re) {
+        this.getResources().forEach(function (re) {
             summary.resources.push(re.summarize());
         });
     }
 
     summary.policies = [];
     if (this.getPolicies()) {
-        this.getPolicies().forEach(function(po) {
+        this.getPolicies().forEach(function (po) {
             summary.policies.push(po.summarize());
         });
     }

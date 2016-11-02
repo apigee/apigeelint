@@ -12,12 +12,11 @@ function rBuildTagBreadCrumb(doc, bc) {
 }
 
 function buildTagBreadCrumb(doc) {
-    var result = rBuildTagBreadCrumb(doc, "");
     return rBuildTagBreadCrumb(doc, "");
 }
 
 function getFileName(obj) {
-    if (!obj) return ("filename undefined");
+    if (!obj) { return ("filename undefined"); }
     if (obj.fileName) {
         return obj.fileName;
     } else {
@@ -53,11 +52,6 @@ function inspect(obj, showHidden) {
     showHidden = showHidden && true;
     console.log(util.inspect(obj, { showHidden, depth: 9, maxArrayLength: 10 }));
 }
-
-function warn(msg) {
-    print(msg);
-}
-
 
 function getStackTrace(e) {
     return e.stack.replace(/^[^\(]+?[\n$]/gm, "")

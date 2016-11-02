@@ -1,8 +1,7 @@
 var name = "Unreachable Route Rules - empty last",
-    description = "Check RouteRules in a ProxyEndpoint to ensure that empty condition is last.",
-    myUtil = require("../myUtil.js");
+    description = "Check RouteRules in a ProxyEndpoint to ensure that empty condition is last.";
 
-var onProxyEndpoint = function(ep) {
+var onProxyEndpoint = function (ep) {
     var routeRules = ep.getRouteRules() || [];
     for (var i = routeRules.length - 2; i >= 0; i--) {
         var c = routeRules[i].getCondition() || "";

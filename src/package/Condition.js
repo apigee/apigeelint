@@ -1,11 +1,5 @@
 //Condition.js
 
-//Private
-var fs = require("fs"),
-    xpath = require("xpath"),
-    Dom = require("xmldom").DOMParser,
-    myUtil = require("./myUtil.js");
-
 function Condition(element, parent) {
     this.parent = parent;
     this.element = element;
@@ -380,17 +374,16 @@ Condition.prototype.getConstants = function () {
 Condition.prototype.getAST = function () {
 
     function processAST(tokens) {
-        var tree = { args: [] },
-            translate = {
-                //highest precedence is 0 
-                "!": { operation: "negation", precedence: 0 },
-                "|": { operation: "disjunction", precedence: 3 },
-                "&": { operation: "conjunction", precedence: 3 },
-                "->": { operation: "implication", precedence: 2 },
-                "<->": { operation: "equivalence", precedence: 1 },
-                "!!": { operation: "notEquivalence", precedence: 1 },
-                "=|": { operation: "startsWith", precedence: 1 }
-            }, curToken = 0;
+        var translate = {
+            //highest precedence is 0 
+            "!": { operation: "negation", precedence: 0 },
+            "|": { operation: "disjunction", precedence: 3 },
+            "&": { operation: "conjunction", precedence: 3 },
+            "->": { operation: "implication", precedence: 2 },
+            "<->": { operation: "equivalence", precedence: 1 },
+            "!!": { operation: "notEquivalence", precedence: 1 },
+            "=|": { operation: "startsWith", precedence: 1 }
+        };
 
         function node(action, args) {
             var r = {
@@ -422,7 +415,7 @@ Condition.prototype.getAST = function () {
 
         function processHangLine(tokenSeg) {
             //if not tokens to process return undefined
-            if (tokenSeg.length === 0) return;
+            if (tokenSeg.length === 0) { return; }
             //clean up if this is exclusively bounded remove boundaries
             tokenSeg = cleanTokens(tokenSeg);
             //for the set of tokens passed in
@@ -454,7 +447,7 @@ Condition.prototype.getAST = function () {
                         rhTokens = tokenSeg.slice(maxIndex + 1),
                         rightHand = processHangLine(rhTokens, cNode);
                     if (leftHand) { cNode.args.push(leftHand); }
-                    if (rightHand) { cNode.args.push(rightHand); } node
+                    if (rightHand) { cNode.args.push(rightHand); }
                     return cNode;
                 }
             }
@@ -469,13 +462,12 @@ Condition.prototype.getAST = function () {
                 //truncate the first term
                 return processHangLine(tokenSeg.slice(1));
             } else if (tokenSeg[0].value === "!") {
-                var cNode = node("negation", []),
-                    rhTokens = tokenSeg.slice(1),
-                    rightHand = processHangLine(rhTokens);
-                if (rightHand) { cNode.args.push(rightHand); }
-                return cNode;
+                var nNode = node("negation", []),
+                    nrhTokens = tokenSeg.slice(1),
+                    nrightHand = processHangLine(nrhTokens);
+                if (nrightHand) { nNode.args.push(nrightHand); }
+                return nNode;
             } else {
-                debugger;
                 throw new Error("no token translation executed for " + JSON.stringify(tokenSeg[0]));
             }
         }

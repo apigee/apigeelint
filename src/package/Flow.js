@@ -4,7 +4,6 @@
 var xpath = require("xpath"),
     FlowPhase = require("./FlowPhase.js"),
     Condition = require("./Condition.js"),
-    Dom = require("xmldom").DOMParser,
     myUtil = require("./myUtil.js"),
     debug = require("debug")("bundlelinter:Flow");
 

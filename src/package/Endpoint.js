@@ -1,14 +1,10 @@
 //Endpoint.js
 
 //Private
-var Step = require("./Step.js"),
-    Policy = require("./Policy.js"),
-    Flow = require("./Flow.js"),
-    FlowPhase = require("./FlowPhase.js"),
+var Flow = require("./Flow.js"),
     RouteRule = require("./RouteRule.js"),
     FaultRule = require("./FaultRule.js"),
     xpath = require("xpath"),
-    Dom = require("xmldom").DOMParser,
     myUtil = require("./myUtil.js"),
     debug = require("debug")("bundlelinter:Endpoint");
 

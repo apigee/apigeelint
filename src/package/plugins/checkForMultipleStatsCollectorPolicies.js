@@ -206,7 +206,7 @@ function allStepsHaveCondition(policy) {
     debug(policy.getName() + " is not attached to any steps.");
     result = false;
   }
-  if (result) { debug("all the steps to which " + policy.getName() + " is attached have a condition.") };
+  if (result) { debug("all the steps to which " + policy.getName() + " is attached have a condition."); }
   return result;
 }
 
