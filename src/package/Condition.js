@@ -7,35 +7,35 @@ var fs = require("fs"),
     myUtil = require("./myUtil.js");
 
 function Condition(element, parent) {
-    this.parent = parent;
+    //this.parent = parent;
     this.element = element;
 }
 
-Condition.prototype.getExpression = function() {
+Condition.prototype.getExpression = function () {
     return this.element.childNodes && this.element.childNodes[0] && this.element.childNodes[0].nodeValue || "";
 };
 
-Condition.prototype.getElement = function() {
+Condition.prototype.getElement = function () {
     return this.element;
 };
 
-Condition.prototype.getParent = function() {
+Condition.prototype.getParent = function () {
     return this.parent;
 };
 
-Condition.prototype.warn = function(msg) {
+Condition.prototype.warn = function (msg) {
     this.parent.warn(msg);
 };
 
-Condition.prototype.err = function(msg) {
+Condition.prototype.err = function (msg) {
     this.parent.err(msg);
 };
 
-Condition.prototype.onConditions = function(pluginFunction) {
+Condition.prototype.onConditions = function (pluginFunction) {
     pluginFunction(this);
 };
 
-Condition.prototype.summarize = function() {
+Condition.prototype.summarize = function () {
     var summary = {};
     summary.condition = this.getExpression();
     return summary;
@@ -45,7 +45,7 @@ function interpret(tree, substitutions) {
     var iTree = JSON.parse(JSON.stringify(tree));
     var actions = {
         substitution(args) {
-            var result = { value: !!args[0].value, type: args[0].type, expressionValue: args[0].value, parent: args[0].parent };
+            var result = { value: !!args[0].value, type: args[0].type, expressionValue: args[0].value }; //, parent: args[0].parent };
             if (args[0].type === "variable") {
                 result.value = substitutions[args[0].value];
             } else if (args[0].type === "constant") {
@@ -54,8 +54,7 @@ function interpret(tree, substitutions) {
                 }
             }
             return result;
-        },
-        negation(args) {
+        }, negation(args) {
             var result = { value: !args[0].value };
             return result;
         },
@@ -82,13 +81,19 @@ function interpret(tree, substitutions) {
     };
 
     function process(node) {
-        debugger;
-
         var action = node.action,
             args = node.args;
 
         for (var i = 0; i < args.length; i++) {
             if (args[i] && args[i].args) { args[i] = process(args[i]); }
+        }
+        if (action.value && action.value === "!") {
+            action = "negation";
+        } else if (action.value && action.value === "equivalence") {
+            action = "equivalence";
+        }
+        if (!actions[action]) {
+            console.log(action);
         }
         node.result = actions[action](args);
         return node.result;
@@ -99,11 +104,11 @@ function interpret(tree, substitutions) {
 }
 
 function getInitializator(variables) {
-    return function() {
+    return function () {
         var substitutions = {},
             values = arguments;
 
-        variables.forEach(function(primitive, index) {
+        variables.forEach(function (primitive, index) {
             substitutions[primitive.value] = !!values[index];
         });
 
@@ -117,7 +122,7 @@ function _evaluate(evaluation, tree, vars) {
     return result;
 }
 
-Condition.prototype.getTruthTable = function() {
+Condition.prototype.getTruthTable = function () {
     var vars = this.getVariables(),
         combinations = generateCombinations(vars.length),
         truthTable = { expression: this.getExpression(), evaluations: [] },
@@ -134,7 +139,7 @@ Condition.prototype.getTruthTable = function() {
 
     //based on the values in truth table assess validity
     var trueCount = 0;
-    truthTable.evaluations.forEach(function(run) {
+    truthTable.evaluations.forEach(function (run) {
         trueCount += 0 + run.evaluation;
     });
     truthTable.evaluation = (trueCount === 0) ? "absurdity" : "valid";
@@ -142,7 +147,7 @@ Condition.prototype.getTruthTable = function() {
     return truthTable;
 };
 
-Condition.prototype.getTokens = function() {
+Condition.prototype.getTokens = function () {
     var pointer = 0,
         tokens = [],
         c = "",
@@ -335,107 +340,153 @@ function getTokensByType(tokens, type) {
             result.push(tokens[i]);
         }
     }
-    result.sort(function(a, b) {
+    result.sort(function (a, b) {
         return a.value > b.value ? 1 : -1;
-    }).filter(function(item, index, arr) {
+    }).filter(function (item, index, arr) {
         return arr.indexOf(item) === index;
     });
     return result;
 }
 
-Condition.prototype.getVariables = function() {
+Condition.prototype.getVariables = function () {
     if (!this.variables) {
         this.variables = getTokensByType(this.getTokens(), "variable");
     }
     return this.variables;
 };
 
-Condition.prototype.getConstants = function() {
+Condition.prototype.getConstants = function () {
     if (!this.constants) {
         this.constants = getTokensByType(this.getTokens(), "constants");
     }
     return this.constants;
 };
 
-Condition.prototype.getAST = function() {
-    var tokens = this.getTokens(),
-        curToken = 0,
-        translate = {
-            "!": "negation",
-            "|": "disjunction",
-            "&": "conjunction",
-            "->": "implication",
-            "<->": "equivalence",
-            "!!": "notEquivalence"
-        };
+Condition.prototype.getAST = function () {
 
-    function process(operation) {
+    function processAST(tokens) {
+        var tree = { args: [] },
+            translate = {
+                //highest precedence is 0 
+                "!": { operation: "negation", precedence: 0 },
+                "|": { operation: "disjunction", precedence: 1 },
+                "&": { operation: "conjunction", precedence: 1 },
+                "->": { operation: "implication", precedence: 2 },
+                "<->": { operation: "equivalence", precedence: 3 },
+                "!!": { operation: "notEquivalence", precedence: 3 }
+            }, curToken = 0;
 
-        operation = operation || null;
-        var args = [],
-            node = function(action, args, parent) {
-                return {
-                    action: translate[action] || action,
-                    args,
-                    parent
-                };
-            },
-            isUnary = function(op) {
-                return op === "!";
+        function node(action, args) {
+            var r = {
+                action,
+                args
             };
+            if (translate[action]) {
+                r.action = translate[action].operation;
+            }
+            return r;
+        }
 
-
-        var token;
-
-        for (; curToken < tokens.length; curToken++) {
-            token = tokens[curToken];
-            if (token.type === "boundary") {
-                if (token.value === "(") {
-                    curToken++;
-                    var result = process();
-                    if (result.action === null && result.args.length === 1) {
-                        args.push(result.args[0]);
-                    } else {
-                        args.push(result);
+        function cleanTokens(tokens) {
+            if (tokens.length && tokens[0].value === "(" && tokens[tokens.length - 1].value === ")") {
+                var trim = true;
+                for (var i = 1; i < tokens.length - 1; i++) {
+                    if (tokens[i].type === "boundary") {
+                        trim = false;
+                        break;
                     }
-                } else if (token.value === ")") {
-                    return node(operation, args, token);
                 }
-            } else if (token.type === "variable" || token.type === "constant") {
-                args.push(node("substitution", [token], token));
-                if (isUnary(operation)) {
-                    debugger;
-                    if (operation === null && args.length === 1) {
-                        return args[0];
+                if (trim) {
+                    tokens = cleanTokens(tokens.slice(1, tokens.length - 1));
+                }
+
+            }
+            return tokens;
+        }
+
+        function processHangLine(tokenSeg) {
+            //if not tokens to process return undefined
+            if (tokenSeg.length === 0) return;
+            //clean up if this is exclusively bounded remove boundaries
+            tokenSeg = cleanTokens(tokenSeg);
+            //for the set of tokens passed in
+            //find the midpoint operation by precedence
+            //then call processHangLine for the LH and RH
+            //scan left to right to find the precednece center IF we have more than 3 tokens
+            if (tokenSeg.length > 1) {
+                var maxIndex, max = -1;
+                for (var i = 0; i < tokenSeg.length; i++) {
+                    if (tokenSeg[i].type === "operator" && (!max || translate[tokenSeg[i].value].precedence > max)) {
+                        maxIndex = i;
+                        max = translate[tokenSeg[i].value].precedence;
+                    } else if (tokenSeg[i].type === "boundary") {
+                        //handle boundaries - essentially we want to reset the max on the open paren
+                        if (tokenSeg[i].value === "(") {
+                            //fast forward to the closing boundary
+                            while (tokenSeg[i].value !== ")") { i++; }
+                        }
                     }
-                    return node(operation, args, token);
                 }
-            } else if (token.type === "operator") {
-                if (isUnary(token.value)) {
-                    debugger;
-                    curToken++;
-                    var t = process(token);
-                    args.push(t);
-                    operation = t.action.value;
-                    continue;
+
+                if (maxIndex) {
+                    //we need to create a node from the max index
+                    var cNode = node(tokenSeg[maxIndex].value, []),
+                        lhTokens = tokenSeg.slice(0, maxIndex),
+                        leftHand = processHangLine(lhTokens),
+                        rhTokens = tokenSeg.slice(maxIndex + 1),
+                        rightHand = processHangLine(rhTokens);
+                    if (leftHand) { cNode.args.push(leftHand); }
+                    if (rightHand) { cNode.args.push(rightHand); }
+                    return cNode;
                 }
-                if (operation) {
-                    var tmp = args.slice(0);
-                    args = [];
-                    args.push(node(operation, tmp, token));
-                }
-                operation = token.value;
+            }
+
+            if (tokenSeg[0].type === "variable" || tokenSeg[0].type === "constant") {
+                return node("substitution", [tokenSeg[0]]);
+            } else if (tokenSeg[0].type === "boundary") {
+                //condition here is no operator with boundary
+                //truncate the first term
+                return processHangLine(tokenSeg.slice(1));
+            } else if (tokenSeg[0].value === "!") {
+                var cNode = node("negation", []),
+                    rhTokens = tokenSeg.slice(1),
+                    rightHand = processHangLine(rhTokens);
+                if (rightHand) { cNode.args.push(rightHand); }
+                return cNode;
+            } else {
+                throw new Error("no token translation executed for " + JSON.stringify(tokenSeg[0]));
             }
         }
-        if (operation === null && args.length === 1) {
-            //this needs to be converted to a node
-            return args[0];
+
+        function process() {
+            var token, cNode;
+            while (curToken < tokens.length) {
+                token = tokens[curToken];
+                curToken++;
+                if (token.type === "variable" || token.type === "constant") {
+                    //add this to the left hand or right hand of the current node
+                    if (!cNode) cNode = { args: [] };
+                    cNode.args.push(node(token.type, [token]));
+                } else if (token.type === "operator") {
+                    //when we come across a new operator
+                    //we either drop it down or make it parent
+                    //based on precedence
+                    if (cNode.args.length >= 2 || !cNode.action || !cNode.action.operation || translate[token.value] < translate[cNode.action.operation]) {
+                        cNode = node(token.value, [cNode]);
+                    } else {
+                        cNode.args.push(node(token.type, [token]));
+                        cNode.args.push(process());
+                    }
+                }
+            }
+            return cNode;
         }
-        return node(operation, args, token);
+
+        return processHangLine(tokens);
     }
 
     if (!this.ast) {
-        this.ast = process();
+        this.ast = processAST(this.getTokens());
     }
     return this.ast;
 };
