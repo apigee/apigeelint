@@ -8,8 +8,7 @@ var onCondition = function (condition) {
     if (truthTable.evaluation !== "valid") {
         condition.warn({
             name: "Condition " + " \"" + condition.getExpression() + "\" has a truth table issue.",
-            guidance: "Review conditional, simplify if possible. Steps, Flow, Routerules, etc with a conditional that can never evaluate to True are considered dead code.",
-            truthTable
+            guidance: "Review conditional, simplify if possible. Steps, Flow, Routerules, etc with a conditional that can never evaluate to True are considered dead code."
         });
     }
 };

@@ -125,28 +125,35 @@ function _evaluate(evaluation, tree, vars) {
     return result;
 }
 
-Condition.prototype.getTruthTable = function () {
-    var vars = this.getVariables(),
-        combinations = generateCombinations(vars.length),
-        truthTable = { expression: this.getExpression(), evaluations: [] },
-        tree = this.getAST();
+Condition.prototype.getTruthTable = function (cb) {
+    var c = this;
 
-    for (var i = 0, count = Math.pow(2, vars.length); i < count; i++) {
-        var run = {
-            substitutions: combinations[i],
-            evaluation: _evaluate(combinations[i], tree, vars).value,
-        };
-        truthTable.evaluations.push(run);
+    function process(tree) {
+        var vars = c.getVariables(),
+            combinations = generateCombinations(vars.length),
+            truthTable = { expression: c.getExpression(), evaluations: [] };
+
+        for (var i = 0, count = Math.pow(2, vars.length); i < count; i++) {
+            var run = {
+                substitutions: combinations[i],
+                evaluation: _evaluate(combinations[i], tree, vars).value,
+            };
+            truthTable.evaluations.push(run);
+        }
+        //based on the values in truth table assess validity
+        var trueCount = 0;
+        truthTable.evaluations.forEach(function (run) {
+            trueCount += 0 + run.evaluation;
+        });
+        truthTable.evaluation = (trueCount === 0) ? "absurdity" : "valid";
+        return truthTable;
     }
 
-    //based on the values in truth table assess validity
-    var trueCount = 0;
-    truthTable.evaluations.forEach(function (run) {
-        trueCount += 0 + run.evaluation;
-    });
-    truthTable.evaluation = (trueCount === 0) ? "absurdity" : "valid";
-
-    return truthTable;
+    if (!this.truthTable) {
+        this.truthTable = process(this.getAST(process));
+    }
+    if (cb) { cb(this.truthTable); }
+    return this.truthTable;
 };
 
 Condition.prototype.getTokens = function () {
@@ -198,7 +205,8 @@ Condition.prototype.getTokens = function () {
     }
 
     function isVariable(c) {
-        return /[A-Za-z]/.test(c);
+        var isVar = /[A-Za-z_]/.test(c);
+        return /[A-Za-z_]/.test(c);
     }
 
     function isSpecial(c) {
@@ -217,7 +225,8 @@ Condition.prototype.getTokens = function () {
                 return true;
             }
         }
-        return /[0-9\"\"]/.test(c);
+        var regtest = (/^[0-9]*$/.test(c)) || /[\"]/.test(c);
+        return regtest;
     }
 
     function isExpressionBoundary(c) {
@@ -234,6 +243,26 @@ Condition.prototype.getTokens = function () {
 
     if (!this.tokens) {
         var expression = this.getExpression();
+        //scan for open and close quotes
+        //a close quote should always be followed by a space
+        var closeQuote = true, modified = true;
+        while (modified) {
+            modified = false;
+            for (var i = 0, len = expression.length; i < len; i++) {
+                if (expression[i] === "\"") {
+                    closeQuote = !closeQuote;
+                    if (closeQuote) {
+                        if (i + 1 < expression.length && expression[i + 1] !== " ") {
+                            expression = expression.slice(0, i + 1) + " " + expression.slice(i + 1);
+                            modified = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+
         expression = encodeQuotedChars(expression, "%");
         expression = encodeQuotedChars(expression, " ");
         expression = encodeQuotedChars(expression, "!");
@@ -271,6 +300,8 @@ Condition.prototype.getTokens = function () {
         expression = replaceAll(expression, " Like ", " ~ ");
         expression = replaceAll(expression, " MatchesPath ", " ~/ ");
         expression = replaceAll(expression, " LikePath ", " ~/ ");
+        expression = replaceAll(expression, " Starts ", " == ");
+        expression = replaceAll(expression, " StartsWith ", " == ");
         expression = replaceAll(expression, " Starts ", " =| ");
         expression = replaceAll(expression, " StartsWith ", " =| ");
         expression = replaceAll(expression, "(", " ( ");
@@ -372,7 +403,7 @@ Condition.prototype.getConstants = function () {
     return this.constants;
 };
 
-Condition.prototype.getAST = function () {
+Condition.prototype.getAST = function (cb) {
 
     function processAST(tokens) {
         var translate = {
@@ -447,7 +478,15 @@ Condition.prototype.getAST = function () {
                         leftHand = processHangLine(lhTokens, cNode),
                         rhTokens = tokenSeg.slice(maxIndex + 1),
                         rightHand = processHangLine(rhTokens, cNode);
-                    if (leftHand) { cNode.args.push(leftHand); }
+
+                    if (leftHand) {
+                        if (rightHand && rightHand.args[0].type === "constant") {
+                            if (leftHand.args) {
+                                leftHand.args[0].value += rightHand.args[0].value;
+                            }
+                        }
+                        cNode.args.push(leftHand);
+                    }
                     if (rightHand) { cNode.args.push(rightHand); }
                     return cNode;
                 }
@@ -478,6 +517,8 @@ Condition.prototype.getAST = function () {
     if (!this.ast) {
         this.ast = processAST(this.getTokens());
     }
+
+    if (cb) { cb(this.ast); }
     return this.ast;
 };
 
