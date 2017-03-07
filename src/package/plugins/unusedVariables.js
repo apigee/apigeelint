@@ -1,5 +1,4 @@
 var xpath = require("xpath");
-
 var name = "Unused variables",
     description = "Look for variables that were defined but not referenced";
 
@@ -41,14 +40,32 @@ var warnings = [];
 //       . post - response
 // TODO: inspect things referenced by steps to populate symbol table and check for bad var references.
 var onBundle = function (bundle) {
+
+    function processFlow(flow, localSymtab) {
+        if (flow.getFlowRequest()) {
+            evaluateSteps(flow.getFlowRequest().getSteps(), localSymtab);
+        }
+        if (flow.getFlowResponse()) {
+            evaluateSteps(flow.getFlowResponse().getSteps(), localSymtab);
+        }
+    }
+
+    function process(pt, localSymtab) {
+
+        if (pt.getPreFlow()) {
+            processFlow(pt.getPreFlow(), localSymtab);
+        }
+        pt.getFlows().forEach(function (flow) {
+            processFlow(flow, localSymtab)
+        });
+        if (pt.getPostFlow()) {
+            processFlow(pt.getPostFlow());
+        }
+    }
     glBundle = bundle;
     bundle.getProxyEndpoints().forEach(function (endpoint) {
         var localSymtab = [];
-        evaluateSteps(endpoint.getPreFlow().getFlowRequest().getSteps(), localSymtab);
-        endpoint.getFlows().forEach(function (flow) {
-            evaluateSteps(flow.getFlowRequest().getSteps(), localSymtab);
-        });
-        evaluateSteps(endpoint.getPostFlow().getFlowRequest().getSteps(), localSymtab);
+        process(endpoint, localSymtab);
 
         // TODO: evalute routrule conditions
 
@@ -59,28 +76,7 @@ var onBundle = function (bundle) {
             localSymtab = intermediateSymtab.slice(0); // reset the local symbol table
             usageMetrics = JSON.parse(JSON.stringify(intermediateUsage)); // reset usage for this iteration
 
-            // evaluate the target's inbound request flow(s)
-            evaluateSteps(target.getPreFlow().getFlowRequest().getSteps(), localSymtab);
-            target.getFlows().forEach(function (flow) {
-                evaluateSteps(flow.getFlowRequest().getSteps(), localSymtab);
-            });
-            evaluateSteps(target.getPostFlow().getFlowRequest().getSteps(), localSymtab);
-
-            // assume the target was called, evalute the response flow(s)
-            evaluateSteps(target.getPreFlow().getFlowResponse().getSteps(), localSymtab);
-            target.getFlows().forEach(function (flow) {
-                flow.getFlowResponse() && evaluateSteps(flow.getFlowResponse().getSteps(), localSymtab);
-            });
-            evaluateSteps(target.getPostFlow().getFlowResponse().getSteps(), localSymtab);
-
-            // finally, evalute the response flow(s) for the endpoint with this set of
-            // 	local symbols...
-            evaluateSteps(endpoint.getPreFlow().getFlowResponse().getSteps(), localSymtab);
-            endpoint.getFlows().forEach(function (flow) {
-                flow.getFlowResponse() && evaluateSteps(flow.getFlowResponse().getSteps(), localSymtab);
-            });
-            evaluateSteps(endpoint.getPostFlow().getFlowResponse().getSteps(), localSymtab);
-
+            process(target, localSymtab);
             localSymtab.forEach(function (symbol) {
                 if (!usageMetrics[symbol]) {
                     target.warn("Target flow defines but does not use symbol '" + symbol + "'");
@@ -89,6 +85,8 @@ var onBundle = function (bundle) {
         });
     });
 };
+
+
 
 // TODO: evalute where symbols are added, and record them in our symbol table.
 var evaluateSteps = function (steps, localSymtab) {

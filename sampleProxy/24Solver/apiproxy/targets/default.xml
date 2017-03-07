@@ -26,8 +26,4 @@
     <HTTPTargetConnection>
         <URL>http://api.foo.com/</URL>
     </HTTPTargetConnection>
-    <PostFlow name="PostFlow">
-        <Request/>
-        <Response/>
-    </PostFlow>
 </TargetEndpoint>
