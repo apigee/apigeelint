@@ -79,13 +79,15 @@ Policy.prototype.getSteps = function () {
                     var fps = [fl.getFlowRequest()];
                     fps.push(fl.getFlowResponse());
                     //fps.concat(fl.getFlowResponse());
-                    fps.forEach(function (fp) {
-                        fp.getSteps().forEach(function (st) {
-                            if (st.getName() === policyName) {
-                                debug("step " + st.getName() + " pushed onto steps array");
-                                steps.push(st);
-                            }
-                        });
+                    fps.forEach(function(fp) {
+                        if(fp){
+                          fp.getSteps().forEach(function(st) {
+                              if (st.getName() === policyName) {
+                                  debug("step " + st.getName() + " pushed onto steps array");
+                                  steps.push(st);
+                              }
+                          });
+                        }
                     });
                 });
             });
