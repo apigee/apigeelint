@@ -1,6 +1,5 @@
 var name = "jsHint",
     description = "Variables that are created should be used as conditions, assigned to messages or accessed in a resource callout.",
-    myUtil = require("../myUtil.js"),
     Resources = require("../Resource.js");
 
 //look at conditions
@@ -8,12 +7,12 @@ var name = "jsHint",
 //look at Resources
 
 
-var onResource = function(resource) {
+var onResource = function (resource) {
     var jshint = require("jshint");
     if (!jshint.JSHINT(resource.getContents())) {
         var errors = jshint.JSHINT.errors;
         //now walk through each error
-        errors.forEach(function(error) {
+        errors.forEach(function (error) {
             if (error.code !== "W087") {
                 resource.warn({
                     "name": "JSHint on file " + resource.getFileName() + " line " + error.line + " column " + error.character + " \"" + error.evidence + "\".",

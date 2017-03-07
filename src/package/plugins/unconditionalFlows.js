@@ -1,16 +1,17 @@
 //unconditionalFlows.js
 
-var name="Unconditional Flows",
-	description="Only one unconditional flow will be executed.  Error if more than one detected";
+var name = "Unconditional Flows",
+	description = "Only one unconditional flow will be executed.  Error if more than one detected";
 
-var searchUnconditionalFlowsInEndpoint = function ( endpoint) {
+var searchUnconditionalFlowsInEndpoint = function (endpoint) {
 	var unconditionalFlows = 0;
-	endpoint.getFlows() && endpoint.getFlows().forEach(function(fl) { 
-		if( ! fl.getCondition() || fl.getCondition().getExpression() === "") {
+	endpoint.getFlows() && endpoint.getFlows().forEach(function (fl) {
+		if (!fl.getCondition() || fl.getCondition().getExpression() === "") {
 			unconditionalFlows++;
 		}
 	});
-	if( unconditionalFlows > 0) {
+
+	if (unconditionalFlows > 0) {
 		endpoint.err("Endpoint " + endpoint.getProxyName() + " has too many uncondtional flows (" + unconditionalFlows + ").  Only one will be executed.");
 	}
 };

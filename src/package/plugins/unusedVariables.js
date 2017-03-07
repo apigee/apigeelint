@@ -40,12 +40,12 @@ var warnings = [];
 //       . flow - response
 //       . post - response
 // TODO: inspect things referenced by steps to populate symbol table and check for bad var references.
-var onBundle = function(bundle) {
+var onBundle = function (bundle) {
     glBundle = bundle;
-    bundle.getProxyEndpoints().forEach(function(endpoint) {
+    bundle.getProxyEndpoints().forEach(function (endpoint) {
         var localSymtab = [];
         evaluateSteps(endpoint.getPreFlow().getFlowRequest().getSteps(), localSymtab);
-        endpoint.getFlows().forEach(function(flow) {
+        endpoint.getFlows().forEach(function (flow) {
             evaluateSteps(flow.getFlowRequest().getSteps(), localSymtab);
         });
         evaluateSteps(endpoint.getPostFlow().getFlowRequest().getSteps(), localSymtab);
@@ -55,20 +55,20 @@ var onBundle = function(bundle) {
         var intermediateSymtab = localSymtab.slice(0); // don't update orig array references!
         var intermediateUsage = JSON.parse(JSON.stringify(usageMetrics)); // save usage metrics
         // iterate through routerules now ...
-        bundle.getTargetEndpoints().forEach(function(target) {
+        bundle.getTargetEndpoints().forEach(function (target) {
             localSymtab = intermediateSymtab.slice(0); // reset the local symbol table
             usageMetrics = JSON.parse(JSON.stringify(intermediateUsage)); // reset usage for this iteration
 
             // evaluate the target's inbound request flow(s)
             evaluateSteps(target.getPreFlow().getFlowRequest().getSteps(), localSymtab);
-            target.getFlows().forEach(function(flow) {
+            target.getFlows().forEach(function (flow) {
                 evaluateSteps(flow.getFlowRequest().getSteps(), localSymtab);
             });
             evaluateSteps(target.getPostFlow().getFlowRequest().getSteps(), localSymtab);
 
             // assume the target was called, evalute the response flow(s)
             evaluateSteps(target.getPreFlow().getFlowResponse().getSteps(), localSymtab);
-            target.getFlows().forEach(function(flow) {
+            target.getFlows().forEach(function (flow) {
                 flow.getFlowResponse() && evaluateSteps(flow.getFlowResponse().getSteps(), localSymtab);
             });
             evaluateSteps(target.getPostFlow().getFlowResponse().getSteps(), localSymtab);
@@ -76,26 +76,26 @@ var onBundle = function(bundle) {
             // finally, evalute the response flow(s) for the endpoint with this set of
             // 	local symbols...
             evaluateSteps(endpoint.getPreFlow().getFlowResponse().getSteps(), localSymtab);
-            endpoint.getFlows().forEach(function(flow) {
+            endpoint.getFlows().forEach(function (flow) {
                 flow.getFlowResponse() && evaluateSteps(flow.getFlowResponse().getSteps(), localSymtab);
             });
             evaluateSteps(endpoint.getPostFlow().getFlowResponse().getSteps(), localSymtab);
 
-            localSymtab.forEach(function(symbol) {
+            localSymtab.forEach(function (symbol) {
                 if (!usageMetrics[symbol]) {
                     target.warn("Target flow defines but does not use symbol '" + symbol + "'");
                 }
             });
         });
     });
-}
+};
 
 // TODO: evalute where symbols are added, and record them in our symbol table.
-var evaluateSteps = function(steps, localSymtab) {
-    steps.forEach(function(step) {
+var evaluateSteps = function (steps, localSymtab) {
+    steps.forEach(function (step) {
         if (step.getName()) {
             var badVars = analyzeVariables(step.getName(), localSymtab);
-            badVars.forEach(function(badvar) {
+            badVars.forEach(function (badvar) {
                 step.err("Variable {" + badvar + "} was used in step name, but not previously defined");
             });
         } else {
@@ -103,7 +103,7 @@ var evaluateSteps = function(steps, localSymtab) {
         }
         if (step.getCondition()) {
             var badVars = analyzeVariables(step.getCondition().getExpression());
-            badVars.forEach(function(badvar) {
+            badVars.forEach(function (badvar) {
                 step.err("Variable {" + badvar + "} was used in step condition, but not previously defined");
             });
         }
@@ -113,11 +113,11 @@ var evaluateSteps = function(steps, localSymtab) {
         policy && handlers[policy.getType()] && handlers[policy.getType()](policy, localSymtab);
         policy && !handlers[policy.getType()] && step.warn("No handler for policy type '" + policy.getType() + "'");
     });
-}
+};
 
 // return a list of variables referenced in this string 
 // that are undefined (may be empty)
-var analyzeVariables = function(value, localSymtab) {
+var analyzeVariables = function (value, localSymtab) {
     var symtab = globalSymtab.concat(localSymtab);
     var undefinedVars = [], match;
     while ((match = varFinder.exec(value)) != null) {
@@ -128,22 +128,22 @@ var analyzeVariables = function(value, localSymtab) {
         }
     }
     return undefinedVars;
-}
+};
 
-var _identity = function(policy, localSymtab) {};
+var _identity = function (policy, localSymtab) { };
 var handlers = {
     // TODO: lots more handlers!
     ExtractVariables(policy, localSymtab) {
         var payloadVariablesXpath = "/ExtractVariables/*[self::JSONPayload or self::XMLPayload]/Variable/@name";
         var payloadVariables = policy.select(payloadVariablesXpath);
-        payloadVariables.forEach(function(variableDecl) {
+        payloadVariables.forEach(function (variableDecl) {
             var variableName = variableDecl.value;
             console.log(variableName);
             localSymtab.push(variableName);
         });
     },
     JSONThreatProtection: _identity
-}
+};
 
 module.exports = {
     name,

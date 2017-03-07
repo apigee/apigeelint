@@ -36,3 +36,6 @@ node_modules
 private*
 
 .DS_Store
+
+#VS Code config data
+.vscode

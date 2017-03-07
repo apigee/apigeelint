@@ -1,15 +1,14 @@
 var name = "Unreachable Route Rules - defaults",
-    description = "Check RouteRules in a ProxyEndpoint to ensure that one and only one has a blank set of conditions.",
-    myUtil = require("../myUtil.js");
+    description = "Check RouteRules in a ProxyEndpoint to ensure that one and only one has a blank set of conditions.";
 
-var onProxyEndpoint = function(ep) {
+var onProxyEndpoint = function (ep) {
 
     var warnMessage = "More than 1 empty condition was found in the RouteRules for \"" + ep.getFileName() + "\". Lines: ",
         routeRules = ep.getRouteRules(),
         blankRR = [];
 
     if (routeRules) {
-        routeRules.forEach(function(rr) {
+        routeRules.forEach(function (rr) {
             var c = rr.getCondition();
 
             if (!c || c.getExpression === "") {

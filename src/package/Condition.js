@@ -1,43 +1,38 @@
 //Condition.js
 
-//Private
-var fs = require("fs"),
-    xpath = require("xpath"),
-    Dom = require("xmldom").DOMParser,
-    myUtil = require("./myUtil.js");
-
 function Condition(element, parent) {
     this.parent = parent;
     this.element = element;
 }
 
-Condition.prototype.getExpression = function() {
+Condition.prototype.getExpression = function () {
     return this.element.childNodes && this.element.childNodes[0] && this.element.childNodes[0].nodeValue || "";
 };
 
-Condition.prototype.getElement = function() {
+Condition.prototype.getElement = function () {
     return this.element;
 };
 
-Condition.prototype.getParent = function() {
+Condition.prototype.getParent = function () {
     return this.parent;
 };
 
-Condition.prototype.warn = function(msg) {
+Condition.prototype.warn = function (msg) {
     this.parent.warn(msg);
 };
 
-Condition.prototype.err = function(msg) {
+Condition.prototype.err = function (msg) {
     this.parent.err(msg);
 };
 
-Condition.prototype.onConditions = function(pluginFunction) {
+Condition.prototype.onConditions = function (pluginFunction) {
     pluginFunction(this);
 };
 
-Condition.prototype.summarize = function() {
+Condition.prototype.summarize = function () {
     var summary = {};
     summary.condition = this.getExpression();
+    summary.validity = this.getTruthTable().evaluation;
     return summary;
 };
 
@@ -54,8 +49,7 @@ function interpret(tree, substitutions) {
                 }
             }
             return result;
-        },
-        negation(args) {
+        }, negation(args) {
             var result = { value: !args[0].value };
             return result;
         },
@@ -78,16 +72,31 @@ function interpret(tree, substitutions) {
         notEquivalence(args) {
             var result = { value: (args[0].value && !args[1].value) || (!args[0].value && args[1].value) };
             return result;
+        },
+        startsWith(args) {
+            return actions.equivalence(args);
+            //TODO: flesh out something more than simple equivalence here
+            //this includes looking at domains of values based on siblings in the experssion
+
+            //var result = { value: (args[0].value.startsWith(args[1].value)) };
+            //return result;
         }
     };
 
     function process(node) {
-
         var action = node.action,
             args = node.args;
 
         for (var i = 0; i < args.length; i++) {
             if (args[i] && args[i].args) { args[i] = process(args[i]); }
+        }
+        if (action.value && action.value === "!") {
+            action = "negation";
+        } else if (action.value && action.value === "equivalence") {
+            action = "equivalence";
+        }
+        if (!actions[action]) {
+            console.log(action);
         }
         node.result = actions[action](args);
         return node.result;
@@ -98,11 +107,11 @@ function interpret(tree, substitutions) {
 }
 
 function getInitializator(variables) {
-    return function() {
+    return function () {
         var substitutions = {},
             values = arguments;
 
-        variables.forEach(function(primitive, index) {
+        variables.forEach(function (primitive, index) {
             substitutions[primitive.value] = !!values[index];
         });
 
@@ -116,32 +125,38 @@ function _evaluate(evaluation, tree, vars) {
     return result;
 }
 
-Condition.prototype.getTruthTable = function() {
-    var vars = this.getVariables(),
-        combinations = generateCombinations(vars.length),
-        truthTable = { expression: this.getExpression(), evaluations: [] },
-        tree = this.getAST();
+Condition.prototype.getTruthTable = function (cb) {
+    var c = this;
 
+    function process(tree) {
+        var vars = c.getVariables(),
+            combinations = generateCombinations(vars.length),
+            truthTable = { expression: c.getExpression(), evaluations: [] };
 
-    for (var i = 0, count = Math.pow(2, vars.length); i < count; i++) {
-        var run = {
-            substitutions: combinations[i],
-            evaluation: _evaluate(combinations[i], tree, vars).value,
-        };
-        truthTable.evaluations.push(run);
+        for (var i = 0, count = Math.pow(2, vars.length); i < count; i++) {
+            var run = {
+                substitutions: combinations[i],
+                evaluation: _evaluate(combinations[i], tree, vars).value,
+            };
+            truthTable.evaluations.push(run);
+        }
+        //based on the values in truth table assess validity
+        var trueCount = 0;
+        truthTable.evaluations.forEach(function (run) {
+            trueCount += 0 + run.evaluation;
+        });
+        truthTable.evaluation = (trueCount === 0) ? "absurdity" : "valid";
+        return truthTable;
     }
 
-    //based on the values in truth table assess validity
-    var trueCount = 0;
-    truthTable.evaluations.forEach(function(run) {
-        trueCount += 0 + run.evaluation;
-    });
-    truthTable.evaluation = (trueCount === 0) ? "absurdity" : "valid";
-
-    return truthTable;
+    if (!this.truthTable) {
+        this.truthTable = process(this.getAST(process));
+    }
+    if (cb) { cb(this.truthTable); }
+    return this.truthTable;
 };
 
-Condition.prototype.getTokens = function() {
+Condition.prototype.getTokens = function () {
     var pointer = 0,
         tokens = [],
         c = "",
@@ -190,10 +205,16 @@ Condition.prototype.getTokens = function() {
     }
 
     function isVariable(c) {
-        return /[A-Za-z]/.test(c);
+        var isVar = /[A-Za-z_]/.test(c);
+        return /[A-Za-z_]/.test(c);
     }
 
     function isSpecial(c) {
+        //isSpecial is looking for operators
+        //this can get confused with some string constants including regex
+        if (typeof c === "string" && c.startsWith("\"")) {
+            return false;
+        }
         return /[<>\-|&!]/.test(c);
     }
 
@@ -204,7 +225,8 @@ Condition.prototype.getTokens = function() {
                 return true;
             }
         }
-        return /[0-9\"\"]/.test(c);
+        var regtest = (/^[0-9]*$/.test(c)) || /[\"]/.test(c);
+        return regtest;
     }
 
     function isExpressionBoundary(c) {
@@ -212,7 +234,7 @@ Condition.prototype.getTokens = function() {
     }
 
     function operatorExists(op) {
-        return ["!", "|", "&", "->", "<->", "!!"].indexOf(op) !== -1;
+        return ["!", "|", "&", "->", "<->", "!!", "=|"].indexOf(op) !== -1;
     }
 
     function unrecognizedToken(token, position) {
@@ -221,6 +243,26 @@ Condition.prototype.getTokens = function() {
 
     if (!this.tokens) {
         var expression = this.getExpression();
+        //scan for open and close quotes
+        //a close quote should always be followed by a space
+        var closeQuote = true, modified = true;
+        while (modified) {
+            modified = false;
+            for (var i = 0, len = expression.length; i < len; i++) {
+                if (expression[i] === "\"") {
+                    closeQuote = !closeQuote;
+                    if (closeQuote) {
+                        if (i + 1 < expression.length && expression[i + 1] !== " ") {
+                            expression = expression.slice(0, i + 1) + " " + expression.slice(i + 1);
+                            modified = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+
         expression = encodeQuotedChars(expression, "%");
         expression = encodeQuotedChars(expression, " ");
         expression = encodeQuotedChars(expression, "!");
@@ -258,6 +300,8 @@ Condition.prototype.getTokens = function() {
         expression = replaceAll(expression, " Like ", " ~ ");
         expression = replaceAll(expression, " MatchesPath ", " ~/ ");
         expression = replaceAll(expression, " LikePath ", " ~/ ");
+        expression = replaceAll(expression, " Starts ", " == ");
+        expression = replaceAll(expression, " StartsWith ", " == ");
         expression = replaceAll(expression, " Starts ", " =| ");
         expression = replaceAll(expression, " StartsWith ", " =| ");
         expression = replaceAll(expression, "(", " ( ");
@@ -265,19 +309,25 @@ Condition.prototype.getTokens = function() {
         expression = replaceAll(expression, "\t", " ");
         expression = replaceAll(expression, "\n", " ");
         expression = expression.trim();
-        expression = replaceAll(expression, "=|", " <-> ");
+        //expression = replaceAll(expression, "=|", " <-> ");
+        expression = replaceAll(expression, "==", " <-> ");
         expression = replaceAll(expression, "!=", " !! ");
         expression = replaceAll(expression, "=", " <-> ");
+        expression = replaceAll(expression, "<-> |", " =| ");
+
         expression = replaceAll(expression, ":=", " <-> ");
         expression = replaceAll(expression, "~~", " <-> ");
         expression = replaceAll(expression, "~/", " <-> ");
         expression = replaceAll(expression, "&&", " & ");
         expression = replaceAll(expression, "||", " | ");
         expression = replaceAll(expression, "%", "x");
+        expression = replaceAll(expression, "!", " ! ");
+        expression = replaceAll(expression, " !  ! ", " !! ");
         //remove duplicate spaces 
         while (expression.indexOf("  ") >= 0) {
             expression = replaceAll(expression, "  ", " ");
         }
+        expression = expression.trim();
 
         var input = expression.split(" ");
         try {
@@ -309,7 +359,6 @@ Condition.prototype.getTokens = function() {
             console.log(e);
             throw new Error("Lex error on \"" + input + "\"");
         }
-
         this.tokens = tokens;
     }
     return this.tokens;
@@ -332,96 +381,144 @@ function getTokensByType(tokens, type) {
             result.push(tokens[i]);
         }
     }
-    result.sort(function(a, b) {
+    result.sort(function (a, b) {
         return a.value > b.value ? 1 : -1;
-    }).filter(function(item, index, arr) {
+    }).filter(function (item, index, arr) {
         return arr.indexOf(item) === index;
     });
     return result;
 }
 
-Condition.prototype.getVariables = function() {
+Condition.prototype.getVariables = function () {
     if (!this.variables) {
         this.variables = getTokensByType(this.getTokens(), "variable");
     }
     return this.variables;
 };
 
-Condition.prototype.getConstants = function() {
+Condition.prototype.getConstants = function () {
     if (!this.constants) {
         this.constants = getTokensByType(this.getTokens(), "constants");
     }
     return this.constants;
 };
 
-Condition.prototype.getAST = function() {
-    var tokens = this.getTokens(),
-        translate = {
-            "!": "negation",
-            "|": "disjunction",
-            "&": "conjunction",
-            "->": "implication",
-            "<->": "equivalence",
-            "!!": "notEquivalence"
+Condition.prototype.getAST = function (cb) {
+
+    function processAST(tokens) {
+        var translate = {
+            //highest precedence is 0 
+            "!": { operation: "negation", precedence: 0 },
+            "|": { operation: "disjunction", precedence: 3 },
+            "&": { operation: "conjunction", precedence: 3 },
+            "->": { operation: "implication", precedence: 2 },
+            "<->": { operation: "equivalence", precedence: 1 },
+            "!!": { operation: "notEquivalence", precedence: 1 },
+            "=|": { operation: "startsWith", precedence: 1 }
         };
 
-    function process(operation) {
-        operation = operation || null;
-        var args = [],
-            node = function(action, args, parent) {
-                return {
-                    action: translate[action] || action,
-                    args,
-                    parent
-                };
-            },
-            isUnary = function(op) {
-                return op === "!";
+        function node(action, args) {
+            var r = {
+                action,
+                args
             };
+            if (translate[action]) {
+                r.action = translate[action].operation;
+            }
+            return r;
+        }
 
-        for (var i = 0; i < tokens.length; i++) {
-            var token = tokens[i];
-            if (token.type === "boundary") {
-                if (token.value === "(") {
-                    var result = process();
-                    if (result.action === null && result.args.length === 1) {
-                        args.push(result.args[0]);
-                    } else {
-                        args.push(result);
+        function cleanTokens(tokens) {
+            if (tokens.length && tokens[0].value === "(" && tokens[tokens.length - 1].value === ")") {
+                var trim = true;
+                for (var i = 1; i < tokens.length - 1; i++) {
+                    if (tokens[i].type === "boundary") {
+                        trim = false;
+                        break;
                     }
-                } else if (token.value === ")") {
-                    return node(operation, args, token);
                 }
-            } else if (token.type === "variable" || token.type === "constant") {
-                args.push(node("substitution", [token], token));
-                if (isUnary(operation)) {
-                    if (operation === null && args.length === 1) {
-                        return args[0];
+                if (trim) {
+                    tokens = cleanTokens(tokens.slice(1, tokens.length - 1));
+                }
+
+            }
+            return tokens;
+        }
+
+        function processHangLine(tokenSeg) {
+            //if not tokens to process return undefined
+            if (tokenSeg.length === 0) { return; }
+            //clean up if this is exclusively bounded remove boundaries
+            tokenSeg = cleanTokens(tokenSeg);
+            //for the set of tokens passed in
+            //find the midpoint operation by precedence
+            //then call processHangLine for the LH and RH
+            //scan left to right to find the precednece center IF we have more than 3 tokens
+            if (tokenSeg.length > 1) {
+                var maxIndex, max = -1;
+                for (var i = 0; i < tokenSeg.length; i++) {
+                    if (tokenSeg[i].type === "operator" && (!max || translate[tokenSeg[i].value].precedence > max)) {
+                        maxIndex = i;
+                        max = translate[tokenSeg[i].value].precedence;
+                    } else if (tokenSeg[i].type === "boundary") {
+                        //handle boundaries - essentially we want to reset the max on the open paren
+                        if (tokenSeg[i].value === "(") {
+                            //fast forward to the closing boundary
+                            while (i < tokenSeg.length && tokenSeg[i].value !== ")") {
+                                i++;
+                            }
+                        }
                     }
-                    return node(operation, args, token);
                 }
-            } else if (token.type === "operator") {
-                if (isUnary(token.value)) {
-                    args.push(process(token));
-                    continue;
+
+                if (maxIndex) {
+                    //we need to create a node from the max index
+                    var cNode = node(tokenSeg[maxIndex].value, []),
+                        lhTokens = tokenSeg.slice(0, maxIndex),
+                        leftHand = processHangLine(lhTokens, cNode),
+                        rhTokens = tokenSeg.slice(maxIndex + 1),
+                        rightHand = processHangLine(rhTokens, cNode);
+
+                    if (leftHand) {
+                        if (rightHand && rightHand.args[0].type === "constant") {
+                            if (leftHand.args) {
+                                leftHand.args[0].value += rightHand.args[0].value;
+                            }
+                        }
+                        cNode.args.push(leftHand);
+                    }
+                    if (rightHand) { cNode.args.push(rightHand); }
+                    return cNode;
                 }
-                if (operation) {
-                    var tmp = args.slice(0);
-                    args = [];
-                    args.push(node(operation, tmp, token));
-                }
-                operation = token.value;
+            }
+
+            if (tokenSeg[0].type === "variable" || tokenSeg[0].type === "constant") {
+                //ok for a substitution we need to provide a type and seed values for the type
+                //how do we get the type? - we have to look at if this is RH or LH
+                //we actually want the operator (parent) and then at eval time can get the sibling and comparators
+                return node("substitution", [tokenSeg[0]]);
+            } else if (tokenSeg[0].type === "boundary") {
+                //condition here is no operator with boundary
+                //truncate the first term
+                return processHangLine(tokenSeg.slice(1));
+            } else if (tokenSeg[0].value === "!") {
+                var nNode = node("negation", []),
+                    nrhTokens = tokenSeg.slice(1),
+                    nrightHand = processHangLine(nrhTokens);
+                if (nrightHand) { nNode.args.push(nrightHand); }
+                return nNode;
+            } else {
+                throw new Error("no token translation executed for " + JSON.stringify(tokenSeg[0]));
             }
         }
-        if (operation === null && args.length === 1) {
-            return args[0];
-        }
-        return node(operation, args, token);
+        return processHangLine(tokens);
     }
 
     if (!this.ast) {
-        this.ast = process();
+        this.ast = processAST(this.getTokens());
     }
+
+    if (cb) { cb(this.ast); }
     return this.ast;
 };
 

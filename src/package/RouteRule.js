@@ -1,18 +1,15 @@
 //RouteRule.js
 
 //Private
-var fs = require("fs"),
-    Condition = require("./Condition.js"),
-    xpath = require("xpath"),
-    Dom = require("xmldom").DOMParser,
-    myUtil = require("./myUtil.js");
+var Condition = require("./Condition.js"),
+    xpath = require("xpath");
 
 function RouteRule(element, parent) {
     this.parent = parent;
     this.element = element;
 }
 
-RouteRule.prototype.getName = function() {
+RouteRule.prototype.getName = function () {
     if (!this.name) {
         var attr = xpath.select("//@name", this.element);
         this.name = attr[0] && attr[0].value || "";
@@ -20,11 +17,11 @@ RouteRule.prototype.getName = function() {
     return this.name;
 };
 
-RouteRule.prototype.getType = function() {
+RouteRule.prototype.getType = function () {
     return this.element.tagName;
 };
 
-RouteRule.prototype.getTargetEndpoint = function() {
+RouteRule.prototype.getTargetEndpoint = function () {
     if (!this.targetEndpoint) {
         //find the preflow tag
         var doc = xpath.select("./TargetEndpoint", this.element);
@@ -36,7 +33,7 @@ RouteRule.prototype.getTargetEndpoint = function() {
 };
 
 
-RouteRule.prototype.getCondition = function() {
+RouteRule.prototype.getCondition = function () {
     if (!this.condition) {
         var doc = xpath.select("./Condition", this.element);
         this.condition = doc && doc[0] && new Condition(doc[0], this);
@@ -44,30 +41,30 @@ RouteRule.prototype.getCondition = function() {
     return this.condition;
 };
 
-RouteRule.prototype.getElement = function() {
+RouteRule.prototype.getElement = function () {
     return this.element;
 };
 
-RouteRule.prototype.getParent = function() {
+RouteRule.prototype.getParent = function () {
     return this.parent;
 };
 
-RouteRule.prototype.warn = function(msg) {
+RouteRule.prototype.warn = function (msg) {
     this.parent.warn(msg);
 };
 
-RouteRule.prototype.err = function(msg) {
+RouteRule.prototype.err = function (msg) {
     this.parent.err(msg);
 };
 
 
-RouteRule.prototype.onConditions = function(pluginFunction) {
+RouteRule.prototype.onConditions = function (pluginFunction) {
     if (this.getCondition()) {
         pluginFunction(this.getCondition());
     }
 };
 
-RouteRule.prototype.summarize = function() {
+RouteRule.prototype.summarize = function () {
     var summary = {};
     summary.name = this.getName();
     summary.targetEndpoint = this.getTargetEndpoint();

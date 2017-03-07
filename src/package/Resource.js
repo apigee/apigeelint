@@ -1,11 +1,7 @@
 //Resource.js
 
 //Private
-var fs = require("fs"),
-    xpath = require("xpath"),
-    Dom = require("xmldom").DOMParser,
-    path = require("path"),
-    myUtil = require("./myUtil.js");
+var fs = require("fs");
 
 function Resource(parent, path, fname) {
     this.parent = parent;
@@ -14,27 +10,27 @@ function Resource(parent, path, fname) {
     this.messages = { warnings: [], errors: [] };
 }
 
-Resource.prototype.getFileName = function() {
+Resource.prototype.getFileName = function () {
     return this.fname;
 };
 
-Resource.prototype.getParent = function() {
+Resource.prototype.getParent = function () {
     return this.parent;
 };
 
-Resource.prototype.warn = function(msg) {
+Resource.prototype.warn = function (msg) {
     this.parent.warn(msg);
 };
 
-Resource.prototype.err = function(msg) {
+Resource.prototype.err = function (msg) {
     this.parent.err(msg);
 };
 
-Resource.prototype.onResources = function(pluginFunction) {
+Resource.prototype.onResources = function (pluginFunction) {
     pluginFunction(this);
 };
 
-Resource.prototype.summarize = function() {
+Resource.prototype.summarize = function () {
     var summary = {};
     summary.fileName = this.getFileName();
     //summary.parent = this.getParent();
@@ -42,10 +38,10 @@ Resource.prototype.summarize = function() {
     return summary;
 };
 
-Resource.prototype.getContents = function() {
+Resource.prototype.getContents = function () {
     if (!this.contents) {
         //read the file contents and return them
-        this.contents = fs.readFileSync("./"+this.path).toString();
+        this.contents = fs.readFileSync("./" + this.path).toString();
     }
     return this.contents;
 };

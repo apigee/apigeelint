@@ -4,16 +4,15 @@
 var xpath = require("xpath"),
     FlowPhase = require("./FlowPhase.js"),
     Condition = require("./Condition.js"),
-    Dom = require("xmldom").DOMParser,
     myUtil = require("./myUtil.js"),
-    debug = require('debug')('bundlelinter:Flow');;
+    debug = require("debug")("bundlelinter:Flow");
 
 function Flow(element, parent) {
     this.parent = parent;
     this.element = element;
 }
 
-Flow.prototype.getName = function() {
+Flow.prototype.getName = function () {
     if (!this.name) {
         var attr = xpath.select("./@name", this.element);
         this.name = attr[0] && attr[0].value || "";
@@ -21,11 +20,11 @@ Flow.prototype.getName = function() {
     return this.name;
 };
 
-Flow.prototype.getType = function() {
+Flow.prototype.getType = function () {
     return this.element.tagName;
 };
 
-Flow.prototype.getFlowName = function() {
+Flow.prototype.getFlowName = function () {
     if (!this.flowName) {
         this.flowName = myUtil.getFileName(this) + ":" + myUtil.buildTagBreadCrumb(this.element);
         if (this.getName()) { this.flowName += this.name; }
@@ -33,7 +32,7 @@ Flow.prototype.getFlowName = function() {
     return this.flowName;
 };
 
-Flow.prototype.getDescription = function() {
+Flow.prototype.getDescription = function () {
     if (!this.description) {
         var doc = xpath.select("./Description", this.element);
         this.description = doc && doc[0] && doc[0].childNodes[0] && doc[0].childNodes[0].nodeValue || "";
@@ -41,7 +40,7 @@ Flow.prototype.getDescription = function() {
     return this.description;
 };
 
-Flow.prototype.getCondition = function() {
+Flow.prototype.getCondition = function () {
     if (!this.condition) {
         var doc = xpath.select("./Condition", this.element);
         this.condition = doc && doc[0] && new Condition(doc[0], this);
@@ -49,7 +48,7 @@ Flow.prototype.getCondition = function() {
     return this.condition;
 };
 
-Flow.prototype.getFlowRequest = function() {
+Flow.prototype.getFlowRequest = function () {
     if (!this.flowRequest) {
         //odd... in preflow I need the parentNode
         //in Flow I don't... what is wrong
@@ -59,7 +58,7 @@ Flow.prototype.getFlowRequest = function() {
     return this.flowRequest;
 };
 
-Flow.prototype.getFlowResponse = function() {
+Flow.prototype.getFlowResponse = function () {
     if (!this.flowResponse) {
         var doc = xpath.select("./Response", this.element);
         debug("getFlowResponse() doc:" + doc);
@@ -70,35 +69,35 @@ Flow.prototype.getFlowResponse = function() {
     return this.flowResponse;
 };
 
-Flow.prototype.onSteps = function(pluginFunction) {
+Flow.prototype.onSteps = function (pluginFunction) {
     this.getFlowRequest() && this.getFlowRequest().onSteps(pluginFunction);
     this.getFlowResponse() && this.getFlowResponse().onSteps(pluginFunction);
 };
 
-Flow.prototype.onConditions = function(pluginFunction) {
+Flow.prototype.onConditions = function (pluginFunction) {
     this.getFlowRequest() && this.getFlowRequest().onConditions(pluginFunction);
     this.getFlowResponse() && this.getFlowResponse().onConditions(pluginFunction);
     //the local condition should also be checked
     this.getCondition() && pluginFunction(this.getCondition());
 };
 
-Flow.prototype.getElement = function() {
+Flow.prototype.getElement = function () {
     return this.element;
 };
 
-Flow.prototype.getParent = function() {
+Flow.prototype.getParent = function () {
     return this.parent;
 };
 
-Flow.prototype.warn = function(msg) {
+Flow.prototype.warn = function (msg) {
     this.parent.warn(msg);
 };
 
-Flow.prototype.err = function(msg) {
+Flow.prototype.err = function (msg) {
     this.parent.err(msg);
 };
 
-Flow.prototype.summarize = function() {
+Flow.prototype.summarize = function () {
     var summary = {};
 
     summary.name = this.getName();

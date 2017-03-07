@@ -12,11 +12,11 @@ function rBuildTagBreadCrumb(doc, bc) {
 }
 
 function buildTagBreadCrumb(doc) {
-    var result = rBuildTagBreadCrumb(doc, "");
     return rBuildTagBreadCrumb(doc, "");
 }
 
 function getFileName(obj) {
+    if (!obj) { return ("filename undefined"); }
     if (obj.fileName) {
         return obj.fileName;
     } else {
@@ -28,10 +28,10 @@ function getFileName(obj) {
 function processTagsFromFolder(folder, tag, bundle, processFunction) {
     if (fs.existsSync(folder)) {
         var files = fs.readdirSync(folder);
-        files.forEach(function(proxyFile) {
+        files.forEach(function (proxyFile) {
             var fname = folder + proxyFile;
             var doc = xpath.select(tag, new Dom().parseFromString(fs.readFileSync(fname).toString()));
-            doc.forEach(function(element) { processFunction(element, fname, bundle); });
+            doc.forEach(function (element) { processFunction(element, fname, bundle); });
         });
     }
 }
@@ -52,11 +52,6 @@ function inspect(obj, showHidden) {
     showHidden = showHidden && true;
     console.log(util.inspect(obj, { showHidden, depth: 9, maxArrayLength: 10 }));
 }
-
-function warn(msg) {
-    print(msg);
-}
-
 
 function getStackTrace(e) {
     return e.stack.replace(/^[^\(]+?[\n$]/gm, "")

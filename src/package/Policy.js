@@ -4,7 +4,7 @@
 var fs = require("fs"),
     xpath = require("xpath"),
     Dom = require("xmldom").DOMParser,
-    debug = require('debug')('bundlelinter:Policy');
+    debug = require("debug")("bundlelinter:Policy");
 
 function Policy(path, fn, parent) {
     this.fileName = fn;
@@ -13,7 +13,7 @@ function Policy(path, fn, parent) {
     this.messages = { warnings: [], errors: [] };
 }
 
-Policy.prototype.getName = function() {
+Policy.prototype.getName = function () {
     if (!this.name) {
         var attr = xpath.select("//@name", this.getElement());
         this.name = attr[0] && attr[0].value || "";
@@ -21,7 +21,7 @@ Policy.prototype.getName = function() {
     return this.name;
 };
 
-Policy.prototype.getDisplayName = function() {
+Policy.prototype.getDisplayName = function () {
     if (!this.displayName) {
         var doc = xpath.select("//DisplayName", this.getElement());
         this.displayName = doc[0].childNodes[0].nodeValue;
@@ -29,11 +29,11 @@ Policy.prototype.getDisplayName = function() {
     return this.displayName;
 };
 
-Policy.prototype.select = function(xs) {
+Policy.prototype.select = function (xs) {
     return xpath.select(xs, this.getElement());
 };
 
-Policy.prototype.getElement = function() {
+Policy.prototype.getElement = function () {
     //read the contents of the file and return it raw
     if (!this.element) {
         this.element = new Dom().parseFromString(fs.readFileSync(this.filePath).toString());
@@ -41,11 +41,11 @@ Policy.prototype.getElement = function() {
     return this.element;
 };
 
-Policy.prototype.getFileName = function() {
+Policy.prototype.getFileName = function () {
     return this.fileName;
 };
 
-Policy.prototype.getType = function() {
+Policy.prototype.getType = function () {
     if (!this.type) {
         var doc = xpath.select("/", this.getElement());
         this.type = doc && doc[0] && doc[0].documentElement.tagName || "";
@@ -53,28 +53,28 @@ Policy.prototype.getType = function() {
     return this.type;
 };
 
-Policy.prototype.warn = function(msg) {
+Policy.prototype.warn = function (msg) {
     return this.messages.warnings.push(msg);
 };
 
-Policy.prototype.err = function(msg) {
+Policy.prototype.err = function (msg) {
     return this.messages.errors.push(msg);
 };
 
-Policy.prototype.getMessages = function() {
+Policy.prototype.getMessages = function () {
     return this.messages;
 };
 
-Policy.prototype.getSteps = function() {
+Policy.prototype.getSteps = function () {
     if (!this.steps) {
         if (this.parent) {
             var policyName = this.getName(),
                 steps = [];
             //bundle -> endpoints -> flows -> flowphases -> steps.getName()
             debug("number of endpoints for this policy: " + this.parent.getEndpoints().length);
-            this.parent.getEndpoints().forEach(function(ep) {
+            this.parent.getEndpoints().forEach(function (ep) {
                 debug("endpoint name: " + ep.getName() + "; endpoint type: " + ep.getType());
-                ep.getAllFlows().forEach(function(fl) {
+                ep.getAllFlows().forEach(function (fl) {
                     debug("flow name: " + fl.getName() + "; flow type: " + fl.getType() + "; flow.getFlowName(): " + fl.getFlowName());
                     var fps = [fl.getFlowRequest()];
                     fps.push(fl.getFlowResponse());
@@ -97,7 +97,7 @@ Policy.prototype.getSteps = function() {
     return this.steps;
 };
 
-Policy.prototype.summarize = function() {
+Policy.prototype.summarize = function () {
     var summary = {};
     summary.name = this.getName();
     summary.displayName = this.getDisplayName();
@@ -105,7 +105,7 @@ Policy.prototype.summarize = function() {
     summary.filePay = this.filePath;
     summary.type = this.getType();
     summary.steps = [];
-    this.getSteps().forEach(function(step) {
+    this.getSteps().forEach(function (step) {
         summary.steps.push(step.summarize());
     });
     return summary;
