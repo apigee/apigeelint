@@ -1,0 +1,7 @@
+<AssignMessage name="AssignMessage.CopyRequest">
+	<AssignTo createNew="true" type="request">flow.apigee.originalRequest</AssignTo>
+	<!-- Assign Message -->
+	<Copy source="request">
+		<Payload>true</Payload>
+	</Copy>
+</AssignMessage>

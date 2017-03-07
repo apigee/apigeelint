@@ -9,6 +9,9 @@
                 <Condition>request.verb="POST"</Condition>
             </Step>
             <Step>
+                <Name>AssignMessage.CopyRequest</Name>
+            </Step>
+            <Step>
                 <FaultRules/>
                 <Name>ExtractParamVariables</Name>
                 <Condition>request.verb="GET"</Condition>

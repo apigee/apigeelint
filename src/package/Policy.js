@@ -24,7 +24,11 @@ Policy.prototype.getName = function () {
 Policy.prototype.getDisplayName = function () {
     if (!this.displayName) {
         var doc = xpath.select("//DisplayName", this.getElement());
-        this.displayName = doc[0].childNodes[0].nodeValue;
+        if (doc && doc[0] && doc[0].childNodes && doc[0].childNodes[0]) {
+            this.displayName = doc[0].childNodes[0].nodeValue;
+        } else {
+            this.displayName = "";
+        }
     }
     return this.displayName;
 };
@@ -79,14 +83,14 @@ Policy.prototype.getSteps = function () {
                     var fps = [fl.getFlowRequest()];
                     fps.push(fl.getFlowResponse());
                     //fps.concat(fl.getFlowResponse());
-                    fps.forEach(function(fp) {
-                        if(fp){
-                          fp.getSteps().forEach(function(st) {
-                              if (st.getName() === policyName) {
-                                  debug("step " + st.getName() + " pushed onto steps array");
-                                  steps.push(st);
-                              }
-                          });
+                    fps.forEach(function (fp) {
+                        if (fp) {
+                            fp.getSteps().forEach(function (st) {
+                                if (st.getName() === policyName) {
+                                    debug("step " + st.getName() + " pushed onto steps array");
+                                    steps.push(st);
+                                }
+                            });
                         }
                     });
                 });

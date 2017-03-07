@@ -76,6 +76,7 @@ Condition.prototype.getVals = function (varName) {
 }
 
 function interpret(tree, substitutions, condition) {
+    if (!tree) return;
     var iTree = JSON.parse(JSON.stringify(tree));
 
     function parseArgs(args) {
@@ -198,31 +199,35 @@ function _evaluate(evaluation, tree, vars, condition) {
 }
 
 Condition.prototype.getTruthTable = function (cb) {
-    var condition = this;
 
-    function process(tree) {
-        var vars = condition.getVariables(),
-            combinations = generateCombinations(vars.length),
-            truthTable = { expression: condition.getExpression(), evaluations: [] };
+    if (this.getExpression()) {
 
-        for (var i = 0, count = Math.pow(2, vars.length); i < count; i++) {
-            var run = {
-                substitutions: combinations[i],
-                evaluation: _evaluate(combinations[i], tree, vars, condition).value,
-            };
-            truthTable.evaluations.push(run);
+        var condition = this;
+
+        function process(tree) {
+            var vars = condition.getVariables(),
+                combinations = generateCombinations(vars.length),
+                truthTable = { expression: condition.getExpression(), evaluations: [] };
+
+            for (var i = 0, count = Math.pow(2, vars.length); i < count; i++) {
+                var run = {
+                    substitutions: combinations[i],
+                    evaluation: _evaluate(combinations[i], tree, vars, condition).value,
+                };
+                truthTable.evaluations.push(run);
+            }
+            //based on the values in truth table assess validity
+            var trueCount = 0;
+            truthTable.evaluations.forEach(function (run) {
+                trueCount += 0 + run.evaluation;
+            });
+            truthTable.evaluation = (trueCount === 0) ? "absurdity" : "valid";
+            return truthTable;
         }
-        //based on the values in truth table assess validity
-        var trueCount = 0;
-        truthTable.evaluations.forEach(function (run) {
-            trueCount += 0 + run.evaluation;
-        });
-        truthTable.evaluation = (trueCount === 0) ? "absurdity" : "valid";
-        return truthTable;
-    }
 
-    if (!this.truthTable) {
-        this.truthTable = process(this.getAST(process));
+        if (!this.truthTable) {
+            this.truthTable = process(this.getAST(process));
+        }
     }
     if (cb) { cb(this.truthTable); }
     return this.truthTable;
