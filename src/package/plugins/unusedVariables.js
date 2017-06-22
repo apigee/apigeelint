@@ -1,4 +1,3 @@
-var xpath = require("xpath");
 var name = "Unused variables",
     description = "Look for variables that were defined but not referenced";
 
@@ -20,14 +19,7 @@ var globalSymtab = [
 // global bundle ... until I objectize this...
 // TODO Objectize.
 var glBundle;
-
 var usageMetrics = {};
-
-// errors that will be reported at the end of the process
-var errors = [];
-
-// warnings that will be reported at the end of the process
-var warnings = [];
 
 // Process proxyendpoints in the following order:
 // 1. preflow - request [steps]
@@ -91,9 +83,10 @@ var onBundle = function (bundle) {
 
 // TODO: evalute where symbols are added, and record them in our symbol table.
 var evaluateSteps = function (steps, localSymtab) {
+    var badVars;
     steps.forEach(function (step) {
         if (step.getName()) {
-            var badVars = analyzeVariables(step.getName(), localSymtab);
+            badVars = analyzeVariables(step.getName(), localSymtab);
             badVars.forEach(function (badvar) {
                 step.err("Variable {" + badvar + "} was used in step name, but not previously defined");
             });
@@ -101,7 +94,7 @@ var evaluateSteps = function (steps, localSymtab) {
             step.warn("Step does not seem to call anything (empty <Name> node)");
         }
         if (step.getCondition()) {
-            var badVars = analyzeVariables(step.getCondition().getExpression());
+            badVars = analyzeVariables(step.getCondition().getExpression());
             badVars.forEach(function (badvar) {
                 step.err("Variable {" + badvar + "} was used in step condition, but not previously defined");
             });

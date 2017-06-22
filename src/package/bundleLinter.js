@@ -24,7 +24,7 @@ function contains(a, obj, f) {
 }
 
 function getReport(b) {
-    result={'bundle':{},'policies':[]};
+    var result={'bundle':{},'policies':[]};
     if (b.messages) {
         result.bundle.errors=b.messages.errors;
         result.bundle.warnings=b.messages.warnings;

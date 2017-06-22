@@ -1,6 +1,6 @@
 var name = "jsHint",
-    description = "Variables that are created should be used as conditions, assigned to messages or accessed in a resource callout.",
-    Resources = require("../Resource.js");
+    description = "Variables that are created should be used as conditions, assigned to messages or accessed in a resource callout.";
+    //Resources = require("../Resource.js");
 
 //look at conditions
 //look at Steps and the associated Policies 

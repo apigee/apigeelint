@@ -38,7 +38,7 @@ Condition.prototype.summarize = function () {
 
 Condition.prototype.getVals = function (varName) {
 
-    var vals = {};
+    var vals = {}, vName, vVal;
     function process(a) {
         for (var i = 0; i < a.length; i++) {
             //look down the args to see if we have a substitution
@@ -47,14 +47,14 @@ Condition.prototype.getVals = function (varName) {
                 if (a[i].args[0].action && a[i].args[0].action === "substitution") {
                     //this only works for right or left hand vars
                     if (a[i].args[0].args[0].type === "variable" && a[i].args[1].args[0].type === "constant") {
-                        var vName = a[i].args[0].args[0].value,
-                            vVal = a[i].args[1].args[0].value;
+                        vName = a[i].args[0].args[0].value;
+                        vVal = a[i].args[1].args[0].value;
                         if (!vals[vName]) { vals[vName] = []; }
                         //add check to see if already contains
                         vals[vName].push(vVal);
                     } else if (a[i].args[1].args[0].type === "variable" && a[i].args[0].args[0].type === "constant") {
-                        var vName = a[i].args[1].args[0].value,
-                            vVal = a[i].args[0].args[0].value;
+                        vName = a[i].args[1].args[0].value;
+                        vVal = a[i].args[0].args[0].value;
                         if (!vals[vName]) { vals[vName] = []; }
                         //add check to see if already contains
                         vals[vName].push(vVal);
@@ -73,7 +73,7 @@ Condition.prototype.getVals = function (varName) {
         return this.vals[varName];
     }
     return this.vals;
-}
+};
 
 function interpret(tree, substitutions, condition) {
 
@@ -81,24 +81,23 @@ function interpret(tree, substitutions, condition) {
     var iTree = JSON.parse(JSON.stringify(tree)), evaluations = [];
 
     function parseArgs(args) {
-        var varValue, consValue;
+        var varValue, consValue, index;
         if (args.length === 1) {
             varValue = args[0].evaluation.value;
         } else {
             varValue = args[0].evaluation.value;
             consValue = args[1].evaluation.expressionValue;
             if (args[0].evaluation.type === "variable" && args[1].evaluation.type === "constant") {
-                var index = args[0].evaluation.value ? 0 : 1, vals = condition.getVals(args[0].evaluation.expressionValue);
+                index = args[0].evaluation.value ? 0 : 1, vals = condition.getVals(args[0].evaluation.expressionValue);
                 if (vals && index <= vals.length) { varValue = vals[index]; }
                 else { varValue = args[0].evaluation.value; }
                 consValue = args[1].evaluation.expressionValue;
             } else if (args[1].evaluation.type === "variable" && args[0].evaluation.type === "constant") {
-                var index = args[1].evaluation.value ? 0 : 1, vals = condition.getVals(args[1].evaluation.expressionValue);
+                index = args[1].evaluation.value ? 0 : 1, vals = condition.getVals(args[1].evaluation.expressionValue);
                 if (vals && index <= vals.length) { varValue = vals[index]; }
                 else { varValue = args[1].evaluation.value; }
                 consValue = args[0].evaluation.expressionValue;
             }
-
         }
         //strip any leading or trailing quote marks
         if (varValue && varValue.startsWith && varValue.startsWith("\"")) { varValue = varValue.substring(1); }
@@ -304,7 +303,6 @@ Condition.prototype.getTokens = function () {
     }
 
     function isVariable(ch) {
-        // var isVar = /[A-Za-z_]/.test(ch);
         return /[A-Za-z_]/.test(ch);
     }
 

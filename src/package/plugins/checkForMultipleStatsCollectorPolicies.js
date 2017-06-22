@@ -1,7 +1,6 @@
 var debug = require("debug")("bundlelinter:checkForMultipleStatsCollectorPolicies");
 var name = "Check for multiple statistics collector policies.",
   description = "Only one Statistics Collector Policy will be executed.  Therefore, if you include mulitiple Statistics Collector Policies then you must have conditions on each one.",
-  myUtil = require("../myUtil.js");
 
 var statsPolicies = [];
 
@@ -92,11 +91,6 @@ function getDuplicatePolicies(policies) {
     }
   }
   return duplicatePolicies;
-}
-
-function checkForMoreThanOneStatsPolicyOnFlow(policies, bundle) {
-  //identify policies on same flow
-
 }
 
 /*
