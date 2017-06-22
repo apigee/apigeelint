@@ -1,7 +1,6 @@
 //bundleLinter.js
 var fs = require("fs"),
     path = require("path"),
-    myUtil = require("./myUtil.js"),
     config;
 
 function contains(a, obj, f) {

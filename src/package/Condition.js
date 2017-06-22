@@ -81,7 +81,7 @@ function interpret(tree, substitutions, condition) {
     var iTree = JSON.parse(JSON.stringify(tree)), evaluations = [];
 
     function parseArgs(args) {
-        var varValue, consValue, index;
+        var varValue, consValue, index, vals;
         if (args.length === 1) {
             varValue = args[0].evaluation.value;
         } else {
@@ -637,7 +637,7 @@ function generateCombinations(n) {
 
     if (n == 1) { n = 2; }
     //we will create an objet array structure here
-    var result = {}, combs = [], comb, str, cnt = Math.pow(2, n);
+    var combs = [], comb, str, cnt = Math.pow(2, n);
 
     for (var i = 0; i < cnt; i++) {
         str = i.toString(2);
