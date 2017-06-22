@@ -18,7 +18,7 @@ Reporters (the means to report out results), Ingesters (bundle loaders) are to b
 
 A simple script based approach is used right now. The sample.js configuration at root executes a linting session against the default bundle:
 
-
+```
 var bl = require("./package/bundleLinter.js"),
 util = require("util");
 
@@ -31,7 +31,7 @@ var configuration = {
 };
 
 console.log(util.inspect(bl.lint(configuration), { showHidden: false, depth: 9, maxArrayLength: 100 }));
-
+```
 
 ## Contributing
 
