@@ -18,17 +18,19 @@ Reporters (the means to report out results), Ingesters (bundle loaders) are to b
 
 A simple script based approach is used right now. The sample.js configuration at root executes a linting session against the default bundle:
 
-var bl = require("./package/bundleLinter.js");
 
-	var configuration = {
-	    debug: true,
-	    "source": {
-	        "type":"filesystem",
-	        "path": "../sampleProxy",
-	    }
-	};
+var bl = require("./package/bundleLinter.js"),
+util = require("util");
 
-	bl.lint(configuration);
+var configuration = {
+    debug: true,
+    "source": {
+        "type": "filesystem",
+        "path": "./sampleProxy",
+    },
+};
+
+console.log(util.inspect(bl.lint(configuration), { showHidden: false, depth: 9, maxArrayLength: 100 }));
 
 
 ## Contributing
