@@ -4,7 +4,7 @@ var configuration = {
     debug: true,
     "source": {
         "type": "filesystem",
-        "path": "./sampleProxy",
+        "path": "../sampleProxy",
     },
     //plugins: ['checkFileName.js']
 };

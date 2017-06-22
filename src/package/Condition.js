@@ -76,27 +76,29 @@ Condition.prototype.getVals = function (varName) {
 }
 
 function interpret(tree, substitutions, condition) {
+
     if (!tree) return;
-    var iTree = JSON.parse(JSON.stringify(tree));
+    var iTree = JSON.parse(JSON.stringify(tree)), evaluations = [];
 
     function parseArgs(args) {
         var varValue, consValue;
         if (args.length === 1) {
-            varValue = args[0].value;
+            varValue = args[0].evaluation.value;
         } else {
-            varValue = args[0].value;
-            consValue = args[1].value;
-            if (args[0].type === "variable" && args[1].type === "constant") {
-                var index = args[0].value ? 0 : 1, vals = condition.getVals(args[0].expressionValue);
+            varValue = args[0].evaluation.value;
+            consValue = args[1].evaluation.expressionValue;
+            if (args[0].evaluation.type === "variable" && args[1].evaluation.type === "constant") {
+                var index = args[0].evaluation.value ? 0 : 1, vals = condition.getVals(args[0].evaluation.expressionValue);
                 if (vals && index <= vals.length) { varValue = vals[index]; }
-                else { varValue = args[0].value; }
-                consValue = args[1].expressionValue;
-            } else if (args[1].type === "variable" && args[0].type === "constant") {
-                var index = args[1].value ? 0 : 1, vals = condition.getVals(args[1].expressionValue);
+                else { varValue = args[0].evaluation.value; }
+                consValue = args[1].evaluation.expressionValue;
+            } else if (args[1].evaluation.type === "variable" && args[0].evaluation.type === "constant") {
+                var index = args[1].evaluation.value ? 0 : 1, vals = condition.getVals(args[1].evaluation.expressionValue);
                 if (vals && index <= vals.length) { varValue = vals[index]; }
-                else { varValue = args[1].value; }
-                consValue = args[0].expressionValue;
+                else { varValue = args[1].evaluation.value; }
+                consValue = args[0].evaluation.expressionValue;
             }
+
         }
         //strip any leading or trailing quote marks
         if (varValue && varValue.startsWith && varValue.startsWith("\"")) { varValue = varValue.substring(1); }
@@ -108,50 +110,62 @@ function interpret(tree, substitutions, condition) {
 
     var actions = {
         substitution(args) {
-            var result = { value: !!args[0].value, type: args[0].type, expressionValue: args[0].value };
+            var result = { action: "substitution", value: !!args[0].value, type: args[0].type, expressionValue: args[0].value, substitutions };
             if (args[0].type === "variable") {
                 result.value = substitutions[args[0].value];
             } else if (args[0].type === "constant") {
                 if (args[0].value.toUpperCase && args[0].value.toUpperCase() === "FALSE") {
                     result.value = false;
+                } else {
+                    //testing
+                    //it is possible we have a single term with no substitution
+                    //if so then eval the arg itself to a value
+                    if (substitutions.hasOwnProperty(args[0].varName)) {
+                        result.value = substitutions[args[0].varName];
+                    } else {
+                        result.value = !!(args[0].value);
+                    }
+
                 }
             }
             return result;
         }, negation(args) {
-            var result = { value: !args[0].value };
+            var result = { action: 'negation', value: !args[0].evaluation.value, rh: args[0].evaluation.value };
             return result;
         },
         disjunction(args) {
-            var result = { value: args[0].value || args[1].value };
+            var result = { action: 'disjunction', value: args[0].evaluation.value || args[1].evaluation.value, rh: args[0].evaluation.value, lh: args[1].evaluation.value };
             return result;
         },
         conjunction(args) {
-            var result = { value: args[0].value && args[1].value };
+            var result = { action: 'conjunction', value: args[0].evaluation.value && args[1].evaluation.value, rh: args[0].evaluation.value, lh: args[1].evaluation.value };
             return result;
         },
         implication(args) {
-            var result = { value: !args[0].value || args[1].value };
+            var result = { action: 'implication', value: !args[0].evaluation.value || args[1].evaluation.value, rh: args[0].evaluation.value, lh: args[1].evaluation.value };
             return result;
         },
         equivalence(args) {
-            var pargs = parseArgs(args);
             //|| (!args[0].value && !args[1].value)
-            var result = { value: (pargs.varValue === pargs.consValue) };
+            var result = { action: 'equivalence', value: (args[0].evaluation.value === args[1].evaluation.value), rh: args[0].evaluation.value, lh: args[1].evaluation.value };
             return result;
         },
         notEquivalence(args) {
-            var pargs = parseArgs(args);
+            //var pargs = parseArgs(args);
             //var result = { value: (args[0].value && !args[1].value) || (!args[0].value && args[1].value) };
-            var result = { value: (pargs.varValue !== pargs.consValue) };
+            //var result = { value: (pargs.varValue !== pargs.consValue) };
+            var result = { action: 'notEquivalence', value: (args[0].evaluation.value !== args[1].evaluation.value), rh: args[0].evaluation.value, lh: args[1].evaluation.value };
             return result;
         },
         startsWith(args) {
+            var result;
+
             if (args[0].type === "variable" && args[1].type === "variable") {
-                return this.equivalence(args);
+                result = this.equivalence(args);
+            } else {
+                var pargs = parseArgs(args);
+                result = { action: 'startsWith', value: (pargs.varValue.startsWith(pargs.consValue)), rh: pargs.varValue, lh: pargs.consValue };
             }
-            var pargs = parseArgs(args), result;
-            //how to handle if both sides are vars
-            result = { value: (pargs.varValue.startsWith(pargs.consValue)) };
             return result;
         }
     };
@@ -171,11 +185,16 @@ function interpret(tree, substitutions, condition) {
         if (!actions[action]) {
             console.log(action);
         }
-        node.result = actions[action](args);
-        return node.result;
+
+        node.evaluation = actions[action](args);
+        if (node.hasOwnProperty("evaluation")) {
+            evaluations.push(node.evaluation);
+        }
+        return node;
     }
 
     var result = process(iTree);
+    result.evaluations = evaluations;
     return result;
 }
 
@@ -210,23 +229,26 @@ Condition.prototype.getTruthTable = function (cb) {
                 truthTable = { expression: condition.getExpression(), evaluations: [] };
 
             for (var i = 0, count = Math.pow(2, vars.length); i < count; i++) {
+                var result = _evaluate(combinations[i], tree, vars, condition);
+
                 var run = {
                     substitutions: combinations[i],
-                    evaluation: _evaluate(combinations[i], tree, vars, condition).value,
+                    result
                 };
                 truthTable.evaluations.push(run);
             }
             //based on the values in truth table assess validity
             var trueCount = 0;
             truthTable.evaluations.forEach(function (run) {
-                trueCount += 0 + run.evaluation;
+                trueCount += 0 + run.result.evaluation.value;
             });
             truthTable.evaluation = (trueCount === 0) ? "absurdity" : "valid";
+            //consider new evaluation of "unnecessary" when all evaluations are true
             return truthTable;
         }
 
         if (!this.truthTable) {
-            this.truthTable = process(this.getAST(process));
+            this.truthTable = process(this.getAST());
         }
     }
     if (cb) { cb(this.truthTable); }
@@ -282,7 +304,7 @@ Condition.prototype.getTokens = function () {
     }
 
     function isVariable(ch) {
-        var isVar = /[A-Za-z_]/.test(ch);
+        // var isVar = /[A-Za-z_]/.test(ch);
         return /[A-Za-z_]/.test(ch);
     }
 
@@ -480,7 +502,7 @@ Condition.prototype.getVariables = function () {
 
 Condition.prototype.getConstants = function () {
     if (!this.constants) {
-        this.constants = getTokensByType(this.getTokens(), "constants");
+        this.constants = getTokensByType(this.getTokens(), "constant");
     }
     return this.constants;
 };
@@ -615,14 +637,11 @@ Condition.prototype.getAST = function (cb) {
 // [ 1, 1 ]
 function generateCombinations(n) {
 
+    if (n == 1) { n = 2; }
     //we will create an objet array structure here
-    var result = {};
+    var result = {}, combs = [], comb, str, cnt = Math.pow(2, n);
 
-    var combs = [];
-    var comb;
-    var str;
-
-    for (var i = 0; i < Math.pow(2, n); i++) {
+    for (var i = 0; i < cnt; i++) {
         str = i.toString(2);
         comb = [];
 

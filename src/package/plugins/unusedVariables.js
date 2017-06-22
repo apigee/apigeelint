@@ -13,7 +13,8 @@ var varFinder = /{([^}\.]+?)(\.[^}]+?)??}/g;
 var globalSymtab = [
     "proxy",
     "request",
-    "response"
+    "response",
+    "message"
 ];
 
 // global bundle ... until I objectize this...
