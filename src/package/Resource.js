@@ -41,7 +41,7 @@ Resource.prototype.summarize = function () {
 Resource.prototype.getContents = function () {
     if (!this.contents) {
         //read the file contents and return them
-        this.contents = fs.readFileSync("./" + this.path).toString();
+        this.contents = fs.readFileSync( this.path).toString();
     }
     return this.contents;
 };

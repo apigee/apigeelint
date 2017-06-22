@@ -72,6 +72,7 @@ var init = {
         //set bundle.root to absolute path
         //console.log("setting root to: " + path.resolve(config.source.path));
         bundle.root = path.resolve(config.source.path);
+        bundle.proxyRoot =bundle.root;
         console.log("root "+bundle.root);
         bundle.policies = [];
         bundle.messages = { warnings: [], errors: [] };
