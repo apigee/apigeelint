@@ -1,4 +1,5 @@
-var bl = require("./package/bundleLinter.js");
+var bl = require("./package/bundleLinter.js"),    util = require("util");
+
 
 var configuration = {
     debug: true,
@@ -6,7 +7,7 @@ var configuration = {
         "type": "filesystem",
         "path": "./sampleProxy",
     },
-    //plugins: ['checkFileName.js']
+    plugins: ['checkFileName.js']
 };
 
-bl.lint(configuration);
+console.log(util.inspect(bl.lint(configuration), { showHidden: false, depth: 9, maxArrayLength: 100 }));
