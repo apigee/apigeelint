@@ -1,6 +1,6 @@
 # bundle-linter
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e1d2b19961914f41bc3711fce42df155)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=apigeecs/bundle-linter&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/260964318a4e4e689cbd6d059472765e)](https://www.codacy.com/app/davidwallen/bundle-linter?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=apigeecs/bundle-linter&amp;utm_campaign=Badge_Grade)
 
 Static code analysis for Apigee proxy bundles to encourage API developers to use best practices and avoid anti-patterns.
 
@@ -18,18 +18,20 @@ Reporters (the means to report out results), Ingesters (bundle loaders) are to b
 
 A simple script based approach is used right now. The sample.js configuration at root executes a linting session against the default bundle:
 
-var bl = require("./package/bundleLinter.js");
+```
+var bl = require("./package/bundleLinter.js"),
+util = require("util");
 
-	var configuration = {
-	    debug: true,
-	    "source": {
-	        "type":"filesystem",
-	        "path": "../sampleProxy",
-	    }
-	};
+var configuration = {
+    debug: true,
+    "source": {
+        "type": "filesystem",
+        "path": "./sampleProxy",
+    },
+};
 
-	bl.lint(configuration);
-
+console.log(util.inspect(bl.lint(configuration), { showHidden: false, depth: 9, maxArrayLength: 100 }));
+```
 
 ## Contributing
 

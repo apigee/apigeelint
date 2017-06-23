@@ -1,7 +1,6 @@
 //bundleLinter.js
 var fs = require("fs"),
     path = require("path"),
-    myUtil = require("./myUtil.js"),
     config;
 
 function contains(a, obj, f) {
@@ -23,24 +22,20 @@ function contains(a, obj, f) {
     return false;
 }
 
-function report(b) {
+function getReport(b) {
+    var result={'bundle':{},'policies':[]};
     if (b.messages) {
-        myUtil.print("Bundle:");
-        myUtil.print(b.messages);
-        myUtil.print("");
+        result.bundle.errors=b.messages.errors;
+        result.bundle.warnings=b.messages.warnings;
     }
     if (b.policies) {
-        myUtil.print("Policies:");
         b.policies.forEach(function (policy) {
             if (policy.messages && (policy.getMessages().warnings.length > 0 || policy.getMessages().errors.length > 0)) {
-                myUtil.print(policy.getFileName());
-                myUtil.print("-----------");
-                myUtil.print(policy.getMessages());
-                myUtil.print("");
+                result.policies.push({'fileName':policy.getFileName(),'errors':policy.getMessages().errors,'warnings':policy.getMessages().warnings});
             }
         });
     }
-
+    return result;
 }
 
 var Bundle = require("./Bundle.js"),
@@ -63,8 +58,7 @@ var Bundle = require("./Bundle.js"),
                 plugin.onPolicy && bundle.onPolicies(plugin.onPolicy);
             }
         });
-        report(bundle);
-        return bundle;
+        return getReport(bundle);
     };
 
 module.exports = {

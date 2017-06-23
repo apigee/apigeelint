@@ -1,12 +1,14 @@
-var bl = require("./package/bundleLinter.js");
+var bl = require("./package/bundleLinter.js"),
+util = require("util");
+
 
 var configuration = {
     debug: true,
     "source": {
         "type": "filesystem",
-        "path": "../sampleProxy",
+        "path": "./sampleProxy/24Solver/apiproxy",
     },
-    //plugins: ['checkFileName.js']
+    //plugins: ['bundleStructure.js']
 };
 
-bl.lint(configuration);
+console.log(util.inspect(bl.lint(configuration), { showHidden: false, depth: 9, maxArrayLength: 100 }));

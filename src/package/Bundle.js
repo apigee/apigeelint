@@ -65,14 +65,15 @@ var init = {
         this[config.source.type](config, bundle);
     },
     filesystem(config, bundle) {
-        process.chdir(config.source.path);
-
+        
         //ok lets build our bundle representation from file system
         //note all methods ultimately will call this init
         //usually after they retrieve the bundle from a remote
         //set bundle.root to absolute path
-        console.log("setting root to: " + path.resolve(config.source.path));
+        //console.log("setting root to: " + path.resolve(config.source.path));
         bundle.root = path.resolve(config.source.path);
+        bundle.proxyRoot =bundle.root;
+        console.log("root "+bundle.root);
         bundle.policies = [];
         bundle.messages = { warnings: [], errors: [] };
         bundle.warn = function (msg) {
@@ -81,10 +82,10 @@ var init = {
         bundle.err = function (msg) {
             return this.messages.errors.push(msg);
         };
-        var folders = new FindFolder("apiproxy");
-
+        process.chdir(config.source.path);
+        var folders = new FindFolder('target/apiproxy');
         folders.some(function (folder) {
-            if (folder.indexOf("target/") === -1) {
+            if (folder.indexOf("target/apiproxy") != -1) {
                 bundle.proxyRoot = folder;
                 return;
             }

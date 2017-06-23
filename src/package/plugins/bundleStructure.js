@@ -133,7 +133,7 @@ var bundleStructure = {
 },
     onBundle = function (bundle) {
         plugin.warnings = [];
-        root = bundle.root + "/" + bundle.proxyRoot;
+        root = bundle.proxyRoot;
         checkNode(bundleStructure, bundle.warn);
         if (plugin.warnings.length > 0) {
             bundle.warn(plugin);

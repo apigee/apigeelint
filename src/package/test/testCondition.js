@@ -1,24 +1,28 @@
-//dumpBundle.js
 var Condition = require("../Condition.js"),
+    //dumpBundle.js
     myUtil = require("../myUtil.js"),
     Dom = require("xmldom").DOMParser,
     test = function (exp, assertion) {
         var doc = new Dom().parseFromString(exp);
         var c = new Condition(doc, this);
 
-        myUtil.inspect(c.getExpression());
-        myUtil.inspect(c.getTokens());
-        myUtil.inspect(c.getVals());
-        c.getAST(myUtil.inspect);
+        /* myUtil.inspect(c.getExpression());
+         myUtil.inspect(c.getTokens());
+         myUtil.inspect(c.getVals());
+        c.getAST(myUtil.inspect);*/
 
         var tt = c.getTruthTable();
         if (tt.evaluation !== assertion) {
             myUtil.inspect({
                 expression: c.getExpression(),
-                ast: c.getAST(),
+                truthTable: c.truthTable,
                 assertion,
                 evaluation: tt.evaluation
             });
+            //run again now in debugger mode
+            debugger;
+            test(exp, assertion);
+            process.exit(0);
         } else {
             myUtil.inspect({
                 expression: c.getExpression(),
@@ -26,16 +30,17 @@ var Condition = require("../Condition.js"),
             });
         }
     };
-/*
-test("b=c", "valid");
-test("b!=c", "valid");
-test("b!=b", "absurdity");
-test("b=1", "valid");
-test("b=2", "valid");
-test("true and b!=c", "valid");
-test("false", "absurdity");
+
+/*test("false", "absurdity");
 test("true", "valid");
 test("true OR false", "valid");
+test("b=1", "valid");
+test("b!=1", "valid");
+test("b=c", "valid");
+test("b=2", "valid");
+test("b!=c", "valid");
+test("b!=b", "absurdity");
+test("true and b!=c", "valid");
 test("b=1 and b!=1", "absurdity");
 test("(b=1)", "valid");
 test("((b=1))", "valid");
@@ -51,7 +56,7 @@ test("b=c and d=e", "valid");
 test("(b=c) and (d=e)", "valid");
 test("true AND false", "absurdity");
 test("(a = b OR c=d) AND a!=b AND c!=d", "absurdity");
-test("a StartsWith \"foo\" AND a =\"foobar\"", "valid");
+test("a StartsWith \"foo\" AND a =\"foobar\"", "valid");*/
 test("a StartsWith \"foo\" AND a !=\"foobar\"", "valid");
 test("b and b", "valid");
 test("(b and b)", "valid");
@@ -82,10 +87,12 @@ test("a StartsWith \"foo\" AND a =\"foobar\"", "valid");
 test("a StartsWith \"boo\" AND a =\"foobar\"", "absurdity");
 test("(a = b) and (b=c) and (a!=c)", "absurdity");
 test("(a StartsWith b OR c=d) AND (d=c OR x=y) AND a!=b and c=e and e=d and c!=d", "absurdity");
-*/
+
 //test("proxy.pathsuffix MatchesPath \"/{version}/profile/{profile.id}/paymentmethods/**\" and proxy.pathsuffix !MatchesPath \"**/initialize\" and proxy.pathsuffix !MatchesPath \"**/finalize\" and request.verb = \"GET\"", "valid");
 //test("proxy.pathsuffix !MatchesPath \"/{version}/profile/{profile.id}/paymentmethods/**\")", "valid");
-//test("proxy.pathsuffix MatchesPath \"/{version}/profile/{profile.id}/paymentmethods/**\" and proxy.pathsuffix !MatchesPath \"**/initialize\" ", "valid");
 
-test("walletAdjustment.action != \"grant\" AND walletAdjustment.action != \"revoke\"", "valid");
+//to pass this test would require glob testing - TODO
+//test("proxy.pathsuffix MatchesPath \"/{version}/profile/{profile.id}/paymentmethods/**\" and proxy.pathsuffix !MatchesPath \"**/initialize\" ", "valid");
+//test("walletAdjustment.action != \"grant\" AND walletAdjustment.action != \"revoke\"", "valid");
+
 process.exit(0);
