@@ -16,22 +16,7 @@ Reporters (the means to report out results), Ingesters (bundle loaders) are to b
 
 ## Usage
 
-A simple script based approach is used right now. The sample.js configuration at root executes a linting session against the default bundle:
-
-```
-var bl = require("./package/bundleLinter.js"),
-util = require("util");
-
-var configuration = {
-    debug: true,
-    "source": {
-        "type": "filesystem",
-        "path": "./sampleProxy",
-    },
-};
-
-console.log(util.inspect(bl.lint(configuration), { showHidden: false, depth: 9, maxArrayLength: 100 }));
-```
+apigeelint -s sampleProxy/
 
 ## Contributing
 
@@ -97,4 +82,4 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_check_mark:| CC006 | Detect logical absurdities |  Conditions should not have internal logic conflicts - warn when these are detected. |
 
 
-From an implementation perspective the focus is on plugin support and flexibility over performance. Compute is cheap. 
+From an implementation perspective the focus is on plugin support and flexibility over performance. Compute is cheap.

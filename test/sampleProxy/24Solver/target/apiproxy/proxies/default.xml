@@ -25,10 +25,10 @@
     <PostFlow name="PostFlow">
         <Request/>
         <Response>
-            <Step>
+            <!-- <Step>
                 <FaultRules/>
                 <Name>jsCalculate</Name>
-            </Step>
+            </Step> -->
         </Response>
     </PostFlow>
     <HTTPProxyConnection>
