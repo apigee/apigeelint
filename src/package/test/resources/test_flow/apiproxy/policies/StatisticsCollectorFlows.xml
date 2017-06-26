@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<StatisticsCollector async="false" continueOnError="false" enabled="true" name="StatisticsCollectorFlows">
-    <DisplayName>StatisticsCollectorFlows</DisplayName>
-    <Properties/>
-    <Statistics>
-        <Statistic name="name2" ref="" type="STRING">value</Statistic>
-        <Statistic name="name3" ref="" type="STRING">value</Statistic>
-    </Statistics>
-</StatisticsCollector>
