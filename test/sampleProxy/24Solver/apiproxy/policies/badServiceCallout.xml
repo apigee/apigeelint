@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ServiceCallout async="false" continueOnError="false" enabled="true" name="service-callout">
+   <DisplayName>service-callout</DisplayName>
+   <Properties/>
+   <Request clearPayload="true" variable="request">
+       <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+   </Request>
+   <Response>response</Response>
+   <HTTPTargetConnection>
+       <URL>https://httpbin.org/get</URL>
+   </HTTPTargetConnection>
+</ServiceCallout>

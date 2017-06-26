@@ -1,0 +1,1261 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DebugSession>
+<Retrieved>2015-04-25T20:24:57.702Z</Retrieved>
+<Organization>davidwallen2014</Organization>
+<Environment>test</Environment>
+<API>TwentyFour</API>
+<Revision>1</Revision>
+<SessionId></SessionId>
+<Messages>
+<Message>
+<DebugId>8239ce98-8681-4eac-9794-ec7b679dd27e__42</DebugId>
+
+<Data>
+    <Completed>true</Completed>
+    <Point id="Paused"/>
+    <Point id="Resumed"/>
+    <Point id="StateChange">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:187</Timestamp>
+            <Properties>
+                <Property name="To">REQ_HEADERS_PARSED</Property>
+                <Property name="From">REQ_START</Property>
+            </Properties>
+        </DebugInfo>
+        <RequestMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">3ae1a4c6-7e13-4737-8b6a-8d9b9be181da</Header>
+                <Header name="X-Apigee.application">TwentyFour</Header>
+                <Header name="X-Apigee.environment">test</Header>
+                <Header name="X-Apigee.organization">davidwallen2014</Header>
+                <Header name="X-Apigee.proxy">default</Header>
+                <Header name="X-Apigee.revision">1</Header>
+                <Header name="X-Apigee.router.host">rrt11apigee</Header>
+                <Header name="X-Apigee.router.uuid">38f80c53-a22b-4427-ab95-a178482daa6b</Header>
+                <Header name="X-Apigee.vhost">default</Header>
+            </Headers>
+            <URI>/twentyfour?numbers=1%2C2%2C4%2C6</URI>
+            <Verb>GET</Verb>
+        </RequestMessage>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:187</Timestamp>
+            <Properties>
+                <Property name="environment.name">test</Property>
+                <Property name="environment.qualifiedname">davidwallen2014__test</Property>
+                <Property name="environment.orgname">davidwallen2014</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:187</Timestamp>
+            <Properties>
+                <Property name="organization.name">davidwallen2014</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:187</Timestamp>
+            <Properties>
+                <Property name="apiproxy.qualifiedname">TwentyFour__1</Property>
+                <Property name="apiproxy.basepath">/</Property>
+                <Property name="apiproxy.revision">1</Property>
+                <Property name="apiproxy.name">TwentyFour</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:188</Timestamp>
+            <Properties>
+                <Property name="proxy.basepath">/twentyfour</Property>
+                <Property name="proxy.pathsuffix"></Property>
+                <Property name="proxy.url">http://rrt11apigee.us-ea.4.apigee.com/twentyfour?numbers=1%2C2%2C4%2C6</Property>
+                <Property name="proxy.name">default</Property>
+                <Property name="proxy.client.ip">54.210.253.178</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:188</Timestamp>
+            <Properties>
+                <Property name="virtualhost.port">80</Property>
+                <Property name="virtualhost.name">default</Property>
+                <Property name="virtualhost.ssl.enabled">false</Property>
+                <Property name="virtualhost.aliases">{davidwallen2014-test.apigee.net}</Property>
+                <Property name="virtualhost.ip">192.168.5.80</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:188</Timestamp>
+            <Properties/>
+        </DebugInfo>
+    </Point>
+    <Point id="StateChange">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:188</Timestamp>
+            <Properties>
+                <Property name="To">PROXY_REQ_FLOW</Property>
+                <Property name="From">REQ_HEADERS_PARSED</Property>
+            </Properties>
+        </DebugInfo>
+        <RequestMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">3ae1a4c6-7e13-4737-8b6a-8d9b9be181da</Header>
+            </Headers>
+            <URI>/twentyfour?numbers=1%2C2%2C4%2C6</URI>
+            <Verb>GET</Verb>
+        </RequestMessage>
+    </Point>
+    <Point id="Condition">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:188</Timestamp>
+            <Properties>
+                <Property name="ExpressionResult">true</Property>
+                <Property name="Expression">(&quot;default&quot; equals proxy.name)</Property>
+                <Property name="Tree">PROXY_default</Property>
+            </Properties>
+        </DebugInfo>
+        <VariableAccess>
+            <Get value="default" name="proxy.name"/>
+        </VariableAccess>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:188</Timestamp>
+            <Properties>
+                <Property name="proxy.flow.name">PreFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:188</Timestamp>
+            <Properties>
+                <Property name="current.flow.name">PreFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="Execution">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:188</Timestamp>
+            <Properties>
+                <Property name="stepDefinition-async">false</Property>
+                <Property name="internal">false</Property>
+                <Property name="stepDefinition-type">jsonattack</Property>
+                <Property name="expression">(request.verb equals &quot;POST&quot;)</Property>
+                <Property name="type">JSONThreatProtectionExecution</Property>
+                <Property name="enforcement">request</Property>
+                <Property name="stepDefinition-continueOnError">false</Property>
+                <Property name="expressionResult">false</Property>
+                <Property name="stepDefinition-displayName">JSONThreatProtection</Property>
+                <Property name="stepDefinition-name">JSONThreatProtection</Property>
+                <Property name="stepDefinition-enabled">true</Property>
+            </Properties>
+        </DebugInfo>
+        <RequestMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">3ae1a4c6-7e13-4737-8b6a-8d9b9be181da</Header>
+            </Headers>
+            <URI>/twentyfour?numbers=1%2C2%2C4%2C6</URI>
+            <Verb>GET</Verb>
+        </RequestMessage>
+        <VariableAccess>
+            <Get value="GET" name="request.verb"/>
+        </VariableAccess>
+    </Point>
+    <Point id="Execution">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:189</Timestamp>
+            <Properties>
+                <Property name="action">CONTINUE</Property>
+                <Property name="stepDefinition-async">false</Property>
+                <Property name="internal">false</Property>
+                <Property name="stepDefinition-type">extractvariables</Property>
+                <Property name="expression">(request.verb equals &quot;GET&quot;)</Property>
+                <Property name="type">ExtractVariablesExecution</Property>
+                <Property name="enforcement">request</Property>
+                <Property name="stepDefinition-continueOnError">false</Property>
+                <Property name="expressionResult">true</Property>
+                <Property name="stepDefinition-displayName">ExtractParamVariables</Property>
+                <Property name="stepDefinition-name">ExtractParamVariables</Property>
+                <Property name="stepDefinition-enabled">true</Property>
+                <Property name="result">true</Property>
+            </Properties>
+        </DebugInfo>
+        <RequestMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">3ae1a4c6-7e13-4737-8b6a-8d9b9be181da</Header>
+            </Headers>
+            <URI>/twentyfour?numbers=1%2C2%2C4%2C6</URI>
+            <Verb>GET</Verb>
+        </RequestMessage>
+        <VariableAccess>
+            <Set success="true" value="1,2,4,6" name="numArray"/>
+        </VariableAccess>
+    </Point>
+    <Point id="Execution">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:189</Timestamp>
+            <Properties>
+                <Property name="stepDefinition-async">false</Property>
+                <Property name="internal">false</Property>
+                <Property name="stepDefinition-type">extractvariables</Property>
+                <Property name="expression">((request.verb equals &quot;POST&quot;) and (request.header.contenttype equals &quot;application/json&quot;))</Property>
+                <Property name="type">ExtractVariablesExecution</Property>
+                <Property name="enforcement">request</Property>
+                <Property name="stepDefinition-continueOnError">false</Property>
+                <Property name="expressionResult">false</Property>
+                <Property name="stepDefinition-displayName">ExtractPayloadVariables</Property>
+                <Property name="stepDefinition-name">ExtractPayloadVariables</Property>
+                <Property name="stepDefinition-enabled">true</Property>
+            </Properties>
+        </DebugInfo>
+        <RequestMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">3ae1a4c6-7e13-4737-8b6a-8d9b9be181da</Header>
+            </Headers>
+            <URI>/twentyfour?numbers=1%2C2%2C4%2C6</URI>
+            <Verb>GET</Verb>
+        </RequestMessage>
+        <VariableAccess>
+            <Set success="true" value="1,2,4,6" name="numArray"/>
+            <Get value="GET" name="request.verb"/>
+        </VariableAccess>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:189</Timestamp>
+            <Properties>
+                <Property name="proxy.flow.name">PostFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:189</Timestamp>
+            <Properties>
+                <Property name="current.flow.name">PostFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="Execution">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:190</Timestamp>
+            <Properties>
+                <Property name="type">EchoRequestExecution</Property>
+            </Properties>
+        </DebugInfo>
+        <ResponseMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">3ae1a4c6-7e13-4737-8b6a-8d9b9be181da</Header>
+            </Headers>
+            <ReasonPhrase>OK</ReasonPhrase>
+            <StatusCode>200</StatusCode>
+        </ResponseMessage>
+        <VariableAccess/>
+    </Point>
+    <Point id="StateChange">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:190</Timestamp>
+            <Properties>
+                <Property name="To">PROXY_RESP_FLOW</Property>
+                <Property name="From">PROXY_REQ_FLOW</Property>
+            </Properties>
+        </DebugInfo>
+        <ResponseMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">3ae1a4c6-7e13-4737-8b6a-8d9b9be181da</Header>
+            </Headers>
+        </ResponseMessage>
+    </Point>
+    <Point id="Condition">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:190</Timestamp>
+            <Properties>
+                <Property name="ExpressionResult">true</Property>
+                <Property name="Expression">(&quot;default&quot; equals proxy.name)</Property>
+                <Property name="Tree">PROXY_default</Property>
+            </Properties>
+        </DebugInfo>
+        <VariableAccess>
+            <Get value="default" name="proxy.name"/>
+        </VariableAccess>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:190</Timestamp>
+            <Properties>
+                <Property name="proxy.flow.name">PreFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:190</Timestamp>
+            <Properties>
+                <Property name="current.flow.name">PreFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:190</Timestamp>
+            <Properties>
+                <Property name="proxy.flow.name">PostFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:190</Timestamp>
+            <Properties>
+                <Property name="current.flow.name">PostFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="Paused"/>
+    <Point id="Execution">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:247</Timestamp>
+            <Properties>
+                <Property name="javascript-executionTime">55</Property>
+                <Property name="action">CONTINUE</Property>
+                <Property name="javascript-timeLimit">200</Property>
+                <Property name="stepDefinition-async">false</Property>
+                <Property name="internal">false</Property>
+                <Property name="stepDefinition-type">javascript</Property>
+                <Property name="javascript-name">jsCalculate.js</Property>
+                <Property name="stepExecution-stdout">Candidate results: 448
+Possible answers: 0</Property>
+                <Property name="type">JavascriptStepExecution</Property>
+                <Property name="enforcement">response</Property>
+                <Property name="stepDefinition-continueOnError">false</Property>
+                <Property name="stepDefinition-displayName">jsCalculate</Property>
+                <Property name="stepDefinition-name">jsCalculate</Property>
+                <Property name="stepDefinition-enabled">true</Property>
+                <Property name="result">true</Property>
+            </Properties>
+        </DebugInfo>
+        <ResponseMessage>
+            <Content>[]</Content>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">3ae1a4c6-7e13-4737-8b6a-8d9b9be181da</Header>
+            </Headers>
+        </ResponseMessage>
+        <VariableAccess>
+            <Get value="1,2,4,6" name="numArray"/>
+            <Set success="true" value="[]" name="response.content"/>
+        </VariableAccess>
+    </Point>
+    <Point id="Resumed"/>
+    <Point id="StateChange">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:249</Timestamp>
+            <Properties>
+                <Property name="To">RESP_SENT</Property>
+                <Property name="From">PROXY_RESP_FLOW</Property>
+            </Properties>
+        </DebugInfo>
+        <ResponseMessage>
+            <Content>[]</Content>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">3ae1a4c6-7e13-4737-8b6a-8d9b9be181da</Header>
+            </Headers>
+        </ResponseMessage>
+    </Point>
+    <Point id="Condition">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:250</Timestamp>
+            <Properties>
+                <Property name="ExpressionResult">true</Property>
+                <Property name="Expression">(&quot;default&quot; equals proxy.name)</Property>
+                <Property name="Tree">PROXY_default</Property>
+            </Properties>
+        </DebugInfo>
+        <VariableAccess>
+            <Get value="default" name="proxy.name"/>
+        </VariableAccess>
+    </Point>
+    <Point id="StateChange">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:250</Timestamp>
+            <Properties>
+                <Property name="To">END</Property>
+                <Property name="From">RESP_SENT</Property>
+            </Properties>
+        </DebugInfo>
+        <ResponseMessage>
+            <Content>[]</Content>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">3ae1a4c6-7e13-4737-8b6a-8d9b9be181da</Header>
+            </Headers>
+            <ReasonPhrase>OK</ReasonPhrase>
+            <StatusCode>200</StatusCode>
+        </ResponseMessage>
+    </Point>
+    <Point id="DebugMask">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:250</Timestamp>
+            <Properties>
+                <Property name="SuccessFullyMaskedConfigs">[]</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="Resumed"/>
+    <Point id="StateChange">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:250</Timestamp>
+            <Properties>
+                <Property name="To">PROXY_POST_RESP_SENT</Property>
+                <Property name="From">END</Property>
+            </Properties>
+        </DebugInfo>
+        <ResponseMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Content-Length">2</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">3ae1a4c6-7e13-4737-8b6a-8d9b9be181da</Header>
+                <Header name="X-Apigee.Message-ID">rrt11apigee_BTFTu+uM_RouterProxy-2-3969135_1</Header>
+            </Headers>
+            <ReasonPhrase>OK</ReasonPhrase>
+            <StatusCode>200</StatusCode>
+        </ResponseMessage>
+    </Point>
+    <Point id="Condition">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:251</Timestamp>
+            <Properties>
+                <Property name="ExpressionResult">true</Property>
+                <Property name="Expression">(&quot;default&quot; equals proxy.name)</Property>
+                <Property name="Tree">PROXY_default</Property>
+            </Properties>
+        </DebugInfo>
+        <VariableAccess>
+            <Get value="default" name="proxy.name"/>
+        </VariableAccess>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:251</Timestamp>
+            <Properties>
+                <Property name="proxy.flow.name">PostClientFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:251</Timestamp>
+            <Properties>
+                <Property name="current.flow.name">PostClientFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="Paused"/>
+    <Point id="Execution">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:251</Timestamp>
+            <Properties>
+                <Property name="expressionResult">true</Property>
+                <Property name="type">AnalyticsPredefinedVariablesPublisher</Property>
+                <Property name="expression">(analytics equals null )</Property>
+            </Properties>
+        </DebugInfo>
+        <ResponseMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Content-Length">2</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">3ae1a4c6-7e13-4737-8b6a-8d9b9be181da</Header>
+                <Header name="X-Apigee.Message-ID">rrt11apigee_BTFTu+uM_RouterProxy-2-3969135_1</Header>
+            </Headers>
+            <ReasonPhrase>OK</ReasonPhrase>
+            <StatusCode>200</StatusCode>
+        </ResponseMessage>
+        <VariableAccess/>
+    </Point>
+    <Point id="Resumed"/>
+    <Point id="Execution">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:00:252</Timestamp>
+            <Properties>
+                <Property name="expressionResult">false</Property>
+                <Property name="type">AnalyticsPublisher</Property>
+                <Property name="expression">(analytics not null)</Property>
+            </Properties>
+        </DebugInfo>
+        <ResponseMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Content-Length">2</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">3ae1a4c6-7e13-4737-8b6a-8d9b9be181da</Header>
+                <Header name="X-Apigee.Message-ID">rrt11apigee_BTFTu+uM_RouterProxy-2-3969135_1</Header>
+            </Headers>
+            <ReasonPhrase>OK</ReasonPhrase>
+            <StatusCode>200</StatusCode>
+        </ResponseMessage>
+        <VariableAccess>
+            <Get value="davidwallen2014" name="organization.name"/>
+            <Get value="test" name="environment.name"/>
+            <Get value="davidwallen2014" name="organization.name"/>
+            <Get value="test" name="environment.name"/>
+            <Get value="TwentyFour" name="apiproxy.name"/>
+            <Get value="1" name="apiproxy.revision"/>
+            <Get value="default" name="proxy.name"/>
+            <Get value="/twentyfour" name="proxy.basepath"/>
+            <Get value="" name="proxy.pathsuffix"/>
+            <Get name="request.header.X-Forwarded-For"/>
+            <Get value="54.210.253.178" name="proxy.client.ip"/>
+            <Get name="target.name"/>
+            <Get name="target.basepath"/>
+            <Get name="target.url"/>
+            <Get name="target.host"/>
+            <Get name="target.ip"/>
+            <Get value="54.210.253.178" name="client.ip"/>
+            <Get value="false" name="is.error"/>
+            <Get name="apigee.edge.execution.is_policy_error"/>
+            <Get name="apigee.edge.execution.is_target_error"/>
+            <Get name="target.sent.start.timestamp"/>
+            <Get name="target.sent.end.timestamp"/>
+            <Get name="target.received.start.timestamp"/>
+            <Get name="target.received.end.timestamp"/>
+            <Get value="1429993200186" name="client.received.start.timestamp"/>
+            <Get value="1429993200187" name="client.received.end.timestamp"/>
+            <Get value="1429993200250" name="client.sent.start.timestamp"/>
+            <Get value="1429993200250" name="client.sent.end.timestamp"/>
+            <Get value="200" name="message.status.code"/>
+            <Get value="/twentyfour?numbers=1%2C2%2C4%2C6" name="request.uri"/>
+            <Get value="/twentyfour" name="request.path"/>
+            <Get value="GET" name="request.verb"/>
+            <Get value="default" name="virtualhost.name"/>
+            <Get name="apigee.developer.app.name"/>
+            <Get name="apigee.apiproduct.name"/>
+            <Get name="apigee.access_token"/>
+            <Get name="apigee.client_id"/>
+            <Get name="flow.resource.name"/>
+            <Get value="rrt11apigee_BTFTu+uM_RouterProxy-2-3969135_1" name="messageid"/>
+            <Get name="sla"/>
+            <Get value="0" name="client.received.content.length"/>
+            <Get name="target.received.content.length"/>
+            <Get name="cachehit"/>
+            <Get name="responsecache.executed"/>
+            <Get name="responsecache.cachename"/>
+            <Get name="responsecache.cachekey"/>
+            <Get name="responsecache.cachesource"/>
+            <Get name="responsecache.l1.count"/>
+            <Get name="apigee.developer.id"/>
+            <Get name="target.response.status.code"/>
+            <Get name="request.header.X-Forwarded-For"/>
+            <Get name="apigee.developer.email"/>
+            <Get value="NING/1.0" name="request.header.User-Agent"/>
+            <Get name="request.header.X-Apigee-Client-Device-Id"/>
+            <Get name="request.header.X-Apigee-Client-Session-Id"/>
+            <Get name="request.header.X-Apigee-Client-Org-Name"/>
+            <Get name="request.header.X-Apigee-Client-App-Name"/>
+            <Get name="request.header.X-Apigee-Client-Request-Id"/>
+            <Get name="apigee.edge.execution.fault_code"/>
+            <Get name="apigee.edge.execution.is_apigee_fault"/>
+            <Get value="us-east-1" name="system.region.name"/>
+            <Get name="apigee.edge.execution.fault_policy_name"/>
+            <Get name="apigee.edge.execution.fault_flow_name"/>
+            <Get name="apigee.edge.execution.fault_flow_state"/>
+            <Get name="analytics"/>
+        </VariableAccess>
+    </Point>
+    <Point id="Paused"/>
+</Data>
+</Message>
+<Message>
+<DebugId>f9bd370b-c3cc-4ada-81f7-56bf6c331b3d__25</DebugId>
+
+<Data>
+    <Completed>true</Completed>
+    <Point id="Paused"/>
+    <Point id="Resumed"/>
+    <Point id="StateChange">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:389</Timestamp>
+            <Properties>
+                <Property name="To">REQ_HEADERS_PARSED</Property>
+                <Property name="From">REQ_START</Property>
+            </Properties>
+        </DebugInfo>
+        <RequestMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">bcc5f3f6-3c7c-4833-8c86-85f8a88d8aa8</Header>
+                <Header name="X-Apigee.application">TwentyFour</Header>
+                <Header name="X-Apigee.environment">test</Header>
+                <Header name="X-Apigee.organization">davidwallen2014</Header>
+                <Header name="X-Apigee.proxy">default</Header>
+                <Header name="X-Apigee.revision">1</Header>
+                <Header name="X-Apigee.router.host">rrt008ea</Header>
+                <Header name="X-Apigee.router.uuid">26467f86-e529-4135-b012-120e274755d3</Header>
+                <Header name="X-Apigee.vhost">default</Header>
+            </Headers>
+            <URI>/twentyfour?numbers=3%2C15%2C8%2C13</URI>
+            <Verb>GET</Verb>
+        </RequestMessage>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:390</Timestamp>
+            <Properties>
+                <Property name="environment.name">test</Property>
+                <Property name="environment.qualifiedname">davidwallen2014__test</Property>
+                <Property name="environment.orgname">davidwallen2014</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:390</Timestamp>
+            <Properties>
+                <Property name="organization.name">davidwallen2014</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:390</Timestamp>
+            <Properties>
+                <Property name="apiproxy.qualifiedname">TwentyFour__1</Property>
+                <Property name="apiproxy.basepath">/</Property>
+                <Property name="apiproxy.revision">1</Property>
+                <Property name="apiproxy.name">TwentyFour</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:390</Timestamp>
+            <Properties>
+                <Property name="proxy.basepath">/twentyfour</Property>
+                <Property name="proxy.pathsuffix"></Property>
+                <Property name="proxy.url">http://rrt008ea.us-ea.4.apigee.com/twentyfour?numbers=3%2C15%2C8%2C13</Property>
+                <Property name="proxy.name">default</Property>
+                <Property name="proxy.client.ip">54.84.115.42</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:390</Timestamp>
+            <Properties>
+                <Property name="virtualhost.port">80</Property>
+                <Property name="virtualhost.name">default</Property>
+                <Property name="virtualhost.ssl.enabled">false</Property>
+                <Property name="virtualhost.aliases">{davidwallen2014-test.apigee.net}</Property>
+                <Property name="virtualhost.ip">192.168.6.90</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:390</Timestamp>
+            <Properties/>
+        </DebugInfo>
+    </Point>
+    <Point id="StateChange">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:390</Timestamp>
+            <Properties>
+                <Property name="To">PROXY_REQ_FLOW</Property>
+                <Property name="From">REQ_HEADERS_PARSED</Property>
+            </Properties>
+        </DebugInfo>
+        <RequestMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">bcc5f3f6-3c7c-4833-8c86-85f8a88d8aa8</Header>
+            </Headers>
+            <URI>/twentyfour?numbers=3%2C15%2C8%2C13</URI>
+            <Verb>GET</Verb>
+        </RequestMessage>
+    </Point>
+    <Point id="Condition">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:390</Timestamp>
+            <Properties>
+                <Property name="ExpressionResult">true</Property>
+                <Property name="Expression">(&quot;default&quot; equals proxy.name)</Property>
+                <Property name="Tree">PROXY_default</Property>
+            </Properties>
+        </DebugInfo>
+        <VariableAccess>
+            <Get value="default" name="proxy.name"/>
+        </VariableAccess>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:391</Timestamp>
+            <Properties>
+                <Property name="proxy.flow.name">PreFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:391</Timestamp>
+            <Properties>
+                <Property name="current.flow.name">PreFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="Execution">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:391</Timestamp>
+            <Properties>
+                <Property name="stepDefinition-async">false</Property>
+                <Property name="internal">false</Property>
+                <Property name="stepDefinition-type">jsonattack</Property>
+                <Property name="expression">(request.verb equals &quot;POST&quot;)</Property>
+                <Property name="type">JSONThreatProtectionExecution</Property>
+                <Property name="enforcement">request</Property>
+                <Property name="stepDefinition-continueOnError">false</Property>
+                <Property name="expressionResult">false</Property>
+                <Property name="stepDefinition-displayName">JSONThreatProtection</Property>
+                <Property name="stepDefinition-name">JSONThreatProtection</Property>
+                <Property name="stepDefinition-enabled">true</Property>
+            </Properties>
+        </DebugInfo>
+        <RequestMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">bcc5f3f6-3c7c-4833-8c86-85f8a88d8aa8</Header>
+            </Headers>
+            <URI>/twentyfour?numbers=3%2C15%2C8%2C13</URI>
+            <Verb>GET</Verb>
+        </RequestMessage>
+        <VariableAccess>
+            <Get value="GET" name="request.verb"/>
+        </VariableAccess>
+    </Point>
+    <Point id="Execution">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:391</Timestamp>
+            <Properties>
+                <Property name="action">CONTINUE</Property>
+                <Property name="stepDefinition-async">false</Property>
+                <Property name="internal">false</Property>
+                <Property name="stepDefinition-type">extractvariables</Property>
+                <Property name="expression">(request.verb equals &quot;GET&quot;)</Property>
+                <Property name="type">ExtractVariablesExecution</Property>
+                <Property name="enforcement">request</Property>
+                <Property name="stepDefinition-continueOnError">false</Property>
+                <Property name="expressionResult">true</Property>
+                <Property name="stepDefinition-displayName">ExtractParamVariables</Property>
+                <Property name="stepDefinition-name">ExtractParamVariables</Property>
+                <Property name="stepDefinition-enabled">true</Property>
+                <Property name="result">true</Property>
+            </Properties>
+        </DebugInfo>
+        <RequestMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">bcc5f3f6-3c7c-4833-8c86-85f8a88d8aa8</Header>
+            </Headers>
+            <URI>/twentyfour?numbers=3%2C15%2C8%2C13</URI>
+            <Verb>GET</Verb>
+        </RequestMessage>
+        <VariableAccess>
+            <Set success="true" value="3,15,8,13" name="numArray"/>
+        </VariableAccess>
+    </Point>
+    <Point id="Execution">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:391</Timestamp>
+            <Properties>
+                <Property name="stepDefinition-async">false</Property>
+                <Property name="internal">false</Property>
+                <Property name="stepDefinition-type">extractvariables</Property>
+                <Property name="expression">((request.verb equals &quot;POST&quot;) and (request.header.contenttype equals &quot;application/json&quot;))</Property>
+                <Property name="type">ExtractVariablesExecution</Property>
+                <Property name="enforcement">request</Property>
+                <Property name="stepDefinition-continueOnError">false</Property>
+                <Property name="expressionResult">false</Property>
+                <Property name="stepDefinition-displayName">ExtractPayloadVariables</Property>
+                <Property name="stepDefinition-name">ExtractPayloadVariables</Property>
+                <Property name="stepDefinition-enabled">true</Property>
+            </Properties>
+        </DebugInfo>
+        <RequestMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">bcc5f3f6-3c7c-4833-8c86-85f8a88d8aa8</Header>
+            </Headers>
+            <URI>/twentyfour?numbers=3%2C15%2C8%2C13</URI>
+            <Verb>GET</Verb>
+        </RequestMessage>
+        <VariableAccess>
+            <Set success="true" value="3,15,8,13" name="numArray"/>
+            <Get value="GET" name="request.verb"/>
+        </VariableAccess>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:391</Timestamp>
+            <Properties>
+                <Property name="proxy.flow.name">PostFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:392</Timestamp>
+            <Properties>
+                <Property name="current.flow.name">PostFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="Execution">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:392</Timestamp>
+            <Properties>
+                <Property name="type">EchoRequestExecution</Property>
+            </Properties>
+        </DebugInfo>
+        <ResponseMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">bcc5f3f6-3c7c-4833-8c86-85f8a88d8aa8</Header>
+            </Headers>
+            <ReasonPhrase>OK</ReasonPhrase>
+            <StatusCode>200</StatusCode>
+        </ResponseMessage>
+        <VariableAccess/>
+    </Point>
+    <Point id="StateChange">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:392</Timestamp>
+            <Properties>
+                <Property name="To">PROXY_RESP_FLOW</Property>
+                <Property name="From">PROXY_REQ_FLOW</Property>
+            </Properties>
+        </DebugInfo>
+        <ResponseMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">bcc5f3f6-3c7c-4833-8c86-85f8a88d8aa8</Header>
+            </Headers>
+        </ResponseMessage>
+    </Point>
+    <Point id="Condition">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:392</Timestamp>
+            <Properties>
+                <Property name="ExpressionResult">true</Property>
+                <Property name="Expression">(&quot;default&quot; equals proxy.name)</Property>
+                <Property name="Tree">PROXY_default</Property>
+            </Properties>
+        </DebugInfo>
+        <VariableAccess>
+            <Get value="default" name="proxy.name"/>
+        </VariableAccess>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:392</Timestamp>
+            <Properties>
+                <Property name="proxy.flow.name">PreFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:392</Timestamp>
+            <Properties>
+                <Property name="current.flow.name">PreFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:392</Timestamp>
+            <Properties>
+                <Property name="proxy.flow.name">PostFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:392</Timestamp>
+            <Properties>
+                <Property name="current.flow.name">PostFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="Paused"/>
+    <Point id="Execution">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:423</Timestamp>
+            <Properties>
+                <Property name="javascript-executionTime">29</Property>
+                <Property name="action">CONTINUE</Property>
+                <Property name="javascript-timeLimit">200</Property>
+                <Property name="stepDefinition-async">false</Property>
+                <Property name="internal">false</Property>
+                <Property name="stepDefinition-type">javascript</Property>
+                <Property name="javascript-name">jsCalculate.js</Property>
+                <Property name="stepExecution-stdout">Candidate results: 448
+Possible answers: 0</Property>
+                <Property name="type">JavascriptStepExecution</Property>
+                <Property name="enforcement">response</Property>
+                <Property name="stepDefinition-continueOnError">false</Property>
+                <Property name="stepDefinition-displayName">jsCalculate</Property>
+                <Property name="stepDefinition-name">jsCalculate</Property>
+                <Property name="stepDefinition-enabled">true</Property>
+                <Property name="result">true</Property>
+            </Properties>
+        </DebugInfo>
+        <ResponseMessage>
+            <Content>[]</Content>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">bcc5f3f6-3c7c-4833-8c86-85f8a88d8aa8</Header>
+            </Headers>
+        </ResponseMessage>
+        <VariableAccess>
+            <Get value="3,15,8,13" name="numArray"/>
+            <Set success="true" value="[]" name="response.content"/>
+        </VariableAccess>
+    </Point>
+    <Point id="Resumed"/>
+    <Point id="StateChange">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:423</Timestamp>
+            <Properties>
+                <Property name="To">RESP_SENT</Property>
+                <Property name="From">PROXY_RESP_FLOW</Property>
+            </Properties>
+        </DebugInfo>
+        <ResponseMessage>
+            <Content>[]</Content>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">bcc5f3f6-3c7c-4833-8c86-85f8a88d8aa8</Header>
+            </Headers>
+        </ResponseMessage>
+    </Point>
+    <Point id="Condition">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:424</Timestamp>
+            <Properties>
+                <Property name="ExpressionResult">true</Property>
+                <Property name="Expression">(&quot;default&quot; equals proxy.name)</Property>
+                <Property name="Tree">PROXY_default</Property>
+            </Properties>
+        </DebugInfo>
+        <VariableAccess>
+            <Get value="default" name="proxy.name"/>
+        </VariableAccess>
+    </Point>
+    <Point id="StateChange">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:424</Timestamp>
+            <Properties>
+                <Property name="To">END</Property>
+                <Property name="From">RESP_SENT</Property>
+            </Properties>
+        </DebugInfo>
+        <ResponseMessage>
+            <Content>[]</Content>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">bcc5f3f6-3c7c-4833-8c86-85f8a88d8aa8</Header>
+            </Headers>
+            <ReasonPhrase>OK</ReasonPhrase>
+            <StatusCode>200</StatusCode>
+        </ResponseMessage>
+    </Point>
+    <Point id="DebugMask">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:424</Timestamp>
+            <Properties>
+                <Property name="SuccessFullyMaskedConfigs">[]</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="Resumed"/>
+    <Point id="StateChange">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:424</Timestamp>
+            <Properties>
+                <Property name="To">PROXY_POST_RESP_SENT</Property>
+                <Property name="From">END</Property>
+            </Properties>
+        </DebugInfo>
+        <ResponseMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Content-Length">2</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">bcc5f3f6-3c7c-4833-8c86-85f8a88d8aa8</Header>
+                <Header name="X-Apigee.Message-ID">rrt008ea_BTFUkzPI_RouterProxy-2-4735916_1</Header>
+            </Headers>
+            <ReasonPhrase>OK</ReasonPhrase>
+            <StatusCode>200</StatusCode>
+        </ResponseMessage>
+    </Point>
+    <Point id="Condition">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:424</Timestamp>
+            <Properties>
+                <Property name="ExpressionResult">true</Property>
+                <Property name="Expression">(&quot;default&quot; equals proxy.name)</Property>
+                <Property name="Tree">PROXY_default</Property>
+            </Properties>
+        </DebugInfo>
+        <VariableAccess>
+            <Get value="default" name="proxy.name"/>
+        </VariableAccess>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:424</Timestamp>
+            <Properties>
+                <Property name="proxy.flow.name">PostClientFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="FlowInfo">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:425</Timestamp>
+            <Properties>
+                <Property name="current.flow.name">PostClientFlow</Property>
+            </Properties>
+        </DebugInfo>
+    </Point>
+    <Point id="Paused"/>
+    <Point id="Execution">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:425</Timestamp>
+            <Properties>
+                <Property name="expressionResult">true</Property>
+                <Property name="type">AnalyticsPredefinedVariablesPublisher</Property>
+                <Property name="expression">(analytics equals null )</Property>
+            </Properties>
+        </DebugInfo>
+        <ResponseMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Content-Length">2</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">bcc5f3f6-3c7c-4833-8c86-85f8a88d8aa8</Header>
+                <Header name="X-Apigee.Message-ID">rrt008ea_BTFUkzPI_RouterProxy-2-4735916_1</Header>
+            </Headers>
+            <ReasonPhrase>OK</ReasonPhrase>
+            <StatusCode>200</StatusCode>
+        </ResponseMessage>
+        <VariableAccess/>
+    </Point>
+    <Point id="Resumed"/>
+    <Point id="Execution">
+        <DebugInfo>
+            <Timestamp>25-04-15 20:20:41:425</Timestamp>
+            <Properties>
+                <Property name="expressionResult">false</Property>
+                <Property name="type">AnalyticsPublisher</Property>
+                <Property name="expression">(analytics not null)</Property>
+            </Properties>
+        </DebugInfo>
+        <ResponseMessage>
+            <Headers>
+                <Header name="Accept">*/*</Header>
+                <Header name="Accept-Encoding">gzip,deflate</Header>
+                <Header name="Connection">keep-alive</Header>
+                <Header name="Content-Length">2</Header>
+                <Header name="Host">davidwallen2014-test.apigee.net</Header>
+                <Header name="User-Agent">NING/1.0</Header>
+                <Header name="X-Apigee-Trace-Id">bcc5f3f6-3c7c-4833-8c86-85f8a88d8aa8</Header>
+                <Header name="X-Apigee.Message-ID">rrt008ea_BTFUkzPI_RouterProxy-2-4735916_1</Header>
+            </Headers>
+            <ReasonPhrase>OK</ReasonPhrase>
+            <StatusCode>200</StatusCode>
+        </ResponseMessage>
+        <VariableAccess>
+            <Get value="davidwallen2014" name="organization.name"/>
+            <Get value="test" name="environment.name"/>
+            <Get value="davidwallen2014" name="organization.name"/>
+            <Get value="test" name="environment.name"/>
+            <Get value="TwentyFour" name="apiproxy.name"/>
+            <Get value="1" name="apiproxy.revision"/>
+            <Get value="default" name="proxy.name"/>
+            <Get value="/twentyfour" name="proxy.basepath"/>
+            <Get value="" name="proxy.pathsuffix"/>
+            <Get name="request.header.X-Forwarded-For"/>
+            <Get value="54.84.115.42" name="proxy.client.ip"/>
+            <Get name="target.name"/>
+            <Get name="target.basepath"/>
+            <Get name="target.url"/>
+            <Get name="target.host"/>
+            <Get name="target.ip"/>
+            <Get value="54.84.115.42" name="client.ip"/>
+            <Get value="false" name="is.error"/>
+            <Get name="apigee.edge.execution.is_policy_error"/>
+            <Get name="apigee.edge.execution.is_target_error"/>
+            <Get name="target.sent.start.timestamp"/>
+            <Get name="target.sent.end.timestamp"/>
+            <Get name="target.received.start.timestamp"/>
+            <Get name="target.received.end.timestamp"/>
+            <Get value="1429993241388" name="client.received.start.timestamp"/>
+            <Get value="1429993241389" name="client.received.end.timestamp"/>
+            <Get value="1429993241424" name="client.sent.start.timestamp"/>
+            <Get value="1429993241424" name="client.sent.end.timestamp"/>
+            <Get value="200" name="message.status.code"/>
+            <Get value="/twentyfour?numbers=3%2C15%2C8%2C13" name="request.uri"/>
+            <Get value="/twentyfour" name="request.path"/>
+            <Get value="GET" name="request.verb"/>
+            <Get value="default" name="virtualhost.name"/>
+            <Get name="apigee.developer.app.name"/>
+            <Get name="apigee.apiproduct.name"/>
+            <Get name="apigee.access_token"/>
+            <Get name="apigee.client_id"/>
+            <Get name="flow.resource.name"/>
+            <Get value="rrt008ea_BTFUkzPI_RouterProxy-2-4735916_1" name="messageid"/>
+            <Get name="sla"/>
+            <Get value="0" name="client.received.content.length"/>
+            <Get name="target.received.content.length"/>
+            <Get name="cachehit"/>
+            <Get name="responsecache.executed"/>
+            <Get name="responsecache.cachename"/>
+            <Get name="responsecache.cachekey"/>
+            <Get name="responsecache.cachesource"/>
+            <Get name="responsecache.l1.count"/>
+            <Get name="apigee.developer.id"/>
+            <Get name="target.response.status.code"/>
+            <Get name="request.header.X-Forwarded-For"/>
+            <Get name="apigee.developer.email"/>
+            <Get value="NING/1.0" name="request.header.User-Agent"/>
+            <Get name="request.header.X-Apigee-Client-Device-Id"/>
+            <Get name="request.header.X-Apigee-Client-Session-Id"/>
+            <Get name="request.header.X-Apigee-Client-Org-Name"/>
+            <Get name="request.header.X-Apigee-Client-App-Name"/>
+            <Get name="request.header.X-Apigee-Client-Request-Id"/>
+            <Get name="apigee.edge.execution.fault_code"/>
+            <Get name="apigee.edge.execution.is_apigee_fault"/>
+            <Get value="us-east-1" name="system.region.name"/>
+            <Get name="apigee.edge.execution.fault_policy_name"/>
+            <Get name="apigee.edge.execution.fault_flow_name"/>
+            <Get name="apigee.edge.execution.fault_flow_state"/>
+            <Get name="analytics"/>
+        </VariableAccess>
+    </Point>
+    <Point id="Paused"/>
+</Data>
+</Message>
+</Messages>
+</DebugSession>

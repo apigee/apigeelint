@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<TargetEndpoint name="default">
+    <Description/>
+    <PreFlow name="PreFlow">
+        <Request>
+        </Request>
+        <Response/>
+    </PreFlow>
+    <Flows/>
+    <DefaultFaultRule name="fault-handler">
+        <Step>
+            <Name>jsGenericFaultHandler</Name>
+        </Step>
+        <Step>
+            <Name>assignMessageIDHeader</Name>
+        </Step>
+        <Step>
+            <Name>jsFinalizeLogging</Name>
+            <Condition>logConfig.isSplunkLoggingEnabled==true</Condition>
+        </Step>
+        <Step>
+            <Name>jsCalloutSplunkLogging</Name>
+            
+        </Step>
+    </DefaultFaultRule>
+    <HTTPTargetConnection>
+        <URL>http://api.foo.com/</URL>
+    </HTTPTargetConnection>
+</TargetEndpoint>

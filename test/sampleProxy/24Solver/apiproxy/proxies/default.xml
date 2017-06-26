@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ProxyEndpoint name="default">
+    <Description/>
+    <PreFlow name="PreFlow">
+        <Request>
+            <Step>
+                <FaultRules/>
+                <Name>JSONThreatProtection</Name>
+                <Condition>request.verb="POST"</Condition>
+            </Step>
+            <Step>
+                <Name>AssignMessage.CopyRequest</Name>
+            </Step>
+            <Step>
+                <FaultRules/>
+                <Name>ExtractParamVariables</Name>
+                <Condition>request.verb="GET"</Condition>
+            </Step>
+            <Step>
+                <FaultRules/>
+                <Name>ExtractPayloadVariables</Name>
+                <Condition>{wackyvar.foo} and request.verb="POST" and request.header.contenttype="application/json" or {foovar}</Condition>
+            </Step>
+            <Step>
+            </Step>
+        </Request>
+        <Response/>
+    </PreFlow>
+    <Flows>
+        <Flow name="flow1">
+            <Condition/>
+        </Flow>
+        <Flow name="flow2">
+            <Condition/>
+        </Flow>
+    </Flows>
+    <PostFlow name="PostFlow">
+        <Request/>
+        <Response>
+            <!-- <Step>
+                <FaultRules/>
+                <Name>jsCalculate</Name>
+            </Step> -->
+        </Response>
+    </PostFlow>
+    <RouteRule name="foo">
+        <Condition>(proxy.pathsuffix MatchesPath "/{version}/profile/{profile.id}/pin**")</Condition>
+        <TargetEndpoint>foo</TargetEndpoint>
+    </RouteRule>
+    <RouteRule name="bar">
+        <Condition>(proxy.pathsuffix MatchesPath "/{version}/profile/{profile.id}/preferredversion")</Condition>
+        <TargetEndpoint>bar</TargetEndpoint>
+    </RouteRule>
+    <RouteRule name="noCond1">
+        <Condition></Condition>
+        <TargetEndpoint>nc1</TargetEndpoint>
+    </RouteRule>
+    <RouteRule name="noCond2">
+        <TargetEndpoint>nc2</TargetEndpoint>
+    </RouteRule>
+    <HTTPProxyConnection>
+        <BasePath>/24solver</BasePath>
+        <VirtualHost>default</VirtualHost>
+        <VirtualHost>secure</VirtualHost>
+    </HTTPProxyConnection>
+    <RouteRule name="noroute" />
+</ProxyEndpoint>
