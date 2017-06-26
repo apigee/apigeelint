@@ -4,12 +4,17 @@ util = require("util");
 var program = require('commander');
 
 program
-  .version('0.0.1')
+  .version('0.1.6')
   .option('-s --path <path>','Path of the proxies')
-  .parse(process.argv);
 
-console.log('path', program.path);
+  program.on('--help', function(){
+    console.log("example");
+    console.log('');
+    console.log('apigeelint -s No-Target');
+    console.log('');
+  });
 
+program.parse(process.argv);
 
 var configuration = {
     debug: true,
@@ -17,7 +22,6 @@ var configuration = {
         "type": "filesystem",
         "path": program.path,
     },
-    //plugins: ['bundleStructure.js']
 };
 
 
