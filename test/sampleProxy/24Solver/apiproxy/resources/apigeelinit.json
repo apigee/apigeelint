@@ -1,0 +1,120 @@
+{
+    "bundle": {
+        "errors": [
+            "Endpoint /Users/davidwallen/Projects/bundle-linter/test/sampleProxy/24Solver/apiproxy/proxies/default.xml:#document: has too many uncondtional flows (2).  Only one will be executed.",
+            "Variable {wackyvar} was used in step condition, but not previously defined",
+            "Variable {foovar} was used in step condition, but not previously defined"
+        ],
+        "warnings": [
+            {
+                "code": "BN001",
+                "name": "Bundle Structure",
+                "description": "Check bundle structure, bundles have a specific structure, extra folder or files may be problematic.",
+                "warnings": [
+                    "Unexpected extension found with file \"/Users/davidwallen/Projects/bundle-linter/test/sampleProxy/24Solver/apiproxy/resources/jsc/jsCalculate.jsfoo\". Valid extensions: [\"js\",\"jsc\",\"json\"]"
+                ]
+            },
+            {
+                "name": "Step at /Users/davidwallen/Projects/bundle-linter/test/sampleProxy/24Solver/apiproxy/proxies/default.xml(37:13) is empty.",
+                "guidance": "Empty steps clutter a bundle."
+            },
+            {
+                "name": "More than 1 empty condition was found in the RouteRules for \"/Users/davidwallen/Projects/bundle-linter/test/sampleProxy/24Solver/apiproxy/proxies/default.xml\". Lines: 71 79 ",
+                "guidance": "Evaluation of RouteRules proceeds from top to bottom, the first match is executed. The additional RouteRules are therefore unreachable."
+            },
+            {
+                "name": "JSHint on file jsCalculate.js line 59 column 18 \"    var result = eval(candidate);\".",
+                "guidance": "eval can be harmful."
+            },
+            {
+                "name": "JSHint on file jsCalculate.jsfoo line 59 column 18 \"    var result = eval(candidate);\".",
+                "guidance": "eval can be harmful."
+            },
+            {
+                "name": "Bundle size (9) exceeds recommended limit of 4. Consider refactoring into two or more bundles.",
+                "guidance": "Large bundle take longer to deploy and are more difficult to debug and maintain."
+            },
+            "No handler for policy type 'AssignMessage'",
+            "Step does not seem to call anything (empty <Name> node)",
+            "Target flow defines but does not use symbol 'numArray'"
+        ]
+    },
+    "policies": [
+        {
+            "fileName": "AssignMessagebadDisplayName.xml",
+            "errors": [],
+            "warnings": [
+                {
+                    "name": "Filename \"AssignMessagebadDisplayName.xml\" does not match policy display name \"\"",
+                    "guidance": "To avoid confusion when working online and offline use the same name for files and display name in policies (excluding .xml extension)."
+                }
+            ]
+        },
+        {
+            "fileName": "ExtractVariables.xml",
+            "errors": [],
+            "warnings": [
+                {
+                    "name": "Policy \"ExtractVariables.xml\" is not attached to a Step in the bundle.",
+                    "guidance": "Remove unused policies."
+                }
+            ]
+        },
+        {
+            "fileName": "ExtractVariables_1.xml",
+            "errors": [],
+            "warnings": [
+                {
+                    "name": "Filename \"ExtractVariables_1.xml\" does not match policy display name \"ExtractParamVariables\"",
+                    "guidance": "To avoid confusion when working online and offline use the same name for files and display name in policies (excluding .xml extension)."
+                },
+                {
+                    "name": "Policy \"ExtractVariables_1.xml\" is not attached to a Step in the bundle.",
+                    "guidance": "Remove unused policies."
+                }
+            ]
+        },
+        {
+            "fileName": "ExtractVariables_unattached.xml",
+            "errors": [],
+            "warnings": [
+                {
+                    "name": "Filename \"ExtractVariables_unattached.xml\" does not match policy display name \"ExtractParamVariables\"",
+                    "guidance": "To avoid confusion when working online and offline use the same name for files and display name in policies (excluding .xml extension)."
+                },
+                {
+                    "name": "Policy \"ExtractVariables_unattached.xml\" is not attached to a Step in the bundle.",
+                    "guidance": "Remove unused policies."
+                }
+            ]
+        },
+        {
+            "fileName": "badServiceCallout.xml",
+            "errors": [],
+            "warnings": [
+                {
+                    "name": "Filename \"badServiceCallout.xml\" does not match policy display name \"service-callout\"",
+                    "guidance": "To avoid confusion when working online and offline use the same name for files and display name in policies (excluding .xml extension)."
+                },
+                {
+                    "name": "Policy \"badServiceCallout.xml\" is not attached to a Step in the bundle.",
+                    "guidance": "Remove unused policies."
+                },
+                {
+                    "name": "Policy \"badServiceCallout.xml\" has a Response variable named \"response\", this may lead to unexpected side effects",
+                    "guidance": "Rename the Response variable."
+                }
+            ]
+        },
+        {
+            "fileName": "jsCalculate.xml",
+            "errors": [],
+            "warnings": [
+                {
+                    "name": "Policy \"jsCalculate.xml\" is not attached to a Step in the bundle.",
+                    "guidance": "Remove unused policies."
+                }
+            ]
+        }
+    ]
+}
