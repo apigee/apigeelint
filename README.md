@@ -18,6 +18,14 @@ Reporters (the means to report out results), Ingesters (bundle loaders) are to b
 
 apigeelint -s sampleProxy/
 
+## Tests
+
+The tests directory includes scripts to exercise a subset of rules. Overall linting can be tested with:
+
+  apigeelint -s ./test/sampleProxy/24Solver/apiproxy/
+
+This sample includes many bad practices and as such generates a bit of noise.
+
 ## Contributing
 
 In lieu of a formal style guide, take care to maintain the existing coding style.
@@ -73,6 +81,8 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_medium_square:| PO018 | Regex Lookahead/Lookbehind are Expensive - Threat Protection Policy |  Regular expressions that include lookahead or lookbehind perform slowly on large payloads and are typically not required.|
 | &nbsp; |:white_check_mark:| PO019 | Reserved words as variables - ServiceCallout Request |  Using "request" as the name of a Request may cause unexpected side effects.|
 | &nbsp; |:white_check_mark:| PO020 | Reserved words as variables - ServiceCallout Response |  Using "response" as the name of a Response may cause unexpected side effects.|
+| FaultRules | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
+| &nbsp; |:white_medium_square:| FR001 | No Condition on FaultRule | It's not a best practice to have a FaultRule without an outer condition, which automatically makes the FaultRule true. |
 | Conditional | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_medium_square:| CC001 | Literals in Conditionals |  Warn on literals in any conditional statement. |
 | &nbsp; |:white_medium_square:| CC002 | Null Blank Checks |  Blank checks should also check for null conditions. (to be reviewed) |
@@ -80,6 +90,5 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_medium_square:| CC004 | Overly complex condition |  Condition complexity should be limited to fix number of variables and conjunctions. |
 | &nbsp; |:white_medium_square:| CC005 | Regex Lookahead/Lookbehind are Expensive - Conditions |  Regular expressions that include lookahead or lookbehind perform slowly on large payloads and are typically not required.|
 | &nbsp; |:white_check_mark:| CC006 | Detect logical absurdities |  Conditions should not have internal logic conflicts - warn when these are detected. |
-
 
 From an implementation perspective the focus is on plugin support and flexibility over performance. Compute is cheap.

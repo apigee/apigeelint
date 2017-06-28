@@ -1,10 +1,8 @@
-var assert = require('assert');
-var decache = require('decache');
-var path = require('path');
-var fs = require('fs');
-var debug = require('debug')('bundlelinter:testFlow');
-var myUtil = require("../myUtil.js");
-//var bl = require("../bundleLinter.js");
+var assert = require('assert'), 
+decache = require('decache'),path = require('path'),
+fs = require('fs'),
+debug = require('debug')('bundlelinter:testFlow'),
+myUtil = require("../lib/package/myUtil.js");
 
 
   describe('Basic checks for bundle', function() {
@@ -24,7 +22,7 @@ var myUtil = require("../myUtil.js");
     //var Bundle = require("../Bundle.js");
     //debug("new Bundle(Configuration)");
     //var bundle = new Bundle(configuration);
-    var bl = require("../bundleLinter.js");
+    var bl = require("../lib/package/bundleLinter.js");
     var bundle = bl.lint(configuration);
     //console.log("calling bundle.summarize()");
     //debug("bundle.summarize()");
