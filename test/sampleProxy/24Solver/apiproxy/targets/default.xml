@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <TargetEndpoint name="default">
     <Description/>
+     <FaultRules>
+       <FaultRule name="invalid_key_rule">
+            <Step>
+                <Name>invalid-key-message</Name>
+            </Step>
+            <Condition>(fault.name = "FailedToResolveAPIKey")</Condition>
+        </FaultRule>
+    </FaultRules>
+    <DefaultFaultRule name="default-fault">
+        <Step>
+            <Name>Default-message</Name>
+        </Step>
+    </DefaultFaultRule>
     <PreFlow name="PreFlow">
         <Request>
         </Request>
