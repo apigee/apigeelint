@@ -18,6 +18,10 @@ Reporters (the means to report out results), Ingesters (bundle loaders) are to b
 
 apigeelint -s sampleProxy/
 
+## Does this tool just lint or does it also check style?
+
+This tool does both traditional linting (looking for problematic patterns) and style checking (enforcement of conventions). You can use it for both.
+
 ## Tests
 
 The tests directory includes scripts to exercise a subset of rules. Overall linting can be tested with:
