@@ -32,9 +32,15 @@
             <Step>
                 <FaultRules/>
                 <Name>ExtractPayloadVariables</Name>
-                <Condition>{wackyvar.foo} and request.verb="POST" and request.header.contenttype="application/json" or {foovar}</Condition>
+                <Condition>{wackyvar.foo} and request.verb="POST" and request.header.contenttype="application/json" or {foovar} or {wackyvar.foo} and request.verb="POST" and request.header.contenttype="application/json" or {foovar} or {wackyvar.foo} and request.verb="POST" and request.header.contenttype="application/json" or {foovar} or {wackyvar.foo} and request.verb="POST" and request.header.contenttype="application/json" or {foovar}</Condition>
             </Step>
             <Step>
+            </Step>
+            <Step>
+                <Name>publishPurchaseDetails</Name>Ï
+            </Step>
+            <Step>
+                <Name>publishPurchaseDetails</Name>Ï
             </Step>
         </Request>
         <Response/>

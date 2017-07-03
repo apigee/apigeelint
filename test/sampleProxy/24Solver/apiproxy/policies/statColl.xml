@@ -1,0 +1,6 @@
+<StatisticsCollector name="publishPurchaseDetails">
+  <Statistics>
+    <Statistic name="productID" ref="product.id" type="string">999999</Statistic>
+    <Statistic name="price" ref="product.price" type="string">0</Statistic>
+  </Statistics>
+</StatisticsCollector>
