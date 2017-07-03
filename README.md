@@ -42,15 +42,15 @@ The list of rules is a work in progress and expected to increase over time. As p
 | Linter | Status | Code | Name | Description |
 | ------ | ------ | ---- | ---- | ----------- |
 | Bundle | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
-| &nbsp; |:white_medium_square:| BN001 | Bundle folder structure correctness. | Bundles have a clear structure. |
-| &nbsp; |:white_medium_square:| BN002 | Extraneous files. | Ensure each folder contains approrpriate resources in the bundle. |
+| &nbsp; |:white_check_mark:| BN001 | Bundle folder structure correctness. | Bundles have a clear structure. |
+| &nbsp; |:white_check_mark:| BN002 | Extraneous files. | Ensure each folder contains approrpriate resources in the bundle. |
 | &nbsp; |:white_medium_square:| BN003 | Cache Coherence | A bundle that includes cache reads should include cache writes with the same keys. |
-| &nbsp; |:white_medium_square:| BN004 | Unused variables. |  Within a bundle variables created should be used in conditions, resource callouts, or policies. |
+| &nbsp; |:white_check_mark:| BN004 | Unused variables. |  Within a bundle variables created should be used in conditions, resource callouts, or policies. |
 | &nbsp; |:white_check_mark:| BN005 | Unattached policies. |  Unattached policies are dead code and should be removed from production bundles. |
 | &nbsp; |:white_check_mark:| BN006 | Bundle size - policies. |  Large bundles are a symptom of poor design. A high number of policies is predictive of an oversized bundle. |
 | &nbsp; |:white_medium_square:| BN007 | Bundle size - resource callouts. |  Large bundles are a symptom of poor design. A high number of resource callouts is indicative of underutilizing out of the box Apigee policies. |
 | &nbsp; |:white_medium_square:| BN008 | IgnoreUnresolvedVariables and FaultRules |  Use of IgnoreUnresolvedVariables without the use of FaultRules may lead to unexepected errors. |
-| &nbsp; |:white_medium_square:| BN009 | Statistics Collector - duplicate policies |  Warn on duplicate policies when no conditions are present or conditions are duplicates. |
+| &nbsp; |:white_check_mark:| BN009 | Statistics Collector - duplicate policies |  Warn on duplicate policies when no conditions are present or conditions are duplicates. |
 | Proxy Definition | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_medium_square:| PD001 | RouteRules to Targets |  RouteRules should map to defined Targets. |
 | &nbsp; |:white_check_mark:| PD002 | Unreachable Route Rules - defaults |  Only one RouteRule should be present without a condition |
@@ -71,7 +71,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_medium_square:| PO005 | Extract Variables with FormParam |  A check for a body element must be performed before policy execution. |
 | &nbsp; |:white_medium_square:| PO006 | Policy Naming Conventions - default name |  Policy names should not be default. |
 | &nbsp; |:white_medium_square:| PO007 | Policy Naming Conventions - type indication |  It is recommended that the policy name include an indicator of the policy type. |
-| &nbsp; |:white_medium_square:| PO008 | Policy Name Attribute Conventions |  It is recommended that the policy name attribute match the display name of the policy. |
+| &nbsp; |:white_check_mark:| PO008 | Policy Name Attribute Conventions |  It is recommended that the policy name attribute match the display name of the policy. |
 | &nbsp; |:white_medium_square:| PO009 | Service Callout Target - Mgmt Server |  Targetting management server may result in higher than expected latency use with caution. |
 | &nbsp; |:white_medium_square:| PO010 | Service Callout Target - Target Server |  Encourage use of target servers. |
 | &nbsp; |:white_medium_square:| PO011 | Service Callout Target - Dynamic URLs |  Error on dynamic URLs in target server URL tag. |
