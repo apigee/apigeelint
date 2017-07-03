@@ -35,6 +35,14 @@
     "node-inspector": ">= 0.12.3",
     "path": ">= 0.11.14",
     "xmldom": ">= 0.1.22",
-    "xpath": "latest"
+    "xpath": "latest",
+    "lodash":"latest",
+    "chalk":"latest",
+    "table":"latest",
+    "pluralize":"latest",
+    "babel-code-frame":"latest",
+    "text-table":"latest",
+    "js-yaml":"latest",
+    "jsonschema":"latest"
   }
 }
