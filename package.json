@@ -43,6 +43,7 @@
     "babel-code-frame":"latest",
     "text-table":"latest",
     "js-yaml":"latest",
-    "jsonschema":"latest"
+    "jsonschema":"latest",
+    "request":"latest"
   }
 }
