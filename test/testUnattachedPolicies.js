@@ -21,7 +21,7 @@ describe("List unattached policies", function() {
   bl.executePlugin("checkUnattachedPolicies", bundle);
   debug(
     "report: \n" +
-      util.inspect(bl.getReport(bundle), {
+      util.inspect(bundle.getReport(bundle), {
         showhidden: false,
         depth: 4,
         maxArrayLength: 10
@@ -30,7 +30,7 @@ describe("List unattached policies", function() {
 });
 
 describe("Check for unattached policies", function() {
-  var report = bl.getReport(bundle),
+  var report = bundle.getReport(bundle),
     unattachedFiles = [
       "ExtractVariables.xml",
       "ExtractVariables_1.xml",
@@ -40,10 +40,11 @@ describe("Check for unattached policies", function() {
     ];
   unattachedFiles.forEach(function test(file) {
     var found = false;
-    report.policies.some(function(policy) {
-      if (policy.fileName === file) {
-        policy.warnings.some(function(msg) {
-          if (msg.code === "BN005") {
+
+    report.some(function(reportObj) {
+      if (reportObj.filePath.endsWith(file)) {
+        reportObj.messages.some(function(msg) {
+          if (msg.ruleId === "BN005") {
             found = true;
             return;
           }
@@ -56,5 +57,4 @@ describe("Check for unattached policies", function() {
       assert.equal(found, true);
     });
   });
-});
-
+})
