@@ -6,7 +6,14 @@ var program = require("commander");
 program
   .version("0.1.6")
   .option("-s, --path <path>", "Path of the proxies")
-  .option("-f, --formatter <json.js>", "Specify formatters (default json.js)");
+  .option("-f, --formatter [value]", "Specify formatters (default json.js)")
+  .option(
+    "-d, --destPath [value]",
+    "Provide the host and path to upload linter results"
+  )
+  .option("-u, --user [value]", "Apigee user account")
+  .option("-p, --password [value]", "Apigee password")
+  .option("-o, --organization [value]", "Apigee organization");
 
 program.on("--help", function() {
   console.log("example");
@@ -16,6 +23,8 @@ program.on("--help", function() {
 });
 
 program.parse(process.argv);
+
+console.log(program);
 
 var configuration = {
   debug: true,
@@ -27,6 +36,18 @@ var configuration = {
 
 if (program.formatter) {
   configuration.formatter = program.formatter;
+}
+
+if (program.user) {
+  //check for required fields
+
+  configuration.apiUpload = {
+    destPath:
+      program.destPath || "https://csdata-test.apigee.net/v1/lintresults",
+    user: program.user,
+    password: program.password,
+    organization: program.organization
+  };
 }
 
 bl.lint(configuration);
