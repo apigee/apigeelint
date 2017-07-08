@@ -24,8 +24,6 @@ program.on("--help", function() {
 
 program.parse(process.argv);
 
-console.log(program);
-
 var configuration = {
   debug: true,
   source: {
@@ -35,12 +33,11 @@ var configuration = {
 };
 
 if (program.formatter) {
-  configuration.formatter = program.formatter;
+  configuration.formatter = program.formatter || "json.js";
 }
 
 if (program.user) {
   //check for required fields
-
   configuration.apiUpload = {
     destPath:
       program.destPath || "https://csdata-test.apigee.net/v1/lintresults",
