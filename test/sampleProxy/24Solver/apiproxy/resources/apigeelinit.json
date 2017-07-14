@@ -2,7 +2,7 @@
     {
         "filePath": "/Users/davidwallen/Projects/bundle-linter/test/sampleProxy/24Solver/apiproxy",
         "errorCount": 0,
-        "warningCount": 4,
+        "warningCount": 2,
         "fixableErrorCount": 0,
         "fixableWarningCount": 0,
         "messages": [
@@ -11,24 +11,6 @@
                 "severity": 2,
                 "nodeType": "Bundle",
                 "message": "Unexpected extension found with file \"/Users/davidwallen/Projects/bundle-linter/test/sampleProxy/24Solver/apiproxy/resources/jsc/jsCalculate.jsfoo\". Valid extensions: [\"js\",\"jsc\",\"json\"]"
-            },
-            {
-                "ruleId": "PO013",
-                "severity": 2,
-                "source": "    var result = eval(candidate);",
-                "line": 59,
-                "column": 18,
-                "nodeType": "Resource",
-                "message": "(error): eval can be harmful."
-            },
-            {
-                "ruleId": "PO013",
-                "severity": 2,
-                "source": "    var result = eval(candidate);",
-                "line": 59,
-                "column": 18,
-                "nodeType": "Resource",
-                "message": "(error): eval can be harmful."
             },
             {
                 "ruleId": "BN006",
@@ -153,8 +135,7 @@
                 "nodeType": "Bundle",
                 "message": "Variable {foovar} was used in step condition, but not previously defined."
             }
-        ],
-        "source": "<ProxyEndpoint name=\"default\">\n    <Description/>\n    <FaultRules>\n       <FaultRule name=\"ExtractVariablesFault\">\n            <Step>\n                <Name>ExtractVariablesFault</Name>\n            </Step>\n            <Condition>(fault.name = \"FailedToResolveAPIKey\")</Condition>\n        </FaultRule>\n    </FaultRules>\n    <DefaultFaultRule name=\"default-fault\">\n        <Step>\n            <Name>Default-message</Name>\n        </Step>\n    </DefaultFaultRule>\n    <PreFlow name=\"PreFlow\">\n        <Request>\n            <Step>\n                <FaultRules/>\n                <Name>JSONThreatProtection</Name>\n                <Condition>request.verb=\"POST\"</Condition>\n            </Step>\n            <Step>\n                <Name>AssignMessage.CopyRequest</Name>\n            </Step>\n            <Step>\n                <FaultRules/>\n                <Name>ExtractParamVariables</Name>\n                <Condition>request.verb=\"GET\"</Condition>\n            </Step>\n            <Step>\n                <FaultRules/>\n                <Name>ExtractPayloadVariables</Name>\n                <Condition>{wackyvar.foo} and request.verb=\"POST\" and request.header.contenttype=\"application/json\" or {foovar} or {wackyvar.foo} and request.verb=\"POST\" and request.header.contenttype=\"application/json\" or {foovar} or {wackyvar.foo} and request.verb=\"POST\" and request.header.contenttype=\"application/json\" or {foovar} or {wackyvar.foo} and request.verb=\"POST\" and request.header.contenttype=\"application/json\" or {foovar}</Condition>\n            </Step>\n            <Step>\n            </Step>\n            <Step>\n                <Name>publishPurchaseDetails</Name>Ï\n            </Step>\n            <Step>\n                <Name>publishPurchaseDetails</Name>Ï\n            </Step>\n        </Request>\n        <Response/>\n    </PreFlow>\n    <Flows>\n        <Flow name=\"flow1\">\n            <Condition/>\n        </Flow>\n        <Flow name=\"flow2\">\n            <Condition/>\n        </Flow>\n    </Flows>\n    <PostFlow name=\"PostFlow\">\n        <Request/>\n        <Response>\n            <!-- <Step>\n                <FaultRules/>\n                <Name>jsCalculate</Name>\n            </Step> -->\n        </Response>\n    </PostFlow>\n    <RouteRule name=\"foo\">\n        <Condition>(proxy.pathsuffix MatchesPath \"/{version}/profile/{profile.id}/pin**\")</Condition>\n        <TargetEndpoint>foo</TargetEndpoint>\n    </RouteRule>\n    <RouteRule name=\"bar\">\n        <Condition>(proxy.pathsuffix MatchesPath \"/{version}/profile/{profile.id}/preferredversion\")</Condition>\n        <TargetEndpoint>bar</TargetEndpoint>\n    </RouteRule>\n    <RouteRule name=\"noCond1\">\n        <Condition></Condition>\n        <TargetEndpoint>nc1</TargetEndpoint>\n    </RouteRule>\n    <RouteRule name=\"noCond2\">\n        <TargetEndpoint>nc2</TargetEndpoint>\n    </RouteRule>\n    <HTTPProxyConnection>\n        <BasePath>/24solver</BasePath>\n        <VirtualHost>default</VirtualHost>\n        <VirtualHost>secure</VirtualHost>\n    </HTTPProxyConnection>\n    <RouteRule name=\"noroute\" />\n</ProxyEndpoint>\n\nundefined\n"
+        ]
     },
     {
         "filePath": "/Users/davidwallen/Projects/bundle-linter/test/sampleProxy/24Solver/apiproxy/policies/AssignMessagebadDisplayName.xml",
@@ -336,7 +317,7 @@
         ]
     },
     {
-        "filePath": "apigeelinit.json",
+        "filePath": "/Users/davidwallen/Projects/bundle-linter/test/sampleProxy/24Solver/apiproxy/resources/apigeelinit.json",
         "errorCount": 0,
         "warningCount": 0,
         "fixableErrorCount": 0,
@@ -344,19 +325,39 @@
         "messages": []
     },
     {
-        "filePath": "jsCalculate.js",
+        "filePath": "/Users/davidwallen/Projects/bundle-linter/test/sampleProxy/24Solver/apiproxy/resources/jsc/jsCalculate.js",
         "errorCount": 0,
-        "warningCount": 0,
+        "warningCount": 1,
         "fixableErrorCount": 0,
         "fixableWarningCount": 0,
-        "messages": []
+        "messages": [
+            {
+                "ruleId": "PO013",
+                "severity": 2,
+                "source": "    var result = eval(candidate);",
+                "line": 59,
+                "column": 18,
+                "nodeType": "Resource",
+                "message": "(error): eval can be harmful."
+            }
+        ]
     },
     {
-        "filePath": "jsCalculate.jsfoo",
+        "filePath": "/Users/davidwallen/Projects/bundle-linter/test/sampleProxy/24Solver/apiproxy/resources/jsc/jsCalculate.jsfoo",
         "errorCount": 0,
-        "warningCount": 0,
+        "warningCount": 1,
         "fixableErrorCount": 0,
         "fixableWarningCount": 0,
-        "messages": []
+        "messages": [
+            {
+                "ruleId": "PO013",
+                "severity": 2,
+                "source": "    var result = eval(candidate);",
+                "line": 59,
+                "column": 18,
+                "nodeType": "Resource",
+                "message": "(error): eval can be harmful."
+            }
+        ]
     }
 ]

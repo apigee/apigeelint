@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-var bl = require("./lib/package/bundleLinter.js"),
-  util = require("util");
+var bl = require("./lib/package/bundleLinter.js");
 var program = require("commander");
 
 program
