@@ -10,7 +10,7 @@ var assert = require("assert"),
     debug: true,
     source: {
       type: "filesystem",
-      path: "./test/sampleProxy/24Solver/apiproxy/"
+      path: "/Users/davidwallen/Projects/bundle-linter/test/sampleProxy/24Solver/apiproxy"//./test/sampleProxy/24Solver/apiproxy"
     },
     formatter: "table.js"
   };
