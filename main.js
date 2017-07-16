@@ -6,6 +6,7 @@ program
   .version("0.1.6")
   .option("-s, --path <path>", "Path of the proxies")
   .option("-f, --formatter [value]", "Specify formatters (default json.js)")
+  .option("-w, --write [value]", "file path to write results")
   .option(
     "-d, --destPath [value]",
     "Provide the host and path to upload linter results"
@@ -44,6 +45,10 @@ if (program.user) {
     password: program.password,
     organization: program.organization
   };
+}
+
+if (program.write) {
+  configuration.writePath = program.write;
 }
 
 bl.lint(configuration);
