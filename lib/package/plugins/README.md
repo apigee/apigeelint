@@ -85,6 +85,22 @@ The add message method exposed by each entity is the means by which results of t
     });
 ```
 
+Also note that if you need to modify the plugin descriptor to denote say a change in severity you can simply modify the field before calling addMessage as in:
+```javascript
+            if (error.id === "(error)") {
+              plugin.severity = 2;
+            }else{
+              plugin.severity = 1;
+            }
+            resource.addMessage({
+              plugin,
+              source: error.evidence,
+              line: error.line,
+              column: error.character,
+              message: error.id + ": " + error.reason
+            });
+```
+
 ### plugin lifecycle
 
 Your plugin functions are called statically - meaning you don't have the opportunity to share state between invocations of a listener method unless you inject an object into the global context (generally not a good idea). If you need to share state, simply implement the onBundle listener and iterate over the various entities you care about within that function.
