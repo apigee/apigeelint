@@ -103,7 +103,7 @@ Also note that if you need to modify the plugin descriptor to denote say a chang
 
 ### plugin lifecycle
 
-Your plugin functions are called statically - meaning you don't necessarily have the opportunity to share state between invocations of a listener method unless you inject an object into the global context (generally not a good idea). If you need to share state, simply implement the onBundle listener and iterate over the various entities you care about within that function.
+Your plugin module is instantiated once for the life of linter execution.
 
 ## Tests
 

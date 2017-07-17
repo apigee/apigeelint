@@ -34,3 +34,9 @@ folders.forEach(function(folder) {
     }
   });
 });
+
+Promise.all(folders)
+.then(function() { 
+  console.log('completed)'); 
+})
+.catch(console.error);

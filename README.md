@@ -48,7 +48,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | Bundle | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| BN001 | Bundle folder structure correctness. | Bundles have a clear structure. |
 | &nbsp; |:white_check_mark:| BN002 | Extraneous files. | Ensure each folder contains approrpriate resources in the bundle. |
-| &nbsp; |:white_medium_square:| BN003 | Cache Coherence | A bundle that includes cache reads should include cache writes with the same keys. |
+| &nbsp; |:white_check_mark:| BN003 | Cache Coherence | A bundle that includes cache reads should include cache writes with the same keys. |
 | &nbsp; |:white_check_mark:| BN004 | Unused variables. |  Within a bundle variables created should be used in conditions, resource callouts, or policies. |
 | &nbsp; |:white_check_mark:| BN005 | Unattached policies. |  Unattached policies are dead code and should be removed from production bundles. |
 | &nbsp; |:white_check_mark:| BN006 | Bundle size - policies. |  Large bundles are a symptom of poor design. A high number of policies is predictive of an oversized bundle. |
