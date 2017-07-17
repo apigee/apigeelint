@@ -53,15 +53,15 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_check_mark:| BN005 | Unattached policies. |  Unattached policies are dead code and should be removed from production bundles. |
 | &nbsp; |:white_check_mark:| BN006 | Bundle size - policies. |  Large bundles are a symptom of poor design. A high number of policies is predictive of an oversized bundle. |
 | &nbsp; |:white_medium_square:| BN007 | Bundle size - resource callouts. |  Large bundles are a symptom of poor design. A high number of resource callouts is indicative of underutilizing out of the box Apigee policies. |
-| &nbsp; |:white_medium_square:| BN008 | IgnoreUnresolvedVariables and FaultRules |  Use of IgnoreUnresolvedVariables without the use of FaultRules may lead to unexepected errors. |
+| &nbsp; |:white_medium_square:| BN008 | IgnoreUnresolvedVariables and FaultRules |  Use of IgnoreUnresolvedVariables without the use of FaultRules may lead to unexpected errors. |
 | &nbsp; |:white_check_mark:| BN009 | Statistics Collector - duplicate policies |  Warn on duplicate policies when no conditions are present or conditions are duplicates. |
 | Proxy Definition | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_medium_square:| PD001 | RouteRules to Targets |  RouteRules should map to defined Targets. |
 | &nbsp; |:white_check_mark:| PD002 | Unreachable Route Rules - defaults |  Only one RouteRule should be present without a condition |
 | &nbsp; |:white_check_mark:| PD003 | Unreachable Route Rules |  RouteRule without a condition should be last. |
-| &nbsp; |:white_medium_square:| PD004 | Condition Complexity |  Overly complext Condition statements make RouteRules difficult to debug and maintain |
+| &nbsp; |:white_medium_square:| PD004 | Condition Complexity |  Overly complex Condition statements make RouteRules difficult to debug and maintain |
 | Target Definition | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
-| &nbsp; |:white_medium_square:| TD001 | Mgmt Server as Target |  Discourage calls to the Management Server from a Proxy. |
+| &nbsp; |:white_medium_square:| TD001 | Mgmt Server as Target |  Discourage calls to the Management Server from a Proxy via target. |
 | &nbsp; |:white_medium_square:| TD002 | Use Target Servers |  Encourage the use of target servers |
 | Flow | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| FL001 | Unconditional Flows |  Only one unconditional flow will get executed. Error if more than one was detected. |
@@ -76,15 +76,15 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_medium_square:| PO006 | Policy Naming Conventions - default name |  Policy names should not be default. |
 | &nbsp; |:white_medium_square:| PO007 | Policy Naming Conventions - type indication |  It is recommended that the policy name include an indicator of the policy type. |
 | &nbsp; |:white_check_mark:| PO008 | Policy Name Attribute Conventions |  It is recommended that the policy name attribute match the display name of the policy. |
-| &nbsp; |:white_medium_square:| PO009 | Service Callout Target - Mgmt Server |  Targetting management server may result in higher than expected latency use with caution. |
+| &nbsp; |:white_medium_square:| PO009 | Service Callout Target - Mgmt Server |  Targeting management server may result in higher than expected latency use with caution. |
 | &nbsp; |:white_medium_square:| PO010 | Service Callout Target - Target Server |  Encourage use of target servers. |
 | &nbsp; |:white_medium_square:| PO011 | Service Callout Target - Dynamic URLs |  Error on dynamic URLs in target server URL tag. |
 | &nbsp; |:white_medium_square:| PO012 | Service Callout Target - Script Target Node |  JSHint, ESLint. |
-| &nbsp; |:white_check_mark:| PO013 | Resoure Call Out - Javascript |  JSHint, ESLint. |
-| &nbsp; |:white_medium_square:| PO014 | Resoure Call Out - Java |  PMD, Checkstyle. |
-| &nbsp; |:white_medium_square:| PO016 | Resoure Call Out - Python |  Pylint. |
+| &nbsp; |:white_check_mark:| PO013 | Resource Call Out - Javascript |  JSHint, ESLint. |
+| &nbsp; |:white_medium_square:| PO014 | Resource Call Out - Java |  PMD, Checkstyle. |
+| &nbsp; |:white_medium_square:| PO015 | Resource Call Out - Python |  Pylint. |
 | &nbsp; |:white_medium_square:| PO016 | Statistics Collector - duplicate variables |  Warn on duplicate variables. |
-| &nbsp; |:white_medium_square:| PO016 | Statistics Collector - reserved variables |  Warn on insertion of duplicate variables. |
+| &nbsp; |:white_medium_square:| PO021 | Statistics Collector - reserved variables |  Warn on insertion of duplicate variables. |
 | &nbsp; |:white_medium_square:| PO017 | Misconfigured - FaultRules/Fault Rule in Policy |  FaultRules are configured in ProxyEndpoints and TargetEndpoints. |
 | &nbsp; |:white_medium_square:| PO018 | Regex Lookahead/Lookbehind are Expensive - Threat Protection Policy |  Regular expressions that include lookahead or lookbehind perform slowly on large payloads and are typically not required.|
 | &nbsp; |:white_check_mark:| PO019 | Reserved words as variables - ServiceCallout Request |  Using "request" as the name of a Request may cause unexpected side effects.|
