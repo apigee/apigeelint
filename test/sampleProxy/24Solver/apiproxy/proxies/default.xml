@@ -8,6 +8,11 @@
             </Step>
             <Condition>(fault.name = "FailedToResolveAPIKey")</Condition>
         </FaultRule>
+        <FaultRule name="ExtractVariablesFault">
+            <Step>
+                <Name>ExtractVariablesFault</Name>
+            </Step>
+        </FaultRule>
     </FaultRules>
     <DefaultFaultRule name="default-fault">
         <Step>
