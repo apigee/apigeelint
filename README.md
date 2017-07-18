@@ -59,7 +59,6 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_medium_square:| PD001 | RouteRules to Targets |  RouteRules should map to defined Targets. |
 | &nbsp; |:white_check_mark:| PD002 | Unreachable Route Rules - defaults |  Only one RouteRule should be present without a condition |
 | &nbsp; |:white_check_mark:| PD003 | Unreachable Route Rules |  RouteRule without a condition should be last. |
-| &nbsp; |:white_medium_square:| PD004 | Condition Complexity |  Overly complex Condition statements make RouteRules difficult to debug and maintain |
 | Target Definition | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_medium_square:| TD001 | Mgmt Server as Target |  Discourage calls to the Management Server from a Proxy via target. |
 | &nbsp; |:white_medium_square:| TD002 | Use Target Servers |  Encourage the use of target servers |
@@ -95,7 +94,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_check_mark:| CC001 | Literals in Conditionals |  Warn on literals in any conditional statement. |
 | &nbsp; |:white_medium_square:| CC002 | Null Blank Checks |  Blank checks should also check for null conditions. (to be reviewed) |
 | &nbsp; |:white_check_mark:| CC003 | Long condition statement |  Conditions should not be long. |
-| &nbsp; |:white_medium_square:| CC004 | Overly complex condition |  Condition complexity should be limited to fix number of variables and conjunctions. |
+| &nbsp; |:white_check_mark:| CC004 | Overly complex condition |  Condition complexity should be limited to fix number of variables and conjunctions. |
 | &nbsp; |:white_check_mark:| CC006 | Detect logical absurdities |  Conditions should not have internal logic conflicts - warn when these are detected. |
 
 From an implementation perspective the focus is on plugin support and flexibility over performance. Compute is cheap.
