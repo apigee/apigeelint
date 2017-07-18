@@ -92,7 +92,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | FaultRules | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_medium_square:| FR001 | No Condition on FaultRule | It's not a best practice to have a FaultRule without an outer condition, which automatically makes the FaultRule true. |
 | Conditional | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
-| &nbsp; |:white_medium_square:| CC001 | Literals in Conditionals |  Warn on literals in any conditional statement. |
+| &nbsp; |:white_check_mark:| CC001 | Literals in Conditionals |  Warn on literals in any conditional statement. |
 | &nbsp; |:white_medium_square:| CC002 | Null Blank Checks |  Blank checks should also check for null conditions. (to be reviewed) |
 | &nbsp; |:white_check_mark:| CC003 | Long condition statement |  Conditions should not be long. |
 | &nbsp; |:white_medium_square:| CC004 | Overly complex condition |  Condition complexity should be limited to fix number of variables and conjunctions. |
