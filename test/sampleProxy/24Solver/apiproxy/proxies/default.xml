@@ -27,6 +27,11 @@
                 <Condition>request.verb="POST"</Condition>
             </Step>
             <Step>
+                <FaultRules/>
+                <Name>regExLookAround</Name>
+                <Condition>request.verb="POST"</Condition>
+            </Step>
+            <Step>
                 <Name>AssignMessage.CopyRequest</Name>
             </Step>
             <Step>

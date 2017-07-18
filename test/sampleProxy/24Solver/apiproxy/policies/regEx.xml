@@ -1,0 +1,43 @@
+<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="Regular-Expression-Protection-1">
+    <DisplayName>Regular Expression Protection 1</DisplayName>
+    <Source>response</Source>
+    <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+    <URIPath>
+        <Pattern>&lt;\s*script\b[^&gt;]*&gt;[^&lt;]+&lt;\s*/\s*script\s*&gt;</Pattern>
+        <Pattern>.*Exception in thread.*</Pattern>
+    </URIPath>
+    <QueryParam name="a-query-param">
+        <Pattern>[\s]*((delete)|(exec)|(drop\s*table)|(insert)|(shutdown)|(update)|(\bor\b))</Pattern>
+        <Pattern>&lt;!--#(include|exec|echo|config|printenv)\s+.*</Pattern>
+    </QueryParam>
+    <Header name="a-header">
+        <Pattern>(/(@?[\w_?\w:\*]+(\[[^]]+\])*)?)+</Pattern>
+        <Pattern>/?(ancestor(-or-self)?|descendant(-or-self)?|following(-sibling))</Pattern>
+    </Header>
+    <FormParam name="a-form-param">
+        <Pattern>&lt;\s*script\b[^&gt;]*&gt;[^&lt;]+&lt;\s*/\s*script\s*&gt;</Pattern>
+        <Pattern>.*Exception in thread.*</Pattern>
+    </FormParam>
+    <Variable name="request.content">
+        <Pattern>&lt;\s*script\b[^&gt;]*&gt;[^&lt;]+&lt;\s*/\s*script\s*&gt;</Pattern>
+        <Pattern>.*Exception in thread.*</Pattern>
+    </Variable>
+    <XMLPayload>
+        <Namespaces>
+            <Namespace prefix="apigee">http://www.apigee.com</Namespace>
+        </Namespaces>
+        <XPath>
+            <Expression>/apigee:Greeting/apigee:User</Expression>
+            <Type>string</Type>
+            <Pattern>&lt;\s*script\b[^&gt;]*&gt;[^&lt;]+&lt;\s*/\s*script\s*&gt;</Pattern>
+            <Pattern>.*Exception in thread.*</Pattern>
+        </XPath>
+    </XMLPayload>
+    <JSONPayload>
+        <JSONPath>
+            <Expression>$.store.book[*].author</Expression>
+            <Pattern>&lt;\s*script\b[^&gt;]*&gt;[^&lt;]+&lt;\s*/\s*script\s*&gt;</Pattern>
+            <Pattern>.*Exception in thread.*</Pattern>
+        </JSONPath>
+    </JSONPayload>
+</RegularExpressionProtection>
