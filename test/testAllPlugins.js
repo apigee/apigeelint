@@ -17,48 +17,58 @@ var assert = require("assert"),
 
 var normalizedPath = path.join(__dirname, "../lib/package/plugins");
 fs.readdirSync(normalizedPath).forEach(function(file) {
-  var bundle = new Bundle(configuration);
-  bl.executePlugin(file, bundle);
+  //is this a js file
+  if (file.endsWith(".js")) {
+    var bundle = new Bundle(configuration);
+    bl.executePlugin(file, bundle);
 
-  it(file + " should create a report object with valid schema.", function() {
-    var schema = require("./reportSchema.js"),
-      jsimpl = bl.getFormatter("json.js"),
-      v = new Validator(),
-      validationResult,
-      jsonReport;
-
-    var jsonReport = JSON.parse(jsimpl(bundle.getReport()));
-    validationResult = v.validate(jsonReport, schema);
-    assert.equal(validationResult.errors.length, 0, validationResult.errors);
-  });
-
-  it(
-    file + " should include a plugin definition with a valid schema.",
-    function() {
-      var pluginSchema = require("./pluginSchema.js"),
+    it(file + " should create a report object with valid schema.", function() {
+      var schema = require("./reportSchema.js"),
+        jsimpl = bl.getFormatter("json.js"),
         v = new Validator(),
-        plugin = require("../lib/package/plugins/" + file),
-        validationResult;
+        validationResult,
+        jsonReport;
 
-      assert.notEqual(plugin.plugin, null, "plugin is null on "+file);
-
-      validationResult = v.validate(plugin.plugin, pluginSchema);
+      var jsonReport = JSON.parse(jsimpl(bundle.getReport()));
+      validationResult = v.validate(jsonReport, schema);
       assert.equal(validationResult.errors.length, 0, validationResult.errors);
-    }
-  );
+    });
 
-  it(file + " should have a unique ruleId.", function() {
-    var plugin = require("../lib/package/plugins/" + file),
-      ids = {};
-    //already existists
-    if (ids[plugin.plugin.ruleId]) {
-      assert.equal(
-        file,
-        ids[plugin.plugn.ruleId],
-        file + " and" + ids[plugin.plugn.ruleId] + " have conflicting ruleIds."
-      );
-    } else {
-      ids[plugin.plugin.ruleId] = file;
-    }
-  });
+    it(
+      file + " should include a plugin definition with a valid schema.",
+      function() {
+        var pluginSchema = require("./pluginSchema.js"),
+          v = new Validator(),
+          plugin = require("../lib/package/plugins/" + file),
+          validationResult;
+
+        assert.notEqual(plugin.plugin, null, "plugin is null on " + file);
+
+        validationResult = v.validate(plugin.plugin, pluginSchema);
+        assert.equal(
+          validationResult.errors.length,
+          0,
+          validationResult.errors
+        );
+      }
+    );
+
+    it(file + " should have a unique ruleId.", function() {
+      var plugin = require("../lib/package/plugins/" + file),
+        ids = {};
+      //already existists
+      if (ids[plugin.plugin.ruleId]) {
+        assert.equal(
+          file,
+          ids[plugin.plugn.ruleId],
+          file +
+            " and" +
+            ids[plugin.plugn.ruleId] +
+            " have conflicting ruleIds."
+        );
+      } else {
+        ids[plugin.plugin.ruleId] = file;
+      }
+    });
+  }
 });

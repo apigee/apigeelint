@@ -36,21 +36,14 @@ var Policy = require("../lib/package/Policy.js"),
           return [];
         };
 
+        if (flowExp) {
+          fDoc = new Dom().parseFromString(flowExp);
+          f = new Flow(fDoc, null);
+        }
+
         if (stepExp) {
           sDoc = new Dom().parseFromString(stepExp);
-          s = new Step(sDoc, this);
-          s.getElement = function() {
-            return sDoc;
-          };
-          s.parent = f;
-        }
-        if (flowExp) {
-          fDoc = new Dom().parseFromString(stepExp);
-          f = new Flow(fDoc, this);
-          s.parent = f;
-          f.getElement = function() {
-            return fDoc;
-          };
+          s = new Step(sDoc, f);
         }
 
         result = plugin.onPolicy(p);
@@ -67,7 +60,7 @@ var Policy = require("../lib/package/Policy.js"),
   };
 
 //now generate a full report and check the format of the report
-/*
+
 test(
   `<ExtractVariables name="ExtractVariables-1">
    <Source>response</Source>
@@ -83,7 +76,7 @@ test(
 </ExtractVariables>`,
   null,
   null,
-  false
+  false //not attached
 );
 test(
   `<ExtractVariables name="ExtractVariables-2">
@@ -103,9 +96,9 @@ test(
 </ExtractVariables>`,
   null,
   null,
-  false
+  false //not attached
 );
-*/
+
 test(
   `<ExtractVariables name="ExtractVariables-3">
    <Source>response</Source>
@@ -123,13 +116,13 @@ test(
    <VariablePrefix>geocoderesponse</VariablePrefix>
 </ExtractVariables>`,
   `<Step>
-    <Condition>request.content != ""</Condition>
-    <Name>ExtractVariables-3</Name>
+    <Condition>message.content != ""</Condition>
+    <Name>ExtractVariables-4</Name>
 </Step>`,
   null,
-  false
+  false //attached good condition
 );
-/*
+
 test(
   `<ExtractVariables name="ExtractVariables-4">
    <Source>response</Source>
@@ -151,14 +144,74 @@ test(
     <Name>ExtractVariables-4</Name>
 </Step>`,
   null,
-  true
+  true //attached insufficient condition
+);
+
+test(
+  `<ExtractVariables name="ExtractVariables-5">
+   <Source>response</Source>
+   <JSONPayload>
+      <Variable name="latitude" type="float">
+         <JSONPath>$.results[0].geometry.location.lat</JSONPath>
+      </Variable>
+      <Variable name="longitude" type="float">
+         <JSONPath>$.results[0].geometry.location.lng</JSONPath>
+      </Variable>
+   </JSONPayload>
+   <FormParam name="greeting">
+      <Pattern>hello {user}</Pattern>
+   </FormParam>
+   <VariablePrefix>geocoderesponse</VariablePrefix>
+</ExtractVariables>`,
+  `<Step>
+    <Condition>foo != ""</Condition>
+    <Name>ExtractVariables-5</Name>
+</Step>`,
+  `<Flow name="flow2">
+        <Step>
+            <Condition>foo != ""</Condition>
+            <Name>ExtractVariables-5</Name>
+        </Step>
+        <Condition/>
+    </Flow>`,
+  true //attached insufficient condition
+);
+
+test(
+  `<ExtractVariables name="ExtractVariables-6">
+   <Source>response</Source>
+   <JSONPayload>
+      <Variable name="latitude" type="float">
+         <JSONPath>$.results[0].geometry.location.lat</JSONPath>
+      </Variable>
+      <Variable name="longitude" type="float">
+         <JSONPath>$.results[0].geometry.location.lng</JSONPath>
+      </Variable>
+   </JSONPayload>
+   <FormParam name="greeting">
+      <Pattern>hello {user}</Pattern>
+   </FormParam>
+   <VariablePrefix>geocoderesponse</VariablePrefix>
+</ExtractVariables>`,
+  ` <Step>
+        <Condition>foo != ""</Condition>
+        <Name>ExtractVariables-6</Name>
+    </Step>`,
+  ` <Flow name="flow2">
+        <Step>
+            <Condition>foo != ""</Condition>
+            <Name>ExtractVariables-6</Name>
+        </Step>
+        <Condition>message.content != ""</Condition>
+    </Flow>`,
+  false //attached sufficient condition
 );
 
 test(
   '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>(?/(@?[w_?w:*]+([[^]]+])*)?)+</Pattern></URIPath></RegularExpressionProtection>',
   null,
   null,
-  false
+  false //not extractVar
 );
 
 describe("testing " + testPN, function() {
@@ -211,4 +264,3 @@ describe("testing " + testPN, function() {
   debug("unix formatted report: \n" + stylReport);
   console.log(stylReport);
 });
-*/
