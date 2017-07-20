@@ -71,7 +71,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_medium_square:| PO002 | XML Threat Protection |  A check for a body element must be performed before policy execution. |
 | &nbsp; |:white_medium_square:| PO003 | Extract Variables with JSONPayload |  A check for a body element must be performed before policy execution. |
 | &nbsp; |:white_medium_square:| PO004 | Extract Variables with XMLPayload |  A check for a body element must be performed before policy execution. |
-| &nbsp; |:white_medium_square:| PO005 | Extract Variables with FormParam |  A check for a body element must be performed before policy execution. |
+| &nbsp; |:white_check_mark:| PO005 | Extract Variables with FormParam |  A check for a body element must be performed before policy execution. |
 | &nbsp; |:white_medium_square:| PO006 | Policy Naming Conventions - default name |  Policy names should not be default. |
 | &nbsp; |:white_medium_square:| PO007 | Policy Naming Conventions - type indication |  It is recommended that the policy name include an indicator of the policy type. |
 | &nbsp; |:white_check_mark:| PO008 | Policy Name Attribute Conventions |  It is recommended that the policy name attribute match the display name of the policy. |
