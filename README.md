@@ -67,8 +67,8 @@ The list of rules is a work in progress and expected to increase over time. As p
 | Step | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| ST001 | Empty Step |  Empty steps clutter the bundle. |
 | Policy | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
-| &nbsp; |:white_medium_square:| PO001 | JSON Threat Protection |  A check for a body element must be performed before policy execution. |
-| &nbsp; |:white_medium_square:| PO002 | XML Threat Protection |  A check for a body element must be performed before policy execution. |
+| &nbsp; |:white_check_mark:| PO001 | JSON Threat Protection |  A check for a body element must be performed before policy execution. |
+| &nbsp; |:white_check_mark:| PO002 | XML Threat Protection |  A check for a body element must be performed before policy execution. |
 | &nbsp; |:white_check_mark:| PO003 | Extract Variables with JSONPayload |  A check for a body element must be performed before policy execution. |
 | &nbsp; |:white_check_mark:| PO004 | Extract Variables with XMLPayload |  A check for a body element must be performed before policy execution. |
 | &nbsp; |:white_check_mark:| PO005 | Extract Variables with FormParam |  A check for a body element must be performed before policy execution. |
