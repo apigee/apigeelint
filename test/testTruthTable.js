@@ -11,13 +11,25 @@ var assert = require("assert"),
         assertion,
         JSON.stringify({
           truthTable: tt,
-          evaluation: tt.evaluation
+          evaluation: tt.getEvaluation()
         })
       );
     });
   };
 
+
+
+test('a Like "foo"', "valid");
+test('a !Like "foo"', "valid");
+test('"bar" Like "foo"', "absurdity");
+test('!("bar" Like "foo")', "valid");
+test('"bar" Not Like "foo"', "valid");
+
+test('(fault.name Like "InvalidApiKey")',"valid");
 test("", "valid");
+test('a Matches "foo"', "valid");
+test('"bar" Matches "foo"', "absurdity");
+test('(fault.name Matches "InvalidApiKey")',"valid");
 test("false", "absurdity");
 test("true", "valid");
 test("true OR false", "valid");
@@ -64,7 +76,6 @@ test(
 );
 test("(b=1) and (b!=1)", "absurdity");
 test('request.verb = "GET" and request.verb = "POST" and response.status.code=200', "absurdity");
-
 test('request.verb = "GET" and request.verb != "POST"', "valid");
 test('"GET" =request.verb and request.verb = "POST"', "absurdity");
 test("(a = b) and (b=c) and (a!=c)", "absurdity");
