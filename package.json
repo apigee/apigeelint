@@ -27,23 +27,28 @@
   },
   "private": false,
   "dependencies": {
+    "babel-code-frame": "latest",
+    "chalk": "latest",
+    "codacy-coverage": "^2.0.2",
     "commander": "^2.9.0",
     "debug": "latest",
     "decache": "latest",
+    "js-yaml": "latest",
     "jshint": "^2.9.3",
+    "jsonschema": "latest",
+    "lodash": "latest",
+    "mocha-lcov-reporter": "^1.3.0",
     "node-find-folder": ">=0.1.25",
     "node-inspector": ">= 0.12.3",
     "path": ">= 0.11.14",
+    "pluralize": "latest",
+    "request": "latest",
+    "table": "latest",
+    "text-table": "latest",
     "xmldom": ">= 0.1.22",
-    "xpath": "latest",
-    "lodash":"latest",
-    "chalk":"latest",
-    "table":"latest",
-    "pluralize":"latest",
-    "babel-code-frame":"latest",
-    "text-table":"latest",
-    "js-yaml":"latest",
-    "jsonschema":"latest",
-    "request":"latest"
+    "xpath": "latest"
+  },
+  "devDependencies": {
+    "nyc": "^11.0.3"
   }
 }
