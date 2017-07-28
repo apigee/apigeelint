@@ -4,7 +4,8 @@ var assert = require("assert"),
   schema = require("./reportSchema.js"),
   Validator = require("jsonschema").Validator,
   pluginPath = path.join(__dirname, "../lib/package/plugins"),
-  plugins = [];
+  plugins = [],
+  cwd = process.cwd();
 
 fs.readdirSync(pluginPath).forEach(function(file) {
   plugins.push(file);
@@ -18,6 +19,8 @@ var FindFolder = require("node-find-folder"),
 
 process.chdir(rootDir);
 var folders = new FindFolder("apiproxy");
+process.chdir(cwd);
+
 
 folders.forEach(function(folder) {
   var config = {
