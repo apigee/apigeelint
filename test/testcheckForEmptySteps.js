@@ -1,9 +1,48 @@
 var assert = require("assert"),
-  testPN = "checkConditionTruth.js",
-  debug = require("debug")("bundlelinter:" + testPN);
+  testPN = "checkForEmptySteps.js",
+  debug = require("debug")("bundlelinter:" + testPN),
+  Step = require("../lib/package/Step.js"),
+  plugin = require("../lib/package/plugins/" + testPN),
+  Dom = require("xmldom").DOMParser,
+  test = function(stepExp, assertion) {
+    it(
+      "testing " + testPN + '" expected to see ' + assertion + ".",
+      function() {
+        var sDoc = new Dom().parseFromString(stepExp);
+        step = new Step(sDoc, this);
+        step.addMessage = function(msg) {
+          debug(msg);
+        };
 
+        plugin.onStep(step, function(result) {
+          assert.equal(
+            result,
+            assertion,
+            result
+              ? "warning/error was returned"
+              : "warning/error was not returned"
+          );
+        });
+      }
+    );
+  };
 
-// generate a full report and check the format of the report
+test(
+  `<Step>
+    <Condition>message.content != ""</Condition>
+    <Name>ExtractVariables-4</Name>
+</Step>`,
+  false
+);
+
+test(
+  `<Step>
+    <Condition>message.content != ""</Condition>
+    <Name></Name>
+</Step>`,
+  true
+);
+
 describe("testing " + testPN, function() {
   var configuration = {
       debug: true,
@@ -13,7 +52,6 @@ describe("testing " + testPN, function() {
       }
     },
     Bundle = require("../lib/package/Bundle.js"),
-    util = require("util"),
     bl = require("../lib/package/bundleLinter.js");
 
   debug("test configuration: " + JSON.stringify(configuration));
@@ -48,9 +86,4 @@ describe("testing " + testPN, function() {
       });
     }
   });
-
-  var stylimpl = bl.getFormatter("unix.js");
-  var stylReport = stylimpl(bundle.getReport());
-  debug("unix formatted report: \n" + stylReport);
-  console.log(stylReport);
 });

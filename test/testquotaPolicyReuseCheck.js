@@ -21,9 +21,8 @@ var Policy = require("../lib/package/Policy.js"),
         assertion +
         ".",
       function() {
-        var doc = new Dom().parseFromString(exp);
-        var p = new Policy(doc, this),
-          result;
+        var doc = new Dom().parseFromString(exp),
+          p = new Policy(doc, this);
 
         p.addMessage = function(msg) {
           debug(msg);
@@ -39,13 +38,15 @@ var Policy = require("../lib/package/Policy.js"),
           }
           return r;
         };
-        result = plugin.onPolicy(p);
-
-        assert.equal(
-          result,
-          assertion,
-          result ? "  steps attached is greater than 1 " : "stes attached is 0 or 1"
-        );
+        plugin.onPolicy(p, function(result) {
+          assert.equal(
+            result,
+            assertion,
+            result
+              ? "  steps attached is greater than 1 "
+              : "stes attached is 0 or 1"
+          );
+        });
       }
     );
   };

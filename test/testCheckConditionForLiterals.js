@@ -16,13 +16,14 @@ var Condition = require("../lib/package/Condition.js"),
         c.addMessage = function(msg) {
           debug(msg);
         };
-        result = plugin.onCondition(c);
-
-        assert.equal(
-          result,
-          assertion,
-          result ? " literal found " : "literal not found"
-        );
+        
+        plugin.onCondition(c, function(result) {
+          assert.equal(
+            result,
+            assertion,
+            result ? " literal found " : "literal not found"
+          );
+        });
       }
     );
   };

@@ -22,8 +22,7 @@ var Policy = require("../lib/package/Policy.js"),
           fDoc,
           p = new Policy(pDoc, this),
           s,
-          f,
-          result;
+          f;
 
         p.addMessage = function(msg) {
           debug(msg);
@@ -46,15 +45,15 @@ var Policy = require("../lib/package/Policy.js"),
           s = new Step(sDoc, f);
         }
 
-        result = plugin.onPolicy(p);
-
-        assert.equal(
-          result,
-          assertion,
-          result
-            ? "warning/error was returned"
-            : "warning/error was not returned"
-        );
+        plugin.onPolicy(p, function(result) {
+          assert.equal(
+            result,
+            assertion,
+            result
+              ? "warning/error was returned"
+              : "warning/error was not returned"
+          );
+        });
       }
     );
   };

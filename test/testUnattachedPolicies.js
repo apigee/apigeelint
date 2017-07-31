@@ -18,7 +18,7 @@ debug("test configuration: " + JSON.stringify(configuration));
 var bundle = new Bundle(configuration);
 
 describe("List unattached policies", function() {
-  bl.executePlugin("checkUnattachedPolicies", bundle);
+  bl.executePlugin("checkUnattachedPolicies.js", bundle);
   debug(
     "report: \n" +
       util.inspect(bundle.getReport(bundle), {

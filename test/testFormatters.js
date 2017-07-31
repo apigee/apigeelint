@@ -12,10 +12,10 @@ var assert = require("assert"),
       type: "filesystem",
       path: "./test/sampleProxy/24Solver/apiproxy"
     }
-  };
+  }, bundle;
 
 debug("test configuration: " + JSON.stringify(configuration));
-bl.lint(configuration);
+bundle=new Bundle(configuration);
 
 var formatters = [
   "checkstyle.js",
@@ -40,7 +40,7 @@ formatters.forEach(function(formatter) {
         if (!impl) {
           assert("implementation not defined: " + impl);
         } else {
-          var report = impl(bl.getReport(bundle));
+          var report = impl(bundle.getReport(bundle));
           debug("unix formatted report: \n" + report);
         }
       });

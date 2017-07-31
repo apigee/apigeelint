@@ -1,13 +1,16 @@
 var assert = require("assert"),
   testPN = "checkConditionComplexity.js",
-  debug = require("debug")("bundlelinter:" + testPN);
-
-var Condition = require("../lib/package/Condition.js"),
+  debug = require("debug")("bundlelinter:" + testPN),
+  Condition = require("../lib/package/Condition.js"),
   plugin = require("../lib/package/plugins/" + testPN),
   Dom = require("xmldom").DOMParser,
   test = function(exp, assertion) {
     it(
-      'testing condition complexity of "' + exp + '" expected to see ' + assertion + ".",
+      'testing condition complexity of "' +
+        exp +
+        '" expected to see ' +
+        assertion +
+        ".",
       function() {
         var doc = new Dom().parseFromString(exp);
         var c = new Condition(doc, this),
@@ -16,13 +19,13 @@ var Condition = require("../lib/package/Condition.js"),
         c.addMessage = function(msg) {
           debug(msg);
         };
-        result = plugin.onCondition(c);
-
-        assert.equal(
-          result,
-          assertion,
-          result ? " literal found " : "literal not found"
-        );
+        plugin.onCondition(c, function(result) {
+          assert.equal(
+            result,
+            assertion,
+            result ? " literal found " : "literal not found"
+          );
+        });
       }
     );
   };

@@ -22,8 +22,7 @@ var Policy = require("../lib/package/Policy.js"),
           fDoc,
           p = new Policy(pDoc, this),
           s,
-          f,
-          result;
+          f;
 
         p.addMessage = function(msg) {
           debug(msg);
@@ -46,15 +45,15 @@ var Policy = require("../lib/package/Policy.js"),
           s = new Step(sDoc, f);
         }
 
-        result = plugin.onPolicy(p);
-
-        assert.equal(
-          result,
-          assertion,
-          result
-            ? "warning/error was returned"
-            : "warning/error was not returned"
-        );
+        plugin.onPolicy(p, function(result) {
+          assert.equal(
+            result,
+            assertion,
+            result
+              ? "warning/error was returned"
+              : "warning/error was not returned"
+          );
+        });
       }
     );
   };
@@ -75,7 +74,6 @@ test(
   null,
   false //not attached
 );
-
 
 test(
   `<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
@@ -114,7 +112,7 @@ test(
 );
 
 test(
-`<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
+  `<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
    <DisplayName>JSON Threat Protection 1</DisplayName>
    <ArrayElementCount>20</ArrayElementCount>
    <ContainerDepth>10</ContainerDepth>
@@ -138,7 +136,7 @@ test(
 );
 
 test(
-`<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
+  `<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
    <DisplayName>JSON Threat Protection 1</DisplayName>
    <ArrayElementCount>20</ArrayElementCount>
    <ContainerDepth>10</ContainerDepth>

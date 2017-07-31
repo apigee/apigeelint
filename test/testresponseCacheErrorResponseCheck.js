@@ -13,40 +13,50 @@ var Policy = require("../lib/package/Policy.js"),
   Dom = require("xmldom").DOMParser,
   test = function(exp, assertion) {
     it(
-      'testing '+testPN+' with "' + exp + '" expected to see ' + assertion + ".",
+      "testing " +
+        testPN +
+        ' with "' +
+        exp +
+        '" expected to see ' +
+        assertion +
+        ".",
       function() {
         var doc = new Dom().parseFromString(exp);
-        var p = new Policy(doc, this),
-          result;
+        var p = new Policy(doc, this);
 
         p.addMessage = function(msg) {
           debug(msg);
         };
-        p.getElement=function(){
-            return doc;
-        }
-        result = plugin.onPolicy(p);
-
-        assert.equal(
-          result,
-          assertion,
-          result ? "warning/error was returned" : "warning/error was not returned"
-        );
+        p.getElement = function() {
+          return doc;
+        };
+        plugin.onPolicy(p, function(result) {
+          assert.equal(
+            result,
+            assertion,
+            result
+              ? "warning/error was returned"
+              : "warning/error was not returned"
+          );
+        });
       }
     );
   };
 
-  
 //now generate a full report and check the format of the report
-test(`<ResponseCache name="ResponseCache">
+test(
+  `<ResponseCache name="ResponseCache">
     <CacheKey>
         <KeyFragment ref="request.queryparam.w" />
     </CacheKey>
     <ExpirySettings>
         <TimeoutInSec>600</TimeoutInSec>
     </ExpirySettings>
-</ResponseCache>`,true);
-test(`<ResponseCache name="ResponseCache">
+</ResponseCache>`,
+  true
+);
+test(
+  `<ResponseCache name="ResponseCache">
     <CacheKey>
         <KeyFragment ref="request.queryparam.w" />
     </CacheKey>
@@ -54,8 +64,11 @@ test(`<ResponseCache name="ResponseCache">
         <TimeoutInSec>600</TimeoutInSec>
     </ExpirySettings>
     <ExcludeErrorResponse>false</ExcludeErrorResponse>
-</ResponseCache>`,true);
-test(`<ResponseCache name="ResponseCache">
+</ResponseCache>`,
+  true
+);
+test(
+  `<ResponseCache name="ResponseCache">
     <CacheKey>
         <KeyFragment ref="request.queryparam.w" />
     </CacheKey>
@@ -63,8 +76,11 @@ test(`<ResponseCache name="ResponseCache">
         <TimeoutInSec>600</TimeoutInSec>
     </ExpirySettings>
     <ExcludeErrorResponse/>
-</ResponseCache>`,true);
-test(`<ResponseCache name="ResponseCache">
+</ResponseCache>`,
+  true
+);
+test(
+  `<ResponseCache name="ResponseCache">
     <CacheKey>
         <KeyFragment ref="request.queryparam.w" />
     </CacheKey>
@@ -72,8 +88,13 @@ test(`<ResponseCache name="ResponseCache">
         <TimeoutInSec>600</TimeoutInSec>
     </ExpirySettings>
     <ExcludeErrorResponse>true</ExcludeErrorResponse>
-</ResponseCache>`,false);
-test('<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>(?/(@?[\w_?\w:\*]+(\[[^]]+\])*)?)+</Pattern></URIPath></RegularExpressionProtection>',false);
+</ResponseCache>`,
+  false
+);
+test(
+  '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>(?/(@?[w_?w:*]+([[^]]+])*)?)+</Pattern></URIPath></RegularExpressionProtection>',
+  false
+);
 
 describe("testing " + testPN, function() {
   var configuration = {
