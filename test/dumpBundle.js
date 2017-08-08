@@ -9,10 +9,13 @@ var configuration = {
     type: "filesystem",
     //"path": "../../../sampleProxy",
     path:
-      "/Users/davidwallen/Projects/apigee-bbcww-store/gateway/Store/target/apiproxy"
+      "/Users/davidwallen/Projects/bundle-linter/tmp/tmobileprd-web-auth-71-808/apiproxy"
   }
 };
 
 var bundle = new Bundle(configuration);
 
-debug(bundle.summarize());
+console.log(bundle.summarize());
+var  bl = require("../lib/package/bundleLinter.js");
+bl.lint(configuration);
+

@@ -20,7 +20,7 @@ var Policy = require("../lib/package/Policy.js"),
         var pDoc = new Dom().parseFromString(exp),
           sDoc,
           fDoc,
-          p = new Policy(pDoc, this),
+          p = new Policy(pDoc.documentElement, this),
           s,
           f;
 
@@ -28,7 +28,7 @@ var Policy = require("../lib/package/Policy.js"),
           debug(msg);
         };
         p.getElement = function() {
-          return pDoc;
+          return pDoc.documentElement;
         };
         p.getSteps = function() {
           if (s) return [s];
@@ -37,12 +37,12 @@ var Policy = require("../lib/package/Policy.js"),
 
         if (flowExp) {
           fDoc = new Dom().parseFromString(flowExp);
-          f = new Flow(fDoc, null);
+          f = new Flow(fDoc.documentElement, null);
         }
 
         if (stepExp) {
           sDoc = new Dom().parseFromString(stepExp);
-          s = new Step(sDoc, f);
+          s = new Step(sDoc.documentElement, f);
         }
 
         plugin.onPolicy(p, function(result) {

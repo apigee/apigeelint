@@ -23,7 +23,7 @@ var assert = require("assert"),
           assert.equal(
             result,
             assertion,
-            result ? " literal found " : "literal not found"
+            result ? " mismatch " : " match"
           );
         });
       }
@@ -34,6 +34,10 @@ test("false", 1);
 test("true OR false", 3);
 test("b = c AND true", 5);
 test("b OR c AND (a OR B AND C or D and True)", 13);
+test(`(access_token = "" or access_token ='')`, 7);
+
+test(`request.queryparam.limit!=NULL and request.queryparam.limit!="" and request.queryparam.limit > 25 and !((proxy.pathsuffix MatchesPath "/{version}/products/promotionhistory") and (request.verb = "GET") and (verifyapikey.genericVerifyAPIKey.canAccessPromotionHistory=true))`, 24);
+test(`(request.header.Accept == "text/xml;charset=UTF-8")`, 3);
 
 //now generate a full report and check the format of the report
 

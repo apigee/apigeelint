@@ -9,7 +9,7 @@ var assert = require("assert"),
       "testing " + testPN + '" expected to see ' + assertion + ".",
       function() {
         var sDoc = new Dom().parseFromString(stepExp);
-        step = new Step(sDoc, this);
+        step = new Step(sDoc.documentElement, this);
         step.addMessage = function(msg) {
           debug(msg);
         };
@@ -43,47 +43,42 @@ test(
   true
 );
 
-describe("testing " + testPN, function() {
-  var configuration = {
-      debug: true,
-      source: {
-        type: "filesystem",
-        path: "./test/sampleProxy/24Solver/apiproxy"
-      }
+test(`
+            <Step>
+                <Name>jsonThreatProtection</Name>
+                <Condition>request.verb != "GET"</Condition>
+            </Step>
+`,false);
+
+var config = {
+    debug: true,
+    source: {
+      type: "filesystem",
+      path: "/Users/davidwallen/Projects/CSDataProxy/apiproxy"
     },
-    Bundle = require("../lib/package/Bundle.js"),
-    bl = require("../lib/package/bundleLinter.js");
+    formatter: "table.js"
+  },
+  Bundle = require("../lib/package/Bundle.js"),
+  bl = require("../lib/package/bundleLinter.js"),
+  Validator = require("jsonschema").Validator,
+  schema = require("./reportSchema.js");
 
-  debug("test configuration: " + JSON.stringify(configuration));
+var bundle = new Bundle(config);
 
-  var bundle = new Bundle(configuration);
-  bl.executePlugin(testPN, bundle);
+bl.executePlugin(testPN, bundle);
+it(
+  testPN +
+    " should create a report object with valid schema for " +
+    config.source.path +
+    ".",
+  function() {
+    var jsimpl = bl.getFormatter("json.js"),
+      v = new Validator(),
+      validationResult,
+      jsonReport;
 
-  //need a case where we are using ref for the key
-  //also prefix
-
-  describe("Print " + testPN + " plugin results", function() {
-    var report = bundle.getReport(),
-      jsimpl = bl.getFormatter("json.js");
-
-    if (!jsimpl) {
-      assert("implementation not defined: " + jsimpl);
-    } else {
-      it("should create a report object with valid schema", function() {
-        var schema = require("./reportSchema.js"),
-          Validator = require("jsonschema").Validator,
-          v = new Validator(),
-          validationResult,
-          jsonReport;
-
-        var jsonReport = JSON.parse(jsimpl(bundle.getReport()));
-        validationResult = v.validate(jsonReport, schema);
-        assert.equal(
-          validationResult.errors.length,
-          0,
-          validationResult.errors
-        );
-      });
-    }
-  });
-});
+    var jsonReport = JSON.parse(jsimpl(bundle.getReport()));
+    validationResult = v.validate(jsonReport, schema);
+    assert.equal(validationResult.errors.length, 0, validationResult.errors);
+  }
+);

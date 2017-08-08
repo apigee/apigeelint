@@ -16,7 +16,7 @@ var Condition = require("../lib/package/Condition.js"),
         c.addMessage = function(msg) {
           debug(msg);
         };
-        
+
         plugin.onCondition(c, function(result) {
           assert.equal(
             result,
@@ -40,6 +40,14 @@ test("b=false", false);
 test("1", true);
 test('"foo"', true);
 test("request.queryparams.foo", false);
+test(
+  'request.header.Content-Type = "application/json"',
+  false
+);
+test(
+  'request.verb = "POST" and request.header.Content-Type = "application/json"',
+  false
+);
 
 //now generate a full report and check the format of the report
 

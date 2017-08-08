@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExtractVariables async="false" continueOnError="false" enabled="true" name="ExtractPayloadVariables">
+    <DisplayName>ExtractPayloadVariables</DisplayName>
+    <FaultRules/>
+    <Properties/>
+    <JSONPayload>
+        <Variable name="numArray">
+            <JSONPath>$.numbers</JSONPath>
+        </Variable>
+    </JSONPayload>
+    <Source clearPayload="false">request</Source>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+</ExtractVariables>

@@ -43,6 +43,7 @@
     "path": ">= 0.11.14",
     "pluralize": "latest",
     "request": "latest",
+    "requestretry": "^1.12.2",
     "table": "latest",
     "text-table": "latest",
     "xmldom": ">= 0.1.22",

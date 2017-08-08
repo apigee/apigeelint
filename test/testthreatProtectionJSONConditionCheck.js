@@ -20,7 +20,7 @@ var Policy = require("../lib/package/Policy.js"),
         var pDoc = new Dom().parseFromString(exp),
           sDoc,
           fDoc,
-          p = new Policy(pDoc, this),
+          p = new Policy(pDoc.documentElement, this),
           s,
           f;
 
@@ -28,7 +28,7 @@ var Policy = require("../lib/package/Policy.js"),
           debug(msg);
         };
         p.getElement = function() {
-          return pDoc;
+          return pDoc.documentElement;
         };
         p.getSteps = function() {
           if (s) return [s];
@@ -37,12 +37,12 @@ var Policy = require("../lib/package/Policy.js"),
 
         if (flowExp) {
           fDoc = new Dom().parseFromString(flowExp);
-          f = new Flow(fDoc, null);
+          f = new Flow(fDoc.documentElement, null);
         }
 
         if (stepExp) {
           sDoc = new Dom().parseFromString(stepExp);
-          s = new Step(sDoc, f);
+          s = new Step(sDoc.documentElement, f);
         }
 
         plugin.onPolicy(p, function(result) {
@@ -59,7 +59,7 @@ var Policy = require("../lib/package/Policy.js"),
   };
 
 //now generate a full report and check the format of the report
-
+/*
 test(
   `<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
    <DisplayName>JSON Threat Protection 1</DisplayName>
@@ -74,7 +74,7 @@ test(
   null,
   false //not attached
 );
-
+*/
 test(
   `<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
    <DisplayName>JSON Threat Protection 1</DisplayName>
@@ -92,7 +92,7 @@ test(
   null,
   false //attached good condition
 );
-
+/*
 test(
   `<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
    <DisplayName>JSON Threat Protection 1</DisplayName>
@@ -171,7 +171,7 @@ describe("testing " + testPN, function() {
       debug: true,
       source: {
         type: "filesystem",
-        path: "./test/sampleProxy/24Solver/apiproxy"
+        path: "/Users/davidwallen/Projects/CSDataProxy/apiproxy"
       }
     },
     Bundle = require("../lib/package/Bundle.js"),
@@ -216,3 +216,4 @@ describe("testing " + testPN, function() {
   debug("unix formatted report: \n" + stylReport);
   console.log(stylReport);
 });
+*/

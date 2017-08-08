@@ -22,13 +22,13 @@ var Policy = require("../lib/package/Policy.js"),
         ".",
       function() {
         var doc = new Dom().parseFromString(exp),
-          p = new Policy(doc, this);
+          p = new Policy(doc.documentElement, this);
 
         p.addMessage = function(msg) {
           debug(msg);
         };
         p.getElement = function() {
-          return doc;
+          return doc.documentElement;
         };
         p.getSteps = function() {
           //create an array with stepCt elements
