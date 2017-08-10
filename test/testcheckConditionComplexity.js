@@ -1,13 +1,16 @@
 var assert = require("assert"),
   testPN = "checkConditionComplexity.js",
-  debug = require("debug")("bundlelinter:" + testPN);
-
-var Condition = require("../lib/package/Condition.js"),
+  debug = require("debug")("bundlelinter:" + testPN),
+  Condition = require("../lib/package/Condition.js"),
   plugin = require("../lib/package/plugins/" + testPN),
   Dom = require("xmldom").DOMParser,
   test = function(exp, assertion) {
     it(
-      'testing condition complexity of "' + exp + '" expected to see ' + assertion + ".",
+      'testing condition complexity of "' +
+        exp +
+        '" expected to see ' +
+        assertion +
+        ".",
       function() {
         var doc = new Dom().parseFromString(exp);
         var c = new Condition(doc, this),
@@ -16,13 +19,13 @@ var Condition = require("../lib/package/Condition.js"),
         c.addMessage = function(msg) {
           debug(msg);
         };
-        result = plugin.onCondition(c);
-
-        assert.equal(
-          result,
-          assertion,
-          result ? " literal found " : "literal not found"
-        );
+        plugin.onCondition(c, function(result) {
+          assert.equal(
+            result,
+            assertion,
+            result ? " mismatch " : " match"
+          );
+        });
       }
     );
   };
@@ -31,6 +34,10 @@ test("false", 1);
 test("true OR false", 3);
 test("b = c AND true", 5);
 test("b OR c AND (a OR B AND C or D and True)", 13);
+test(`(access_token = "" or access_token ='')`, 7);
+
+test(`request.queryparam.limit!=NULL and request.queryparam.limit!="" and request.queryparam.limit > 25 and !((proxy.pathsuffix MatchesPath "/{version}/products/promotionhistory") and (request.verb = "GET") and (verifyapikey.genericVerifyAPIKey.canAccessPromotionHistory=true))`, 24);
+test(`(request.header.Accept == "text/xml;charset=UTF-8")`, 3);
 
 //now generate a full report and check the format of the report
 

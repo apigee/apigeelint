@@ -10,30 +10,34 @@ var Policy = require("../lib/package/Policy.js"),
       'testing regex "' + exp + '" expected to see ' + assertion + ".",
       function() {
         var doc = new Dom().parseFromString(exp);
-        var p = new Policy(doc, this),
-          result;
+        var p = new Policy(doc, this);
 
         p.addMessage = function(msg) {
           debug(msg);
         };
-        p.getElement=function(){
-            return doc;
-        }
-        result = plugin.onPolicy(p);
-
-        assert.equal(
-          result,
-          assertion,
-          result ? " (? found " : "(? not found"
-        );
+        p.getElement = function() {
+          return doc;
+        };
+        plugin.onPolicy(p, function(result) {
+          assert.equal(
+            result,
+            assertion,
+            result ? " (? found " : "(? not found"
+          );
+        });
       }
     );
   };
 
-  
 //now generate a full report and check the format of the report
-test('<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>.*Exception in thread.*</Pattern></URIPath></RegularExpressionProtection>',false);
-test('<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>(?/(@?[\w_?\w:\*]+(\[[^]]+\])*)?)+</Pattern></URIPath></RegularExpressionProtection>',true);
+test(
+  '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>.*Exception in thread.*</Pattern></URIPath></RegularExpressionProtection>',
+  false
+);
+test(
+  '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>(?/(@?[w_?w:*]+([[^]]+])*)?)+</Pattern></URIPath></RegularExpressionProtection>',
+  true
+);
 
 describe("testing " + testPN, function() {
   var configuration = {

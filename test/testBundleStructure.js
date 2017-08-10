@@ -15,10 +15,6 @@ var assert = require("assert"),
     }
   };
 
-//we need to get the right path here
-//the relative path ends up resolving incorrectly because of prior runs
-console.debug(JSON.stringify(process.env));
-
 debug("test configuration: " + JSON.stringify(configuration));
 var bundle = new Bundle(configuration);
 

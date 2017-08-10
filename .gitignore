@@ -2,6 +2,7 @@
 logs
 *.log
 npm-debug.log*
+tmp
 
 # Runtime data
 pids
@@ -13,6 +14,7 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+.nyc_output
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
@@ -39,3 +41,6 @@ private*
 
 #VS Code config data
 .vscode
+
+#private config data
+apigeeLintConfig.json

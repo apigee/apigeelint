@@ -1,17 +1,21 @@
 //dumpBundle.js
 
 var Bundle = require("../lib/package/Bundle.js"),
-    myUtil = require("../lib/package/myUtil.js");
+  debug = require("debug")("bundlelinter:dumpBundle");
 
 var configuration = {
-    debug: true,
-    "source": {
-        "type": "filesystem",
-        //"path": "../../../sampleProxy",
-        "path": "/Users/davidwallen/Projects/apigee-bbcww-store/gateway/Store/target/apiproxy",
-    }
+  debug: true,
+  source: {
+    type: "filesystem",
+    //"path": "../../../sampleProxy",
+    path:
+      "/Users/davidwallen/Projects/bundle-linter/tmp/tmobileprd-web-auth-71-808/apiproxy"
+  }
 };
 
 var bundle = new Bundle(configuration);
 
-myUtil.inspect(bundle.summarize());
+console.log(bundle.summarize());
+var  bl = require("../lib/package/bundleLinter.js");
+bl.lint(configuration);
+

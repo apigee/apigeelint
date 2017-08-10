@@ -1,5 +1,6 @@
 var assert = require("assert"),
-  testPN = "checkConditionForLiterals.js",
+  testPN = "checkConditionLength.js",
+  plugin = require("../lib/package/plugins/" + testPN),
   debug = require("debug")("bundlelinter:" + testPN),
   bl = require("../lib/package/bundleLinter.js"),
   configuration = {
@@ -9,42 +10,39 @@ var assert = require("assert"),
       path: "./test/sampleProxy/24Solver/apiproxy"
     }
   },
-  Bundle = require("../lib/package/Bundle.js");
+  Bundle = require("../lib/package/Bundle.js"),
+  Dom = require("xmldom").DOMParser,
+  Condition = require("../lib/package/Condition.js"),
+  test = function(exp, assertion) {
+    it(
+      'testing condition complexity of "' +
+        exp +
+        '" expected to see ' +
+        assertion +
+        ".",
+      function() {
+        var doc = new Dom().parseFromString(exp);
+        var c = new Condition(doc, this),
+          result;
 
-debug("test configuration: " + JSON.stringify(configuration));
+        c.addMessage = function(msg) {
+          debug(msg);
+        };
+        plugin.onCondition(c, function(result) {
+          assert.equal(
+            result,
+            assertion,
+            result ? " warning created " : "no warning created"
+          );
+        });
+      }
+    );
+  };
 
-var bundle = new Bundle(configuration);
-
-describe("testing " + testPN, function() {
-  bl.executePlugin(testPN, bundle);
-
-  describe("Print " + testPN + " plugin results", function() {
-    var report = bundle.getReport(),
-      jsimpl = bl.getFormatter("json.js");
-
-    if (!jsimpl) {
-      assert("implementation not defined: " + jsimpl);
-    } else {
-      it("should create a report object with valid schema", function() {
-        var schema = require("./reportSchema.js"),
-          Validator = require("jsonschema").Validator,
-          v = new Validator(),
-          validationResult,
-          jsonReport;
-
-        var jsonReport = JSON.parse(jsimpl(bundle.getReport()));
-        validationResult = v.validate(jsonReport, schema);
-        assert.equal(
-          validationResult.errors.length,
-          0,
-          validationResult.errors
-        );
-      });
-    }
-  });
-});
-
-var stylimpl = bl.getFormatter("unix.js");
-var stylReport = stylimpl(bundle.getReport());
-debug("unix formatted report: \n" + stylReport);
-console.log(stylReport);
+test(
+  "b OR c AND (a OR B AND C or D and True) and someverylongname=someotherverylongvariablename or b OR c AND (a OR B AND C or D and True) and someverylongname=someotherverylongvariablename or b OR c AND (a OR B AND C or D and True) and someverylongname=someotherverylongvariablename or b OR c AND (a OR B AND C or D and True) and someverylongname=someotherverylongvariablename",
+  true
+);
+test("false", false);
+test("true OR false", false);
+test("b = c AND true", false);

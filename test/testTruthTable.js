@@ -4,21 +4,25 @@ var assert = require("assert"),
   TruthTable = require("../lib/package/TruthTable.js"),
   test = function(exp, assertion) {
     it(exp + " should match " + assertion + ".", function() {
-      var tt = new TruthTable(exp);
+      var tt = new TruthTable(exp),
+        evaluation = tt.getEvaluation();
 
       assert.equal(
-        tt.getEvaluation(),
+        evaluation,
         assertion,
         JSON.stringify({
           truthTable: tt,
-          evaluation: tt.getEvaluation()
+          evaluation
         })
       );
     });
   };
 
-
-
+test(
+  '((cacheFlag == "false") or (lookupcache.Cache.lookupServiceCalloutAEMGET.cachehit == "false")) and (request.header.channelid := "care")',
+  "valid"
+);
+test(`!(request.header.Content-Type ~~ "(text|application)\/(xml|([a-z]*\+xml))(;(\s*)(\w)*=(\S*))?") or (request.verb = "GET") or (request.verb="PUT") or (request.verb="DELETE") or (request.verb="PATCH")`,"valid");
 test('a Like "foo"', "valid");
 test('a !Like "foo"', "valid");
 test('"bar" Like "foo"', "absurdity");

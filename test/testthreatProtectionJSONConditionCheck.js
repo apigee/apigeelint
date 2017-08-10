@@ -20,16 +20,15 @@ var Policy = require("../lib/package/Policy.js"),
         var pDoc = new Dom().parseFromString(exp),
           sDoc,
           fDoc,
-          p = new Policy(pDoc, this),
+          p = new Policy(pDoc.documentElement, this),
           s,
-          f,
-          result;
+          f;
 
         p.addMessage = function(msg) {
           debug(msg);
         };
         p.getElement = function() {
-          return pDoc;
+          return pDoc.documentElement;
         };
         p.getSteps = function() {
           if (s) return [s];
@@ -38,29 +37,29 @@ var Policy = require("../lib/package/Policy.js"),
 
         if (flowExp) {
           fDoc = new Dom().parseFromString(flowExp);
-          f = new Flow(fDoc, null);
+          f = new Flow(fDoc.documentElement, null);
         }
 
         if (stepExp) {
           sDoc = new Dom().parseFromString(stepExp);
-          s = new Step(sDoc, f);
+          s = new Step(sDoc.documentElement, f);
         }
 
-        result = plugin.onPolicy(p);
-
-        assert.equal(
-          result,
-          assertion,
-          result
-            ? "warning/error was returned"
-            : "warning/error was not returned"
-        );
+        plugin.onPolicy(p, function(result) {
+          assert.equal(
+            result,
+            assertion,
+            result
+              ? "warning/error was returned"
+              : "warning/error was not returned"
+          );
+        });
       }
     );
   };
 
 //now generate a full report and check the format of the report
-
+/*
 test(
   `<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
    <DisplayName>JSON Threat Protection 1</DisplayName>
@@ -75,8 +74,7 @@ test(
   null,
   false //not attached
 );
-
-
+*/
 test(
   `<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
    <DisplayName>JSON Threat Protection 1</DisplayName>
@@ -94,7 +92,7 @@ test(
   null,
   false //attached good condition
 );
-
+/*
 test(
   `<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
    <DisplayName>JSON Threat Protection 1</DisplayName>
@@ -114,7 +112,7 @@ test(
 );
 
 test(
-`<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
+  `<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
    <DisplayName>JSON Threat Protection 1</DisplayName>
    <ArrayElementCount>20</ArrayElementCount>
    <ContainerDepth>10</ContainerDepth>
@@ -138,7 +136,7 @@ test(
 );
 
 test(
-`<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
+  `<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
    <DisplayName>JSON Threat Protection 1</DisplayName>
    <ArrayElementCount>20</ArrayElementCount>
    <ContainerDepth>10</ContainerDepth>
@@ -173,7 +171,7 @@ describe("testing " + testPN, function() {
       debug: true,
       source: {
         type: "filesystem",
-        path: "./test/sampleProxy/24Solver/apiproxy"
+        path: "/Users/davidwallen/Projects/CSDataProxy/apiproxy"
       }
     },
     Bundle = require("../lib/package/Bundle.js"),
@@ -218,3 +216,4 @@ describe("testing " + testPN, function() {
   debug("unix formatted report: \n" + stylReport);
   console.log(stylReport);
 });
+*/

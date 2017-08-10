@@ -20,16 +20,15 @@ var Policy = require("../lib/package/Policy.js"),
         var pDoc = new Dom().parseFromString(exp),
           sDoc,
           fDoc,
-          p = new Policy(pDoc, this),
+          p = new Policy(pDoc.documentElement, this),
           s,
-          f,
-          result;
+          f;
 
         p.addMessage = function(msg) {
           debug(msg);
         };
         p.getElement = function() {
-          return pDoc;
+          return pDoc.documentElement;
         };
         p.getSteps = function() {
           if (s) return [s];
@@ -38,23 +37,23 @@ var Policy = require("../lib/package/Policy.js"),
 
         if (flowExp) {
           fDoc = new Dom().parseFromString(flowExp);
-          f = new Flow(fDoc, null);
+          f = new Flow(fDoc.documentElement, null);
         }
 
         if (stepExp) {
           sDoc = new Dom().parseFromString(stepExp);
-          s = new Step(sDoc, f);
+          s = new Step(sDoc.documentElement, f);
         }
 
-        result = plugin.onPolicy(p);
-
-        assert.equal(
-          result,
-          assertion,
-          result
-            ? "warning/error was returned"
-            : "warning/error was not returned"
-        );
+        plugin.onPolicy(p, function(result) {
+          assert.equal(
+            result,
+            assertion,
+            result
+              ? "warning/error was returned"
+              : "warning/error was not returned"
+          );
+        });
       }
     );
   };
@@ -89,7 +88,6 @@ test(
   null,
   false //not attached
 );
-
 
 test(
   `<XMLThreatProtection async="false" continueOnError="false" enabled="true" name="XML-Threat-Protection-1">

@@ -15,22 +15,22 @@ var Endpoint = require("../lib/package/Endpoint.js"),
     it(
       "testing " + testPN + '" expected to see ' + assertion + ".",
       function() {
-        var tDoc = new Dom().parseFromString(targetDef), target=new Endpoint(tDoc,this,''),
-          result;
+        var tDoc = new Dom().parseFromString(targetDef),
+          target = new Endpoint(tDoc, this, "");
 
         target.addMessage = function(msg) {
           debug(msg);
         };
 
-        result = plugin.onTargetEndpoint(target);
-
-        assert.equal(
-          result,
-          assertion,
-          result
-            ? "warning/error was returned"
-            : "warning/error was not returned"
-        );
+        plugin.onTargetEndpoint(target, function(result) {
+          assert.equal(
+            result,
+            assertion,
+            result
+              ? "warning/error was returned"
+              : "warning/error was not returned"
+          );
+        });
       }
     );
   };

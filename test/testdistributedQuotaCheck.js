@@ -13,35 +13,51 @@ var Policy = require("../lib/package/Policy.js"),
   Dom = require("xmldom").DOMParser,
   test = function(exp, assertion) {
     it(
-      'testing '+testPN+' with "' + exp + '" expected to see ' + assertion + ".",
+      "testing " +
+        testPN +
+        ' with "' +
+        exp +
+        '" expected to see ' +
+        assertion +
+        ".",
       function() {
         var doc = new Dom().parseFromString(exp);
-        var p = new Policy(doc, this),
-          result;
+        var p = new Policy(doc, this);
 
         p.addMessage = function(msg) {
           debug(msg);
         };
-        p.getElement=function(){
-            return doc;
-        }
-        result = plugin.onPolicy(p);
-
-        assert.equal(
-          result,
-          assertion,
-          result ? "  distirbuted is true " : "distirbuted is true not found"
-        );
+        p.getElement = function() {
+          return doc;
+        };
+        result = plugin.onPolicy(p, function(result) {
+          assert.equal(
+            result,
+            assertion,
+            result ? "  distirbuted is true " : "distirbuted is true not found"
+          );
+        });
       }
     );
   };
 
-  
 //now generate a full report and check the format of the report
-test('<Quota name="CheckQuota"> <Interval ref="verifyapikey.verify-api-key.apiproduct.developer.quota.interval">1</Interval><TimeUnit ref="verifyapikey.verify-api-key.apiproduct.developer.quota.timeunit">hour</TimeUnit><Allow count="200" countRef="verifyapikey.verify-api-key.apiproduct.developer.quota.limit"/></Quota>',true);
-test('<Quota name="CheckQuota"> <Distributed>false</Distributed><Interval ref="verifyapikey.verify-api-key.apiproduct.developer.quota.interval">1</Interval><TimeUnit ref="verifyapikey.verify-api-key.apiproduct.developer.quota.timeunit">hour</TimeUnit><Allow count="200" countRef="verifyapikey.verify-api-key.apiproduct.developer.quota.limit"/></Quota>',true);
-test('<Quota name="CheckQuota"> <Distributed>true</Distributed><Interval ref="verifyapikey.verify-api-key.apiproduct.developer.quota.interval">1</Interval><TimeUnit ref="verifyapikey.verify-api-key.apiproduct.developer.quota.timeunit">hour</TimeUnit><Allow count="200" countRef="verifyapikey.verify-api-key.apiproduct.developer.quota.limit"/></Quota>',false);
-test('<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>(?/(@?[\w_?\w:\*]+(\[[^]]+\])*)?)+</Pattern></URIPath></RegularExpressionProtection>',false);
+test(
+  '<Quota name="CheckQuota"> <Interval ref="verifyapikey.verify-api-key.apiproduct.developer.quota.interval">1</Interval><TimeUnit ref="verifyapikey.verify-api-key.apiproduct.developer.quota.timeunit">hour</TimeUnit><Allow count="200" countRef="verifyapikey.verify-api-key.apiproduct.developer.quota.limit"/></Quota>',
+  true
+);
+test(
+  '<Quota name="CheckQuota"> <Distributed>false</Distributed><Interval ref="verifyapikey.verify-api-key.apiproduct.developer.quota.interval">1</Interval><TimeUnit ref="verifyapikey.verify-api-key.apiproduct.developer.quota.timeunit">hour</TimeUnit><Allow count="200" countRef="verifyapikey.verify-api-key.apiproduct.developer.quota.limit"/></Quota>',
+  true
+);
+test(
+  '<Quota name="CheckQuota"> <Distributed>true</Distributed><Interval ref="verifyapikey.verify-api-key.apiproduct.developer.quota.interval">1</Interval><TimeUnit ref="verifyapikey.verify-api-key.apiproduct.developer.quota.timeunit">hour</TimeUnit><Allow count="200" countRef="verifyapikey.verify-api-key.apiproduct.developer.quota.limit"/></Quota>',
+  false
+);
+test(
+  '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>(?/(@?[w_?w:*]+([[^]]+])*)?)+</Pattern></URIPath></RegularExpressionProtection>',
+  false
+);
 
 describe("testing " + testPN, function() {
   var configuration = {
