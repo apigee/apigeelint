@@ -41,3 +41,6 @@ private*
 
 #VS Code config data
 .vscode
+
+#private config data
+apigeeLintConfig.json
