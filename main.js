@@ -3,7 +3,7 @@ var bl = require("./lib/package/bundleLinter.js");
 var program = require("commander");
 
 program
-  .version("0.1.6")
+  .version("0.1.8")
   .option("-s, --path <path>", "Path of the proxies")
   .option("-f, --formatter [value]", "Specify formatters (default json.js)")
   .option("-w, --write [value]", "file path to write results")
