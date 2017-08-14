@@ -15,12 +15,11 @@ var FindFolder = require("node-find-folder"),
   path = require("path"),
   Bundle = require("../lib/package/Bundle.js"),
   bl = require("../lib/package/bundleLinter.js"),
-  rootDir = "/Users/davidwallen/Projects/";
+  rootDir = "/Users/davidwallen/Projects/samples/";
 
 process.chdir(rootDir);
 var folders = new FindFolder("apiproxy");
 process.chdir(cwd);
-
 
 folders.forEach(function(folder) {
   var config = {
@@ -34,26 +33,29 @@ folders.forEach(function(folder) {
   var bundle = new Bundle(config);
 
   plugins.forEach(function(plugin) {
-    bl.executePlugin(plugin, bundle);
-    it(
-      plugin +
-        " should create a report object with valid schema for " +
-        folder +
-        ".",
-      function() {
-        var jsimpl = bl.getFormatter("json.js"),
-          v = new Validator(),
-          validationResult,
-          jsonReport;
+    bl.executePlugin(plugin, bundle, function() {
+      it(
+          "testAllPluginsMultpleBundlesReportSchema: " +
+          plugin +
+          " should create a report object with valid schema for " +
+          folder +
+          ".",
+        function() {
+          var jsimpl = bl.getFormatter("json.js"),
+            v = new Validator(),
+            validationResult,
+            jsonReport;
 
-        var jsonReport = JSON.parse(jsimpl(bundle.getReport()));
-        validationResult = v.validate(jsonReport, schema);
-        assert.equal(
-          validationResult.errors.length,
-          0,
-          validationResult.errors
-        );
-      }
-    );
+          bundle.getReport(function(report) {
+            validationResult = v.validate(report, schema);
+            assert.equal(
+              validationResult.errors.length,
+              0,
+              validationResult.errors
+            );
+          });
+        }
+      );
+    });
   });
 });

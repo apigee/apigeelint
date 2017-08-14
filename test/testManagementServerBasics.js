@@ -5,8 +5,8 @@ var ManagementServer = require("../lib/package/ManagementServer.js"),
 
 function test(desc, call, org, testFunction, testResult) {
   describe("test: " + desc, function() {
-    var ms = new ManagementServer(mgmtConfig);
     it("should return " + testResult, function(done) {
+      var ms = new ManagementServer(org);
       ms.get(call, { org }, [], function(body, res) {
         var actualResult;
         if (typeof testFunction == "function") {

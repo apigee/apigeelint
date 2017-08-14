@@ -3,11 +3,11 @@ var ManagementServer = require("../lib/package/ManagementServer.js"),
   assert = require("assert"),
   mgmtConfig = {};
 
-function test(desc, call, org, testFunction, testResult) {
+function test(desc, call, org, args, testFunction, testResult) {
   describe("test: " + desc, function() {
-    var ms = new ManagementServer(mgmtConfig);
+    var ms = new ManagementServer(org);
     it("should return " + testResult, function(done) {
-      ms.get(call, { org }, [], function(body, res) {
+      ms.get(call, { org }, args, function(body, res) {
         var actualResult;
         if (typeof testFunction == "function") {
           actualResult = testFunction(body, res);
@@ -29,6 +29,7 @@ test(
   "Test Authorization via status code.",
   "Enviros",
   "davidwallen2014",
+  {},
   function(body, res) {
     return res.statusCode;
   },
@@ -38,7 +39,7 @@ test(
 test(
   "Number of Enviros in org.",
   "Enviros",
-  "davidwallen2014",
+  "davidwallen2014",  {},
   function(body, res) {
     return JSON.parse(body).length || 0;
   },
@@ -47,7 +48,7 @@ test(
 test(
   "Enviros contains test.",
   "Enviros",
-  "davidwallen2014",
+  "davidwallen2014",  {},
   function(body, res) {
     return body.indexOf("test") > -1;
   },
@@ -57,9 +58,20 @@ test(
 test(
   "APIs include 24Solver.",
   "OrgAPIs",
-  "davidwallen2014",
+  "davidwallen2014",  {},
   function(body, res) {
     return body.indexOf("24Solver") > -1;
+  },
+  true
+);
+
+test(
+  "APIs include 24Solver.",
+  "Bundle",
+  "davidwallen2014",
+  { api: "24Solver", revision: 19 },
+  function(body, res) {
+    return body.length>4000;
   },
   true
 );

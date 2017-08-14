@@ -25,8 +25,10 @@ describe("Print bundle structure results", function() {
   if (!impl) {
     assert("implementation not defined: " + impl);
   } else {
-    var report = impl(bundle.getReport());
-    debug("unix formatted report: \n" + report);
+    bundle.getReport(function(report) {
+      report = impl(report);
+      debug("unix formatted report: \n" + report);
+    });
   }
 });
 

@@ -29,9 +29,15 @@ fs.readdirSync(normalizedPath).forEach(function(file) {
         validationResult,
         jsonReport;
 
-      var jsonReport = JSON.parse(jsimpl(bundle.getReport()));
-      validationResult = v.validate(jsonReport, schema);
-      assert.equal(validationResult.errors.length, 0, validationResult.errors);
+      bundle.getReport(function(report) {
+        var jsonReport = JSON.parse(jsimpl(report));
+        validationResult = v.validate(jsonReport, schema);
+        assert.equal(
+          validationResult.errors.length,
+          0,
+          validationResult.errors
+        );
+      });
     });
 
     it(
