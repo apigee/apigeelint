@@ -2,11 +2,16 @@
 <ProxyEndpoint name="default">
     <Description/>
     <FaultRules>
-       <FaultRule name="ExtractVariablesFault">
+        <FaultRule name="ExtractVariablesFault">
             <Step>
                 <Name>ExtractVariablesFault</Name>
             </Step>
             <Condition>(fault.name = "FailedToResolveAPIKey")</Condition>
+        </FaultRule>
+        <FaultRule name="ExtractVariablesFault">
+            <Step>
+                <Name>ExtractVariablesFault</Name>
+            </Step>
         </FaultRule>
     </FaultRules>
     <DefaultFaultRule name="default-fault">
@@ -22,6 +27,11 @@
                 <Condition>request.verb="POST"</Condition>
             </Step>
             <Step>
+                <FaultRules/>
+                <Name>regExLookAround</Name>
+                <Condition>request.verb="POST"</Condition>
+            </Step>
+            <Step>
                 <Name>AssignMessage.CopyRequest</Name>
             </Step>
             <Step>
@@ -32,9 +42,17 @@
             <Step>
                 <FaultRules/>
                 <Name>ExtractPayloadVariables</Name>
-                <Condition>{wackyvar.foo} and request.verb="POST" and request.header.contenttype="application/json" or {foovar}</Condition>
+                <Condition>{wackyvar.foo} and request.verb="POST" and request.header.contenttype="application/json" or {foovar} or {wackyvar.foo} and request.verb="POST" and request.header.contenttype="application/json" or {foovar} or {wackyvar.foo} and request.verb="POST" and request.header.contenttype="application/json" or {foovar} or {wackyvar.foo} and request.verb="POST" and request.header.contenttype="application/json" or {foovar}</Condition>
+            </Step>
+            <Step></Step>
+            <Step>
+                <Name>publishPurchaseDetails</Name>
             </Step>
             <Step>
+                <Name>Lookup-Cache-1</Name>
+            </Step>
+            <Step>
+                <Name>publishPurchaseDetails</Name>
             </Step>
         </Request>
         <Response/>
@@ -50,10 +68,7 @@
     <PostFlow name="PostFlow">
         <Request/>
         <Response>
-            <!-- <Step>
-                <FaultRules/>
-                <Name>jsCalculate</Name>
-            </Step> -->
+            <!-- <Step><FaultRules/><Name>jsCalculate</Name></Step> -->
         </Response>
     </PostFlow>
     <RouteRule name="foo">

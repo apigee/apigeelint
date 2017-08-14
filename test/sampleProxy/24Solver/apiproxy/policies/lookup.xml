@@ -1,0 +1,13 @@
+<LookupCache async="false" continueOnError="false" enabled="true" name="Lookup-Cache-1">
+    <DisplayName>Lookup Cache 1</DisplayName>
+    <Properties/>
+    <CacheKey>
+        <Prefix/>
+        <KeyFragment>foo</KeyFragment>
+    </CacheKey>
+    <!-- Omit this element if you're using the included shared cache. -->
+    <CacheResource/>
+    <CacheLookupTimeoutInSeconds/>
+    <Scope>Exclusive</Scope>
+    <AssignTo>flowVar</AssignTo>
+</LookupCache>

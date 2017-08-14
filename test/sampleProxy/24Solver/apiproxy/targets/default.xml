@@ -6,7 +6,7 @@
             <Step>
                 <Name>invalid-key-message</Name>
             </Step>
-            <Condition>(fault.name = "FailedToResolveAPIKey")</Condition>
+            <Condition>(false AND fault.name = "FailedToResolveAPIKey")</Condition>
         </FaultRule>
     </FaultRules>
     <DefaultFaultRule name="default-fault">

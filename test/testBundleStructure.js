@@ -1,33 +1,44 @@
-//testBundleStructure.js
-
-//call the plugin against an arbitrary folder
-var myUtil = require("../lib/package/myUtil.js"),
-  bs = require("../lib/package/plugins/bundleStructure.js");
-
-test = function(root) {
-  var results = { root, warnings: [] };
-
-  bs.onBundle({
-    root,
-    proxyRoot: root + "/" + "apiproxy",
-    warn(warning) {
-      results.warnings.push(warning);
+var assert = require("assert"),
+  decache = require("decache"),
+  path = require("path"),
+  fs = require("fs"),
+  pName = "checkBundleStructure",
+  debug = require("debug")("bundlelinter:" + pName),
+  Bundle = require("../lib/package/Bundle.js"),
+  util = require("util"),
+  bl = require("../lib/package/bundleLinter.js"),
+  configuration = {
+    debug: false,
+    source: {
+      type: "filesystem",
+      path: "./test/sampleProxy/24Solver/apiproxy"
     }
-  });
-  myUtil.inspect(results);
-};
+  };
 
-//process.chdir("/Users/davidallen/Projects/");
-var rootDir = "/Users/davidwallen/Projects/samples/";
-process.chdir(rootDir);
+debug("test configuration: " + JSON.stringify(configuration));
+var bundle = new Bundle(configuration);
 
-var FindFolder = require("node-find-folder"),
-  folders = new FindFolder("apiproxy/proxies");
+describe("Print bundle structure results", function() {
+  bl.executePlugin(pName, bundle);
 
-folders.some(function(folder) {
-  if (folder.indexOf("target/") === -1) {
-    //drop the apiproxy off the end
-    console.log(folder);
-    test(rootDir + folder.substring(0, folder.length - 17));
+  var impl = bl.getFormatter("unix.js");
+  if (!impl) {
+    assert("implementation not defined: " + impl);
+  } else {
+    var report = impl(bundle.getReport());
+    debug("unix formatted report: \n" + report);
   }
+});
+
+it("should create a report object with valid schema", function() {
+  var schema = require("./reportSchema.js"),
+    Validator = require("jsonschema").Validator,
+    jsimpl = bl.getFormatter("json.js"),
+    v = new Validator(),
+    validationResult,
+    jsonReport;
+
+  var jsonReport = JSON.parse(jsimpl(bundle.getReport()));
+  validationResult = v.validate(jsonReport, schema);
+  assert.equal(validationResult.errors.length, 0, validationResult.errors);
 });

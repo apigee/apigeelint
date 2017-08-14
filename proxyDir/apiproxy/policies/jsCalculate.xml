@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Javascript async="false" continueOnError="false" enabled="true" timeLimit="2000" name="jsCalculate">
+    <DisplayName>jsCalculate</DisplayName>
+    <FaultRules/>
+    <Properties/>
+    <ResourceURL>jsc://jsCalculate.js</ResourceURL>
+</Javascript>
