@@ -13,7 +13,7 @@ var assert = require("assert"),
   FindFolder = require("node-find-folder"),
   Bundle = require("../lib/package/Bundle.js"),
   bl = require("../lib/package/bundleLinter.js"),
-  rootDir = "/Users/davidwallen/Projects/";
+  rootDir = "/Users/davidwallen/Projects/samples/";
 
 process.chdir(rootDir);
 var folders = new FindFolder("apiproxy");
@@ -33,7 +33,10 @@ folders.forEach(function(folder) {
   plugins.forEach(function(plugin) {
     bl.executePlugin(plugin, bundle);
     it(
-      plugin +
+      "testcheckConditionComplexityManyBundles " +
+        testPN +
+        ": " +
+        plugin +
         " should create a report object with valid schema for " +
         folder +
         ".",

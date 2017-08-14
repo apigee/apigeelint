@@ -5,26 +5,26 @@ var assert = require("assert"),
   plugin = require("../lib/package/plugins/" + testPN),
   Dom = require("xmldom").DOMParser,
   test = function(stepExp, assertion) {
-    it(
-      "testing " + testPN + '" expected to see ' + assertion + ".",
-      function() {
-        var sDoc = new Dom().parseFromString(stepExp);
-        step = new Step(sDoc.documentElement, this);
-        step.addMessage = function(msg) {
-          debug(msg);
-        };
+    it("testing " + testPN + " expected to see " + assertion + ".", function() {
+      var sDoc = new Dom().parseFromString(stepExp);
+      this.getLines = function() {
+        return stepExp;
+      };
+      step = new Step(sDoc.documentElement, this);
+      step.addMessage = function(msg) {
+        debug(msg);
+      };
 
-        plugin.onStep(step, function(result) {
-          assert.equal(
-            result,
-            assertion,
-            result
-              ? "warning/error was returned"
-              : "warning/error was not returned"
-          );
-        });
-      }
-    );
+      plugin.onStep(step, function(result) {
+        assert.equal(
+          result,
+          assertion,
+          result
+            ? "warning/error was returned"
+            : "warning/error was not returned"
+        );
+      });
+    });
   };
 
 test(
@@ -43,12 +43,15 @@ test(
   true
 );
 
-test(`
+test(
+  `
             <Step>
                 <Name>jsonThreatProtection</Name>
                 <Condition>request.verb != "GET"</Condition>
             </Step>
-`,false);
+`,
+  false
+);
 
 var config = {
     debug: true,

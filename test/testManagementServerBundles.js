@@ -1,11 +1,10 @@
 var ManagementServer = require("../lib/package/ManagementServer.js"),
   debug = require("debug")("bundlelinter:ManagementServer"),
-  assert = require("assert"),
-  mgmtConfig = {};
+  assert = require("assert");
 
 function test(org, api, revision, expectedSize) {
   describe("download a bundle.", function() {
-    var ms = new ManagementServer(mgmtConfig);
+    var ms = new ManagementServer(org);
     it("bundle size should be " + expectedSize + " bytes.", function(done) {
       ms.get("Bundle", { org }, { api, revision }, function(body, res) {
         var size = body.length;
