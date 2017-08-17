@@ -13,7 +13,7 @@ var assert = require("assert"),
   FindFolder = require("node-find-folder"),
   Bundle = require("../lib/package/Bundle.js"),
   bl = require("../lib/package/bundleLinter.js"),
-  rootDir = "/Users/davidwallen/Projects/samples/";
+  rootDir = "/Users/davidwallen/Projects/";
 
 process.chdir(rootDir);
 var folders = new FindFolder("apiproxy");

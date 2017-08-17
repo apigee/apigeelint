@@ -22,7 +22,8 @@ var Endpoint = require("../lib/package/Endpoint.js"),
           debug(msg);
         };
 
-        plugin.onTargetEndpoint(target, function(result) {
+        plugin.onTargetEndpoint(target, function(err, result) {
+          assert.equal(err, undefined, err ? " err " : " no err");
           assert.equal(
             result,
             assertion,

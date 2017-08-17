@@ -18,6 +18,8 @@ var assert = require("assert"),
     });
   };
 
+test('"/x/a/b/feed/" Matches "/*/a/*/feed/"', "valid");
+test('"/Be/ER" Matches "/*/ER" ', "valid");
 test(
   '((cacheFlag == "false") or (lookupcache.Cache.lookupServiceCalloutAEMGET.cachehit == "false")) and (request.header.channelid := "care")',
   "valid"

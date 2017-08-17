@@ -15,7 +15,12 @@ var assert = require("assert"),
         debug(msg);
       };
 
-      plugin.onStep(step, function(result) {
+      plugin.onStep(step, function(err, result) {
+         assert.equal(
+            err,
+            undefined,
+            err ? " err " : " no err"
+          );
         assert.equal(
           result,
           assertion,

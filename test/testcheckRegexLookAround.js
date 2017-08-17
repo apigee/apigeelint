@@ -18,7 +18,12 @@ var Policy = require("../lib/package/Policy.js"),
         p.getElement = function() {
           return doc;
         };
-        plugin.onPolicy(p, function(result) {
+        plugin.onPolicy(p, function(err, result) {
+           assert.equal(
+            err,
+            undefined,
+            err ? " err " : " no err"
+          );
           assert.equal(
             result,
             assertion,

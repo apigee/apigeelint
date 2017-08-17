@@ -45,7 +45,8 @@ var Policy = require("../lib/package/Policy.js"),
           s = new Step(sDoc.documentElement, f);
         }
 
-        plugin.onPolicy(p, function(result) {
+        plugin.onPolicy(p, function(err,result) {
+          assert.equal(err, undefined, err ? " err " : " no err");
           assert.equal(
             result,
             assertion,

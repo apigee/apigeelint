@@ -19,7 +19,12 @@ var assert = require("assert"),
         c.addMessage = function(msg) {
           debug(msg);
         };
-        plugin.onCondition(c, function(result) {
+        plugin.onCondition(c, function(err, result) {
+          assert.equal(
+            err,
+            undefined,
+            err ? " err " : " no err"
+          );
           assert.equal(
             result,
             assertion,
