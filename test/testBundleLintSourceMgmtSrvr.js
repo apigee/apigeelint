@@ -8,7 +8,12 @@ var config = {
     type: "ManagementServer",
     org: "davidwallen2014",
     api: "24Solver",
+<<<<<<< HEAD
     revision: 19
+=======
+    revision: 19,
+    authorization: "Basic User:Secret="
+>>>>>>> 519bad064cbda48bfaed21c434f3a8ed21e6a09b
   },
   formatter: "unix.js"
 };
