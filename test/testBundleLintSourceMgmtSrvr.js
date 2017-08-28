@@ -9,7 +9,7 @@ var config = {
     org: "davidwallen2014",
     api: "24Solver",
     revision: 19,
-    authorization: "Basic ZGFsbGVuQGFwaWdlZS5jb206THVjeTE5NjU="
+    authorization: "Basic User:Secret="
   },
   formatter: "unix.js"
 };
