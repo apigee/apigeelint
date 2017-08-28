@@ -7,15 +7,16 @@ var config = {
   source: {
     type: "ManagementServer",
     org: "davidwallen2014",
-    api: "24Solver",
-    revision: 19
+    api: "FooBar",
+    revision: 999
   },
   formatter: "unix.js"
 };
 
 describe("testing source of managementserver", function() {
-  it("not blow chunks ", function(done) {
-    bl.lint(config, function() {
+  it("returns 404 ", function(done) {
+    bl.lint(config, function(result, err) {
+      assert.equal(err.status,404);
       done();
     });
   });

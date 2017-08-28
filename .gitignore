@@ -45,3 +45,4 @@ private*
 #private config/application data
 apigeeLintConfig.json
 completed.json
+test/fixtures/allBundles.json
