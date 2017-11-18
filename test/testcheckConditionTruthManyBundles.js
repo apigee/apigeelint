@@ -13,7 +13,8 @@ var assert = require("assert"),
   FindFolder = require("node-find-folder"),
   Bundle = require("../lib/package/Bundle.js"),
   bl = require("../lib/package/bundleLinter.js"),
-  rootDir = "/Users/davidwallen/Projects/";
+  rootDir = "/Users/davidwallen/Projects/",
+  bundle;
 
 process.chdir(rootDir);
 var folders = new FindFolder("apiproxy");
@@ -28,7 +29,7 @@ folders.forEach(function(folder) {
     },
     formatter: "table.js"
   };
-  var bundle = new Bundle(config);
+  bundle = new Bundle(config);
 
   plugins.forEach(function(plugin) {
     bl.executePlugin(plugin, bundle);
