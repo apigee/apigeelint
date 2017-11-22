@@ -9,7 +9,8 @@ describe("testing " + testPN, function() {
       debug: true,
       source: {
         type: "filesystem",
-        path: "./test/sampleProxy/24Solver/apiproxy"
+        //path: "./test/sampleProxy/24Solver/apiproxy"
+        path:"/Users/davidwallen/Projects/GitLabRestore/mnt/apigee2/git-data/gitlab-satellites/rewards-network/rewardsnetwork/code/gateway/rewardsnetwork/apiproxy"
       }
     },
     Bundle = require("../lib/package/Bundle.js"),
