@@ -18,7 +18,7 @@ Reporters (the means to report out results), Ingesters (bundle loaders) are to b
 
 apigeelint -s sampleProxy/ -f table.js
 
-where -s points to the apiProxy source directory and -f is the output formatter desired. 
+where -s points to the apiProxy source directory and -f is the output formatter desired.
 
 Possible formats are "json.js" (the default), “stylish.js”, “compact.js”, "codeframe.js", "html.js", "table.js", "unix.js", "visualstudio.js", “checkstyle.js”, “jslint-xml.js”, “junit.js” and “tap.js”.
 
@@ -47,7 +47,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | ------ | ------ | ---- | ---- | ----------- |
 | Bundle | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| BN001 | Bundle folder structure correctness. | Bundles have a clear structure. |
-| &nbsp; |:white_check_mark:| BN002 | Extraneous files. | Ensure each folder contains approrpriate resources in the bundle. |
+| &nbsp; |:white_check_mark:| BN002 | Extraneous files. | Ensure each folder contains appropriate resources in the bundle. |
 | &nbsp; |:white_check_mark:| BN003 | Cache Coherence | A bundle that includes cache reads should include cache writes with the same keys. |
 | &nbsp; |:white_check_mark:| BN004 | Unused variables. |  Within a bundle variables created should be used in conditions, resource callouts, or policies. |
 | &nbsp; |:white_check_mark:| BN005 | Unattached policies. |  Unattached policies are dead code and should be removed from production bundles. |
@@ -56,6 +56,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_medium_square:| BN008 | IgnoreUnresolvedVariables and FaultRules |  Use of IgnoreUnresolvedVariables without the use of FaultRules may lead to unexpected errors. |
 | &nbsp; |:white_check_mark:| BN009 | Statistics Collector - duplicate policies |  Warn on duplicate policies when no conditions are present or conditions are duplicates. |
 | Proxy Definition | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
+| &nbsp; |:white_medium_square:| PD001 | RouteRules to Targets | RouteRules should map to defined Targets |
 | &nbsp; |:white_check_mark:| PD002 | Unreachable Route Rules - defaults |  Only one RouteRule should be present without a condition |
 | &nbsp; |:white_check_mark:| PD003 | Unreachable Route Rules |  RouteRule without a condition should be last. |
 | Target Definition | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
@@ -72,7 +73,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_check_mark:| PO004 | Extract Variables with XMLPayload |  A check for a body element must be performed before policy execution. |
 | &nbsp; |:white_check_mark:| PO005 | Extract Variables with FormParam |  A check for a body element must be performed before policy execution. |
 | &nbsp; |:white_medium_square:| PO006 | Policy Naming Conventions - default name |  Policy names should not be default. |
-| &nbsp; |:white_medium_square:| PO007 | Policy Naming Conventions - type indication |  It is recommended that the policy name include an indicator of the policy type. |
+| &nbsp; |:white_check_mark:| PO007 | Policy Naming Conventions - type indication |  It is recommended that the policy name include an indicator of the policy type. |
 | &nbsp; |:white_check_mark:| PO008 | Policy Name Attribute Conventions |  It is recommended that the policy name attribute match the display name of the policy. |
 | &nbsp; |:white_medium_square:| PO009 | Service Callout Target - Mgmt Server |  Targeting management server may result in higher than expected latency use with caution. |
 | &nbsp; |:white_medium_square:| PO010 | Service Callout Target - Target Server |  Encourage use of target servers. |
