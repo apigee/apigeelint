@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 var bl = require("./lib/package/bundleLinter.js");
 var program = require("commander");
+var pkj = require('./package.json');
 
 program
-  .version("0.1.8")
+  .version(pkj.version)
   .option("-s, --path <path>", "Path of the proxies")
   .option("-f, --formatter [value]", "Specify formatters (default json.js)")
   .option("-w, --write [value]", "file path to write results")
