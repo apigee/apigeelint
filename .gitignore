@@ -28,6 +28,9 @@ build/Release
 # Dependency directory
 node_modules
 
+# Dependency manifest
+.package-lock.json
+
 # Optional npm cache directory
 .npm
 
