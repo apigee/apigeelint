@@ -41,7 +41,6 @@
     "lodash": "latest",
     "minimatch": "^3.0.4",
     "node-find-folder": ">=0.1.25",
-    "node-inspector": ">= 0.12.3",
     "path": ">= 0.11.14",
     "pluralize": "latest",
     "request": "latest",
