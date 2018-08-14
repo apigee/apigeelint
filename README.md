@@ -14,13 +14,25 @@ Plugins that test these abstractions are being developed concurrently.
 
 Reporters (the means to report out results), Ingesters (bundle loaders) are to be developed with Filesystem being the only supported means of loading a bundle and all reporting now going to console.
 
+## Installation
+
+Install using npm
+
+```
+npm install -g apigeelint
+```
+
 ## Usage
 
+Run it using
+
+```
 apigeelint -s sampleProxy/ -f table.js
+```
 
-where -s points to the apiProxy source directory and -f is the output formatter desired.
+where `-s` points to the apiProxy source directory and `-f` is the output formatter desired.
 
-Possible formats are "json.js" (the default), “stylish.js”, “compact.js”, "codeframe.js", "html.js", "table.js", "unix.js", "visualstudio.js", “checkstyle.js”, “jslint-xml.js”, “junit.js” and “tap.js”.
+Possible formats are "json.js" (the default), "stylish.js", "compact.js", "codeframe.js", "html.js", "table.js", "unix.js", "visualstudio.js", "checkstyle.js", "jslint-xml.js", "junit.js" and "tap.js".
 
 ## Does this tool just lint or does it also check style?
 
@@ -28,9 +40,11 @@ This tool does both traditional linting (looking for problematic patterns) and s
 
 ## Tests
 
-The tests directory includes scripts to exercise a subset of rules. Overall linting can be tested with:
+The `test` directory includes scripts to exercise a subset of rules. Overall linting can be tested with:
 
-  apigeelint -s ./test/sampleProxy/24Solver/apiproxy/
+```
+apigeelint -s ./test/sampleProxy/24Solver/apiproxy/
+```
 
 This sample includes many bad practices and as such generates a bit of noise.
 
