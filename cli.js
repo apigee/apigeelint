@@ -31,7 +31,8 @@ var configuration = {
   source: {
     type: "filesystem",
     path: program.path
-  }
+  },
+  excluded: {}
 };
 
 if (program.formatter) {
@@ -39,7 +40,12 @@ if (program.formatter) {
 }
 
 if (program.excluded && typeof(program.excluded) === "string") {
-	configuration.excluded = program.excluded.split(",");
+	var excluded = program.excluded.split(",");
+	configuration.excluded = configuration.excluded || {};
+	for (var i in excluded)
+	{
+		configuration.excluded[excluded[i]] = true;
+	}
 }
 
 if (program.user) {
