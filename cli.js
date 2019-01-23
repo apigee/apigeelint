@@ -12,6 +12,7 @@ program
     "-d, --destPath [value]",
     "Provide the host and path to upload linter results"
   )
+  .option("-e, --excluded [value]", "Specify the list tests to be excluded")
   .option("-u, --user [value]", "Apigee user account")
   .option("-p, --password [value]", "Apigee password")
   .option("-o, --organization [value]", "Apigee organization");
@@ -30,11 +31,21 @@ var configuration = {
   source: {
     type: "filesystem",
     path: program.path
-  }
+  },
+  excluded: {}
 };
 
 if (program.formatter) {
   configuration.formatter = program.formatter || "json.js";
+}
+
+if (program.excluded && typeof(program.excluded) === "string") {
+	var excluded = program.excluded.split(",");
+	configuration.excluded = configuration.excluded || {};
+	for (var i in excluded)
+	{
+		configuration.excluded[excluded[i]] = true;
+	}
 }
 
 if (program.user) {
