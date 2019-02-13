@@ -1,9 +1,25 @@
+/*
+  Copyright 2019 Google LLC
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
+
 /**
  * Responds to any HTTP request that can provide a "message" field in the body.
  *
  * @param {!Object} req Cloud Function request context.
  * @param {!Object} res Cloud Function response context.
- * 
+ *
  * gcloud beta functions deploy lints --trigger-http --stage-bucket lintresults --memory 2048
  */
 
@@ -46,29 +62,29 @@ exports.lints = function lintResults(req, res) {
 
   if (!org && customer) {
     //populate from the customer if supplied
-    
+
     var str = '';
-    
+
       var options = {
         host: 'nucleus-api-test.apigee.com',
         path: '/sfdc/account_orgs'
       };
-    
+
       var callback = function(response) {
         response.on('data', function (chunk) {
           str += chunk;
         });
-    
+
         response.on('end', function () {
           console.log(str);
           //str contains the payload from the account_orgs - parse to get the orgs to lint
           res.send(str); // SEND ACTUAL RESPONSE HERE
         });
       }
-    
+
       var req = http.request(options, callback);
       req.end();
-    
+
   }else{
 
   }
