@@ -115,3 +115,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_check_mark:| CC006 | Detect logical absurdities |  Conditions should not have internal logic conflicts - warn when these are detected. |
 
 From an implementation perspective the focus is on plugin support and flexibility over performance. Compute is cheap.
+
+
+## Disclaimer
+This is not an officially supported Google product.

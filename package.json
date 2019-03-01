@@ -36,7 +36,7 @@
     "decache": "latest",
     "decompress": "latest",
     "js-yaml": "latest",
-    "jshint": "^2.9.3",
+    "jshint": "^2.10.1",
     "jsonschema": "latest",
     "lodash": "latest",
     "minimatch": "^3.0.4",
