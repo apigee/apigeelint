@@ -15,7 +15,8 @@ program
   .option("-e, --excluded [value]", "Specify the list tests to be excluded")
   .option("-u, --user [value]", "Apigee user account")
   .option("-p, --password [value]", "Apigee password")
-  .option("-o, --organization [value]", "Apigee organization");
+  .option("-o, --organization [value]", "Apigee organization")
+  .option("-t, --type [value]", "Apigee Artifact Type");
 
 program.on("--help", function() {
   console.log("example");
@@ -61,6 +62,9 @@ if (program.user) {
 
 if (program.write) {
   configuration.writePath = program.write;
+}
+if (program.type) {
+  configuration.type = program.type;
 }
 
 bl.lint(configuration);
