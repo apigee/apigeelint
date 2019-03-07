@@ -28,6 +28,13 @@ Run it using
 
 ```
 apigeelint -s sampleProxy/ -f table.js
+
+```
+
+For sharedflows run it using 
+
+```
+apigeelint -s sampleProxy/ -f table.js -t sharedflows
 ```
 
 where `-s` points to the apiProxy source directory and `-f` is the output formatter desired.
