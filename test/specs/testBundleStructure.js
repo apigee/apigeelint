@@ -1,0 +1,41 @@
+var assert = require("assert"),
+  decache = require("decache"),
+  path = require("path"),
+  fs = require("fs"),
+  pName = "checkBundleStructure",
+  debug = require("debug")("bundlelinter:" + pName),
+  Bundle = require("../../lib/package/Bundle.js"),
+  Validator = require("jsonschema").Validator,
+  util = require("util"),
+  bl = require("../../lib/package/bundleLinter.js"),
+  schema = require("./../fixtures/reportSchema.js");
+
+debug("test configuration: " + JSON.stringify(configuration));
+var bundle = new Bundle(configuration);
+
+describe("Print bundle structure results", function() {
+  bl.executePlugin(pName, bundle);
+
+  var impl = bl.getFormatter("unix.js");
+  if (!impl) {
+    assert("implementation not defined: " + impl);
+  } else {
+    bundle.getReport(function(report) {
+      report = impl(report);
+      debug("unix formatted report: \n" + report);
+    });
+  }
+
+  it("should create a report object with valid schema", function() {
+
+    var jsimpl = bl.getFormatter("json.js"),
+      v = new Validator(),
+      validationResult,
+      jsonReport;
+
+    var jsonReport = JSON.parse(jsimpl(bundle.getReport()));
+    validationResult = v.validate(jsonReport, schema);
+    assert.equal(validationResult.errors.length, 0, validationResult.errors);
+  });
+
+});
