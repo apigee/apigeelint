@@ -2,8 +2,6 @@
 var bl = require("./lib/package/bundleLinter.js");
 var program = require("commander");
 var pkj = require('./package.json');
-var FindFolder = require("node-find-folder");
-
 
 program
   .version(pkj.version)
