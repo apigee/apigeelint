@@ -31,7 +31,7 @@ apigeelint -s sampleProxy/ -f table.js
 
 ```
 
-where `-s` points to the apiProxy source directory and `-f` is the output formatter desired.
+where `-s` points to the apiProxy or sharedflowbundle source directory and `-f` is the output formatter desired.
 
 Possible formats are "json.js" (the default), "stylish.js", "compact.js", "codeframe.js", "html.js", "table.js", "unix.js", "visualstudio.js", "checkstyle.js", "jslint-xml.js", "junit.js" and "tap.js".
 

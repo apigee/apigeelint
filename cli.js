@@ -17,7 +17,7 @@ program
   .option("-e, --excluded [value]", "Specify the list tests to be excluded")
   .option("-u, --user [value]", "Apigee user account")
   .option("-p, --password [value]", "Apigee password")
-  .option("-o, --organization [value]", "Apigee organization")
+  .option("-o, --organization [value]", "Apigee organization");
 
 program.on("--help", function() {
   console.log("example");
