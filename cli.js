@@ -2,6 +2,8 @@
 var bl = require("./lib/package/bundleLinter.js");
 var program = require("commander");
 var pkj = require('./package.json');
+var FindFolder = require("node-find-folder");
+
 
 program
   .version(pkj.version)
@@ -16,7 +18,6 @@ program
   .option("-u, --user [value]", "Apigee user account")
   .option("-p, --password [value]", "Apigee password")
   .option("-o, --organization [value]", "Apigee organization")
-  .option("-t, --type [value]", "Apigee Artifact Type");
 
 program.on("--help", function() {
   console.log("example");
@@ -62,9 +63,6 @@ if (program.user) {
 
 if (program.write) {
   configuration.writePath = program.write;
-}
-if (program.type) {
-  configuration.type = program.type;
 }
 
 bl.lint(configuration);

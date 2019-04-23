@@ -31,12 +31,6 @@ apigeelint -s sampleProxy/ -f table.js
 
 ```
 
-For sharedflows run it using 
-
-```
-apigeelint -s sampleProxy/ -f table.js -t sharedflows
-```
-
 where `-s` points to the apiProxy source directory and `-f` is the output formatter desired.
 
 Possible formats are "json.js" (the default), "stylish.js", "compact.js", "codeframe.js", "html.js", "table.js", "unix.js", "visualstudio.js", "checkstyle.js", "jslint-xml.js", "junit.js" and "tap.js".
@@ -51,6 +45,7 @@ The `test` directory includes scripts to exercise a subset of rules. Overall lin
 
 ```
 apigeelint -s ./test/sampleProxy/24Solver/apiproxy/
+
 ```
 
 This sample includes many bad practices and as such generates a bit of noise.
