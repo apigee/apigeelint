@@ -48,7 +48,8 @@
     "text-table": "latest",
     "util": "^0.10.3",
     "xmldom": ">= 0.1.22",
-    "xpath": "latest"
+    "xpath": "latest",
+    "pdfmake": "latest"
   },
   "devDependencies": {
     "codacy-coverage": "^2.0.2",
