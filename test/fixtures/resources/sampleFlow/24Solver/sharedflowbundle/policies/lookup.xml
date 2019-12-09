@@ -1,4 +1,4 @@
-/*
+<!--
   Copyright 2019 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,26 +12,18 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-*/
+ -->
 
-configuration = {
-  debug: false,
-  source: {
-    type: "filesystem",
-    path: "./test/fixtures/resources/sampleProxy/24Solver/apiproxy",
-    bundleType: "apiproxy"
-  },
-  excluded: {}
-};
-
-
-
-sharedflowconfiguration = {
-  debug: false,
-  source: {
-    type: "filesystem",
-    path: "./test/fixtures/resources/sampleFlow/24Solver/sharedflowbundle",
-    bundleType: "sharedflowbundle"
-  },
-  excluded: {}
-};
+<LookupCache async="false" continueOnError="false" enabled="true" name="Lookup-Cache-1">
+    <DisplayName>Lookup Cache 1</DisplayName>
+    <Properties/>
+    <CacheKey>
+        <Prefix/>
+        <KeyFragment>foo</KeyFragment>
+    </CacheKey>
+    <!-- Omit this element if you're using the included shared cache. -->
+    <CacheResource/>
+    <CacheLookupTimeoutInSeconds/>
+    <Scope>Exclusive</Scope>
+    <AssignTo>flowVar</AssignTo>
+</LookupCache>

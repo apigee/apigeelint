@@ -32,65 +32,73 @@ var normalizedPath = path.join(__dirname, "../../lib/package/plugins");
 
 describe("Test all plugins", function() {
 
-  fs.readdirSync(normalizedPath).forEach(function(file) {
-    //is this a js file
-    if (file.endsWith(".js")) {
-      var bundle = new Bundle(configuration);
-      bl.executePlugin(file, bundle);
+  var runTests = function(configToRun){
 
-      it(file + " should create a report object with valid schema.", function() {
-        var jsimpl = bl.getFormatter("json.js"),
-          v = new Validator(),
-          validationResult,
-          jsonReport;
-
-        bundle.getReport(function(report) {
-          var jsonReport = JSON.parse(jsimpl(report));
-          validationResult = v.validate(jsonReport, schema);
-          assert.equal(
-            validationResult.errors.length,
-            0,
-            validationResult.errors
-          );
+    fs.readdirSync(normalizedPath).forEach(function(file) {
+      //is this a js file
+      if (file.endsWith(".js")) {
+        var bundle = new Bundle(configToRun);
+        bl.executePlugin(file, bundle);
+  
+        it(file + " should create a " + configToRun.source.bundleType + " report object with valid schema.", function() {
+          var jsimpl = bl.getFormatter("json.js"),
+            v = new Validator(),
+            validationResult,
+            jsonReport;
+  
+          bundle.getReport(function(report) {
+            var jsonReport = JSON.parse(jsimpl(report));
+            validationResult = v.validate(jsonReport, schema);
+            assert.equal(
+              validationResult.errors.length,
+              0,
+              validationResult.errors
+            );
+          });
         });
-      });
+  
+        it(
+          file + " should include a " + configToRun.source.bundleType + " plugin definition with a valid schema.",
+          function() {
+            var v = new Validator(),
+              plugin = require("../../lib/package/plugins/" + file),
+              validationResult;
+  
+            assert.notEqual(plugin.plugin, null, "plugin is null on " + file);
+  
+            validationResult = v.validate(plugin.plugin, pluginSchema);
+            assert.equal(
+              validationResult.errors.length,
+              0,
+              validationResult.errors
+            );
+          }
+        );
+  
+        it(file + " should have a unique " + configToRun.source.bundleType + " ruleId.", function() {
+          var plugin = require("../../lib/package/plugins/" + file),
+            ids = {};
+          //already existists
+          if (ids[plugin.plugin.ruleId]) {
+            assert.equal(
+              file,
+              ids[plugin.plugn.ruleId],
+              file +
+                " and" +
+                ids[plugin.plugn.ruleId] +
+                " have conflicting ruleIds."
+            );
+          } else {
+            ids[plugin.plugin.ruleId] = file;
+          }
+        });
+      }
+    });
 
-      it(
-        file + " should include a plugin definition with a valid schema.",
-        function() {
-          var v = new Validator(),
-            plugin = require("../../lib/package/plugins/" + file),
-            validationResult;
 
-          assert.notEqual(plugin.plugin, null, "plugin is null on " + file);
+  }
 
-          validationResult = v.validate(plugin.plugin, pluginSchema);
-          assert.equal(
-            validationResult.errors.length,
-            0,
-            validationResult.errors
-          );
-        }
-      );
-
-      it(file + " should have a unique ruleId.", function() {
-        var plugin = require("../../lib/package/plugins/" + file),
-          ids = {};
-        //already existists
-        if (ids[plugin.plugin.ruleId]) {
-          assert.equal(
-            file,
-            ids[plugin.plugn.ruleId],
-            file +
-              " and" +
-              ids[plugin.plugn.ruleId] +
-              " have conflicting ruleIds."
-          );
-        } else {
-          ids[plugin.plugin.ruleId] = file;
-        }
-      });
-    }
-  });
+  runTests(configuration);
+  runTests(sharedflowconfiguration);
 
 });
