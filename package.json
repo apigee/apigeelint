@@ -50,7 +50,8 @@
     "util": "^0.10.3",
     "xmldom": ">= 0.1.22",
     "xpath": "latest",
-    "strip-ansi": "5.2.0"
+    "strip-ansi": "5.2.0",
+    "pdfmake": "latest"
   },
   "devDependencies": {
     "codacy-coverage": "^2.0.2",

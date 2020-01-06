@@ -39,7 +39,8 @@ var formatters = [
   "table.js",
   "tap.js",
   "unix.js",
-  "visualstudio.js"
+  "visualstudio.js",
+  "pdf.js"
 ];
 
 formatters.forEach(function(formatter) {
