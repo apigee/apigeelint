@@ -36,6 +36,7 @@
     "decache": "latest",
     "decompress": "latest",
     "js-yaml": "latest",
+    "eslint": "latest",
     "jshint": "^2.10.1",
     "jsonschema": "latest",
     "lodash": "latest",

@@ -19,6 +19,7 @@
 var bl = require("./lib/package/bundleLinter.js");
 var program = require("commander");
 var pkj = require('./package.json');
+var bundleType = require('./lib/package/BundleTypes.js')
 
 program
   .version(pkj.version)
@@ -47,7 +48,8 @@ var configuration = {
   debug: true,
   source: {
     type: "filesystem",
-    path: program.path
+    path: program.path,
+    bundleType: program.path.includes(bundleType.BundleType.SHAREDFLOW) ? bundleType.BundleType.SHAREDFLOW : bundleType.BundleType.APIPROXY
   },
   excluded: {}
 };
@@ -66,6 +68,7 @@ if (program.excluded && typeof(program.excluded) === "string") {
 }
 
 if (program.user) {
+  //check for required fields
   configuration.apiUpload = {
     destPath:
       program.destPath || "https://csdata-test.apigee.net/v1/lintresults",
