@@ -26,9 +26,6 @@
   "bugs": {
     "url": "https://github.com/apigee/apigeelint/issues"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "private": false,
   "dependencies": {
     "async": "^2.5.0",
