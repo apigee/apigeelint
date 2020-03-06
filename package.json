@@ -1,6 +1,6 @@
 {
   "name": "apigeelint",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Node module to lint and Apigee Edge bundle.",
   "main": "function.js",
   "bin": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/apigeecs/bundle-linter"
+    "url": "https://github.com/apigee/apigeelint"
   },
   "keywords": [
     "API",
@@ -24,7 +24,7 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/apigeecs/bundle-linter/issues"
+    "url": "https://github.com/apigee/apigeelint/issues"
   },
   "private": false,
   "dependencies": {
@@ -36,6 +36,7 @@
     "decache": "latest",
     "decompress": "latest",
     "js-yaml": "latest",
+    "eslint": "latest",
     "jshint": "^2.10.1",
     "jsonschema": "latest",
     "lodash": "latest",

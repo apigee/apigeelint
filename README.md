@@ -2,13 +2,13 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/260964318a4e4e689cbd6d059472765e)](https://www.codacy.com/app/davidwallen/bundle-linter?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=apigeecs/bundle-linter&amp;utm_campaign=Badge_Grade)
 
-Static code analysis for Apigee proxy bundles to encourage API developers to use best practices and avoid anti-patterns.
+Static code analysis for Apigee proxy and sharedflow bundles to encourage API developers to use best practices and avoid anti-patterns.
 
 This utility is intended to capture the best practices knowledge from across Apigee including our Global Support Center team, Customer Success, Engineering, and our product team in a tool that will help developers create more scalable, performant, and stable API bundles using the Apigee DSL.
 
 ## Status
 
-At this point we are focused on plugin execution and modelling the various lintable assets including Bundles, Proxies, Targets, Flows, Steps, and Policies.
+At this point we are focused on plugin execution and modelling the various lintable assets including Bundles, Proxies, SharedFlows, Targets, Flows, Steps, and Policies.
 
 Plugins that test these abstractions are being developed concurrently.
 
@@ -105,6 +105,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_check_mark:| PO022 | Nondistributed Quota | When using nondistributed quota the number of allowed calls is influenced by the number of Message Processors (MPs) deployed. This may lead to higher than expected transactions for a given quota as MPs now autoscale. |
 | &nbsp; |:white_check_mark:| PO023 | Quota Policy Reuse | When the same Quota policy is used more than once you must ensure that the conditions of execution are mutually exclusive or that you intend for a call to count more than once per message processed. |
 | &nbsp; |:white_check_mark:| PO024 | Cache Error Responses | By default the ResponseCache policy will cache non 200 responses. Either create a condition or use policy configuration options to exclude non 200 responses. |
+| &nbsp; |:white_check_mark:| PO025 | EsLint Errors | Runs EsLint on all policy resources. |
 | FaultRules | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| FR001 | No Condition on FaultRule | It's not a best practice to have a FaultRule without an outer condition, which automatically makes the FaultRule true. |
 | Conditional | &nbsp; | &nbsp; | &nbsp; | &nbsp; |

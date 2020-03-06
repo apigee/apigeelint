@@ -1,4 +1,4 @@
-/*
+<!--
   Copyright 2019 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,26 +12,18 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-*/
+ -->
 
-configuration = {
-  debug: false,
-  source: {
-    type: "filesystem",
-    path: "./test/fixtures/resources/sampleProxy/24Solver/apiproxy",
-    bundleType: "apiproxy"
-  },
-  excluded: {}
-};
-
-
-
-sharedflowconfiguration = {
-  debug: false,
-  source: {
-    type: "filesystem",
-    path: "./test/fixtures/resources/sampleFlow/24Solver/sharedflowbundle",
-    bundleType: "sharedflowbundle"
-  },
-  excluded: {}
-};
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExtractVariables async="false" continueOnError="false" enabled="true" name="ExtractPayloadVariables">
+    <DisplayName>ExtractPayloadVariables</DisplayName>
+    <FaultRules/>
+    <Properties/>
+    <JSONPayload>
+        <Variable name="numArray">
+            <JSONPath>$.numbers</JSONPath>
+        </Variable>
+    </JSONPayload>
+    <Source clearPayload="false">request</Source>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+</ExtractVariables>
