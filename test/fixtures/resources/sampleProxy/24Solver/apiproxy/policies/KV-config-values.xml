@@ -1,0 +1,16 @@
+<KeyValueMapOperations async="false" continueOnError="false" enabled="true" name="KV-config-values" mapIdentifier="logging-config">
+    <DisplayName>KV-config-values</DisplayName>
+    <Properties/>
+    <ExpiryTimeInSecs>60</ExpiryTimeInSecs>
+    <Get assignTo="logging.log" index="1">
+        <Key>
+            <Parameter>logging.log</Parameter>
+        </Key>
+    </Get>
+    <Get assignTo="logging.level" index="1">
+        <Key>
+            <Parameter>logging.level</Parameter>
+        </Key>
+    </Get>
+    <Scope>environment</Scope>
+</KeyValueMapOperations>
