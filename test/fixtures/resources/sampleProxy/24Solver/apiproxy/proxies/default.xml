@@ -38,6 +38,9 @@
     <PreFlow name="PreFlow">
         <Request>
             <Step>
+                <Name>KV-config-values</Name>
+            </Step>
+            <Step>
                 <FaultRules/>
                 <Name>JSONThreatProtection</Name>
                 <Condition>request.verb="POST"</Condition>
