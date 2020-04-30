@@ -32,28 +32,44 @@ bl.executePlugin("checkUnattachedPolicies.js", bundle, function() {
         "jsCalculate.xml"
       ];
 
-      for (var j = 0; j < unattachedFiles.length; j++) {
-        var file = unattachedFiles[j];
-        it(
-          "should mark " +
-            file +
-            " as unattached in report ",
-          function() {
-            var found = false;
-            for (var i = 0; i < report.length && !found; i++) {
-              var reportObj = report[i];
-              if (reportObj.filePath.endsWith(file)) {
-                reportObj.messages.forEach(function(msg) {
-                  if (msg.ruleId === "BN005") {
-                    found = true;
-                  }
-                });
+      var attachedFiles = [
+        "JSONThreatProtection",
+        "regExLookAround",
+        "AssignMessage.CopyRequest",
+        "ExtractParamVariables",
+        "ExtractPayloadVariables",
+        "publishPurchaseDetails",
+        "Lookup-Cache-1",
+        "publishPurchaseDetails"
+      ]
+
+      var runTests = function(files, shouldBeUnattached){
+        for (var j = 0; j < files.length; j++) {
+          var file = files[j];
+          it(
+            "should " + (shouldBeUnattached? "": "not ") + "mark " +
+              file +
+              " as unattached in report ",
+            function() {
+              var found = false;
+              for (var i = 0; i < report.length && !found; i++) {
+                var reportObj = report[i];
+                if (reportObj.filePath.endsWith(file)) {
+                  reportObj.messages.forEach(function(msg) {
+                    if (msg.ruleId === "BN005") {
+                      found = true;
+                    }
+                  });
+                }
               }
+              assert.equal(found, shouldBeUnattached);
             }
-            assert.equal(found, true);
-          }
-        );
+          );
+        }
       }
+
+      runTests(unattachedFiles, true);
+      runTests(attachedFiles, false);
     });
   });
 });
