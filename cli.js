@@ -30,15 +30,14 @@ program
     "-d, --destPath [value]",
     "Provide the host and path to upload linter results"
   )
-  .option("-e, --excluded [value]", "Specify the list tests to be excluded")
+  .option("-e, --excluded [value]", "The comma separated list of tests to be excluded")
   .option("-u, --user [value]", "Apigee user account")
   .option("-p, --password [value]", "Apigee password")
-  .option("-o, --organization [value]", "Apigee organization");
+  .option("-o, --organization [value]", "Apigee organization")
+  .option("-x, --externalPluginsDirectory [value]", "Relative or full path to an external plugins directory");
 
 program.on("--help", function() {
-  console.log("example");
-  console.log("");
-  console.log("apigeelint -s No-Target");
+  console.log("\nExample: apigeelint -s sampleProxy/ -f table.js");
   console.log("");
 });
 
@@ -51,6 +50,7 @@ var configuration = {
     path: program.path,
     bundleType: program.path.includes(bundleType.BundleType.SHAREDFLOW) ? bundleType.BundleType.SHAREDFLOW : bundleType.BundleType.APIPROXY
   },
+  externalPluginsDirectory: program.externalPluginsDirectory,
   excluded: {}
 };
 
