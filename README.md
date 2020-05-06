@@ -24,15 +24,40 @@ npm install -g apigeelint
 
 ## Usage
 
-Run it using
+Help
+```
+apigeelint -h
+Usage: apigeelint [options]
 
+Options:
+  -V, --version                           output the version number
+  -s, --path <path>                       Path of the proxies
+  -f, --formatter [value]                 Specify formatters (default json.js)
+  -w, --write [value]                     file path to write results
+  -d, --destPath [value]                  Provide the host and path to upload linter results
+  -e, --excluded [value]                  The comma separated list of tests to be excluded
+  -u, --user [value]                      Apigee user account
+  -p, --password [value]                  Apigee password
+  -o, --organization [value]              Apigee organization
+  -x, --externalPluginsDirectory [value]  Relative or full path to an external plugins directory
+  -h, --help                              output usage information
+```
+Example:
 ```
 apigeelint -s sampleProxy/ -f table.js
 ```
 
-where `-s` points to the apiProxy source directory and `-f` is the output formatter desired.
+Where `-s` points to the apiProxy source directory and `-f` is the output formatter desired.
 
 Possible formats are "json.js" (the default), "stylish.js", "compact.js", "codeframe.js", "html.js", "table.js", "unix.js", "visualstudio.js", "checkstyle.js", "jslint-xml.js", "junit.js" and "tap.js".
+
+Example Using External Plugins:
+```
+apigeelint -x ./externalPlugins -e PO007 -s test/fixtures/resources/sampleProxy/24Solver/apiproxy -f table.js
+```
+Where `-x` points to the directory containing externally developed plugins and `-e` excludes the builtin plugin from executing.
+This example uses the "externalPlugins" directory with a plugin for alternate policy naming conventions and effectively overrides the built in naming conventions plugin. The output will include the external plugin identifier  `EX-PO007`.
+
 
 ## Does this tool just lint or does it also check style?
 
