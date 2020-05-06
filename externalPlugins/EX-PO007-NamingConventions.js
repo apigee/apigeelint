@@ -50,6 +50,7 @@ var plugin = {
     Quota: { indications: ["QU-"] },
     RaiseFault: { indications: ["RF-"] },
     RegularExpressionProtection: { indications: ["RE-"] },
+    ResetQuota: { indications: ["QR-"] },
     ResponseCache: { indications: ["RC-"] },
     Script: { indications: ["PY-"] },
     ServiceCallout: { indications: ["SC-"] },
