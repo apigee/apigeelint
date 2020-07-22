@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="build-request">
+    <DisplayName>build-request</DisplayName>
+    <Properties/>
+    <Set>
+        <QueryParams>
+            <QueryParam name="q">select Ranking.content from cricket.teams where TeamName="{queryinfo.team}" and Ranking.mtype="{queryinfo.formatType}"</QueryParam>
+            <QueryParam name="format">json</QueryParam>
+            <QueryParam name="diagnostics">true</QueryParam>
+            <QueryParam name="env">store://0TxIGQMQbObzvU4Apia0V0</QueryParam>
+        </QueryParams>
+        <Verb>GET</Verb>
+    </Set>
+    <AssignVariable>
+        <Name>target.copy.pathsuffix</Name>
+        <Value>false</Value>
+    </AssignVariable>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo type="request"/>
+</AssignMessage>

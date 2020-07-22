@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Manifest name="manifest">
+    <Policies>
+        <VersionInfo resourceName="build-request" version="SHA-512:b6e9166a10a8ceec68281b63f26dae1274d3ebd5a069e80b958a08e1f3dcd910350e493927f4c8e9b79a3dae665b0c3a1bf11173c11d6e327bfa9cbf31a83eb3"/>
+        <VersionInfo resourceName="extract-variables" version="SHA-512:592a119911e82919cbfe36c89ef7b9dafdb68ee4eb83f7c7d17fd443b13b204b855c75d2652182eeeea354db067701fc0f9a9d5d396ab9504218d599ffa1cdd6"/>
+        <VersionInfo resourceName="invalid-info" version="SHA-512:3f246ce05faa5a29a45d0b5fc40609bda0a67cc4989ef733598f34aa54ac1081c7e53810c263f8fd1d69564bf4e05e6f33cc06e8a4d1964266bd49408844cda5"/>
+        <VersionInfo resourceName="missing-info" version="SHA-512:75eb5e31b6e76b43a3222e174d1819432a18bc076dcc8378922562a51f38ba547b49f7a8f3f1fbdfa6f2590ab0877b4c30e5d876852039c7a94aab88f0ecea49"/>
+    </Policies>
+    <ProxyEndpoints>
+        <VersionInfo resourceName="default" version="SHA-512:64fc3246825cc76b9c27ccf5a3033b6297c12136099d22e145dbf9388801c3d914691c3aecf32682cf4ee4428f50235713f313fdceb6c6cf4dba3e3f2af5f121"/>
+    </ProxyEndpoints>
+    <Resources>
+        <VersionInfo resourceName="jsc://build-response.js" version="SHA-512:898da1ca93f804e81d5a09d89aa2ce2d76063154a2e0a2aed65cdd9af9c90be474cf01d6d2459972af5243647eabb092474d324a23f745f1d1e9e1b951dd86cb"/>
+    </Resources>
+    <SharedFlows/>
+    <TargetEndpoints>
+        <VersionInfo resourceName="default" version="SHA-512:6d9ec0473e47728c57eaed345df7074dd8176779e657e9ca5e8ab0fde69bab232bd030d0c7da0991fc18750106ec7cf9b2e457eab494843ab8c0afe7977c68ca"/>
+    </TargetEndpoints>
+</Manifest>

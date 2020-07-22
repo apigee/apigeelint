@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExtractVariables async="false" continueOnError="false" enabled="true" name="extract-variables">
+    <DisplayName>extract-variables</DisplayName>
+    <Properties/>
+    <QueryParam name="team">
+        <Pattern ignoreCase="true">{team}</Pattern>
+    </QueryParam>
+    <QueryParam name="formatType">
+        <Pattern ignoreCase="true">{formatType}</Pattern>
+    </QueryParam>
+    <VariablePrefix>queryinfo</VariablePrefix>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <Source>request</Source>
+</ExtractVariables>
