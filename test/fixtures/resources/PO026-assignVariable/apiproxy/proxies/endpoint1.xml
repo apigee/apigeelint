@@ -1,7 +1,7 @@
 <ProxyEndpoint name="endpoint1">
   <Description>Proxy Endpoint 1</Description>
   <HTTPProxyConnection>
-    <BasePath>/PO0026-assignVariable</BasePath>
+    <BasePath>/PO026-assignVariable</BasePath>
     <Properties/>
     <VirtualHost>secure</VirtualHost>
   </HTTPProxyConnection>
