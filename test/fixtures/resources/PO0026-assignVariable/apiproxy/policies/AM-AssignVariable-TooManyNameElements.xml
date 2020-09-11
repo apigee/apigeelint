@@ -1,0 +1,10 @@
+<AssignMessage name='AM-AssignVariable-TooManyNameElements'>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <AssignVariable>
+    <!-- the Name element is duplicated -->
+    <Name>abba</Name>
+    <Name>dabba</Name>
+    <Ref>system.id</Ref>
+  </AssignVariable>
+
+</AssignMessage>

@@ -1,0 +1,10 @@
+<AssignMessage name='AM-AssignVariable-RefWithCurlies'>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <AssignVariable>
+    <!-- the Ref element should contain a variable name not
+         surrounded by curlies -->
+    <Name>my_variable</Name>
+    <Ref>{system.id}</Ref>
+  </AssignVariable>
+
+</AssignMessage>
