@@ -1,0 +1,10 @@
+<APIProxy revision="1" name="PO006-policy-name-attr">
+  <ConfigurationVersion minorVersion="0" majorVersion="4"/>
+  <CreatedAt>1489339923158</CreatedAt>
+  <CreatedBy>dino</CreatedBy>
+  <Description/>
+  <DisplayName>PO006-policy-name-attr</DisplayName>
+  <LastModifiedAt>1489340418969</LastModifiedAt>
+  <LastModifiedBy>orgAdmin</LastModifiedBy>
+  <TargetEndpoints/>
+</APIProxy>
