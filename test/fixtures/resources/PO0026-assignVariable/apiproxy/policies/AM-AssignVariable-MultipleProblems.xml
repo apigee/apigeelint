@@ -1,0 +1,44 @@
+<AssignMessage name='AM-AssignVariable-MultipleProblems'>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <AssignVariable>
+    <Ref>system.id</Ref> <!-- missing name element -->
+  </AssignVariable>
+
+  <AssignVariable>
+    <Name>foobar</Name>
+    <!-- No Ref, Value, or Template -->
+  </AssignVariable>
+
+  <AssignVariable>
+    <Name>something</Name>
+    <Ref>{curlies_are_wrong_here}</Ref>
+  </AssignVariable>
+
+  <AssignVariable/>
+
+  <AssignVariable>
+    <Name>dummy</Name>
+    <Value>1234</Value>
+    <StrayElement/>
+  </AssignVariable>
+
+  <AssignVariable>
+    <Name>dummy1</Name>
+    <Name>dummy2</Name>
+    <Value>1234</Value>
+  </AssignVariable>
+
+  <AssignVariable>
+    <Name>dummy3</Name>
+    <Value>123</Value>
+    <Value>1234</Value>
+  </AssignVariable>
+
+  <AssignVariable>
+    <Name>dummy3</Name>
+    <Value>123</Value>
+    <Template>1234</Template>
+    <Template>56789</Template>
+  </AssignVariable>
+
+</AssignMessage>

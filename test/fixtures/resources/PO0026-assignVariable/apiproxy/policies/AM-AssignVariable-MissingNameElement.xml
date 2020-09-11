@@ -1,0 +1,8 @@
+<AssignMessage name='AM-AssignVariable-MissingNameElement'>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <AssignVariable>
+    <!-- the Name element is missing -->
+    <Ref>system.id</Ref>
+  </AssignVariable>
+
+</AssignMessage>
