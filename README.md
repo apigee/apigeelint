@@ -105,6 +105,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_check_mark:| FL001 | Unconditional Flows |  Only one unconditional flow will get executed. Error if more than one was detected. |
 | Step | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| ST001 | Empty Step |  Empty steps clutter the bundle. |
+| &nbsp; |:white_check_mark:| ST002 | Step Structure | each Step should have at most one Name element, one Condition element, no others. |
 | Policy | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| PO001 | JSON Threat Protection |  A check for a body element must be performed before policy execution. |
 | &nbsp; |:white_check_mark:| PO002 | XML Threat Protection |  A check for a body element must be performed before policy execution. |

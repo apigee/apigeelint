@@ -1,0 +1,12 @@
+<AssignMessage name="AM-AddCORSHeaders">
+  <Add>
+    <Headers>
+      <Header name="Access-Control-Allow-Origin">*</Header>
+      <Header name="Access-Control-Allow-Headers">*</Header>
+      <Header name="Access-Control-Expose-Headers">*</Header>
+      <Header name="Access-Control-Max-Age">3628800</Header>
+      <Header name="Access-Control-Allow-Methods">OPTIONS, GET, PUT, POST, DELETE</Header>
+    </Headers>
+  </Add>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

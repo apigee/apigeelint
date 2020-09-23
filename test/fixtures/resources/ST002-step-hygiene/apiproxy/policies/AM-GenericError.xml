@@ -1,0 +1,11 @@
+<AssignMessage name='AM-GenericError'>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <Set>
+    <Payload contentType='application/json'>{
+    "error" : true
+}</Payload>
+    <ReasonPhrase>Internal Server Error</ReasonPhrase>
+    <StatusCode>500</StatusCode>
+  </Set>
+  <AssignTo>response</AssignTo>
+</AssignMessage>
