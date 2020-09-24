@@ -49,3 +49,10 @@ private*
 apigeeLintConfig.json
 completed.json
 test/fixtures/allBundles.json
+
+**/#*.*#
+**/*.*~
+**/#*#
+**/*~
+**/.tern-port
+
