@@ -1,4 +1,5 @@
 <AssignMessage name='AM-AssignVariable-MultipleProblems'>
+  <DisplayName>AssignVariable - VariousProblems</DisplayName>
   <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
   <AssignVariable>
     <Ref>system.id</Ref> <!-- missing name element -->
