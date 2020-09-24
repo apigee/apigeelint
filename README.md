@@ -134,6 +134,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_check_mark:| PO026 | AssignVariable Usage | With AssignMessage/AssignVariable, check various usage issues. Example: The Name element must be present. The Ref element, if any, should not be surrounded in curlies. And so on. |
 | FaultRules | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| FR001 | No Condition on FaultRule | It's not a best practice to have a FaultRule without an outer condition, which automatically makes the FaultRule true. |
+| &nbsp; |:white_check_mark:| FR002 | DefaultFaultRule Structure | DefaultFaultRule should have only supported child elements, at most one AlwaysEnforce element, and at most one Condition element. |
 | Conditional | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| CC001 | Literals in Conditionals |  Warn on literals in any conditional statement. |
 | &nbsp; |:white_medium_square:| CC002 | Null Blank Checks |  Blank checks should also check for null conditions. (to be reviewed) |

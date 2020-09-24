@@ -1,0 +1,10 @@
+<APIProxy revision="1" name="default-fault-rules">
+  <ConfigurationVersion minorVersion="0" majorVersion="4"/>
+  <CreatedAt>1489339923158</CreatedAt>
+  <CreatedBy>dino</CreatedBy>
+  <Description/>
+  <DisplayName>default-fault-rules</DisplayName>
+  <LastModifiedAt>1489340418969</LastModifiedAt>
+  <LastModifiedBy>orgAdmin</LastModifiedBy>
+  <TargetEndpoints/>
+</APIProxy>

@@ -1,0 +1,31 @@
+<TargetEndpoint name="http-1">
+  <Description/>
+  <FaultRules/>
+  <DefaultFaultRule name="DefaultFaultRule">
+    <!-- error two Condition elements -->
+    <Step>
+        <Name>AM-CleanResponseHeaders</Name>
+      </Step>
+    <Condition>request.status.code == 405</Condition>
+    <Condition>request.status.code == 502</Condition>
+  </DefaultFaultRule>
+
+  <PreFlow name="PreFlow">
+    <Request/>
+    <Response/>
+  </PreFlow>
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response/>
+  </PostFlow>
+  <Flows/>
+  <HTTPTargetConnection>
+    <Properties/>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <CommonName wildcardMatch="false">buoyant-climate-208500.appspot.com</CommonName>
+      <TrustStore>ref://myTrustStoreRef</TrustStore>
+    </SSLInfo>
+    <URL>https://buoyant-climate-208500.appspot.com</URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>
