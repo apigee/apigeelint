@@ -1,0 +1,93 @@
+<ProxyEndpoint name="endpoint1">
+  <Description>Proxy Endpoint 1</Description>
+  <HTTPProxyConnection>
+    <BasePath>/default-fault-rules</BasePath>
+    <Properties/>
+    <VirtualHost>secure</VirtualHost>
+  </HTTPProxyConnection>
+
+  <FaultRules>
+    <FaultRule name='foo1'>
+      <!-- empty fault rule -->
+      <Condition>request.verb = "OPTIONS"</Condition>
+    </FaultRule>
+    <FaultRule name='foo2'>
+      <Step>
+        <!-- error missing Name element -->
+      </Step>
+      <Condition>request.header.content-type = "application/xml"</Condition>
+    </FaultRule>
+  </FaultRules>
+
+  <DefaultFaultRule name="DefaultFaultRule">
+    <!-- error two AlwaysEnforce elements -->
+    <AlwaysEnforce>true</AlwaysEnforce>
+      <Step>
+        <Name>AM-CleanResponseHeaders</Name>
+      </Step>
+    <AlwaysEnforce>false</AlwaysEnforce>
+  </DefaultFaultRule>
+
+  <PreFlow name="PreFlow">
+    <Request>
+    </Request>
+    <Response>
+      <Step>
+        <!-- error multiple Name elements -->
+        <Name>AM-CleanResponseHeaders</Name>
+        <Name>AM-CleanResponseHeaders</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+  <PostFlow name="PostFlow">
+    <Request>
+      <Step>
+        <Name/> <!-- empty Name element -->
+      </Step>
+    </Request>
+    <Response>
+      <Step>
+        <Name>AM-PostFlow</Name>
+        <!-- error unknown extraneous child element -->
+        <Step>
+          <Name>AM-PostFlow</Name>
+        </Step>
+      </Step>
+
+    </Response>
+  </PostFlow>
+  <PostClientFlow name="PostFlow">
+    <Request>
+    </Request>
+    <Response>
+    </Response>
+  </PostClientFlow>
+
+  <Flows>
+
+    <Flow name="flow1">
+      <Request>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AM-Response</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/t1") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="unknown request">
+      <Request>
+        <Step>
+          <Name>RF-UnknownRequest</Name>
+        </Step>
+      </Request>
+      <Response>
+      </Response>
+    </Flow>
+
+  </Flows>
+
+  <RouteRule name="NoRouteRule"/>
+
+</ProxyEndpoint>
