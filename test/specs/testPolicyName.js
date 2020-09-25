@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019-2020 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,59 +14,58 @@
   limitations under the License.
 */
 
-var assert = require("assert"),
-  debug = require("debug")("bundlelinter:flowNames");
+/* global describe, it */
 
-var Policy = require("../../lib/package/Policy.js"),
-  Dom = require("xmldom").DOMParser,
-  test = function(exp, assertion) {
-    it("testing policy names ", function() {
-      //function Policy(path, fn, parent)
-      var doc = new Dom().parseFromString(exp),
-        policy = new Policy("no-file-path", "somepolicy.xml", this);
+const assert = require("assert"),
+      debug = require("debug")("bundlelinter:flowNames"),
+      util = require ('util');
 
-      policy.getElement = function() {
-        return doc;
-      };
+const Policy = require("../../lib/package/Policy.js"),
+  Dom = require("xmldom").DOMParser;
 
-      result = policy.getDisplayName();
+describe("TestPolicyNames", function() {
 
-      assert.deepEqual(
-        result,
-        assertion,
-        result ? "names did not match" : "names matched"
-      );
-    });
-  };
-
-describe("Test Policy Names", function() {
-
-  test(
-    `<Javascript name='JS-Log-To-Stackdriver' timeLimit='400'>
+  let testCases = [
+        { config: `<Javascript name='JS-Log-To-Stackdriver' timeLimit='400'>
   <Properties>
     <Property name='authz_header'>Bearer {stackdriver.token}</Property>
-    <Property name='payload'>{
-  "logName": "projects/{stackdriver.projectid}/logs/{stackdriver.logid}",
-  "resource" : {
-    "type": "api",
-    "labels": {}
-  },
-  "labels": {
-      "flavor": "test"
-  },
-  "entries": [{
-      "severity" : "INFO",
-      "textPayload" : "{stackdriver.logpayload}"
-     }
-  ],
-  "partialSuccess": true
-  }</Property>
     <Property name='endpoint'>https://logging.googleapis.com/v2/entries:write</Property>
   </Properties>
   <ResourceURL>jsc://log-To-Stackdriver.js</ResourceURL>
   </Javascript>
   `,
-    "JS-Log-To-Stackdriver"
-  );
+          expectedDisplayName : null,
+          expectedName : "JS-Log-To-Stackdriver"
+        },
+        { config: `<Javascript name='JS-Log-To-Stackdriver' timeLimit='400'>
+  <DisplayName>foo</DisplayName>
+  <Properties>
+    <Property name='authz_header'>Bearer {stackdriver.token}</Property>
+  </Properties>
+  <ResourceURL>jsc://log-To-Stackdriver.js</ResourceURL>
+  </Javascript>
+  `,
+          expectedDisplayName : "foo",
+          expectedName : "JS-Log-To-Stackdriver"
+        }
+      ];
+
+  testCases.forEach((tc, ix) => {
+  it(`should return correct policy Name and DisplayName ${ix}`, function() {
+      let doc = new Dom().parseFromString(tc.config),
+          policy = new Policy("no-file-path", "does-not-matter.xml", this, doc);
+      assert.equal(
+        policy.getDisplayName(),
+        tc.expectedDisplayName,
+        "DisplayName did not match"
+      );
+      assert.equal(
+        policy.getName(),
+        tc.expectedName,
+        "Name did not match"
+      );
+    });
+  });
+
 
 });
