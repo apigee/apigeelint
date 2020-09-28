@@ -88,7 +88,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_check_mark:| BN001 | Bundle folder structure correctness. This plugin ignores some files, like .DS\_store and any file ending in ~.  | Bundles have a clear structure. |
 | &nbsp; |:white_check_mark:| BN002 | Extraneous files. | Ensure each folder contains appropriate resources in the bundle. |
 | &nbsp; |:white_check_mark:| BN003 | Cache Coherence | A bundle that includes cache reads should include cache writes with the same keys. |
-| &nbsp; |:white_check_mark:| BN004 | Unused variables. |  Within a bundle variables created should be used in conditions, resource callouts, or policies. |
+| &nbsp; |:white_medium_square:| BN004 | Unused variables. |  Within a bundle variables created should be used in conditions, resource callouts, or policies. |
 | &nbsp; |:white_check_mark:| BN005 | Unattached policies. |  Unattached policies are dead code and should be removed from production bundles. |
 | &nbsp; |:white_check_mark:| BN006 | Bundle size - policies. |  Large bundles are a symptom of poor design. A high number of policies is predictive of an oversized bundle. |
 | &nbsp; |:white_check_mark:| BN007 | Bundle size - resource callouts. |  Large bundles are a symptom of poor design. A high number of resource callouts is indicative of underutilizing out of the box Apigee policies. |
