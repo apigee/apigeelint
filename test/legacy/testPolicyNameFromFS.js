@@ -15,7 +15,7 @@
 */
 
 var assert = require("assert"),
-  debug = require("debug")("bundlelinter:flowNames");
+  debug = require("debug")("apigeelint:flowNames");
 
 var Policy = require("../../lib/package/Policy.js"),
   test = function(folder,file, assertion) {

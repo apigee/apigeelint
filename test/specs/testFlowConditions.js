@@ -15,7 +15,7 @@
 */
 
 var assert = require("assert"),
-  debug = require("debug")("bundlelinter:flowNames");
+  debug = require("debug")("apigeelint:flowNames");
 
 var Endpoint = require("../../lib/package/Endpoint.js"),
   Dom = require("xmldom").DOMParser,
@@ -41,22 +41,22 @@ describe("Testing testFlowConditions.js", function() {
     `
   <ProxyEndpoint name="default">
   <Flows>
-  		<Flow name="condition1">
+                <Flow name="condition1">
               <Description>This is condition 1</Description>
               <Request>
                   <Step>
-  			<Name>jsCalculate</Name>
+                        <Name>jsCalculate</Name>
                   </Step>
               </Request>
               <Response>
               </Response>
               <Condition>(request.verb = "GET") and (proxy.pathsuffix MatchesPath "/condition1")</Condition>
           </Flow>
-  		<Flow name="condition2">
+                <Flow name="condition2">
               <Description>This is condition 2</Description>
               <Request>
                   <Step>
-  			<Name>jsCalculateFromContext</Name>
+                        <Name>jsCalculateFromContext</Name>
                   </Step>
               </Request>
               <Response>

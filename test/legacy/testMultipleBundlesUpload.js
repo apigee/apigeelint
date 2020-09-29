@@ -22,7 +22,7 @@ var assert = require("assert"),
   pluginPath = path.join(__dirname, "../lib/package/plugins"),
   plugins = [],
   cwd = process.cwd(),
-  debug = require("debug")("bundlelinter:tetMultipleBundlesUpload");
+  debug = require("debug")("apigeelint:tetMultipleBundlesUpload");
 
 fs.readdirSync(pluginPath).forEach(function(file) {
   plugins.push(file);

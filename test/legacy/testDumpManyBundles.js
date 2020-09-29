@@ -17,7 +17,7 @@
 var assert = require("assert"),
   fs = require("fs"),
   path = require("path"),
-  debug = require("debug")("bundlelinter:dumpBundle"),
+  debug = require("debug")("apigeelint:dumpBundle"),
   FindFolder = require("node-find-folder"),
   Bundle = require("../../lib/package/Bundle.js"),
   bl = require("../../lib/package/bundleLinter.js"),

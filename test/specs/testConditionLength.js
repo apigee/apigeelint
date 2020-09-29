@@ -17,7 +17,7 @@
 var assert = require("assert"),
   testPN = "checkConditionLength.js",
   plugin = require("../../lib/package/plugins/" + testPN),
-  debug = require("debug")("bundlelinter:" + testPN),
+  debug = require("debug")("apigeelint:" + testPN),
   bl = require("../../lib/package/bundleLinter.js"),
   Bundle = require("../../lib/package/Bundle.js"),
   Dom = require("xmldom").DOMParser,

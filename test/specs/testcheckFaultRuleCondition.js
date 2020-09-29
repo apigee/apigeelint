@@ -16,7 +16,7 @@
 
 var assert = require("assert"),
   testPN = "checkFaultRuleCondition.js",
-  debug = require("debug")("bundlelinter:" + testPN);
+  debug = require("debug")("apigeelint:" + testPN);
 
 
 // generate a full report and check the format of the report

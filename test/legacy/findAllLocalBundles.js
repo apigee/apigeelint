@@ -14,7 +14,7 @@
   limitations under the License.
 */
 
-var debug = require("debug")("bundlelinter:findAllLocalBundles"),
+var debug = require("debug")("apigeelint:findAllLocalBundles"),
   fs = require("fs"),
   path = require("path"),
   cwd = process.cwd(),
