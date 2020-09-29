@@ -16,7 +16,7 @@
 
 var assert = require("assert"),
   testPN = "checkRegexLookAround.js",
-  debug = require("debug")("bundlelinter:" + testPN);
+  debug = require("debug")("apigeelint:" + testPN);
 
 var Policy = require("../../lib/package/Policy.js"),
   plugin = require("../../lib/package/plugins/" + testPN),

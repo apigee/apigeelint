@@ -16,7 +16,7 @@
 
 var assert = require("assert"),
   testPN = "checkConditionComplexity.js",
-  debug = require("debug")("bundlelinter:" + testPN),
+  debug = require("debug")("apigeelint:" + testPN),
   Condition = require("../../lib/package/Condition.js"),
   plugin = require("../../lib/package/plugins/" + testPN),
   Dom = require("xmldom").DOMParser,

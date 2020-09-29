@@ -17,7 +17,7 @@
 /* global describe, it */
 
 const assert = require("assert"),
-      debug = require("debug")("bundlelinter:flowNames"),
+      debug = require("debug")("apigeelint:flowNames"),
       util = require ('util');
 
 const Policy = require("../../lib/package/Policy.js"),

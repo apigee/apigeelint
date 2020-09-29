@@ -15,7 +15,7 @@
 */
 
 var ManagementServer = require("../../lib/package/ManagementServer.js"),
-  debug = require("debug")("bundlelinter:ManagementServer"),
+  debug = require("debug")("apigeelint:ManagementServer"),
   assert = require("assert"),
   mgmtConfig = {};
 

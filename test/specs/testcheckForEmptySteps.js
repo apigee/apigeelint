@@ -16,7 +16,7 @@
 
 var assert = require("assert"),
   testPN = "checkForEmptySteps.js",
-  debug = require("debug")("bundlelinter:" + testPN),
+  debug = require("debug")("apigeelint:" + testPN),
   Step = require("../../lib/package/Step.js"),
   plugin = require("../../lib/package/plugins/" + testPN),
   Dom = require("xmldom").DOMParser,
