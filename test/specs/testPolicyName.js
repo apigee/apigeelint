@@ -26,6 +26,17 @@ const Policy = require("../../lib/package/Policy.js"),
 describe("TestPolicyNames", function() {
 
   let testCases = [
+        { config: `<Javascript name='JS.Log.To.Stackdriver' timeLimit='400'>
+  <Properties>
+    <Property name='authz_header'>Bearer {stackdriver.token}</Property>
+    <Property name='endpoint'>https://logging.googleapis.com/v2/entries:write</Property>
+  </Properties>
+  <ResourceURL>jsc://log-To-Stackdriver.js</ResourceURL>
+  </Javascript>
+  `,
+          expectedDisplayName : null,
+          expectedName : "JS.Log.To.Stackdriver"
+        },
         { config: `<Javascript name='JS-Log-To-Stackdriver' timeLimit='400'>
   <Properties>
     <Property name='authz_header'>Bearer {stackdriver.token}</Property>
