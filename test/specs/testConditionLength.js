@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019-2020 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,50 +14,40 @@
   limitations under the License.
 */
 
-var assert = require("assert"),
-  testPN = "checkConditionLength.js",
-  plugin = require("../../lib/package/plugins/" + testPN),
-  debug = require("debug")("apigeelint:" + testPN),
-  bl = require("../../lib/package/bundleLinter.js"),
-  Bundle = require("../../lib/package/Bundle.js"),
-  Dom = require("xmldom").DOMParser,
-  Condition = require("../../lib/package/Condition.js"),
-  test = function(exp, assertion) {
-    it(
-      'testing condition complexity of "' +
-        exp +
-        '" expected to see ' +
-        assertion +
-        ".",
-      function() {
-        var doc = new Dom().parseFromString(exp);
-        var c = new Condition(doc, this),
-          result;
+const assert = require("assert"),
+      testID = "CC003",
+      bl = require("../../lib/package/bundleLinter.js"),
+      plugin = require(bl.resolvePlugin(testID)),
+      debug = require("debug")("apigeelint:" + testID),
+      Dom = require("xmldom").DOMParser,
+      Condition = require("../../lib/package/Condition.js"),
+      test = function(exp, caseNum, assertion) {
+        it(`condition complexity case ${caseNum}, expect(${assertion})`,
+           function() {
+             let doc = new Dom().parseFromString(exp),
+                 c = new Condition(doc, this);
 
-        c.addMessage = function(msg) {
-          debug(msg);
-        };
-        plugin.onCondition(c, function(err, result) {
-           assert.equal(
-            err,
-            undefined,
-            err ? " err " : " no err"
-          );
-          assert.equal(
-            result,
-            assertion,
-            result ? " warning created " : "no warning created"
-          );
-        });
-      }
-    );
-  };
-describe("testing " + testPN, function() {
+             c.addMessage = function(msg) {
+               debug(msg);
+             };
+             plugin.onCondition(c, function(e, result) {
+               assert.equal(e, undefined);
+               assert.equal(
+                 result,
+                 assertion,
+                 result ? " warning created " : "no warning created"
+               );
+             });
+           }
+        );
+      };
+describe(`${testID} - ${plugin.plugin.name}`, function() {
   test(
     "b OR c AND (a OR B AND C or D and True) and someverylongname=someotherverylongvariablename or b OR c AND (a OR B AND C or D and True) and someverylongname=someotherverylongvariablename or b OR c AND (a OR B AND C or D and True) and someverylongname=someotherverylongvariablename or b OR c AND (a OR B AND C or D and True) and someverylongname=someotherverylongvariablename",
+    1,
     true
   );
-  test("false", false);
-  test("true OR false", false);
-  test("b = c AND true", false);
+  test("false", 2, false);
+  test("true OR false", 3, false);
+  test("b = c AND true", 4, false);
 });

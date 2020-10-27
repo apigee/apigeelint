@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019-2020 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,24 +14,24 @@
   limitations under the License.
 */
 
-var assert = require("assert"),
-  TruthTable = require("../../lib/package/TruthTable.js"),
-  test = function(exp, assertion) {
-    it(exp + " should match " + assertion + ".", function() {
-      var tt = new TruthTable(exp);
+const assert = require("assert"),
+      TruthTable = require("../../lib/package/TruthTable.js"),
+      test = function(exp, assertion) {
+        it(`${exp} should be ${assertion}`, function() {
+          var tt = new TruthTable(exp);
 
-      assert.equal(
-        tt.getEvaluation(),
-        assertion,
-        JSON.stringify({
-          truthTable: tt,
-          evaluation: tt.evaluation
-        })
-      );
-    });
-  };
+          assert.equal(
+            tt.getEvaluation(),
+            assertion,
+            JSON.stringify({
+              truthTable: tt,
+              evaluation: tt.evaluation
+            })
+          );
+        });
+      };
 
-describe("Test TruthTable VarComps ", function() {
+describe("TruthTable VarComps", function() {
 
   test("b=c", "valid");
   test("b!=c", "valid");

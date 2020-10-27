@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019-2020 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,14 +14,15 @@
   limitations under the License.
 */
 
-var assert = require("assert"),
-  debug = require("debug")("bundlelinter"),
-  Bundle = require("../../lib/package/Bundle.js"),
-  bl = require("../../lib/package/bundleLinter.js");
+const assert = require("assert"),
+      testID = 'BN005',
+      debug = require("debug")("apigeelint:" + testID),
+      Bundle = require("../../lib/package/Bundle.js"),
+      bl = require("../../lib/package/bundleLinter.js");
 
 debug("test configuration: " + JSON.stringify(configuration));
 var bundle = new Bundle(configuration);
-bl.executePlugin("checkUnattachedPolicies.js", bundle, function() {
+bl.executePlugin(testID, bundle, function() {
   describe("Check for unattached policies in " + bundle.root, function() {
     bundle.getReport(function(report) {
       var unattachedFiles = [
@@ -41,7 +42,7 @@ bl.executePlugin("checkUnattachedPolicies.js", bundle, function() {
         "publishPurchaseDetails",
         "Lookup-Cache-1",
         "publishPurchaseDetails"
-      ]
+          ];
 
       var runTests = function(files, shouldBeUnattached){
         for (var j = 0; j < files.length; j++) {

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019-2020 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,25 +14,25 @@
   limitations under the License.
 */
 
-var assert = require("assert"),
-  TruthTable = require("../../lib/package/TruthTable.js"),
-  test = function(exp, assertion) {
-    it(exp + " should match " + assertion + ".", function() {
-      var tt = new TruthTable(exp),
-        evaluation = tt.getEvaluation();
+const assert = require("assert"),
+      TruthTable = require("../../lib/package/TruthTable.js"),
+      test = function(exp, assertion) {
+        it(`${exp} should be ${assertion}`, function() {
+          var tt = new TruthTable(exp),
+              evaluation = tt.getEvaluation();
 
-      assert.equal(
-        evaluation,
-        assertion,
-        JSON.stringify({
-          truthTable: tt,
-          evaluation
-        })
-      );
-    });
-  };
+          assert.equal(
+            evaluation,
+            assertion,
+            JSON.stringify({
+              truthTable: tt,
+              evaluation
+            })
+          );
+        });
+      };
 
-describe("Test TruthTable", function() {
+describe("TruthTable", function() {
 
   test('"/x/a/b/feed/" Matches "/*/a/*/feed/"', "valid");
   test('"/Be/ER" Matches "/*/ER" ', "valid");

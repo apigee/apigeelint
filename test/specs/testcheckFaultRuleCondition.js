@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019-2020 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,48 +14,45 @@
   limitations under the License.
 */
 
-var assert = require("assert"),
-  testPN = "checkFaultRuleCondition.js",
-  debug = require("debug")("apigeelint:" + testPN);
-
+const assert = require("assert"),
+      testID = "FR001",
+      debug = require("debug")("apigeelint:" + testID),
+      util = require("util"),
+      Bundle = require("../../lib/package/Bundle.js"),
+      bl = require("../../lib/package/bundleLinter.js"),
+      plugin = require(bl.resolvePlugin(testID));
 
 // generate a full report and check the format of the report
-describe("testing " + testPN, function() {
-  var Bundle = require("../../lib/package/Bundle.js"),
-    util = require("util"),
-    bl = require("../../lib/package/bundleLinter.js");
+describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   debug("test configuration: " + JSON.stringify(configuration));
 
   var bundle = new Bundle(configuration);
-  bl.executePlugin(testPN, bundle);
+  bl.executePlugin(testID, bundle);
 
   //need a case where we are using ref for the key
   //also prefix
 
-  describe("Print " + testPN + " plugin results", function() {
-    var report = bundle.getReport(),
-      jsimpl = bl.getFormatter("json.js");
+  describe(`Print plugin results (${testID})`, function() {
+    let report = bundle.getReport(),
+        formatter = bl.getFormatter("json.js");
 
-    if (!jsimpl) {
-      assert("implementation not defined: " + jsimpl);
-    } else {
-      it("should create a report object with valid schema", function() {
-        var schema = require("./../fixtures/reportSchema.js"),
+    if (!formatter) {
+      assert.fail("formatter implementation not defined");
+    }
+    it("should create a report object with valid schema", function() {
+      let schema = require("./../fixtures/reportSchema.js"),
           Validator = require("jsonschema").Validator,
           v = new Validator(),
-          validationResult,
-          jsonReport;
+          jsonReport = JSON.parse(formatter(bundle.getReport())),
+          validationResult = v.validate(jsonReport, schema);
 
-        var jsonReport = JSON.parse(jsimpl(bundle.getReport()));
-        validationResult = v.validate(jsonReport, schema);
         assert.equal(
           validationResult.errors.length,
           0,
           validationResult.errors
         );
       });
-    }
   });
 
   var stylimpl = bl.getFormatter("unix.js");
