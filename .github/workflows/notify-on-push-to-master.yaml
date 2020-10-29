@@ -1,0 +1,24 @@
+name: google-chat-notification
+
+on:
+  push:
+    branches: [ master ]
+#
+#  pull_request:
+#    branches: [ master ]
+#    types: [assigned, opened, synchronize, reopened]
+#
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      -  uses: Co-qn/google-chat-notification@v1
+         with:
+           # job name.
+           name: Push
+           # google chat webhook url. refers to apigeelint room.
+           url: https://chat.googleapis.com/v1/spaces/AAAAUq1D6Q0/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=Dp-GwELHhpB2LjtfjaJERUYte577hKzykJ__SajfPm4%3D
+           # job status.
+           status: ${{ job.status }}
+
