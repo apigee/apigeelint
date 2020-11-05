@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019-2020 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -15,14 +15,11 @@
 */
 
 var assert = require("assert"),
-  decache = require("decache"),
-  path = require("path"),
-  fs = require("fs"),
-  debug = require("debug")("bundlelinter"),
+  debug = require("debug")("apigeelint"),
   Bundle = require("../../lib/package/Bundle.js"),
   util=require("util");
 
-describe("Basic checks for bundle", function() {
+describe("Bundle", function() {
 
   debug("test configuration: " + JSON.stringify(configuration));
 

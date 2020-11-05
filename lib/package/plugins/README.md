@@ -1,12 +1,17 @@
-# bundle-linter plugins
+# apigeelint plugins
 
 This utility is intended to capture the best practices knowledge from across Apigee including our Global Support Center team, Customer Success, Engineering, and our product team in a tool that will help developers create more scalable, performant, and stable API bundles using the Apigee DSL. Plugins are small Node.js modules that implement one or many event listeners and report errors and warnings.
 
-## Plugins can lint and  check style
+## Plugins can lint and check style
 
 This tool does both traditional linting (looking for problematic patterns) and style checking (enforcement of conventions). You can use it for both. Plugin implementors are encouraged to be as creative as possible. 
 
-## the plugin descriptor
+## The filename
+
+The plugin module should have a filename like XXDDD-nameOfFileHere.js, where XX is a pair of uppercase Alpha characters, and DDD is three decimal digits. 
+This is the "ruleID" for the plugin, and should be unique across all plugins. 
+
+## The plugin descriptor
 
 The plugin module should export a descriptor object of the form:
 
@@ -26,13 +31,19 @@ plugin = {
 
 Consider all of these fields to be mandatory. 
 
-severity is an enum where 0 is ignore the output of this rule, 1 is a warning, or 2 is  an error.
+Notes: 
 
-nodeType is a description of the primary unit of evaluation by the rule. Rules may span many underlying entities (Flows, Conditions, Steps, Policies, etc) so it is left to the rule provider to decide which node is primary. nodeType is an arbitrary string, it need not be one of the objects exposed by the API.
+* *ruleId* can be inferred from the filename by calling a helper function: `require("../myUtil.js").getRuleId()`
+
+* *severity* is an enum: 0 implies ignore the output of this rule; 1 is a warning; 2 is an error.
+
+* *nodeType* is a description of the primary unit of evaluation by the rule. Rules may span many underlying entities (Flows, Conditions, Steps, Policies, etc) so it is left to the rule provider to decide which node is primary. nodeType is an arbitrary label, it need not be one of the objects exposed by the API.
+
+* if *enabled* is set to false, the plugiin will never run.
 
 ## Listeners
 
-Rules export functions that analyze specific units of configuration. For example a plugin that is going to review all policies in a bundle might export an onPolicy function that looks like:
+Plugins export functions that the bundle linter calls, to allow the plugin to analyze specific units of configuration. For example a plugin that checks each policy in a bundle to verify that the DisplayName matches the filename, might export an onPolicy function that looks like:
 
 ```javascript
 var onPolicy = function(policy) {
@@ -107,7 +118,7 @@ Your plugin module is instantiated once for the life of linter execution.
 
 ## Tests
 
-Plugin developers are asked to provide reasonable tests to verify their implementation. Feel free to add testable assets such as "bad" bundles to the test directory if they enhance your tests. 
+When implementing a plugin, please provide reasonable tests to verify the implementation. Feel free to add testable assets such as "bad" bundles to the test directory if they enhance your tests. 
 
 Mocha tests are preferred but not required. At some point in the future we may begin to implement some test coverage and automation. If you would like to contribute in this area, please pick up issue #28.
 

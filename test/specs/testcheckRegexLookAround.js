@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019-2020 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,91 +14,87 @@
   limitations under the License.
 */
 
-var assert = require("assert"),
-  testPN = "checkRegexLookAround.js",
-  debug = require("debug")("apigeelint:" + testPN);
+const assert = require("assert"),
+      testID = "PO018",
+      debug = require("debug")("apigeelint:" + testID),
+      Bundle = require("../../lib/package/Bundle.js"),
+      Policy = require("../../lib/package/Policy.js"),
+      bl = require("../../lib/package/bundleLinter.js"),
+      plugin = require(bl.resolvePlugin(testID)),
+      Dom = require("xmldom").DOMParser,
+      test = function(caseNum, exp, assertion) {
+        it(`tests case ${caseNum}, expect to see ${assertion}`,
+           function() {
+             let doc = new Dom().parseFromString(exp),
+                 p = new Policy(doc, this);
 
-var Policy = require("../../lib/package/Policy.js"),
-  plugin = require("../../lib/package/plugins/" + testPN),
-  Dom = require("xmldom").DOMParser,
-  test = function(exp, assertion) {
-    it(
-      'testing regex "' + exp + '" expected to see ' + assertion + ".",
-      function() {
-        var doc = new Dom().parseFromString(exp);
-        var p = new Policy(doc, this);
-
-        p.addMessage = function(msg) {
-          debug(msg);
-        };
-        p.getElement = function() {
-          return doc;
-        };
-        plugin.onPolicy(p, function(err, result) {
-           assert.equal(
-            err,
-            undefined,
-            err ? " err " : " no err"
+             p.addMessage = function(msg) {
+               debug(msg);
+             };
+             p.getElement = function() {
+               return doc;
+             };
+             plugin.onPolicy(p, function(err, result) {
+               assert.equal(
+                 err,
+                 undefined,
+                 err ? " err " : " no err"
+               );
+               assert.equal(
+                 result,
+                 assertion,
+                 result ? " (? found " : "(? not found"
+               );
+             });
+           }
           );
-          assert.equal(
-            result,
-            assertion,
-            result ? " (? found " : "(? not found"
-          );
-        });
-      }
-    );
-  };
+      };
 
 //now generate a full report and check the format of the report
 
 
-describe("testing " + testPN, function() {
+describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   test(
+    1,
     '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>.*Exception in thread.*</Pattern></URIPath></RegularExpressionProtection>',
     false
   );
   test(
+    2,
     '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>(?/(@?[w_?w:*]+([[^]]+])*)?)+</Pattern></URIPath></RegularExpressionProtection>',
     true
   );
 
-  var Bundle = require("../../lib/package/Bundle.js"),
-    util = require("util"),
-    bl = require("../../lib/package/bundleLinter.js");
-
   debug("test configuration: " + JSON.stringify(configuration));
 
-  var bundle = new Bundle(configuration);
-  bl.executePlugin(testPN, bundle);
+  let bundle = new Bundle(configuration);
+  bl.executePlugin(testID, bundle);
 
   //need a case where we are using ref for the key
   //also prefix
 
-  describe("Print " + testPN + " plugin results", function() {
-    var report = bundle.getReport(),
-      jsimpl = bl.getFormatter("json.js");
+  describe("Print plugin results $(testID)", function() {
+    let report = bundle.getReport(),
+        formatter = bl.getFormatter("json.js");
 
-    if (!jsimpl) {
-      assert("implementation not defined: " + jsimpl);
-    } else {
-      it("should create a report object with valid schema", function() {
-        var schema = require("./../fixtures/reportSchema.js"),
+    if (!formatter) {
+      assert.fail("formatter implementation not defined");
+    }
+
+    it("should create a report object with valid schema", function() {
+      let schema = require("./../fixtures/reportSchema.js"),
           Validator = require("jsonschema").Validator,
           v = new Validator(),
-          validationResult,
-          jsonReport;
+          jsonReport = JSON.parse(formatter(bundle.getReport())),
+          validationResult = v.validate(jsonReport, schema);
+      assert.equal(
+        validationResult.errors.length,
+        0,
+        validationResult.errors
+      );
+    });
 
-        var jsonReport = JSON.parse(jsimpl(bundle.getReport()));
-        validationResult = v.validate(jsonReport, schema);
-        assert.equal(
-          validationResult.errors.length,
-          0,
-          validationResult.errors
-        );
-      });
-    }
   });
 
   var stylimpl = bl.getFormatter("unix.js");

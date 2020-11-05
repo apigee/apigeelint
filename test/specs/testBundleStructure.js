@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019-2020 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -15,14 +15,10 @@
 */
 
 var assert = require("assert"),
-  decache = require("decache"),
-  path = require("path"),
-  fs = require("fs"),
-  pName = "checkBundleStructure",
-  debug = require("debug")("apigeelint:" + pName),
+  testID = "BN001",
+  debug = require("debug")("apigeelint:" + testID),
   Bundle = require("../../lib/package/Bundle.js"),
   Validator = require("jsonschema").Validator,
-  util = require("util"),
   bl = require("../../lib/package/bundleLinter.js"),
   schema = require("./../fixtures/reportSchema.js");
 
@@ -30,27 +26,23 @@ debug("test configuration: " + JSON.stringify(configuration));
 var bundle = new Bundle(configuration);
 
 describe("Print bundle structure results", function() {
-  bl.executePlugin(pName, bundle);
+  bl.executePlugin(testID, bundle);
 
   var impl = bl.getFormatter("unix.js");
   if (!impl) {
-    assert("implementation not defined: " + impl);
-  } else {
+    assert.fail("formatter implementation not defined");
+  }
     bundle.getReport(function(report) {
       report = impl(report);
       debug("unix formatted report: \n" + report);
     });
-  }
+
 
   it("should create a report object with valid schema", function() {
-
-    var jsimpl = bl.getFormatter("json.js"),
-      v = new Validator(),
-      validationResult,
-      jsonReport;
-
-    var jsonReport = JSON.parse(jsimpl(bundle.getReport()));
-    validationResult = v.validate(jsonReport, schema);
+    let formatter = bl.getFormatter("json.js"),
+        v = new Validator(),
+        jsonReport = JSON.parse(formatter(bundle.getReport())),
+        validationResult = v.validate(jsonReport, schema);
     assert.equal(validationResult.errors.length, 0, validationResult.errors);
   });
 

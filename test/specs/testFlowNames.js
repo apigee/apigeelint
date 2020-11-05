@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019-2020 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,30 +14,29 @@
   limitations under the License.
 */
 
-var assert = require("assert"),
-  debug = require("debug")("apigeelint:flowNames");
+const assert = require("assert"),
+      debug = require("debug")("apigeelint:flowNames"),
+      Endpoint = require("../../lib/package/Endpoint.js"),
+      Dom = require("xmldom").DOMParser,
+      test = function(exp, assertion) {
+        it("testing flow names ", function() {
+          var result = [],
+              doc = new Dom().parseFromString(exp),
+              ep = new Endpoint(doc, this,"/dummy/test/apiproxy/proxies/foo.xml"),
+              flows = ep.getFlows();
 
-var Endpoint = require("../../lib/package/Endpoint.js"),
-  Dom = require("xmldom").DOMParser,
-  test = function(exp, assertion) {
-    it("testing flow names ", function() {
-      var result = [],
-        doc = new Dom().parseFromString(exp),
-        ep = new Endpoint(doc, this,"/dummy/test/apiproxy/proxies/foo.xml"),
-        flows = ep.getFlows();
+          flows.forEach(function(f) {
+            result.push(f.getName());
+          });
+          assert.deepEqual(
+            result,
+            assertion,
+            result ? "names did not match" : "names matched"
+          );
+        });
+      };
 
-      flows.forEach(function(f) {
-        result.push(f.getName());
-      });
-      assert.deepEqual(
-        result,
-        assertion,
-        result ? "names did not match" : "names matched"
-      );
-    });
-  };
-
-describe("Testing testFlowNames.js", function() {
+describe("FlowNames", function() {
 
   test(
     `
