@@ -31,6 +31,7 @@ program
     "Provide the host and path to upload linter results"
   )
   .option("-e, --excluded [value]", "The comma separated list of tests to be excluded")
+  .option("--maxWarnings [value]", "Number of warnings to trigger nonzero exit code - default: -1")
   .option("-u, --user [value]", "Apigee user account")
   .option("-p, --password [value]", "Apigee password")
   .option("-o, --organization [value]", "Apigee organization")
@@ -51,8 +52,13 @@ var configuration = {
     bundleType: program.path.includes(bundleType.BundleType.SHAREDFLOW) ? bundleType.BundleType.SHAREDFLOW : bundleType.BundleType.APIPROXY
   },
   externalPluginsDirectory: program.externalPluginsDirectory,
-  excluded: {}
+  excluded: {},
+  maxWarnings: -1
 };
+
+if(!isNaN(program.maxWarnings)){
+  configuration.maxWarnings = Number.parseInt(program.maxWarnings);
+}
 
 if (program.formatter) {
   configuration.formatter = program.formatter || "json.js";
