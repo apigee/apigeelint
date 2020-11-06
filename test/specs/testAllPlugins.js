@@ -27,21 +27,29 @@ const assert = require("assert"),
       schema = require("./../fixtures/reportSchema.js"),
       pluginSchema = require("./../fixtures/pluginSchema.js");
 
-const normalizedPath = path.join(__dirname, "../../lib/package/plugins");
+const pluginPath = path.join(__dirname, "../../lib/package/plugins");
 
 describe("AllPlugins", function() {
-  const pluginNamePattern = new RegExp('^[A-Z]{2}[0-9]{3}$');
+  const pluginRe = {
+          id : new RegExp('^[A-Z]{2}[0-9]{3}$'),
+          filename: new RegExp('^([A-Z]{2}[0-9]{3})-(.+?)\\.js$')
+        };
 
   describe("StaticAnalysis", function() {
     let knownIds = {};
-    fs.readdirSync(normalizedPath).forEach(function(shortFileName) {
+    fs.readdirSync(pluginPath).forEach(function(shortFileName) {
       if (shortFileName.endsWith(".js")) {
-          let fqPluginPath = path.join(normalizedPath, shortFileName),
+          let fqPluginPath = path.join(pluginPath, shortFileName),
               plugin = require(fqPluginPath).plugin;
+
+        it(`${shortFileName} should match the required pattern`, function() {
+          assert.ok(shortFileName.match(pluginRe.filename), `noncompliant plugin filename [${shortFileName}]`);
+        });
+
         it(`${shortFileName} should export a ruleId with a compliant pattern`, function() {
           assert.ok(plugin, `plugin not found [${shortFileName}]`);
           assert.ok(plugin.ruleId, `plugin missing ruleId [${shortFileName}]`);
-          assert.ok(plugin.ruleId.match(pluginNamePattern), `noncompliant plugin ruleId(${plugin.ruleId}) [${shortFileName}]`);
+          assert.ok(plugin.ruleId.match(pluginRe.id), `noncompliant plugin ruleId(${plugin.ruleId}) [${shortFileName}]`);
         });
 
         it(`${shortFileName} should export a unique ruleId`, function() {
@@ -57,10 +65,10 @@ describe("AllPlugins", function() {
   });
 
   const runTests = function(configToRun) {
-          fs.readdirSync(normalizedPath).forEach(function(shortFileName) {
+          fs.readdirSync(pluginPath).forEach(function(shortFileName) {
             //is this a js file
             if (shortFileName.endsWith(".js")) {
-              let fqPluginPath = path.join(normalizedPath, shortFileName);
+              let fqPluginPath = path.join(pluginPath, shortFileName);
 
               it(`${shortFileName} with ${configToRun.source.bundleType} should create a report object`,
                  function() {

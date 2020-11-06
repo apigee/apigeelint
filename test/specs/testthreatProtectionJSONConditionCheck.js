@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019-2020 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,66 +14,61 @@
   limitations under the License.
 */
 
-var assert = require("assert"),
-  decache = require("decache"),
-  path = require("path"),
-  fs = require("fs"),
-  testPN = "threatProtectionJSONConditionCheck.js",
-  debug = require("debug")("apigeelint:" + testPN),
-  Bundle = require("../../lib/package/Bundle.js"),
-  util = require("util"),
-  bl = require("../../lib/package/bundleLinter.js");
+const assert = require("assert"),
+      testID = "PO001",
+      debug = require("debug")("apigeelint:" + testID),
+      Bundle = require("../../lib/package/Bundle.js"),
+      bl = require("../../lib/package/bundleLinter.js"),
+      Policy = require("../../lib/package/Policy.js"),
+      Step = require("../../lib/package/Step.js"),
+      Flow = require("../../lib/package/Flow.js"),
+      plugin = require(bl.resolvePlugin(testID)),
 
-var Policy = require("../../lib/package/Policy.js"),
-  Step = require("../../lib/package/Step.js"),
-  Flow = require("../../lib/package/Flow.js"),
-  plugin = require("../../lib/package/plugins/" + testPN),
-  Dom = require("xmldom").DOMParser,
-  test = function(exp, stepExp, flowExp, assertion) {
-    it(
-      "testing " + testPN + '" expected to see ' + assertion + ".",
-      function() {
-        var pDoc = new Dom().parseFromString(exp),
-          sDoc,
-          fDoc,
-          p = new Policy(pDoc.documentElement, this),
-          s,
-          f;
+      Dom = require("xmldom").DOMParser,
+      test = function(caseNum, exp, stepExp, flowExp, assertion) {
+        it(`tests case ${caseNum}, expect(${assertion})`,
+           function() {
+             let pDoc = new Dom().parseFromString(exp),
+                 sDoc,
+                 fDoc,
+                 p = new Policy(pDoc.documentElement, this),
+                 s,
+                 f;
 
-        p.addMessage = function(msg) {
-          debug(msg);
-        };
-        p.getElement = function() {
-          return pDoc.documentElement;
-        };
-        p.getSteps = function() {
-          if (s) return [s];
-          return [];
-        };
+             p.addMessage = function(msg) {
+               debug(msg);
+             };
+             p.getElement = function() {
+               return pDoc.documentElement;
+             };
+             p.getSteps = function() {
+               if (s) return [s];
+               return [];
+             };
 
-        if (flowExp) {
-          fDoc = new Dom().parseFromString(flowExp);
-          f = new Flow(fDoc.documentElement, null);
-        }
+             if (flowExp) {
+               fDoc = new Dom().parseFromString(flowExp);
+               f = new Flow(fDoc.documentElement, null);
+             }
 
-        if (stepExp) {
-          sDoc = new Dom().parseFromString(stepExp);
-          s = new Step(sDoc.documentElement, f);
-        }
+             if (stepExp) {
+               sDoc = new Dom().parseFromString(stepExp);
+               s = new Step(sDoc.documentElement, f);
+             }
 
-        plugin.onPolicy(p, function(err,result) {
-          assert.equal(err, undefined, err ? " err " : " no err");
-          assert.equal(
-            result,
-            assertion,
-            result
-              ? "warning/error was returned"
-              : "warning/error was not returned"
+             plugin.onPolicy(p, function(err,result) {
+               assert.equal(err, undefined, err ? " err " : " no err");
+               assert.equal(
+                 result,
+                 assertion,
+                 result
+                   ? "warning/error was returned"
+                   : "warning/error was not returned"
+               );
+             });
+           }
           );
-        });
-      }
-    );
-  };
+      };
 
 //now generate a full report and check the format of the report
 /*
@@ -93,9 +88,10 @@ test(
 );
 */
 
-describe("testing " + testPN, function() {
+describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   test(
+    1,
     `<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
      <DisplayName>JSON Threat Protection 1</DisplayName>
      <ArrayElementCount>20</ArrayElementCount>

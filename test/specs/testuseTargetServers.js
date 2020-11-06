@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019-2020 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,51 +14,45 @@
   limitations under the License.
 */
 
-var assert = require("assert"),
-  decache = require("decache"),
-  path = require("path"),
-  fs = require("fs"),
-  testPN = "useTargetServers.js",
-  debug = require("debug")("apigeelint:" + testPN),
-  Bundle = require("../../lib/package/Bundle.js"),
-  util = require("util"),
-  bl = require("../../lib/package/bundleLinter.js");
+const assert = require("assert"),
+      testID = "TD002",
+      debug = require("debug")("apigeelint:" + testID),
+      Bundle = require("../../lib/package/Bundle.js"),
+      bl = require("../../lib/package/bundleLinter.js"),
+      Endpoint = require("../../lib/package/Endpoint.js"),
+      plugin = require(bl.resolvePlugin(testID)),
+      Dom = require("xmldom").DOMParser,
+      test = function(caseNum, targetDef, assertion) {
+        it(`tests case ${caseNum}, expect(${assertion})`,
+           function() {
+             let tDoc = new Dom().parseFromString(targetDef),
+                 target = new Endpoint(tDoc, this, "");
 
-var Endpoint = require("../../lib/package/Endpoint.js"),
-  plugin = require("../../lib/package/plugins/" + testPN),
-  Dom = require("xmldom").DOMParser,
-  test = function(targetDef, assertion) {
-    it(
-      "testing " + testPN + '" expected to see ' + assertion + ".",
-      function() {
-        var tDoc = new Dom().parseFromString(targetDef),
-          target = new Endpoint(tDoc, this, "");
+             target.addMessage = function(msg) {
+               debug(msg);
+             };
 
-        target.addMessage = function(msg) {
-          debug(msg);
-        };
-
-        plugin.onTargetEndpoint(target, function(err, result) {
-          assert.equal(err, undefined, err ? " err " : " no err");
-          assert.equal(
-            result,
-            assertion,
-            result
-              ? "warning/error was returned"
-              : "warning/error was not returned"
+             plugin.onTargetEndpoint(target, function(err, result) {
+               assert.equal(err, undefined, err ? " err " : " no err");
+               assert.equal(
+                 result,
+                 assertion,
+                 result
+                   ? "warning/error was returned"
+                   : "warning/error was not returned"
+               );
+             });
+           }
           );
-        });
-      }
-    );
-  };
+      };
 
 //now generate a full report and check the format of the report
 
 
-describe("testing " + testPN, function() {
-
+describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   test(
+    1,
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
@@ -68,6 +62,7 @@ describe("testing " + testPN, function() {
   );
 
   test(
+    2,
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
         <LoadBalancer>
@@ -79,38 +74,31 @@ describe("testing " + testPN, function() {
     false
   );
 
-  var Bundle = require("../../lib/package/Bundle.js"),
-    util = require("util"),
-    bl = require("../../lib/package/bundleLinter.js");
 
   debug("test configuration: " + JSON.stringify(configuration));
 
   var bundle = new Bundle(configuration);
-  bl.executePlugin(testPN, bundle);
+  bl.executePlugin(testID, bundle);
 
-  describe("Print " + testPN + " plugin results", function() {
-    var report = bundle.getReport(),
-      jsimpl = bl.getFormatter("json.js");
+  describe(`Print plugin results (${testID})`, function() {
+    let report = bundle.getReport(),
+        formatter = bl.getFormatter("json.js");
 
-    if (!jsimpl) {
-      assert("implementation not defined: " + jsimpl);
-    } else {
-      it("should create a report object with valid schema", function() {
-        var schema = require("./../fixtures/reportSchema.js"),
+    if (!formatter) {
+      assert.fail("formatter implementation not defined");
+    }
+    it("should create a report object with valid schema", function() {
+      let schema = require("./../fixtures/reportSchema.js"),
           Validator = require("jsonschema").Validator,
           v = new Validator(),
-          validationResult,
-          jsonReport;
-
-        var jsonReport = JSON.parse(jsimpl(bundle.getReport()));
-        validationResult = v.validate(jsonReport, schema);
-        assert.equal(
-          validationResult.errors.length,
-          0,
-          validationResult.errors
-        );
-      });
-    }
+          jsonReport = JSON.parse(formatter(bundle.getReport())),
+          validationResult = v.validate(jsonReport, schema);
+      assert.equal(
+        validationResult.errors.length,
+        0,
+        validationResult.errors
+      );
+    });
   });
 
   var stylimpl = bl.getFormatter("unix.js");

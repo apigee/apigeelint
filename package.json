@@ -1,6 +1,6 @@
 {
   "name": "apigeelint",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Node module to lint and Apigee Edge bundle.",
   "main": "function.js",
   "bin": {

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019-2020 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,108 +14,95 @@
   limitations under the License.
 */
 
-var assert = require("assert"),
-  decache = require("decache"),
-  path = require("path"),
-  fs = require("fs"),
-  testPN = "distributedQuotaCheck.js",
-  debug = require("debug")("apigeelint:" + testPN),
-  Bundle = require("../../lib/package/Bundle.js"),
-  util = require("util"),
-  bl = require("../../lib/package/bundleLinter.js");
+const assert = require("assert"),
+      fs = require("fs"),
+      testID = "PO022",
+      debug = require("debug")("apigeelint:" + testID),
+      Bundle = require("../../lib/package/Bundle.js"),
+      util = require("util"),
+      bl = require("../../lib/package/bundleLinter.js"),
+      Policy = require("../../lib/package/Policy.js"),
+      plugin = require(bl.resolvePlugin(testID)),
+      Dom = require("xmldom").DOMParser,
+      test = function(exp, caseNum, assertion) {
+        it(`tests ${caseNum}, expect(${assertion})`,
+           function() {
+             let doc = new Dom().parseFromString(exp),
+                 p = new Policy(doc, this);
 
-var Policy = require("../../lib/package/Policy.js"),
-  plugin = require("../../lib/package/plugins/" + testPN),
-  Dom = require("xmldom").DOMParser,
-  test = function(exp, assertion) {
-    it(
-      "testing " +
-        testPN +
-        ' with "' +
-        exp +
-        '" expected to see ' +
-        assertion +
-        ".",
-      function() {
-        var doc = new Dom().parseFromString(exp);
-        var p = new Policy(doc, this);
-
-        p.addMessage = function(msg) {
-          debug(msg);
-        };
-        p.getElement = function() {
-          return doc;
-        };
-        result = plugin.onPolicy(p, function(err, result) {
-           assert.equal(
-            err,
-            undefined,
-            err ? " err " : " no err"
+             p.addMessage = function(msg) {
+               debug(msg);
+             };
+             p.getElement = function() {
+               return doc;
+             };
+             plugin.onPolicy(p, function(err, result) {
+               assert.equal(
+                 err,
+                 undefined,
+                 err ? " err " : " no err"
+               );
+               assert.equal(
+                 result,
+                 assertion,
+                 result ? "  distirbuted is true " : "distirbuted is true not found"
+               );
+             });
+           }
           );
-          assert.equal(
-            result,
-            assertion,
-            result ? "  distirbuted is true " : "distirbuted is true not found"
-          );
-        });
-      }
-    );
-  };
+      };
 
-describe("testing " + testPN, function() {
+describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   test(
     '<Quota name="CheckQuota"> <Interval ref="verifyapikey.verify-api-key.apiproduct.developer.quota.interval">1</Interval><TimeUnit ref="verifyapikey.verify-api-key.apiproduct.developer.quota.timeunit">hour</TimeUnit><Allow count="200" countRef="verifyapikey.verify-api-key.apiproduct.developer.quota.limit"/></Quota>',
+    1,
     true
   );
   test(
     '<Quota name="CheckQuota"> <Distributed>false</Distributed><Interval ref="verifyapikey.verify-api-key.apiproduct.developer.quota.interval">1</Interval><TimeUnit ref="verifyapikey.verify-api-key.apiproduct.developer.quota.timeunit">hour</TimeUnit><Allow count="200" countRef="verifyapikey.verify-api-key.apiproduct.developer.quota.limit"/></Quota>',
+    2,
     true
   );
   test(
     '<Quota name="CheckQuota"> <Distributed>true</Distributed><Interval ref="verifyapikey.verify-api-key.apiproduct.developer.quota.interval">1</Interval><TimeUnit ref="verifyapikey.verify-api-key.apiproduct.developer.quota.timeunit">hour</TimeUnit><Allow count="200" countRef="verifyapikey.verify-api-key.apiproduct.developer.quota.limit"/></Quota>',
+    3,
     false
   );
   test(
     '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>(?/(@?[w_?w:*]+([[^]]+])*)?)+</Pattern></URIPath></RegularExpressionProtection>',
+    4,
     false
   );
-
-  var Bundle = require("../../lib/package/Bundle.js"),
-    util = require("util"),
-    bl = require("../../lib/package/bundleLinter.js");
 
   debug("test configuration: " + JSON.stringify(configuration));
 
   var bundle = new Bundle(configuration);
-  bl.executePlugin(testPN, bundle);
+  bl.executePlugin(testID, bundle);
 
   //need a case where we are using ref for the key
   //also prefix
 
-  describe("Print " + testPN + " plugin results", function() {
-    var report = bundle.getReport(),
-      jsimpl = bl.getFormatter("json.js");
+  describe("Print plugin results (${testID})", function() {
+    let report = bundle.getReport(),
+        formatter = bl.getFormatter("json.js");
 
-    if (!jsimpl) {
-      assert("implementation not defined: " + jsimpl);
-    } else {
-      it("should create a report object with valid schema", function() {
-        var schema = require("./../fixtures/reportSchema.js"),
+    if (!formatter) {
+      assert.fail("formatter implementation not defined.");
+    }
+    it("should create a report object with valid schema", function() {
+      let schema = require("./../fixtures/reportSchema.js"),
           Validator = require("jsonschema").Validator,
           v = new Validator(),
-          validationResult,
-          jsonReport;
+          jsonReport = JSON.parse(formatter(bundle.getReport())),
+          validationResult = v.validate(jsonReport, schema);
+      assert.equal(
+        validationResult.errors.length,
+        0,
+        validationResult.errors
+      );
+    });
 
-        var jsonReport = JSON.parse(jsimpl(bundle.getReport()));
-        validationResult = v.validate(jsonReport, schema);
-        assert.equal(
-          validationResult.errors.length,
-          0,
-          validationResult.errors
-        );
-      });
-    }
   });
 
   var stylimpl = bl.getFormatter("unix.js");

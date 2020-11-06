@@ -23,7 +23,7 @@ const assert = require("assert"),
 const Policy = require("../../lib/package/Policy.js"),
   Dom = require("xmldom").DOMParser;
 
-describe("TestPolicyNames", function() {
+describe("PolicyNames", function() {
 
   let testCases = [
         { config: `<Javascript name='JS.Log.To.Stackdriver' timeLimit='400'>
@@ -62,7 +62,7 @@ describe("TestPolicyNames", function() {
       ];
 
   testCases.forEach((tc, ix) => {
-  it(`should return correct policy Name and DisplayName ${ix}`, function() {
+    it(`should return correct policy Name and DisplayName ${ix}`, function() {
       let doc = new Dom().parseFromString(tc.config),
           policy = new Policy("no-file-path", "does-not-matter.xml", this, doc);
       assert.equal(

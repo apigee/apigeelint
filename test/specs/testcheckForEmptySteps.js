@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019-2020 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,43 +14,45 @@
   limitations under the License.
 */
 
-var assert = require("assert"),
-  testPN = "checkForEmptySteps.js",
-  debug = require("debug")("apigeelint:" + testPN),
-  Step = require("../../lib/package/Step.js"),
-  plugin = require("../../lib/package/plugins/" + testPN),
-  Dom = require("xmldom").DOMParser,
-  test = function(stepExp, assertion) {
-    it("testing " + testPN + " expected to see " + assertion + ".", function() {
-      var sDoc = new Dom().parseFromString(stepExp);
-      this.getLines = function() {
-        return stepExp;
-      };
-      step = new Step(sDoc.documentElement, this);
-      step.addMessage = function(msg) {
-        debug(msg);
+const assert = require("assert"),
+      testID = "ST001",
+      debug = require("debug")("apigeelint:" + testID),
+      Step = require("../../lib/package/Step.js"),
+      bl = require("../../lib/package/bundleLinter.js"),
+      plugin = require(bl.resolvePlugin(testID)),
+      Dom = require("xmldom").DOMParser,
+      test = function(caseNum, stepExp, assertion) {
+        it(`tests case ${caseNum}, expect(${assertion})`, function() {
+          var sDoc = new Dom().parseFromString(stepExp);
+          this.getLines = function() {
+            return stepExp;
+          };
+          let step = new Step(sDoc.documentElement, this);
+          step.addMessage = function(msg) {
+            debug(msg);
+          };
+
+          plugin.onStep(step, function(err, result) {
+            assert.equal(
+              err,
+              undefined,
+              err ? " err " : " no err"
+            );
+            assert.equal(
+              result,
+              assertion,
+              result
+                ? "warning/error was returned"
+                : "warning/error was not returned"
+            );
+          });
+        });
       };
 
-      plugin.onStep(step, function(err, result) {
-         assert.equal(
-            err,
-            undefined,
-            err ? " err " : " no err"
-          );
-        assert.equal(
-          result,
-          assertion,
-          result
-            ? "warning/error was returned"
-            : "warning/error was not returned"
-        );
-      });
-    });
-  };
-
-describe("testing " + testPN, function() {
+describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   test(
+    1,
     `<Step>
       <Condition>message.content != ""</Condition>
       <Name>ExtractVariables-4</Name>
@@ -59,6 +61,7 @@ describe("testing " + testPN, function() {
   );
 
   test(
+    2,
     `<Step>
       <Condition>message.content != ""</Condition>
       <Name></Name>
@@ -67,6 +70,7 @@ describe("testing " + testPN, function() {
   );
 
   test(
+    3,
     `
               <Step>
                   <Name>jsonThreatProtection</Name>
@@ -76,29 +80,25 @@ describe("testing " + testPN, function() {
     false
   );
 
-  var Bundle = require("../../lib/package/Bundle.js"),
-    bl = require("../../lib/package/bundleLinter.js"),
-    Validator = require("jsonschema").Validator,
-    schema = require("./../fixtures/reportSchema.js");
+  const Bundle = require("../../lib/package/Bundle.js"),
+        Validator = require("jsonschema").Validator,
+        schema = require("./../fixtures/reportSchema.js");
 
-  var bundle = new Bundle(configuration);
+  let bundle = new Bundle(configuration);
 
-  bl.executePlugin(testPN, bundle);
-  it(
-    testPN +
-      " should create a report object with valid schema for " +
-      configuration.source.path +
-      ".",
+  bl.executePlugin(testID, bundle);
+  it(`${testID} should create a report object with valid schema for ${configuration.source.path}`,
     function() {
-      var jsimpl = bl.getFormatter("json.js"),
-        v = new Validator(),
-        validationResult,
-        jsonReport;
+      let formatter = bl.getFormatter("json.js"),
+          v = new Validator(),
+          jsonReport = JSON.parse(formatter(bundle.getReport())),
+          validationResult = v.validate(jsonReport, schema);
 
-      var jsonReport = JSON.parse(jsimpl(bundle.getReport()));
-      validationResult = v.validate(jsonReport, schema);
       assert.equal(validationResult.errors.length, 0, validationResult.errors);
-    }
-  );
+    });
+
+  var stylimpl = bl.getFormatter("table.js");
+  var stylReport=stylimpl(bundle.getReport());
+  debug("table formatted report: \n" + stylReport);
 
 });

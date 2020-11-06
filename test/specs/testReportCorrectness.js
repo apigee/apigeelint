@@ -124,14 +124,14 @@ var example = [
 
 var assert = require("assert");
 
-describe("Test report correctness", function() {
+describe("report correctness", function() {
 
   it("should create a report object with valid schema", function() {
     var schema = require("./../fixtures/reportSchema.js"),
       Validator = require("jsonschema").Validator,
       v = new Validator(),
       validationResult = v.validate(example, schema);
-    assert(0 == validationResult.errors.length);
+    assert.equal(0, validationResult.errors.length);
   });
 
 });
