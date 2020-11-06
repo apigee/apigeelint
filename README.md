@@ -36,6 +36,7 @@ Options:
   -w, --write [value]                     file path to write results
   -d, --destPath [value]                  Provide the host and path to upload linter results
   -e, --excluded [value]                  The comma separated list of tests to be excluded
+  --maxWarnings [value]                   Number of warnings to trigger nonzero exit code - default: -1
   -u, --user [value]                      Apigee user account
   -p, --password [value]                  Apigee password
   -o, --organization [value]              Apigee organization
