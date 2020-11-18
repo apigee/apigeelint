@@ -2,7 +2,7 @@
   "name": "apigeelint",
   "version": "2.1.2",
   "description": "Node module to lint and Apigee Edge bundle.",
-  "main": "function.js",
+  "main": "index.js",
   "bin": {
     "apigeelint": "./cli.js"
   },
