@@ -1,15 +1,48 @@
 # apigeelint plugins
 
-This utility is intended to capture the best practices knowledge from across Apigee including our Global Support Center team, Customer Success, Engineering, and our product team in a tool that will help developers create more scalable, performant, and stable API bundles using the Apigee DSL. Plugins are small Node.js modules that implement one or many event listeners and report errors and warnings.
+The apigeelint utility is intended to capture the best practices knowledge from
+across Apigee including our Global Support Center team, Customer Success,
+Engineering, and our product team in a tool that will help developers create
+more scalable, performant, and stable API bundles using the Apigee DSL.
+
+All of the built-in function in apigeelint is implemented as plugins, stored
+here in this directory. In apigeelint, plugins are small Node.js modules that
+implement one or more event listeners, and can analyze the configuration of an
+API Proxy, and subsequently report errors and warnings based on that analysis.
+
+The maintainers encourage pull requests. If you're a motivated person and you
+see a gap in function, please do implement a plugin and file a pull
+request. Before writing a plugin, be sure to check the existing plugins to see
+if it makes more sense to extend one of those.
+
 
 ## Plugins can lint and check style
 
-This tool does both traditional linting (looking for problematic patterns) and style checking (enforcement of conventions). You can use it for both. Plugin implementors are encouraged to be as creative as possible. 
+Plugins can perform either traditional linting (looking for problematic
+patterns) or style checking (enforcement of conventions), or both. The
+maintainers encourage creativity in plugin implementations.
+
 
 ## The filename
 
-The plugin module should have a filename like XXDDD-nameOfFileHere.js, where XX is a pair of uppercase Alpha characters, and DDD is three decimal digits. 
-This is the "ruleID" for the plugin, and should be unique across all plugins. 
+The plugin module should have a filename like `XXDDD-pascalCasedDecriptionHere.js`, where XX is a pair of uppercase Alpha characters, and DDD is three decimal digits.  The alpha characters should correspond to the _type_ of plugin:
+
+| prefix | a plugin focusing on... |
+| ------ | ----------------------- |
+| BN     | Bundle structure        |
+| CC     | Conditions              |
+| FL     | Flow                    |
+| FR     | FaultRule               |
+| PD     | Proxy Definition        |
+| PO     | Policy                  |
+| ST     | Steps                   |
+| TD     | Target Definition       |
+
+But these prefixes are mere convention for categorization. If you choose PO for your prefix, it does not limit the capabilities of the plugin itself.
+
+The `DDD` decimal digits are just a unique number wihtin the specific prefix. Together the `XXDDD` comprise the
+"ruleID" for the plugin, which must be unique across all plugins.
+
 
 ## The plugin descriptor
 
@@ -29,9 +62,9 @@ plugin = {
   }
 ```
 
-Consider all of these fields to be mandatory. 
+Consider all of these fields to be mandatory.
 
-Notes: 
+Notes:
 
 * *ruleId* can be inferred from the filename by calling a helper function: `require("../myUtil.js").getRuleId()`
 
@@ -69,7 +102,7 @@ var onPolicy = function(policy) {
 };
 ```
 
-The function itself is simple - it recieves a reference to an object that represents an entity in the Apigee DSL. Methods on that object vary depending upon the type of object but generally include things like getName, getSource, etc. The function does its work and when it discovers an issue of note, it adds a message to the entity. The message object includes data from the plugin descriptor, specific information like line and column where the observation occured, etc. 
+The function itself is simple - it recieves a reference to an object that represents an entity in the Apigee DSL. Methods on that object vary depending upon the type of object but generally include things like getName, getSource, etc. The function does its work and when it discovers an issue of note, it adds a message to the entity. The message object includes data from the plugin descriptor, specific information like line and column where the observation occured, etc.
 
 Listeners include:
 
@@ -118,13 +151,18 @@ Your plugin module is instantiated once for the life of linter execution.
 
 ## Tests
 
-When implementing a plugin, please provide reasonable tests to verify the implementation. Feel free to add testable assets such as "bad" bundles to the test directory if they enhance your tests. 
+When implementing a plugin, please provide reasonable tests to verify the
+implementation. Feel free to add testable assets such as "bad" bundles to the
+[test/fixtures/resources](../../../test/fixtures/resources) directory if they enhance your tests.
 
-Mocha tests are preferred but not required. At some point in the future we may begin to implement some test coverage and automation. If you would like to contribute in this area, please pick up issue #28.
+We prefer mocha tests. At some point in the future we may
+begin to implement some test coverage and automation. If you would like to
+contribute in this area, please pick up issue #28.
 
 ## Contributing
 
-In lieu of a formal style guide, take care to maintain the existing coding style.
+There is no formal style guide; take care to maintain the existing coding style.
+Use ES9.
 
 Add unit tests for any new or changed functionality. Lint and test your code.
 
