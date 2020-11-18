@@ -34,13 +34,10 @@ Options:
   -s, --path <path>                       Path of the proxies
   -f, --formatter [value]                 Specify formatters (default json.js)
   -w, --write [value]                     file path to write results
-  -d, --destPath [value]                  Provide the host and path to upload linter results
-  -e, --excluded [value]                  The comma separated list of tests to be excluded
-  --maxWarnings [value]                   Number of warnings to trigger nonzero exit code - default: -1
-  -u, --user [value]                      Apigee user account
-  -p, --password [value]                  Apigee password
-  -o, --organization [value]              Apigee organization
+  -e, --excluded [value]                  The comma separated list of tests to exclude (default: none)
   -x, --externalPluginsDirectory [value]  Relative or full path to an external plugins directory
+  --list                                  do not execute, instead list the available plugins and formatters
+  --maxWarnings [value]                   Number of warnings to trigger nonzero exit code - default: -1
   -h, --help                              output usage information
 ```
 Example:
@@ -50,7 +47,7 @@ apigeelint -s sampleProxy/ -f table.js
 
 Where `-s` points to the apiProxy source directory and `-f` is the output formatter desired.
 
-Possible formats are "json.js" (the default), "stylish.js", "compact.js", "codeframe.js", "html.js", "table.js", "unix.js", "visualstudio.js", "checkstyle.js", "jslint-xml.js", "junit.js" and "tap.js".
+Possible formatters are: "json.js" (the default), "stylish.js", "compact.js", "codeframe.js", "html.js", "table.js", "unix.js", "visualstudio.js", "checkstyle.js", "jslint-xml.js", "junit.js" and "tap.js".
 
 Example Using External Plugins:
 ```
