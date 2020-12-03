@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Javascript async="false" continueOnError="false" enabled="true" timeLimit="200" name="JS-SetErrorStatusCode">
+    <!--
+    If an error occur in the ProxyEndpoint pipeline or backend (status code is an error code), the flow gets sent here to be handled by this policy.
+    -->
+    <DisplayName>JS-SetErrorStatusCode</DisplayName>
+    <Properties/>
+    <ResourceURL>jsc://JS-SetErrorStatusCode.js</ResourceURL>
+    <IncludeURL>jsc://JS-CommonFunctions.js</IncludeURL>
+</Javascript>

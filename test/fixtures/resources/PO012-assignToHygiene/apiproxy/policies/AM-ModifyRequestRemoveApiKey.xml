@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-ModifyRequestRemoveApiKey">
+    <!--
+       here you can use this policy to remove, add, set request parameters before sending the request
+       to backend. Here we are just removing x-api-key as it is not needed by backend.
+    -->
+    <DisplayName>AM-ModifyRequestRemoveApiKey</DisplayName>
+    <Properties/>
+    <Remove>
+        <Headers>
+            <Header name="x-api-key"/>
+        </Headers>
+    </Remove>
+    <AssignVariable>
+        <Name>name</Name>
+        <Value/>
+        <Ref/>
+    </AssignVariable>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>

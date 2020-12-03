@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Javascript async="false" continueOnError="false" enabled="true" timeLimit="200" name="JS-ValidateAndSanitizeRequest">
+    <DisplayName>JS-ValidateAndSanitizeRequest</DisplayName>
+    <Properties>
+        <!-- 
+            When the incoming request matches one of the apigee flows, the policy gets the flow name and lookup 
+            the oas3.js to find a matching operationId. When a matching operationId is found, the operation parameters 
+            (Path, Headers, paylod, etc.) is matched with the operation specs.
+            
+            You need to do the below for this policy to work:
+            1. Draft your OpenAPI Specs at https://app.swaggerhub.com/login
+            2. Export specs as JSON (Export ==> Download ==> JSON Resolved)
+            3. Copy and paste into oas3.js as JSON object.
+            4. Publish to developer portal
+            5. Try to send requests to test
+            6. Use ReadyAPI to do security testing
+            
+            Properties are used to adjust checks needed for incoming requests. It is recommended that you check
+             all parts of the request and have the OpenAPI Specs detailed enough for the check to happen.
+              - validateRequestPath: It validates the request path e.g. /media/citizens/63c09a4d-bcb3-4703-a1d0-d8d16370c756
+              - validateRequestQueryParameters: It validates and sanitizes the request query parameter e.g. assetId in /media/citizens/63c09a4d-bcb3-4703-a1d0-d8d16370c756?assetId=John-Appleseed-large.jpg
+              - validateRequestHeaders: It validates and sanitizes request headers e.g. "accept: application/json"
+              - validateRequestCookie: It validates and sanitizes request Cookie. e.g. Cookie header.
+              - validateRequestBody: It validates request body e.g. {"fileName": "mediaAssetFile01.jpg","contentType": "image/png"}
+        -->
+        <!-- Future feature, please do not uncoment
+        <Property name="AllowUnspecifiedHeader">false</Property>
+        <Property name="AllowUnspecifiedQuery">false</Property>
+        <Property name="AllowUnspecifiedCookie">false</Property>
+        
+        -->
+        <Property name="validateCORS">true</Property>
+        <Property name="validateRequestPath">true</Property>
+        <Property name="validateRequestQueryParameters">true</Property>
+        <Property name="validateRequestHeaders">true</Property>
+        <Property name="validateRequestCookie">true</Property>
+        <Property name="validateRequestBody">true</Property>
+    </Properties>
+    <IncludeURL>jsc://oas3.js</IncludeURL>
+    <IncludeURL>jsc://tv4.js</IncludeURL>
+    <IncludeURL>jsc://JS-CommonFunctions.js</IncludeURL>
+    <ResourceURL>jsc://JS-ValidateAndSanitizeRequest.js</ResourceURL>
+</Javascript>

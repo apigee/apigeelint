@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+
+ProxyEndpoint
+=============
+
+The ProxyEndpoint configuration defines the inbound (client-facing) interface for an API proxy. 
+When you configure a ProxyEndpoint, you are setting up a network configuration that defines how client applications ('apps') should invoke the proxied API.
+While you can configure multiple ProxyEndpoints in a single API proxy, it is antipattern and should be avoided as it makes the proxy difficult to read and troubleshoot.
+
+ProxyEndpoint Pipeline can be summarized in the below graph:
+
+Front-End App ===> apigee (PreFlow  (Request)  ==> Flows (Request)  ==> Target-Endpoint(Request))  ==> Backend APIs
+              <=== apigee (PostFlow (Response) <== Flows (Response) <== Target-Endpoint(Response)) <==   
+              
+ProxyEndpoint has the following elements to be configured:
+    - PreFlow: Defines the policies in the PreFlow flow of a request or response.
+    - Flows: Defines the policies in the conditional flows of a request or response.
+    - PostFlow: Defines the policies in the PostFlow flow of a request or response.
+    - DefaultFaultRule: Handles all errors raised by apigee or backend
+    - HTTPProxyConnection: Defines the network address and URI path associated with the API proxy
+        - BasePath: A required string that uniquely identifies the URI path used by Apigee Edge to route incoming messages to the proper API proxy.
+        - VirtualHost: defines which apigee virtual host would be used for this proxy. 
+    - RouteRule: Defines the destination of inbound request messages after processing by the ProxyEndpoint request pipeline. 
+    
+-->
+<ProxyEndpoint name="default">
+    <PreFlow name="PreFlow">
+        <Request>
+            <Step>
+                <Name>SA-ComminSpikeArrest</Name>
+            </Step>
+            <Step>
+                <Name>KV-GetRuntimeConfigFromKVM</Name>
+            </Step>
+            <Step>
+                <Name>JS-ValidateCors</Name>
+            </Step>
+            <Step>
+                <Name>JS-CheckIfUnderMaintenance</Name>
+            </Step>
+            <Step>
+                <Name>JS-SetCorrelationId</Name>
+            </Step>
+        </Request>
+        <Response>
+            <Step>
+                <Name>SC-LogToAPM-Loggly</Name>
+                <Condition>request.verb != "OPTIONS"</Condition>
+            </Step>
+        </Response>
+    </PreFlow>
+    <Flows>
+        <Flow name="OptionsPreFlight">
+            <Request/>
+            <Response>
+                <Step>
+                    <Name>AM-AddCORS</Name>
+                </Step>
+            </Response>
+            <Condition>request.verb == "OPTIONS" AND request.header.origin != null</Condition>
+        </Flow>
+        <!-- flow names need to match exactly the operationId in your OpenAPI Specs -->
+        <Flow name="getProducts">
+            <Description>getProducts is a sample flow and it's name matches the name of the operationId in the OAS3</Description>
+            <Request>
+                <Step>
+                    <Name>VA-VerifyAPIKey</Name>
+                </Step>
+                <Step>
+                    <Name>QA-Quota</Name>
+                </Step>
+                <Step>
+                    <Name>AM-AssignProxyFlowName</Name>
+                </Step>
+                <Step>
+                    <Name>JS-ValidateAndSanitizeRequest</Name>
+                </Step>
+                <Step>
+                    <Name>AM-ModifyRequestRemoveApiKey</Name>
+                </Step>
+            </Request>
+            <Response/>
+            <Condition>(proxy.pathsuffix MatchesPath "/products") and (request.verb = "GET")</Condition>
+        </Flow>
+        <Flow name="UnknownResource">
+            <Description>Used to block requests to unknown resources</Description>
+            <Request>
+                <Step>
+                    <Name>AM-AssignProxyFlowName</Name>
+                </Step>
+                <Step>
+                    <Name>RF-UnknownResource</Name>
+                </Step>
+            </Request>
+            <Response/>
+        </Flow>
+    </Flows>
+    <PostFlow name="PostFlow">
+        <Request/>
+        <Response>
+            <!--
+            Add CORS headers accordingly.
+            -->
+            <Step>
+                <Name>AM-SetCorsSecurityHeaders</Name>
+                <Condition>(api.request.header.origin != null) and (api.request.header.origin != "") and (api.allowedOrigin != null)</Condition>
+            </Step>
+        </Response>
+    </PostFlow>
+    <DefaultFaultRule name="default-fault">
+        <Step>
+            <Name>AM-AddCORS</Name>
+        </Step>
+        <Step>
+            <Name>JS-SetErrorStatusCode</Name>
+        </Step>
+        <Step>
+            <Name>AM-SetCorsSecurityHeaders</Name>
+            <Condition>(api.request.header.origin != null) and (api.request.header.origin != "") and (api.allowedOrigin != null)</Condition>
+        </Step>
+        <AlwaysEnforce>true</AlwaysEnforce>
+    </DefaultFaultRule>
+    <HTTPProxyConnection>
+        <!-- update the base path accordingly. basepath need to have it's prefix the same as your team prefix and the rest is up to you based on your naming conventions -->
+        <BasePath>/v1/singularity</BasePath>
+        <VirtualHost>secure</VirtualHost>
+        <VirtualHost>default</VirtualHost>
+    </HTTPProxyConnection>
+    <RouteRule name="noTarget">
+        <Condition>request.verb = "OPTIONS"</Condition>
+    </RouteRule>
+    <RouteRule name="default">
+        <TargetEndpoint>default</TargetEndpoint>
+    </RouteRule>
+</ProxyEndpoint>
