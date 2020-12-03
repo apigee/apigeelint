@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Javascript async="false" continueOnError="false" enabled="true" timeLimit="200" name="JS-CheckIfUnderMaintenance">
+    <DisplayName>JS-CheckIfUnderMaintenance</DisplayName>
+    <Properties>
+        <!-- 
+            /*
+             * Under Maintenance Policy
+             *
+             */
+            In some certain scenarios you would have to put your entire microservice (Proxy),
+            one or more API under maintenance. Being under maintenance means that you won't 
+            send the request to backend API and you would return back a message to front-end 
+            app (Mobile or Web) with custom message and http status code that can be configured in KVM.
+            Possible Scnarios:
+            1. Data leak
+            2. RMS maintenance schedule
+            
+            Sample Configuration of UnderMaintenance looks like following.
+            {
+                "proxyUnderMaintenance": false,
+                "proxyUnderMaintenanceResponseCode": 503,
+                "proxyUnderMaintenanceResponsePayload": "{\"message\": \"Service is Under Maintenance.. \"}",
+                "endpointsUndermaintenance": [{
+                   "pathSuffixRE": "^/rego/citizens/*$",
+                   "httpVerb": "GET",
+                   "httpResponseCode": 503,
+                   "responseContent": "{\"message\": \"This service in under maintenance, will be back soon.. \"}"
+                }]
+            }
+            
+            configuring proxyUnderMaintenance, proxyUnderMaintenanceResponseCode and proxyUnderMaintenanceResponsePayload
+            would put the entire proxy under maintenance and send a custom http status code and JSON payload with custom message
+            
+            You can add an entry to endpointsUndermaintenance array to put one API path under maintenance. pathSuffixRE is a fully featured
+            regular expression to match the request.path in the request message. If pathSuffixRE and httpVerb match request.path and 
+            request.verb then apigee would respond back with an http status code in httpResponseCode and payload in responseContent.
+            
+            Properties are used to pass on the variable that contains Under Maintenance State Config
+             api.UnderMaintenanceStateConfig.payload is a variable assigned by KV-GetRuntimeConfigFromKVM policy
+             the variable value is extracted from KVM
+        -->
+        <Property name="UnderMaintenanceStateVariable">api.UnderMaintenanceStateConfig.payload</Property>
+    </Properties>
+    <ResourceURL>jsc://JS-CheckIfUnderMaintenance.js</ResourceURL>
+    <IncludeURL>jsc://JS-CommonFunctions.js</IncludeURL>
+</Javascript>

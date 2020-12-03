@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+This policy gets executed if a request comes in with a resource id (path) and http verb that doesn't match any of the supported verbs by the ProxyEndPoint flows.
+-->
+<RaiseFault async="false" continueOnError="false" enabled="true" name="RF-UnknownResource">
+    <DisplayName>RF-UnknownResource</DisplayName>
+    <Properties/>
+    <FaultResponse>
+        <Set>
+            <Headers/>
+            <Payload contentType="application/json">
+{
+    "code":"UnknownResource",
+    "message":"request path {request.path} is unknown as it didn't match any of the paths in any of the flows for this proxy",
+    "source":"apigeePolicy",
+    "sourceName":"UnknownResource apigee flow condition"
+}
+            </Payload>
+            <StatusCode>404</StatusCode>
+        </Set>
+    </FaultResponse>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>

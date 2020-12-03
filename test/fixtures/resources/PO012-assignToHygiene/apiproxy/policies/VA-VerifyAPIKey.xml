@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<VerifyAPIKey async="false" continueOnError="false" enabled="true" name="VA-VerifyAPIKey">
+    <!--
+    API key is the basic for of authentciation to identify an app. You have options:
+    1. Send x-api-key in the request so that apigee can authenticate and identify the app (basic entry level authentication)
+        - recommended for SPA (Single Page) Apps
+    -->
+    <DisplayName>VA-VerifyAPIKey</DisplayName>
+    <APIKey ref="request.header.x-api-key"/>
+</VerifyAPIKey>

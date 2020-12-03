@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Javascript async="false" continueOnError="false" enabled="true" timeLimit="200" name="JS-ValidateCors">
+    <!--
+    This policy validates CORS by checking origin header in the http request against
+    a whitelist of allowed domains in KVM and if not match is found it raises an error.
+    If a match is found the flow goes on till in the response flow (fault or PostFlow), the AM-SetCorsSecurityHeaders is executed 
+    to add the CORS response headers accordingly.
+    
+    You need to configure KVM with the below run-time variables:
+    - ALLOWED_CORS_DOMAINS
+    - ALLOWED_CORS_HEADERS
+    - ALLOWED_CORS_METHODS
+    
+    Your proxy must have Cors enabled to support Developer Portal OpenAPI Specs to make Ajax calls to your proxy microservice.
+    
+    -->
+    <DisplayName>JS-ValidateCors</DisplayName>
+    <Properties>
+        <Property name="allowedCorsDomainsVariable">api.ALLOWED_CORS_DOMAINS</Property>
+    </Properties>
+    <ResourceURL>jsc://JS-ValidateCors.js</ResourceURL>
+    <IncludeURL>jsc://JS-CommonFunctions.js</IncludeURL>
+</Javascript>

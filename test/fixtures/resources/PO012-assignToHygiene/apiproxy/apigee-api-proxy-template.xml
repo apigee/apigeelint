@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="2" name="apigee-api-proxy-template">
+    <Basepaths>/apigee-api-proxy-template</Basepaths>
+    <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+    <CreatedAt>1605762724932</CreatedAt>
+    <CreatedBy>guppratik@gmail.com</CreatedBy>
+    <Description></Description>
+    <DisplayName>apigee-api-proxy-template</DisplayName>
+    <LastModifiedAt>1605772666479</LastModifiedAt>
+    <LastModifiedBy>guppratik@gmail.com</LastModifiedBy>
+    <ManifestVersion>SHA-512:d2db564c74c59d315b24d2332909711c2b52c04d5e8944b82a3182638e70177a5b5b447d7cec68db7d9943f7061f00f0d42c99c17c10e8cea8747f3c40c8840f:ap-southeast-2</ManifestVersion>
+    <Policies>
+        <Policy>AM-AddCORS</Policy>
+        <Policy>AM-AssignProxyFlowName</Policy>
+        <Policy>AM-ModifyRequestRemoveApiKey</Policy>
+        <Policy>AM-SetCorsSecurityHeaders</Policy>
+        <Policy>JS-CheckIfUnderMaintenance</Policy>
+        <Policy>JS-SetCorrelationId</Policy>
+        <Policy>JS-SetErrorStatusCode</Policy>
+        <Policy>JS-ValidateAndSanitizeRequest</Policy>
+        <Policy>JS-ValidateCors</Policy>
+        <Policy>KV-GetRuntimeConfigFromKVM</Policy>
+        <Policy>QA-Quota</Policy>
+        <Policy>RF-UnknownResource</Policy>
+        <Policy>SA-ComminSpikeArrest</Policy>
+        <Policy>SC-LogToAPM-Loggly</Policy>
+        <Policy>VA-VerifyAPIKey</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources>
+        <Resource>jsc://JS-CheckIfUnderMaintenance.js</Resource>
+        <Resource>jsc://JS-ClientIPAccessControl.js</Resource>
+        <Resource>jsc://JS-CommonFunctions.js</Resource>
+        <Resource>jsc://JS-SetCorrelationId.js</Resource>
+        <Resource>jsc://JS-SetErrorStatusCode.js</Resource>
+        <Resource>jsc://JS-ValidateAndSanitizeRequest.js</Resource>
+        <Resource>jsc://JS-ValidateCors.js</Resource>
+        <Resource>jsc://oas3.js</Resource>
+        <Resource>jsc://tv4.js</Resource>
+    </Resources>
+    <Spec></Spec>
+    <TargetServers/>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+</APIProxy>

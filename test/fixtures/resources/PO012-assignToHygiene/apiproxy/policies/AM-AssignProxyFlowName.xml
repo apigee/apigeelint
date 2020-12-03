@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+ Proxy Flow Name could change while the request is going through the ProxyEndpoint Pipeline, so here we are taking a copy of it as 
+ we would use it in some steps of the ProxyEndpoint pipeline later
+-->
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-AssignProxyFlowName">
+    <AssignVariable>
+        <Name>api.proxyFlowName</Name>
+        <Ref>current.flow.name</Ref>
+    </AssignVariable>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>
