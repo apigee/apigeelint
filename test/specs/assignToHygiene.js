@@ -66,6 +66,7 @@ describe(`PO012 - AssignToHygiene`, () => {
         assert.equal(policyItems.length, 1);
         let po012Messages = policyItems[0].messages.filter( m => m.ruleId == 'PO012');
         assert.equal(po012Messages.length, expected[policyName].length);
+        po012Messages.forEach( (m, ix) => assert.equal(m.severity, 1));
 
         expected[policyName].forEach( (item, ix) => {
           Object.keys(item).forEach( key => {
