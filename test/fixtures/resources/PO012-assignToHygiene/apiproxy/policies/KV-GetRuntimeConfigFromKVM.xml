@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+This policy retrieves run-time variables from KVM so that other policies can read them and function preoperly.
+the idea behind having run-time variables is just to make changes to the proxy config change rather than development change.
+this in turn increases efficiency.
+-->
+<KeyValueMapOperations async="false" continueOnError="false" enabled="true" mapIdentifier="proxyTemplate-config" name="KV-GetRuntimeConfigFromKVM">
+    <DisplayName>KV-GetRuntimeConfigFromKVM</DisplayName>
+    <Properties/>
+    <ExpiryTimeInSecs>300</ExpiryTimeInSecs>
+    <Get assignTo="api.UnderMaintenanceStateConfig.payload">
+        <Key>
+            <Parameter>UnderMaintenanceStateConfig</Parameter>
+        </Key>
+    </Get>
+    <Get assignTo="api.ALLOWED_CORS_DOMAINS">
+        <Key>
+            <Parameter>ALLOWED_CORS_DOMAINS</Parameter>
+        </Key>
+    </Get>
+    <Get assignTo="api.ALLOWED_CORS_HEADERS">
+        <Key>
+            <Parameter>ALLOWED_CORS_HEADERS</Parameter>
+        </Key>
+    </Get>
+    <Get assignTo="api.ALLOWED_CORS_METHODS">
+        <Key>
+            <Parameter>ALLOWED_CORS_METHODS</Parameter>
+        </Key>
+    </Get>
+    <Scope>environment</Scope>
+</KeyValueMapOperations>

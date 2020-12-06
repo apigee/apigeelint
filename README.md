@@ -118,8 +118,8 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_medium_square:| PO009 | Service Callout Target - Mgmt Server |  Targeting management server may result in higher than expected latency use with caution. |
 | &nbsp; |:white_medium_square:| PO010 | Service Callout Target - Target Server |  Encourage use of target servers. |
 | &nbsp; |:white_medium_square:| PO011 | Service Callout Target - Dynamic URLs |  Error on dynamic URLs in target server URL tag. |
-| &nbsp; |:white_medium_square:| PO012 | Service Callout Target - Script Target Node |  Not implemented. |
-| &nbsp; |:white_check_mark:| PO013 | Resource files - Javascript |  Run JSHint on .js, .jsc, or .json files in the resources directory. Supports .jshintrc and .jshintignore files. |
+| &nbsp; |:white_check_mark:| PO012 | AssignMessage/AssignTo | Warn on unnecessary AssignTo in AssignMessage when createNew is false and no destination variable. |
+| &nbsp; |:white_check_mark:| PO013 | Resource Call Out - Javascript |  JSHint, ESLint. |
 | &nbsp; |:white_medium_square:| PO014 | Resource Call Out - Java |  PMD, Checkstyle. |
 | &nbsp; |:white_medium_square:| PO015 | Resource Call Out - Python |  Pylint. |
 | &nbsp; |:white_medium_square:| PO016 | Statistics Collector - duplicate variables |  Warn on duplicate variables. |

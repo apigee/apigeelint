@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-SetCorsSecurityHeaders">
+    <DisplayName>AM-SetCorsSecurityHeaders</DisplayName>
+    <Properties/>
+    <Set>
+        <Headers>
+            <Header name="Access-Control-Allow-Origin">{api.allowedOrigin}</Header>
+            <Header name="Access-Control-Allow-Headers">{api.ALLOWED_CORS_HEADERS}</Header>
+            <Header name="Access-Control-Allow-Credentials">true</Header>
+            <Header name="Access-Control-Max-Age">3628800</Header>
+            <Header name="Access-Control-Allow-Methods">{api.ALLOWED_CORS_METHODS}</Header>
+        </Headers>
+    </Set>
+    <Remove>
+        <Headers>
+            <Header name="Access-Control-Request-Headers"/>
+            <Header name="Access-Control-Request-Method"/>
+            <Header name="origin"/>
+            <Header name="User-Agent"/>
+            <Header name="X-Forwarded-For"/>
+            <Header name="X-Forwarded-Port"/>
+            <Header name="X-Forwarded-Proto"/>
+            <Header name="Transfer-Encoding"/>
+            <Header name="Server"/>
+        </Headers>
+    </Remove>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="response"/>
+</AssignMessage>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Manifest name="manifest">
+    <Policies>
+        <VersionInfo resourceName="AM-AddCORS" version="SHA-512:08f6aa58c5f3df6f07b25c66975e9ac2c8a0f274de98510cb3fd92b4ee6c3c15f68486e03348aed7a595122c3296d09aff31c7fed71b041f81079f9e816e21e4"/>
+        <VersionInfo resourceName="AM-AssignProxyFlowName" version="SHA-512:53412190faf6053179ec3e6f5874c1d09e2a1411e180cb965846b10b2d8e233334ff65a0972721b52e3fe62c39c59ac8db6bc211a78ba7690a7b7a75bd9b95a5"/>
+        <VersionInfo resourceName="AM-ModifyRequestRemoveApiKey" version="SHA-512:1d5809979d2c25c8c706bd6971426c2185df878985df0763d815e921adfe2e1b61b1bbc30935ac87aa8a24db0c4fb11335e528be09baacfcd0e5c01a859c286d"/>
+        <VersionInfo resourceName="AM-SetCorsSecurityHeaders" version="SHA-512:b4e7d4564e003a1c011a4d6027955f250f1560b98fadbbc3efb49b1decbe037987efda998eca689f7a374429b973d65d05ea5ecb3fff2d95082520f5b6fd165f"/>
+        <VersionInfo resourceName="JS-CheckIfUnderMaintenance" version="SHA-512:a0b5edef3d3fe6f65104d551483a5babe6141ab7a3df25d109d1f595738e8df352d6326923dcd2d47b2b0f48cdb523d57f87de631b47c271d2caef7ccbbd0199"/>
+        <VersionInfo resourceName="JS-SetCorrelationId" version="SHA-512:5c56e2110e7eae0e651f2ce1f8383b04332e17caf053e97d728dc572172fd276633442d4a32afe6628ddd407415900f1d0eec6beb330bf00c927bfe4291a4e95"/>
+        <VersionInfo resourceName="JS-SetErrorStatusCode" version="SHA-512:df84b743eaf468b8299f47b093c7b477b4449cffa869252099a60ba4edf2293a2316fa1b80438dc5ce1905db4b9c0ceaac0035799c78bb689ac014d389c78d1c"/>
+        <VersionInfo resourceName="JS-ValidateAndSanitizeRequest" version="SHA-512:aafa784b96b66ae8ca650ad9ce0f08665d68abd33aef3b943869fcba78ae5af27ea6ba76210ce9c063298eb7d1220a21a6a6a1f8a1d919ba4349be7973ac2a65"/>
+        <VersionInfo resourceName="JS-ValidateCors" version="SHA-512:3800d50c3d9e519ced17a1fd518ca37aa6bde921923496d34e742f7cc5d36d7100bda808087b915ec54cda47d166e743db7051bfb9dc016fae3bf53c9c57543b"/>
+        <VersionInfo resourceName="KV-GetRuntimeConfigFromKVM" version="SHA-512:00bf91be73dca916f5114c91c425eafa991a615e016b60e78b4c252c212fa763c83d168df1c3854cb2f9124f3e51b912103e2c5e4c9098ce9d193dde2ae00412"/>
+        <VersionInfo resourceName="QA-Quota" version="SHA-512:eaad815db855abe915ea5fba62d1cebbf7157e813c65cf63c4faece7e4eb429acb488ec045fdf6de95ce902feac383769118655d584cf743e489e0309a95a151"/>
+        <VersionInfo resourceName="RF-UnknownResource" version="SHA-512:7c055976f7312652bd3e141ef2847cf78352df77d3a89f2a75b0e49b9880b8c490b1944ed42109a2d70435e648d9bad95f04e920d4daf407c68dd9af2624d7bb"/>
+        <VersionInfo resourceName="SA-ComminSpikeArrest" version="SHA-512:885d8a3a82bb409eb13e43569191a539e7f3ef14d490611587adfecbafa1778fec7853b5900deade66190d50a82a39d2811d842430e9d10ae5111439eb9c713b"/>
+        <VersionInfo resourceName="SC-LogToAPM-Loggly" version="SHA-512:e8594310edbe5c0aa10f4ec1b5ca1c5a8e5b0472851336d555c4203c37d73926db267e60b980006e15a1af5f6181151272f3574384a9d1a3102968ed80d9f9c9"/>
+        <VersionInfo resourceName="VA-VerifyAPIKey" version="SHA-512:6af26c06929b33fa7bf81e981cd6123bf8b413a38619bc8b0d12b350a0ebb243d39b673ae28c40bac002418abdd1b4cebf91150c0122c7b29a9cdf374a670953"/>
+    </Policies>
+    <ProxyEndpoints>
+        <VersionInfo resourceName="default" version="SHA-512:26447dbac1f1cf3e91159c12842651d0159ff7c252a443e94a36033f6787c5c80d8bda1558140885a7fb74c14d060f913f6217aa6dc830739ec0fa4a2480a92c"/>
+    </ProxyEndpoints>
+    <Resources>
+        <VersionInfo resourceName="jsc://JS-CheckIfUnderMaintenance.js" version="SHA-512:13e48006ae7120d72e149f08a7b477b95214a1e5fae70489b5cbd0ae83a26d320fc4e1a14a12af8ab5a39b1992ee7369307a12b29fa5cb5758d086683940c4bc"/>
+        <VersionInfo resourceName="jsc://JS-ClientIPAccessControl.js" version="SHA-512:6e5ce492ae238a7a458b6c01a9997d4f8f697a44ed2ff962edf42c8420e9a0deac9d1d17ff0c8e9fc058cd2dfceaec0885b4e8bc30d958a639c409a456b6541b"/>
+        <VersionInfo resourceName="jsc://JS-CommonFunctions.js" version="SHA-512:dae2e4912e63a2b1c00d70080ab5951614ddc9393fd7b9bedb9883f56fa6af3d90518849982507cc833b7a31c171c076788515cfb6adcb5d6d3eb002c25611ab"/>
+        <VersionInfo resourceName="jsc://JS-SetCorrelationId.js" version="SHA-512:d8aca5978b95eb0933ca6014132c55df95f6a465d1c39aba4d926d77aa8bebbd82c5ab6a17e13da881ce8e852819fc3c5ba3953beabe82c5efea3f4d3015bd14"/>
+        <VersionInfo resourceName="jsc://JS-SetErrorStatusCode.js" version="SHA-512:0f360c31d0226485c750ccaae167680ee488b9cd854719223907f804bb917ad732222a66965e854b83e17149416f322e5fea25e0bf06ad33fc5416922a974d8a"/>
+        <VersionInfo resourceName="jsc://JS-ValidateAndSanitizeRequest.js" version="SHA-512:00239e60f0425302b0905841d15e851c12bc4c0c76d87f4b733e0e6121978ffaac63847519bdb7cab46ba615d1677588d189e706d3fc7f2c92dc7a8fdac750a0"/>
+        <VersionInfo resourceName="jsc://JS-ValidateCors.js" version="SHA-512:977de856d75c1656ccd97bb9675a24755bb623e0e61aed3fc87392aff2a01050d835c7a251a2c9dd62ca97b38ff905ad8ddc6b0b2066635b9aebf58a0578a7c9"/>
+        <VersionInfo resourceName="jsc://oas3.js" version="SHA-512:9112234be178d9cae331d65c20e90ac3dff42766bcdba153f133cb53ba1f2426b5cccf36bdaaa26a320525c86dea9220f26c8bb109b823e8dfc2721bdc13a266"/>
+        <VersionInfo resourceName="jsc://tv4.js" version="SHA-512:1d4d85ea78e9c0c7a5b0740760bef612037686f0c7d67a1dfa493be8cf42060edafbc0a553b112aa564c13f7d6b108c35499af367704d3bf005d04ef3cccdb4d"/>
+    </Resources>
+    <SharedFlows/>
+    <TargetEndpoints>
+        <VersionInfo resourceName="default" version="SHA-512:1c1620ee98f71b9b00d21e8ac6d60abc0ed0da3a7024d9217c7c127b65205635483cd1370ceec55eb2096ffd690eb15238b5c5480c89245243830b271d32caca"/>
+    </TargetEndpoints>
+</Manifest>

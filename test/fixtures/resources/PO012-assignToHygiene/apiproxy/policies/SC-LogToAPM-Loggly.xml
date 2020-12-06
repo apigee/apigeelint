@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ServiceCallout async="false" continueOnError="false" enabled="true" name="SC-LogToAPM-Loggly">
+    <DisplayName>SC-LogToAPM-Loggly</DisplayName>
+    <Properties/>
+    <Request variable="myRequest">
+        <Set>
+            <Headers>
+                <Header name="content-type">application/json</Header>
+            </Headers>
+            <Payload contentType="application/json" variablePrefix="@" variableSuffix="#">
+               {"event":{"api":"@apiproxy.name#","version":"@apiproxy.revision#","clientIP":"@client.ip#","targetServerIP":"@target.ip#","env":"@environment.name#","verb":"@request.verb#","status":"@message.status.code#","uri":"@request.uri#","client_received_start_timestamp":"@client.received.start.timestamp#","target_received_end_timestamp":"@target.received.end.timestamp#","target_sent_end_timestamp":"@target.sent.end.timestamp#","system_timestamp":"@system.timestamp#","targetServerHost":"@target.host#"}}
+            </Payload>
+        </Set>
+    </Request>
+    <Response>calloutResponse</Response>
+    <HTTPTargetConnection>
+        <URL>http://logs-01.loggly.com/inputs/cc8b2e23-2ea0-42f8-929e-6da71e05ba59/tag/http/</URL>
+        <!--Loggly offers a one month free trial , there are chances that this service call out may fail 
+        after 30 days , hence we would be treating failure call as a successful so as not to break the flow-->
+        <Properties>
+            <Property name="success.codes">1xx,2xx,3xx,401,403,400,500</Property>
+        </Properties>
+    </HTTPTargetConnection>
+</ServiceCallout>
