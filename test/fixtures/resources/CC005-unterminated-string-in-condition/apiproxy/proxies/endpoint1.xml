@@ -1,0 +1,63 @@
+<ProxyEndpoint name="endpoint1">
+  <Description>Proxy Endpoint 1</Description>
+  <HTTPProxyConnection>
+    <BasePath>/CC005-unterminated-string-in-conditional</BasePath>
+    <Properties/>
+    <VirtualHost>secure</VirtualHost>
+  </HTTPProxyConnection>
+
+  <FaultRules/>
+
+  <PreFlow name="PreFlow">
+      <Request>
+        <Step>
+          <Name>AM-Response</Name>
+          <!-- error, unterminated string in simple statement -->
+          <Condition>request.verb = "OPTIONS</Condition>
+        </Step>
+      </Request>
+  </PreFlow>
+  <PostFlow name="PostFlow"/>
+  <PostClientFlow name="PostFlow"/>
+
+  <Flows>
+
+    <Flow name="flow1">
+      <Request>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AM-Response</Name>
+        </Step>
+      </Response>
+      <!-- error, unterminated string within parens -->
+      <Condition>(proxy.pathsuffix MatchesPath "/t1) and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow2">
+      <Request>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AM-Response</Name>
+        </Step>
+      </Response>
+      <!-- error, unterminated string in compound statement -->
+      <Condition>proxy.pathsuffix MatchesPath "/t2 and request.verb = "GET"</Condition>
+    </Flow>
+
+    <Flow name="unknown request">
+      <Request>
+        <Step>
+          <Name>RF-UnknownRequest</Name>
+        </Step>
+      </Request>
+      <Response>
+      </Response>
+    </Flow>
+
+  </Flows>
+
+  <RouteRule name="NoRouteRule"/>
+
+</ProxyEndpoint>
