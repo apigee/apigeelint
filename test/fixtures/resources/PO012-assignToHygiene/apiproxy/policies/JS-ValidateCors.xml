@@ -2,7 +2,7 @@
 <Javascript async="false" continueOnError="false" enabled="true" timeLimit="200" name="JS-ValidateCors">
     <!--
     This policy validates CORS by checking origin header in the http request against
-    a whitelist of allowed domains in KVM and if not match is found it raises an error.
+    a list of allowed domains in KVM and if not match is found it raises an error.
     If a match is found the flow goes on till in the response flow (fault or PostFlow), the AM-SetCorsSecurityHeaders is executed 
     to add the CORS response headers accordingly.
     
