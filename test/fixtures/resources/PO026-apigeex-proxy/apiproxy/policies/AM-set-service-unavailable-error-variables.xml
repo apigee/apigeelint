@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-set-service-unavailable-error-variables">
+    <DisplayName>AM-set-service-unavailable-error-variables</DisplayName>
+    <Properties/>
+    <Set>
+        <Payload contentType="application/json">
+{
+    "fault": {
+        "faultstring": "Simulated The Service is temporarily unavailable",
+        "detail": {
+            "errorcode": "com.apigee.transport.errors.HttpAdaptorException"
+        }
+    }
+}
+</Payload>
+    </Set>
+    <AssignVariable>
+        <Name>flow.error.code</Name>
+        <Value>100000</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>flow.error.message</Name>
+        <Value>Service is currently not available</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>flow.error.info</Name>
+        <Value>https://developer.mycompany.com/docs</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>flow.error.detail</Name>
+        <Value>Service is temporarily unavailable.</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>flow.error.status</Name>
+        <Value>503</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>flow.error.reason</Name>
+        <Value>Service Unavailable</Value>
+    </AssignVariable>
+    <Set/>
+</AssignMessage>

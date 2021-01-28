@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<TargetEndpoint name="default">
+    <Description/>
+    <FaultRules>
+        <FaultRule name="service-unavailable">
+            <Condition>(message.status.code &gt;= 500)</Condition>
+            <Step>
+                <FaultRules/>
+                <Name>AM-set-service-unavailable-error-variables</Name>
+            </Step>
+        </FaultRule>
+    </FaultRules>
+    <PreFlow name="PreFlow">
+        <Request>
+            <Step>
+                <Name>AM-target-headers</Name>
+            </Step>
+        </Request>
+        <Response/>
+    </PreFlow>
+    <PostFlow name="PostFlow">
+        <Request/>
+        <Response/>
+    </PostFlow>
+    <Flows>
+        <Flow name="status">
+            <Request>
+                <Step>
+                    <Name>AM-set-get-status-pathsuffix</Name>
+                </Step>
+            </Request>
+            <Response/>
+            <Condition>(proxy.pathsuffix MatchesPath "/status") and (request.verb = "GET")</Condition>
+        </Flow>
+    </Flows>
+    <HTTPTargetConnection>
+        <LoadBalancer>
+            <Server name="pingstatus-v1"/>
+        </LoadBalancer>
+        <Path>{private.flow.target.basepath}/{flow.target.pathsuffix}</Path>
+    </HTTPTargetConnection>
+</TargetEndpoint>

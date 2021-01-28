@@ -33,8 +33,8 @@ program
   // .option("-o, --organization [value]", "Apigee organization")
   .option("-x, --externalPluginsDirectory [value]", "Relative or full path to an external plugins directory")
   .option("--list", "do not execute, instead list the available plugins and formatters")
-  .option("--maxWarnings [value]", "Number of warnings to trigger nonzero exit code - (default: -1)")
-  .option("--profile [value]", "One of apigee, apigeex, opdk - (default: apigee)");
+  .option("--maxWarnings [value]", "Number of warnings to trigger nonzero exit code (default: -1)")
+  .option("--profile [value]", "Either apigee or apigeex (default: apigee)");
 
 program.on("--help", function() {
   console.log("\nExample: apigeelint -s sampleProxy/ -f table.js");
@@ -85,7 +85,6 @@ if (program.write) {
 if (program.profile) {
   configuration.profile = program.profile;
 }
-exports.configuration = configuration;
 
 bl.lint(configuration);
 

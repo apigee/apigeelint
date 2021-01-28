@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-set-proxy-default-error-vars">
+    <DisplayName>AM-set-proxy-default-error-vars</DisplayName>
+    <Properties/>
+    <AssignVariable>
+        <Name>flow.error.code</Name>
+        <Value>500.000.000</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>flow.error.description</Name>
+        <Value>Unknown server error</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>flow.error.status</Name>
+        <Value>500</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>flow.error.reason</Name>
+        <Value>Server Error</Value>
+    </AssignVariable>
+</AssignMessage>

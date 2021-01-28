@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-create-ping-response">
+    <DisplayName>AM-create-ping-response</DisplayName>
+    <Properties/>
+    <Set>
+        <Payload contentType="application/json">
+{
+    "organization": "{organization.name}",
+    "environment": "{environment.name}",
+    "region":"{system.region.name}",
+    "pod":"{system.pod.name}",
+    "messageId":"{messageid}",
+    "messageProcessor":"{system.uuid}",
+    "application": "{verifyapikey.VA-header.developer.app.name}",
+    "product": "{verifyapikey.VA-header.apiproduct.name}",
+    "apiproxy": "{apiproxy.name}",
+    "apiproxyRevision": "{apiproxy.revision}",
+    "basepath": "{proxy.basepath}",
+    "suffix": "{proxy.pathsuffix}",
+    "client": "{client.host}",
+    "time": "{system.time}",
+    "latency": {total_request_time},
+    "message":"PONG"
+}
+</Payload>
+        <StatusCode>200</StatusCode>
+        <ReasonPhrase>OK</ReasonPhrase>
+    </Set>
+</AssignMessage>
