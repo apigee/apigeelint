@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RaiseFault async="false" continueOnError="false" enabled="true" name="RF-path-suffix-not-found">
+    <DisplayName>RF-path-suffix-not-found</DisplayName>
+    <FaultResponse>
+        <Set>
+            <Headers/>
+            <Payload contentType="text/plain">Resource not found at {proxy.pathsuffix}</Payload>
+            <StatusCode>404</StatusCode>
+            <ReasonPhrase>RF-path-suffix-not-found</ReasonPhrase>
+        </Set>
+    </FaultResponse>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>

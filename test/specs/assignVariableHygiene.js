@@ -42,7 +42,7 @@ describe(`PO026 - AssignVariableHygiene`, () => {
                 column: 3
               },
               {
-                message: "You should have at least one of: {Ref, Value, Template}",
+                message: "You should have at least one of: {Ref,Value,Template}",
                 line: 8,
                 column: 3
               },
@@ -52,7 +52,7 @@ describe(`PO026 - AssignVariableHygiene`, () => {
                 column: 10
               },
               {
-                message: "empty AssignVariable. Should have a Name child, and at least one of {Ref, Template, Value}.",
+                message: "empty AssignVariable. Should have a Name child, and at least one of {Ref,Value,Template}.",
                 line: 18,
                 column: 3
               },

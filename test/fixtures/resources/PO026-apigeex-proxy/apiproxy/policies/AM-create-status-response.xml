@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-create-status-response">
+    <DisplayName>AM-create-status-response</DisplayName>
+    <Properties/>
+    <Set>
+        <Headers>
+            <Header name="Content-Type">application/json</Header>
+        </Headers>
+        <Payload contentType="application/json">
+{
+    "organization": "{organization.name}",
+    "environment": "{environment.name}",
+    "region":"{system.region.name}",
+    "pod":"{system.pod.name}",
+    "messageId":"{messageid}",
+    "messageProcessor":"{system.uuid}",
+    "application": "{verifyapikey.VA-header.developer.app.name}",
+    "product": "{verifyapikey.VA-header.apiproduct.name}",
+    "apiproxy": "{apiproxy.name}",
+    "apiproxyRevision": "{apiproxy.revision}",
+    "basepath": "{proxy.basepath}",
+    "suffix": "{proxy.pathsuffix}",
+    "client": "{client.host}",
+    "time": "{system.time}",
+    "proxyLatency": {total_client_time},
+    "targetLatency": {total_target_time},
+    "latency": {total_request_time},
+    "message":"STATUS",
+    "targetResponse": {
+        "headers":{
+            "X-CorrelationId":"{response.header.X-Correlation-ID}"
+        },
+        "content":{response.content}
+    }
+}
+</Payload>
+        <StatusCode>200</StatusCode>
+        <ReasonPhrase>OK</ReasonPhrase>
+    </Set>
+</AssignMessage>

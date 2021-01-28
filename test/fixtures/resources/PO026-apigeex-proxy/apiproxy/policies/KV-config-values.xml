@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<KeyValueMapOperations async="false" continueOnError="false" enabled="false" name="KV-config-values" mapIdentifier="pingstatus-v1">
+    <DisplayName>KV-config-values</DisplayName>
+    <Properties/>
+    <ExpiryTimeInSecs>60</ExpiryTimeInSecs>
+    <Get assignTo="private.flow.target.basepath" index="1">
+        <Key>
+            <Parameter>target.basepath</Parameter>
+        </Key>
+    </Get>
+    <!-- These override the values used by GetLogValues -->
+    <!--
+    <Get assignTo="logging.log" index="1">
+        <Key>
+            <Parameter>logging.log</Parameter>
+        </Key>
+    </Get>
+    <Get assignTo="logging.level" index="1">
+        <Key>
+            <Parameter>logging.level</Parameter>
+        </Key>
+    </Get>
+    -->
+    <Scope>environment</Scope>
+</KeyValueMapOperations>

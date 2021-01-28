@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-target-headers">
+    <DisplayName>AM-target-headers</DisplayName>
+    <Properties/>
+    <Set>
+        <Headers>
+            <Header name="X-Correlation-ID">{messageid}</Header>
+        </Headers>
+    </Set>
+</AssignMessage>
