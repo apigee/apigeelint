@@ -44,7 +44,7 @@ describe(`PO026 - AssignVariable in RaiseFault`, () => {
     assert.ok(p.getReport().messages, "messages undefined");
     assert.equal(p.getReport().messages.length, 1, "unexpected number of messages");
     assert.ok(p.getReport().messages[0].message, 'did not find message member');
-    assert.equal(p.getReport().messages[0].message, 'You should have at least one of: {Ref, Value, Template}');
+    assert.equal(p.getReport().messages[0].message, 'You should have at least one of: {Ref,Value,Template}');
   });
 
 });
