@@ -1,0 +1,14 @@
+<RaiseFault name='RF-Example-TextPlain-Invalid'>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <FaultResponse>
+    <AssignVariable>
+      <Name>myFaultVariable</Name>
+      <!-- <Value>whatever-you-like</Value> -->
+    </AssignVariable>
+    <Set>
+      <Payload contentType='text/plain'>error</Payload>
+      <StatusCode>400</StatusCode>
+      <ReasonPhrase>Bad Request</ReasonPhrase>
+    </Set>
+  </FaultResponse>
+</RaiseFault>
