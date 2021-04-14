@@ -3,6 +3,7 @@
     <DisplayName>AM-config-properties</DisplayName>
     <AssignVariable>
         <Name>private.flow.target.basepath</Name>
+        <Value>/default/value/here</Value>
         <PropertySetRef>{apiproxy.name}.target_basepath</PropertySetRef>
     </AssignVariable>
     <!--
@@ -19,7 +20,7 @@
         <Name>property.logging_url</Name>
         <PropertySetRef>{apiproxy.name}.logging_url</PropertySetRef>
     </AssignVariable>
-    <!-- debug apigeelint 
+    <!-- debug apigeelint
     <AssignVariable>
         <Value>property.flow.target_basepath</Value>
         <PropertySetRef>{apiproxy.name}.target_basepath</PropertySetRef>
