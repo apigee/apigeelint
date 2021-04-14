@@ -32,12 +32,13 @@ Usage: apigeelint [options]
 Options:
   -V, --version                           output the version number
   -s, --path <path>                       Path of the proxies
-  -f, --formatter [value]                 Specify formatters (default json.js)
+  -f, --formatter [value]                 Specify formatters (default: json.js)
   -w, --write [value]                     file path to write results
   -e, --excluded [value]                  The comma separated list of tests to exclude (default: none)
   -x, --externalPluginsDirectory [value]  Relative or full path to an external plugins directory
   --list                                  do not execute, instead list the available plugins and formatters
-  --maxWarnings [value]                   Number of warnings to trigger nonzero exit code - default: -1
+  --maxWarnings [value]                   Number of warnings to trigger nonzero exit code (default: -1)
+  --profile [value]                       Either apigee or apigeex (default: apigee)
   -h, --help                              output usage information
 ```
 Example:

@@ -1,0 +1,35 @@
+<APIProxy revision="34" name="pingstatus-v1">
+    <DisplayName>pingstatus-v1</DisplayName>
+    <Description>commit none from branch local by test-service-account@ngsaas-5g-kurt.iam.gserviceaccount.com</Description>
+    <CreatedAt>1610482838896</CreatedAt>
+    <LastModifiedAt>1610482838896</LastModifiedAt>
+    <BasePaths>/pingstatus/v1</BasePaths>
+    <Policies>
+        <Policy>AM-create-ping-response</Policy>
+        <Policy>AM-set-get-status-pathsuffix</Policy>
+        <Policy>VA-header</Policy>
+        <Policy>AM-target-headers</Policy>
+        <Policy>AM-set-proxy-default-error-vars</Policy>
+        <Policy>JS-set-time-data</Policy>
+        <Policy>RF-path-suffix-not-found</Policy>
+        <Policy>AM-remove-x-apikey</Policy>
+        <Policy>AM-debug</Policy>
+        <Policy>AM-create-status-response</Policy>
+        <Policy>AM-set-standard-error-response</Policy>
+        <Policy>JS-proxy-fault-rules</Policy>
+        <Policy>KV-config-values</Policy>
+        <Policy>AM-set-service-unavailable-error-variables</Policy>
+        <Policy>AM-config-properties</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources>
+        <Resource>jsc://JS-set-time-data.js</Resource>
+        <Resource>jsc://JS-proxy-fault-rules.js</Resource>
+    </Resources>
+    <TargetServers></TargetServers>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+</APIProxy>

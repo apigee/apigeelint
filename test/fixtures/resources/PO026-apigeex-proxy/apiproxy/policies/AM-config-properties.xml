@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage name="AM-config-properties">
+    <DisplayName>AM-config-properties</DisplayName>
+    <AssignVariable>
+        <Name>private.flow.target.basepath</Name>
+        <PropertySetRef>{apiproxy.name}.target_basepath</PropertySetRef>
+    </AssignVariable>
+    <!--
+    <AssignVariable>
+        <Name>property.flow.target_basepath</Name>
+        <PropertySetRef>{apiproxy.name}.target_basepath</PropertySetRef>
+    </AssignVariable>
+    -->
+    <AssignVariable>
+        <Name>property.logging</Name>
+        <PropertySetRef>{apiproxy.name}.logging</PropertySetRef>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>property.logging_url</Name>
+        <PropertySetRef>{apiproxy.name}.logging_url</PropertySetRef>
+    </AssignVariable>
+    <!-- debug apigeelint 
+    <AssignVariable>
+        <Value>property.flow.target_basepath</Value>
+        <PropertySetRef>{apiproxy.name}.target_basepath</PropertySetRef>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>private.flow.target.basepath</Name>
+        <Reference>{apiproxy.name}.target_basepath</Reference>
+    </AssignVariable>
+    <AssignVariable>
+        <Variable>private.flow.target.basepath</Variable>
+        <Reference>{apiproxy.name}.target_basepath</Reference>
+    </AssignVariable>
+    <AssignVariable>
+    </AssignVariable>
+    -->
+</AssignMessage>

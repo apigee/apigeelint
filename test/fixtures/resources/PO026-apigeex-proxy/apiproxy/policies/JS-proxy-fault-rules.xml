@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Javascript async="false" continueOnError="false" enabled="true" timeLimit="200" name="JS-proxy-fault-rules">
+    <DisplayName>JS-proxy-fault-rules</DisplayName>
+    <Properties/>
+    <ResourceURL>jsc://JS-proxy-fault-rules.js</ResourceURL>
+</Javascript>

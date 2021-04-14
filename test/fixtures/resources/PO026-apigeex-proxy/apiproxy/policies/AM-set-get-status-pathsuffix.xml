@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-set-get-status-pathsuffix">
+    <DisplayName>AM-set-get-status-pathsuffix</DisplayName>
+    <Properties/>
+    <AssignVariable>
+        <Name>target.copy.pathsuffix</Name>
+        <Value>false</Value>
+        <Ref/>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>flow.target.pathsuffix</Name>
+        <Value>healthcheck</Value>
+        <Ref/>
+    </AssignVariable>
+</AssignMessage>

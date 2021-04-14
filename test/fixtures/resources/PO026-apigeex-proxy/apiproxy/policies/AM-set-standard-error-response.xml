@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-set-standard-error-response">
+    <DisplayName>AM-set-standard-error-response</DisplayName>
+    <Set>
+        <Headers>
+            <Header name="Content-Type">application/json</Header>
+        </Headers>
+        <Payload contentType="application/json">
+{
+    "code": "{flow.error.code}",
+    "message": "{flow.error.description}",
+    "info": "https://developer.company.com/errors#{flow.error.code}",
+    "details": {
+        "fault_name":"{fault.name}",
+        "error_message":"{error.message}"
+    }
+}
+</Payload>
+        <StatusCode>{flow.error.status}</StatusCode>
+        <ReasonPhrase>{flow.error.reason}</ReasonPhrase>
+    </Set>
+</AssignMessage>
