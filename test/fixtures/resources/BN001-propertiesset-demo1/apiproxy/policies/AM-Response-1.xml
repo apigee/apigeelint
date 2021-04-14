@@ -1,0 +1,24 @@
+<AssignMessage name='AM-Response-1'>
+
+  <AssignVariable>
+    <Name>t</Name>
+    <Template>{timeFormatUTCMs(propertyset.set1.timeformat,system.timestamp)}</Template>
+  </AssignVariable>
+
+  <AssignVariable>
+    <Name>d</Name>
+    <Template>{timeFormatUTCMs(propertyset.set1.dateformat,system.timestamp)}</Template>
+  </AssignVariable>
+
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <Set>
+    <Payload contentType='application/json'>{
+  "status" : "ok",
+  "time" : "{t}",
+  "date" : "{d}"
+}</Payload>
+    <ReasonPhrase>OK</ReasonPhrase>
+    <StatusCode>200</StatusCode>
+  </Set>
+  <AssignTo>response</AssignTo>
+</AssignMessage>
