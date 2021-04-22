@@ -148,6 +148,11 @@ The list of rules is a work in progress and expected to increase over time. As p
 
 From an implementation perspective the focus is on plugin support and flexibility over performance. Compute is cheap.
 
+## Support
+Issues filed on Github are not subject to service level agreements (SLAs) and responses should be assumed to be on an ad-hoc volunteer basis. The
+[Apigee community board](https://community.apigee.com/) is recommended as for community support and is regularly checked by Apigee experts.
+
+Apigee customers should use [formal support channels](https://cloud.google.com/apigee/support) for Apigee product related concerns.
 
 ## Disclaimer
 This is not an officially supported Google product.
