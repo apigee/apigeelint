@@ -1,0 +1,4 @@
+<MessageValidation name="MV-1">
+  <Source>message</Source>
+  <ResourceURL>xsd://ProduceService.xsd</ResourceURL>
+</MessageValidation>
