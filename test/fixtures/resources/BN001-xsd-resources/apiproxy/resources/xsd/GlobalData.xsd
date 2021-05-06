@@ -1,0 +1,211 @@
+<xsd:schema
+    targetNamespace="http://www.usexample.com/schema/ICS/GlobalData/v1/"
+    elementFormDefault="qualified"
+    version="1.0"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:global="http://www.usexample.com/schema/ICS/GlobalData/v1/">
+  <xsd:annotation>
+    <xsd:documentation>Description = This schema defines Types and Elements globally applicable to all iSL services. MajorVersion = 1 MinorVersion = 0 -------------------------------------------------------------------------------------------- Revision History -------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------- Date | Version | Description | Author | Contributor(s) -------------------------------------------------------------------------------------------- Jan 2011 1.0 Initial Chris Example Rakesh Example --------------------------------------------------------------------------------------------</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="ErrorResponseType">
+    <xsd:annotation>
+      <xsd:documentation>&lt;p>This parameter type conveys the error details.&lt;/p>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="rootCauses" type="global:RootCausesType">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p>See parameter type 'RootCausesType'.&lt;/p>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ErrorType">
+    <xsd:annotation>
+      <xsd:documentation>&lt;p>This parameter type conveys error details provide by the back-end platforms.&lt;/p>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="error" type="global:PlatformErrorType">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p>See parameter type 'PaltformErrorType'.&lt;/p>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PlatformErrorType">
+    <xsd:annotation>
+      <xsd:documentation>&lt;p>The parameter type represents the error details provided by the back-end platforms&lt;/p>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="platformNM" type="global:EnumPlatformNameType"/>
+      <xsd:element name="serviceNM" type="xsd:string"/>
+      <xsd:element name="platformErrorCD" type="xsd:string"/>
+      <xsd:element name="platformErrorDS" type="xsd:string"/>
+    </xsd:sequence>
+    <xsd:attribute name="errorKey" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:complexType name="RequestHeaderType">
+    <xsd:sequence>
+      <xsd:element name="correlationID">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p>Unique consumer identifier to be provided by consumer per service request and used for end to end tracing.&lt;/p>
+          </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="32"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="userId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p>This indicates the end user who initiates the business function.&lt;/p>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="sORRegionToken" type="global:SORRegionTokenType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ResponseStatusType">
+    <xsd:annotation>
+      <xsd:documentation>&lt;p>The parameter type represents the result of the service operation, whether successful or failed.&lt;/p>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="responseStatusCD" type="global:EnumRespStatusCodeType"/>
+      <xsd:element name="responseStatusDS" type="global:EnumRespStatusDescriptionType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RootCausesType">
+    <xsd:annotation>
+      <xsd:documentation>&lt;p>This parameter type conveys the error details associated with application errors or system errors.&lt;/p>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="applicationErrors" type="global:ErrorType">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p>See parameter type 'ErrorType'.&lt;/p>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="systemErrors" type="global:ErrorType">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p>See parameter type 'ErrorType'.&lt;/p>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="RequestHeader" type="global:RequestHeaderType"/>
+  <xsd:complexType abstract="true" name="AbstractReqType">
+    <xsd:annotation>
+      <xsd:documentation>&lt;p>This message type represents the data elements common in all service request messages for consuming all service operations.&lt;/p>
+      </xsd:documentation>
+    </xsd:annotation>
+  </xsd:complexType>
+  <xsd:complexType abstract="true" name="AbstractRespType">
+    <xsd:annotation>
+      <xsd:documentation>&lt;p>This message type represents the data elements common in all service response messages returned by all service operations.&lt;/p>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="errorResponse" type="global:ErrorResponseType">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p>See parameter type 'ErrorResponseType'.&lt;/p>&lt;p>&lt;/p>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="responseStatus" type="global:ResponseStatusType">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p>See parameter type 'ResponseStatusType'.&lt;/p>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="ResponseHeader" type="global:ResponseHeaderType"/>
+  <xsd:complexType name="ServiceFaultType">
+    <xsd:annotation>
+      <xsd:documentation>&lt;p>This message type conveys the information about an error occurred during the execution of a service operation.&lt;/p>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="rootCauses" type="global:ErrorType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ResponseHeaderType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="correlationID" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p>Unique consumer identifier to be provided by consumer per service request and used for end to end tracing.&lt;/p>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="ServiceFault" type="global:ServiceFaultType"/>
+  <xsd:complexType name="SORRegionTokenType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="automationID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="sORRegionID" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p>Unique consumer identifier to be provided by consumer per service request and used for end to end tracing.&lt;/p>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="EnumPlatformNameType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="GlobeStar"/>
+      <xsd:enumeration value="STAR"/>
+      <xsd:enumeration value="DP"/>
+      <xsd:enumeration value="GLU"/>
+      <xsd:enumeration value="CAS"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EnumRespStatusCodeType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="SL0000SC">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p>Code to indicate success&lt;/p>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="SL0001SC">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p>Code to indicate failure&lt;/p>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="SL0002SC">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p>Code to indicate partial response&lt;/p>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EnumRespStatusDescriptionType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="SUCCESS">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p>&lt;/p>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="FAILURE">
+        <xsd:annotation>
+          <xsd:documentation>&lt;p>&lt;/p>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:enumeration>
+      <xsd:enumeration value="PARTIAL"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>
