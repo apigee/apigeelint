@@ -1,0 +1,9 @@
+<AssignMessage name="AM-Response">
+  <Set>
+    <Payload contentType="text/plain">
+request verb: {request.verb}
+</Payload>
+    <StatusCode>200</StatusCode>
+    <ReasonPhrase>OK</ReasonPhrase>
+  </Set>
+</AssignMessage>
