@@ -1,0 +1,64 @@
+<ProxyEndpoint name="endpoint1">
+  <HTTPProxyConnection>
+    <BasePath>/cors-demo</BasePath>
+  </HTTPProxyConnection>
+
+  <DefaultFaultRule name="default-fault-rule">
+    <Step>
+      <Name>AM-InjectProxyVersionHeader</Name>
+    </Step>
+    <AlwaysEnforce>true</AlwaysEnforce>
+  </DefaultFaultRule>
+
+  <PreFlow name="PreFlow">
+    <Request>
+      <Step>
+        <Name>CORS-1</Name>
+      </Step>
+      <Step>
+        <Name>CORS-2</Name>
+      </Step>
+    </Request>
+    <Response>
+      <Step>
+        <Name>AM-CleanResponseHeaders</Name>
+      </Step>
+      <Step>
+        <Name>JS-RemoveCopiedHeaders</Name>
+      </Step>
+      <Step>
+        <Name>AM-InjectProxyVersionHeader</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+
+  <Flows>
+    <Flow name="f1">
+      <Description>purposefully raise a fault</Description>
+      <Request>
+        <Step>
+          <Name>RF-InvalidRequest</Name>
+        </Step>
+      </Request>
+      <Response/>
+      <Condition>proxy.pathsuffix MatchesPath "/fault"</Condition>
+    </Flow>
+  </Flows>
+
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response>
+      <Step>
+        <Name>AM-Response</Name>
+        <Condition>request.verb != "OPTIONS"</Condition>
+      </Step>
+    </Response>
+  </PostFlow>
+
+  <RouteRule name="http-1">
+    <Condition>proxy.pathsuffix MatchesPath "/t1"</Condition>
+    <TargetEndpoint>http-1</TargetEndpoint>
+  </RouteRule>
+
+  <RouteRule name="noroute"/>
+</ProxyEndpoint>

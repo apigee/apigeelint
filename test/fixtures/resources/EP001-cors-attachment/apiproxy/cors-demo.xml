@@ -1,0 +1,21 @@
+<APIProxy revision="18" name="cors-demo">
+    <DisplayName></DisplayName>
+    <Description></Description>
+    <CreatedAt>1621009025657</CreatedAt>
+    <LastModifiedAt>1621009262854</LastModifiedAt>
+    <BasePaths>/cors-demo</BasePaths>
+    <Policies>
+        <Policy>CORS-1</Policy>
+        <Policy>AM-Response</Policy>
+        <Policy>RF-InvalidRequest</Policy>
+        <Policy>AM-ClearResponseHeaders</Policy>
+        <Policy>JS-RemoveCopiedHeaders</Policy>
+        <Policy>AM-InjectProxyVersionHeader</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources></Resources>
+    <TargetServers></TargetServers>
+    <TargetEndpoints></TargetEndpoints>
+</APIProxy>
