@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<GetOAuthV1Info async="false" continueOnError="false" enabled="true" name="Get-OAuth-v10a-Info-1">
+    <ConsumerKey ref="{flow.variable}">{value}</ConsumerKey>
+    <RequestToken ref="{flow.variable}">{request token}</RequestToken>
+    <AccessToken ref="{flow.variable}">{access token}</AccessToken>
+</GetOAuthV1Info>

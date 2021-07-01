@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<TargetEndpoint name="default">
+    <PreFlow name="PreFlow">
+    </PreFlow>
+    <PostFlow name="PostFlow">
+    </PostFlow>
+    <Flows/>
+    <HTTPTargetConnection>
+        <LoadBalancer>
+            <Server name="pingstatus-v1"/>
+        </LoadBalancer>
+        <Path>{private.flow.target.basepath}/{flow.target.pathsuffix}</Path>
+    </HTTPTargetConnection>
+</TargetEndpoint>
