@@ -17,6 +17,7 @@ describe(`BN001 - bundle with properties resource`, () => {
             path: path.resolve(__dirname, '../fixtures/resources/BN001-propertiesset-demo1/apiproxy'),
             bundleType: "apiproxy"
           },
+          profile: 'apigeex',
           excluded: {},
           setExitCode: false,
           output: () => {} // suppress output
