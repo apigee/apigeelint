@@ -1,0 +1,7 @@
+<AssignMessage name='Setup'>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <AssignVariable>
+    <Name>foo</Name>
+    <Value>bar</Value>
+  </AssignVariable>
+</AssignMessage>

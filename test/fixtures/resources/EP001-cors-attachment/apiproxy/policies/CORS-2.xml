@@ -1,0 +1,10 @@
+<CORS name="CORS-2" enabled="true">
+    <AllowOrigins>foo.shoehorn.com</AllowOrigins>
+    <AllowMethods>GET, POST, DELETE</AllowMethods>
+    <AllowHeaders>origin, x-requested-with, content-type</AllowHeaders>
+    <ExposeHeaders>*</ExposeHeaders>
+    <MaxAge>180</MaxAge>
+    <AllowCredentials>false</AllowCredentials>
+    <GeneratePreflightResponse>true</GeneratePreflightResponse>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</CORS>
