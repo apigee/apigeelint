@@ -17,6 +17,7 @@ describe(`EP001 - bundle with properties resource`, () => {
             path: path.resolve(__dirname, '../fixtures/resources/EP001-cors-attachment/apiproxy'),
             bundleType: "apiproxy"
           },
+          profile: 'apigeex',
           excluded: {},
           setExitCode: false,
           output: () => {} // suppress output
