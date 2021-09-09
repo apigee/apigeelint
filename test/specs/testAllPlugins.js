@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2020 Google LLC
+  Copyright 2019-2021 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,13 +16,11 @@
 /* global describe, it */
 
 const assert = require("assert"),
-      decache = require("decache"),
       path = require("path"),
       fs = require("fs"),
-      debug = require("debug")("apigeelint:allplugins"),
+      //debug = require("debug")("apigeelint:allplugins"),
       Bundle = require("../../lib/package/Bundle.js"),
       Validator = require("jsonschema").Validator,
-      util = require("util"),
       bl = require("../../lib/package/bundleLinter.js"),
       schema = require("./../fixtures/reportSchema.js"),
       pluginSchema = require("./../fixtures/pluginSchema.js");

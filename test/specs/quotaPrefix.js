@@ -2,17 +2,17 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Nov 16 17:03:04 2020
-// last saved: <2020-November-16 17:42:37>
+// last saved: <2021-September-09 09:35:34>
 
 /* jshint esversion:9, node:true, strict:implied */
-/* global process, console, Buffer, describe, it */
+/* global describe, it */
 
 const testID = "PO007",
       assert = require("assert"),
       bl = require("../../lib/package/bundleLinter.js"),
       plugin = require(bl.resolvePlugin(testID)),
       Policy = require("../../lib/package/Policy.js"),
-      Dom = require("xmldom").DOMParser;
+      Dom = require("@xmldom/xmldom").DOMParser;
 
 const policyXmlTemplate = '<Quota async="false" continueOnError="false" enabled="true" name="@@PREFIX@@-Enforce">\n' +
       '   <Identifier ref="client_id"/>\n' +

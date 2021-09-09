@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2020 Google LLC
+  Copyright 2019-2021 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -17,11 +17,9 @@
 /* global describe, it */
 
 const assert = require("assert"),
-      debug = require("debug")("apigeelint:flowNames"),
-      util = require ('util');
-
-const Policy = require("../../lib/package/Policy.js"),
-  Dom = require("xmldom").DOMParser;
+      //debug = require("debug")("apigeelint:flowNames"),
+      Policy = require("../../lib/package/Policy.js"),
+      Dom = require("@xmldom/xmldom").DOMParser;
 
 describe("PolicyNames", function() {
 

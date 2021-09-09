@@ -21,7 +21,7 @@ const assert = require("assert"),
       bl = require("../../lib/package/bundleLinter.js"),
       Endpoint = require("../../lib/package/Endpoint.js"),
       plugin = require(bl.resolvePlugin(testID)),
-      Dom = require("xmldom").DOMParser,
+      Dom = require("@xmldom/xmldom").DOMParser,
       test = function(caseNum, targetDef, assertion) {
         it(`tests case ${caseNum}, expect(${assertion}`,
            function() {

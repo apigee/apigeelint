@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2020 Google LLC
+  Copyright 2019-2021 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -13,16 +13,16 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+/* global it, describe */
 
 const assert = require("assert"),
       testID = "CC004",
       debug = require("debug")("apigeelint:" + testID),
       Condition = require("../../lib/package/Condition.js"),
-      Dom = require("xmldom").DOMParser,
+      Dom = require("@xmldom/xmldom").DOMParser,
       Validator = require("jsonschema").Validator,
       schema = require("./../fixtures/reportSchema.js"),
       Bundle = require("../../lib/package/Bundle.js"),
-      util = require("util"),
       bl = require("../../lib/package/bundleLinter.js"),
       plugin = require(bl.resolvePlugin(testID));
 

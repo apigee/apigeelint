@@ -68,7 +68,7 @@ describe(`PO026 - PropertySetRef with --profile 'apigee' for PO026-apigeex-proxy
 
 const testID = "PO026",
       Policy = require("../../lib/package/Policy.js"),
-      Dom = require("xmldom").DOMParser,
+      Dom = require("@xmldom/xmldom").DOMParser,
       fs = require("fs"),
       plugin = require(bl.resolvePlugin(testID));
 

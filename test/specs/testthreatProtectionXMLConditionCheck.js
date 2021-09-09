@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2020 Google LLC
+  Copyright 2019-2021 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+/* global it, describe */
 
 const assert = require("assert"),
       testID = "PO002",
@@ -23,7 +24,7 @@ const assert = require("assert"),
       Step = require("../../lib/package/Step.js"),
       Flow = require("../../lib/package/Flow.js"),
       plugin = require(bl.resolvePlugin(testID)),
-      Dom = require("xmldom").DOMParser,
+      Dom = require("@xmldom/xmldom").DOMParser,
       test = function(caseNum, exp, stepExp, flowExp, assertion) {
         it(`tests case ${caseNum}, expect(${assertion})`,
            function() {
