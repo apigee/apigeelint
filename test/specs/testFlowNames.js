@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2020 Google LLC
+  Copyright 2019-2021 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -13,11 +13,12 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+/* global it, describe */
 
 const assert = require("assert"),
-      debug = require("debug")("apigeelint:flowNames"),
+      //debug = require("debug")("apigeelint:flowNames"),
       Endpoint = require("../../lib/package/Endpoint.js"),
-      Dom = require("xmldom").DOMParser,
+      Dom = require("@xmldom/xmldom").DOMParser,
       test = function(exp, assertion) {
         it("testing flow names ", function() {
           var result = [],

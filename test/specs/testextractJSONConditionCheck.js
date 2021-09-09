@@ -23,7 +23,7 @@ const assert = require("assert"),
       Step = require("../../lib/package/Step.js"),
       Flow = require("../../lib/package/Flow.js"),
       plugin = require(bl.resolvePlugin(testID)),
-      Dom = require("xmldom").DOMParser,
+      Dom = require("@xmldom/xmldom").DOMParser,
       test = function(caseNum, exp, stepExp, flowExp, assertion) {
         it(`tests case ${caseNum}, expected(${assertion}`,
            function() {

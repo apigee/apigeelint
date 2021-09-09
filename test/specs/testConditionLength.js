@@ -19,7 +19,7 @@ const assert = require("assert"),
       bl = require("../../lib/package/bundleLinter.js"),
       plugin = require(bl.resolvePlugin(testID)),
       debug = require("debug")("apigeelint:" + testID),
-      Dom = require("xmldom").DOMParser,
+      Dom = require("@xmldom/xmldom").DOMParser,
       Condition = require("../../lib/package/Condition.js"),
       test = function(exp, caseNum, assertion) {
         it(`condition complexity case ${caseNum}, expect(${assertion})`,

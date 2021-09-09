@@ -11,7 +11,7 @@ const testID = "PO007",
       bl = require("../../lib/package/bundleLinter.js"),
       plugin = require(bl.resolvePlugin(testID)),
       Policy = require("../../lib/package/Policy.js"),
-      Dom = require("xmldom").DOMParser;
+      Dom = require("@xmldom/xmldom").DOMParser;
 
 const test =
   (filename, cb) => {
