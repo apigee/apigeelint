@@ -66,9 +66,17 @@ var plugin = {
 var onPolicy = function(policy, cb) {
   var displayName = policy.getDisplayName(),
     policyType = policy.getType(),
-    prefixes = policyMetaData[policyType].indications,
     found = false,
-    hadWarn = false;
+    hadWarn = false,
+    policyMeta = policyMetaData[policyType];
+    
+  if (!policyMeta) {
+      // No prefix defined for this policy
+      found=false;
+      hadWarn=false;
+      return;
+  }
+  var prefixes = policyMeta.indications;
 
   prefixes.some(function(prefix) {
     if (displayName.startsWith(prefix)) {
