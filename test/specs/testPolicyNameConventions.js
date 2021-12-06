@@ -114,7 +114,7 @@ describe("PO007 - policy name conventions", function() {
         assert.ok(p.getReport().messages, "messages undefined");
         assert.equal(p.getReport().messages.length, 1, "unexpected number of messages");
         assert.ok(p.getReport().messages[0].message, 'did not find message member');
-        assert.ok(p.getReport().messages[0].message.startsWith('Non-standard prefix '));
+        assert.ok(p.getReport().messages[0].message.startsWith('Non-standard name for policy'));
       });
     });
 
