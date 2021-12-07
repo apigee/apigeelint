@@ -1,0 +1,3 @@
+<DecodeJWS name='DecodeJWS-1'>
+  <Source>inbound.jws</Source>
+</DecodeJWS>

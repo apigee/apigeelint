@@ -1,0 +1,8 @@
+<ExtractVariables name='EV-Token-From-Header'>
+  <Source>request</Source>
+  <VariablePrefix>extracted</VariablePrefix>
+  <Header name='Authorization'>
+    <Pattern>Bearer {access_token}</Pattern>
+  </Header>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+</ExtractVariables>

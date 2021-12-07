@@ -1,0 +1,5 @@
+<SpikeArrest name='SA-Basic'>
+    <Identifier ref='request.header.some-header-name'/>
+    <MessageWeight ref='request.header.weight'/>
+    <Rate>30ps</Rate>
+</SpikeArrest>

@@ -1,0 +1,10 @@
+<ResetQuota name='ResetQuota'>
+  <!-- name of the Quota policy being reset -->
+  <Quota name='request.header.quotapolicy'>
+    <Identifier name='_default'>
+      <!-- use one of the following  -->
+      <Allow>100</Allow>
+      <Allow ref='flow.variable.containing.number.to.allow' />
+    </Identifier>
+  </Quota>
+</ResetQuota>

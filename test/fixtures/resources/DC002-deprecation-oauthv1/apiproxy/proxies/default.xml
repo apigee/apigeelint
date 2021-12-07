@@ -6,10 +6,10 @@
                 <Name>OAuth-v10a-1</Name>
             </Step>
             <Step>
-                <Name>Get-OAuth-v10a-Info-1</Name>
+                <Name>OAuth-Get-Info-1</Name>
             </Step>
             <Step>
-                <Name>Delete-OAuth-v10-Info-1</Name>
+                <Name>OAuth-Delete-Info-1</Name>
             </Step>
         </Request>
         <Response/>

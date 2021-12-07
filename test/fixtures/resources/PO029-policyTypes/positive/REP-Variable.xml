@@ -1,0 +1,8 @@
+<RegularExpressionProtection name="REP-Variable">
+  <Source>request</Source>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <Variable name="request.content">
+    <Pattern>REGEX PATTERN</Pattern>
+    <Pattern>REGEX PATTERN</Pattern>
+  </Variable>
+</RegularExpressionProtection>

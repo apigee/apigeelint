@@ -1,0 +1,5 @@
+<Quota name="Quota-1">
+    <Interval>1</Interval>
+    <TimeUnit>minute</TimeUnit>
+    <Allow count='3'/>
+</Quota>

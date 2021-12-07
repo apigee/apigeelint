@@ -1,0 +1,12 @@
+<VerifyJWS name='VJWS-1'>
+  <Algorithm>PS256</Algorithm>
+  <Source>inbound.jws</Source>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <PublicKey>
+    <JWKS ref='jwksContent'/>
+  </PublicKey>
+  <Issuer>whatever</Issuer>
+  <AdditionalHeaders>
+    <Claim name='scope'>urn://www.apigee.com/apis/forever</Claim>
+  </AdditionalHeaders>
+</VerifyJWS>

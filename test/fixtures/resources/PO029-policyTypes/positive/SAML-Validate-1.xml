@@ -1,0 +1,13 @@
+<ValidateSAMLAssertion name="SAML-Validate-1" ignoreContentType="false">
+  <Source name="request">
+    <Namespaces>
+      <Namespace prefix="saml2p">urn:oasis:names:tc:SAML:2.0:protocol</Namespace>
+      <Namespace prefix="saml2">urn:oasis:names:tc:SAML:2.0:assertion</Namespace>
+    </Namespaces>
+    <!-- new schema -->
+    <AssertionXPath>/saml2p:Response/saml2:Assertion</AssertionXPath>
+    <SignedElementXPath>/saml2p:Response/saml2:Assertion</SignedElementXPath>
+  </Source>
+  <TrustStore>TrustStoreName</TrustStore>
+  <RemoveAssertion>false</RemoveAssertion>
+</ValidateSAMLAssertion>

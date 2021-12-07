@@ -1,0 +1,10 @@
+<KeyValueMapOperations name='KVM-Get'>
+  <Scope>environment</Scope>
+  <ExpiryTimeInSecs>300</ExpiryTimeInSecs>
+  <MapName>foo</MapName>
+  <Get assignTo='variable.to.set'>
+    <Key>
+      <Parameter ref='variable.containing.key'/>
+    </Key>
+  </Get>
+</KeyValueMapOperations>

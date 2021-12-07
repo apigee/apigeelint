@@ -1,0 +1,8 @@
+<AssignMessage name="AM-target-headers">
+    <Properties/>
+    <Set>
+        <Headers>
+            <Header name="X-Correlation-ID">{messageid}</Header>
+        </Headers>
+    </Set>
+</AssignMessage>

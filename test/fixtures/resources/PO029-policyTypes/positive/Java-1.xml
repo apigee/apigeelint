@@ -1,0 +1,10 @@
+<JavaCallout name='Java-1'>
+  <Properties>
+    <Property name='source'>message.content</Property>
+    <Property name='output-variable'>output</Property>
+    <Property name='private-key'>{my_private_key}</Property>
+    <Property name='private-key-password'>{my_private_key_password}</Property>
+  </Properties>
+  <ClassName>com.google.apigee.edgecallouts.rsa.SignedUrlCallout</ClassName>
+  <ResourceURL>java://edge-xmldsig-1.0.1.jar</ResourceURL>
+</JavaCallout>

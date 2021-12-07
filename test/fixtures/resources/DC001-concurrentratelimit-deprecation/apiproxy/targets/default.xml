@@ -2,21 +2,21 @@
 <TargetEndpoint name="default">
     <DefaultFaultRule name="DefaultFaultRule">
         <Step>
-            <Name>ConnectionThrottler</Name>
+            <Name>CCR-ConnectionThrottler</Name>
         </Step>
         <AlwaysEnforce>true</AlwaysEnforce>
     </DefaultFaultRule>
     <PreFlow name="PreFlow">
         <Request>
             <Step>
-                <Name>ConnectionThrottler</Name>
+                <Name>CCR-ConnectionThrottler</Name>
             </Step>
         </Request>
     </PreFlow>
     <PostFlow name="PostFlow">
         <Response>
             <Step>
-                <Name>ConnectionThrottler</Name>
+                <Name>CCR-ConnectionThrottler</Name>
             </Step>
         </Response>
     </PostFlow>
