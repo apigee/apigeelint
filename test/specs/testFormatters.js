@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2020 Google LLC
+  Copyright 2019-2021 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -13,11 +13,12 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+/* global describe, it, configuration */
 
 const assert = require("assert"),
       debug = require("debug")("apigeelint"),
       Bundle = require("../../lib/package/Bundle.js"),
-      util = require("util"),
+      //util = require("util"),
       bl = require("../../lib/package/bundleLinter.js");
 
 debug("test configuration: " + JSON.stringify(configuration));
@@ -40,7 +41,7 @@ const formatters = [
 ];
 
 describe("Formatters", function() {
-  formatters.forEach(function(formatter) {
+  formatters.forEach( formatter => {
     it(`implementation for ${formatter} should not be undefined`, function() {
       let impl = bl.getFormatter(formatter);
       if (!impl) {

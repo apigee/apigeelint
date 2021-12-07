@@ -1,4 +1,4 @@
-// corsPolicyName.js
+// PO007-corsPolicyName.js
 // ------------------------------------------------------------------
 
 /* jshint esversion:9, node:true, strict:implied */
@@ -47,7 +47,6 @@ describe(`PO007 - CORS policy name`, () => {
   });
 
   test('CORS.xml', (p, foundIssues) => {
-    console.log(JSON.stringify(p.getReport().messages));
     assert.equal(foundIssues, false);
     assert.ok(p.getReport().messages, "messages undefined");
     assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));

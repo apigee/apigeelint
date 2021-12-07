@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2020 Google LLC
+  Copyright 2019-2021 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -13,17 +13,18 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+/* global describe, it */
 
 const assert = require("assert"),
-  TruthTable = require("../../lib/package/TruthTable.js"),
-  test = function(exp, assertion) {
+      TruthTable = require("../../lib/package/TruthTable.js"),
+      test = function(exp, assertion) {
         it(`${exp} should be ${assertion}`, function() {
-      var tt = new TruthTable(exp),
-      ast=tt.getAST();
-
-      console.log(ast);
-    });
-  };
+          var tt = new TruthTable(exp),
+          ast=tt.getAST();
+          console.log(ast);
+          assert.ok(ast);
+        });
+      };
 
 describe("TruthTable AST", function() {
 

@@ -16,35 +16,41 @@
 /* global it, describe */
 
 const assert = require("assert"),
-      testID = "PO022",
+      testID = "PO023",
       debug = require("debug")("apigeelint:" + testID),
       Bundle = require("../../lib/package/Bundle.js"),
       bl = require("../../lib/package/bundleLinter.js"),
       Policy = require("../../lib/package/Policy.js"),
       plugin = require(bl.resolvePlugin(testID)),
       Dom = require("@xmldom/xmldom").DOMParser,
-      test = function(exp, caseNum, assertion) {
-        it(`tests ${caseNum}, expect(${assertion})`,
+      test = function(caseNum, exp, stepCt, assertion) {
+        it(`tests case ${caseNum}, expect(${assertion})`,
            function() {
-             let doc = new Dom().parseFromString(exp),
-                 p = new Policy(doc, this);
+             var doc = new Dom().parseFromString(exp),
+                 p = new Policy(doc.documentElement, this);
 
              p.addMessage = function(msg) {
                debug(msg);
              };
              p.getElement = function() {
-               return doc;
+               return doc.documentElement;
+             };
+             p.getSteps = function() {
+               //create an array with stepCt elements
+               var r = [];
+               for (var i = 0; i < stepCt; i++) {
+                 r.push({});
+               }
+               return r;
              };
              plugin.onPolicy(p, function(err, result) {
-               assert.equal(
-                 err,
-                 undefined,
-                 err ? " err " : " no err"
-               );
+               assert.equal(err, undefined, err ? " err " : " no err");
                assert.equal(
                  result,
                  assertion,
-                 result ? "  distirbuted is true " : "distirbuted is true not found"
+                 result
+                   ? "  steps attached is greater than 1 "
+                   : "stes attached is 0 or 1"
                );
              });
            }
@@ -53,58 +59,55 @@ const assert = require("assert"),
 
 describe(`${testID} - ${plugin.plugin.name}`, function() {
 
+  //now generate a full report and check the format of the report
   test(
+    1,
     '<Quota name="CheckQuota"> <Interval ref="verifyapikey.verify-api-key.apiproduct.developer.quota.interval">1</Interval><TimeUnit ref="verifyapikey.verify-api-key.apiproduct.developer.quota.timeunit">hour</TimeUnit><Allow count="200" countRef="verifyapikey.verify-api-key.apiproduct.developer.quota.limit"/></Quota>',
     1,
-    true
+    false
   );
   test(
+    2,
     '<Quota name="CheckQuota"> <Distributed>false</Distributed><Interval ref="verifyapikey.verify-api-key.apiproduct.developer.quota.interval">1</Interval><TimeUnit ref="verifyapikey.verify-api-key.apiproduct.developer.quota.timeunit">hour</TimeUnit><Allow count="200" countRef="verifyapikey.verify-api-key.apiproduct.developer.quota.limit"/></Quota>',
     2,
     true
   );
   test(
-    '<Quota name="CheckQuota"> <Distributed>true</Distributed><Interval ref="verifyapikey.verify-api-key.apiproduct.developer.quota.interval">1</Interval><TimeUnit ref="verifyapikey.verify-api-key.apiproduct.developer.quota.timeunit">hour</TimeUnit><Allow count="200" countRef="verifyapikey.verify-api-key.apiproduct.developer.quota.limit"/></Quota>',
     3,
+    '<Quota name="CheckQuota"> <Distributed>true</Distributed><Interval ref="verifyapikey.verify-api-key.apiproduct.developer.quota.interval">1</Interval><TimeUnit ref="verifyapikey.verify-api-key.apiproduct.developer.quota.timeunit">hour</TimeUnit><Allow count="200" countRef="verifyapikey.verify-api-key.apiproduct.developer.quota.limit"/></Quota>',
+    1,
     false
   );
   test(
-    '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>(?/(@?[w_?w:*]+([[^]]+])*)?)+</Pattern></URIPath></RegularExpressionProtection>',
     4,
+    '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>(?/(@?[w_?w:*]+([[^]]+])*)?)+</Pattern></URIPath></RegularExpressionProtection>',
+    1,
     false
   );
+});
 
+describe(`${testID} - Print plugin results`, function() {
   debug("test configuration: " + JSON.stringify(configuration));
-
   var bundle = new Bundle(configuration);
   bl.executePlugin(testID, bundle);
+  let report = bundle.getReport();
 
-  //need a case where we are using ref for the key
-  //also prefix
+  it("should create a report object with valid schema", function() {
 
-  describe("Print plugin results (${testID})", function() {
-    let report = bundle.getReport(),
-        formatter = bl.getFormatter("json.js");
-
+    let formatter = bl.getFormatter("json.js");
     if (!formatter) {
-      assert.fail("formatter implementation not defined.");
+      assert.fail("formatter implementation not defined");
     }
-    it("should create a report object with valid schema", function() {
-      let schema = require("./../fixtures/reportSchema.js"),
-          Validator = require("jsonschema").Validator,
-          v = new Validator(),
-          jsonReport = JSON.parse(formatter(bundle.getReport())),
-          validationResult = v.validate(jsonReport, schema);
-      assert.equal(
-        validationResult.errors.length,
-        0,
-        validationResult.errors
-      );
-    });
-
+    let schema = require("./../fixtures/reportSchema.js"),
+        Validator = require("jsonschema").Validator,
+        v = new Validator(),
+        jsonReport = JSON.parse(formatter(report)),
+        validationResult = v.validate(jsonReport, schema);
+    assert.equal(
+      validationResult.errors.length,
+      0,
+      validationResult.errors
+    );
   });
 
-  var stylimpl = bl.getFormatter("unix.js");
-  var stylReport = stylimpl(bundle.getReport());
-  debug("unix formatted report: \n" + stylReport);
 });

@@ -13,21 +13,19 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+
 /* global describe, it, configuration */
 
 const assert = require("assert"),
-      testID = "BN003",
+      testID = "PO025",
       debug = require("debug")("apigeelint:" + testID),
       Bundle = require("../../lib/package/Bundle.js"),
-      Validator = require("jsonschema").Validator,
       bl = require("../../lib/package/bundleLinter.js"),
-      plugin = require(bl.resolvePlugin(testID)),
-      schema = require("./../fixtures/reportSchema.js");
+      plugin = require(bl.resolvePlugin(testID));
 
 describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   debug("test configuration: " + JSON.stringify(configuration));
-
   let bundle = new Bundle(configuration);
   bl.executePlugin(testID, bundle);
   let report = bundle.getReport();
@@ -38,19 +36,19 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
     if (!formatter) {
       assert.fail("formatter implementation not defined");
     }
-    let jsonReport = JSON.parse(formatter(report)),
+
+    let schema = require("../fixtures/reportSchema.js"),
+        Validator = require("jsonschema").Validator,
         v = new Validator(),
+        jsonReport = JSON.parse(formatter(report)),
         validationResult = v.validate(jsonReport, schema);
-    assert.equal(
-      validationResult.errors.length,
-      0,
-      validationResult.errors
-    );
+    assert.equal(validationResult.errors.length, 0, validationResult.errors);
   });
 
-  it("should create a json-formatted report object with valid schema", function() {
+
+  it("should create a unix-formatted report object", function() {
     let formatter = bl.getFormatter("unix.js"),
-    formattedReport = formatter(report);
+        formattedReport = formatter(report);
     debug("unix formatted report: \n" + formattedReport);
     assert.ok(formattedReport);
   });

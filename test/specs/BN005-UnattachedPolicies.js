@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2020 Google LLC
+  Copyright 2019-2021 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-
+/* global configuration, describe, it */
 const assert = require("assert"),
       testID = 'BN005',
       debug = require("debug")("apigeelint:" + testID),
@@ -21,11 +21,13 @@ const assert = require("assert"),
       bl = require("../../lib/package/bundleLinter.js");
 
 debug("test configuration: " + JSON.stringify(configuration));
-var bundle = new Bundle(configuration);
-bl.executePlugin(testID, bundle, function() {
-  describe("Check for unattached policies in " + bundle.root, function() {
-    bundle.getReport(function(report) {
-      var unattachedFiles = [
+describe("BN005 - Check for unattached policies", function() {
+  let bundle = new Bundle(configuration);
+  debug(`looking in ${bundle.root}`);
+  bl.executePlugin(testID, bundle);
+  let report = bundle.getReport();
+
+  var unattachedFiles = [
         "ExtractVariables.xml",
         "ExtractVariables_1.xml",
         "ExtractVariables_unattached.xml",
@@ -33,7 +35,7 @@ bl.executePlugin(testID, bundle, function() {
         "jsCalculate.xml"
       ];
 
-      var attachedFiles = [
+  var attachedFiles = [
         "JSONThreatProtection",
         "regExLookAround",
         "AssignMessage.CopyRequest",
@@ -42,35 +44,32 @@ bl.executePlugin(testID, bundle, function() {
         "publishPurchaseDetails",
         "Lookup-Cache-1",
         "publishPurchaseDetails"
-          ];
+      ];
 
-      var runTests = function(files, shouldBeUnattached){
-        for (var j = 0; j < files.length; j++) {
-          var file = files[j];
-          it(
-            "should " + (shouldBeUnattached? "": "not ") + "mark " +
-              file +
-              " as unattached in report ",
-            function() {
-              var found = false;
-              for (var i = 0; i < report.length && !found; i++) {
-                var reportObj = report[i];
-                if (reportObj.filePath.endsWith(file)) {
-                  reportObj.messages.forEach(function(msg) {
-                    if (msg.ruleId === "BN005") {
-                      found = true;
-                    }
-                  });
-                }
-              }
-              assert.equal(found, shouldBeUnattached);
-            }
-          );
-        }
-      }
+  function runTests(files, a) {
+    for (var j = 0; j < files.length; j++) {
+      let file = files[j],
+          description = `should ${(a? "": "not ")} mark ${file} as unattached in report`;
 
-      runTests(unattachedFiles, true);
-      runTests(attachedFiles, false);
-    });
-  });
+      it(description,
+         function() {
+           var found = false;
+           for (var i = 0; i < report.length && !found; i++) {
+             var reportObj = report[i];
+             if (reportObj.filePath.endsWith(file)) {
+               reportObj.messages.forEach(function(msg) {
+                 if (msg.ruleId === "BN005") {
+                   found = true;
+                 }
+               });
+             }
+           }
+           assert.equal(found, a);
+         }
+        );
+    }
+  }
+
+  runTests(unattachedFiles, true);
+  runTests(attachedFiles, false);
 });

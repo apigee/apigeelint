@@ -17,7 +17,6 @@
 /* global describe, it */
 
 const assert = require("assert"),
-      //debug = require("debug")("apigeelint:flowNames"),
       Policy = require("../../lib/package/Policy.js"),
       Dom = require("@xmldom/xmldom").DOMParser;
 

@@ -63,35 +63,28 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   test(`request.queryparam.limit!=NULL and request.queryparam.limit!="" and request.queryparam.limit > 25 and !((proxy.pathsuffix MatchesPath "/{version}/products/promotionhistory") and (request.verb = "GET") and (verifyapikey.genericVerifyAPIKey.canAccessPromotionHistory=true))`, 24);
   test(`(request.header.Accept == "text/xml;charset=UTF-8")`, 3);
+});
 
+describe(`${testID} - Print plugin results`, function() {
   debug("test configuration: " + JSON.stringify(configuration));
-
   var bundle = new Bundle(configuration);
   bl.executePlugin(testID, bundle);
+  let report = bundle.getReport();
 
-  //need a case where we are using ref for the key
-  //also prefix
+  it("should create a report object with valid schema", function() {
 
-  describe(`Print plugin results`, function() {
-    it("should create a report object with valid schema", function() {
-      let report = bundle.getReport(),
-          formatter = bl.getFormatter("json.js");
-      if (!formatter) {
-        assert.fail("formatter implementation not defined");
-      }
-      let v = new Validator(),
-          jsonReport = JSON.parse(formatter(bundle.getReport())),
-          validationResult = v.validate(jsonReport, schema);
-      assert.equal(
-        validationResult.errors.length,
-        0,
-        validationResult.errors
-      );
-    });
-
+    let formatter = bl.getFormatter("json.js");
+    if (!formatter) {
+      assert.fail("formatter implementation not defined");
+    }
+    let v = new Validator(),
+    jsonReport = JSON.parse(formatter(bundle.getReport())),
+    validationResult = v.validate(jsonReport, schema);
+    assert.equal(
+      validationResult.errors.length,
+      0,
+      validationResult.errors
+    );
   });
 
-  var stylimpl = bl.getFormatter("unix.js");
-  var stylReport = stylimpl(bundle.getReport());
-  debug("unix formatted report: \n" + stylReport);
 });
