@@ -25,7 +25,7 @@
   "InvalidateCache" :{"indications":["invalidatecache","invalidate","ic","cache"]},
   "IntegrationCallout" :{"indications":["integrationcallout","integration","ic","callout","^integrationcallout$"], "profiles":["apigeex"] },
   "JSONThreatProtection" :{"indications":["jsonthreat","threat","jtp","tp"]},
-  "JSONToXML" :{"indications":["jsontoxml","j2x","jtox"]},
+  "JSONToXML" :{"indications":["jsontoxml","j2x","jtox","^jsontoxml$"]},
   "JavaCallout" :{"indications":["javacallout","java","javac","^javacallout$","^java$"]},
   "Javascript" :{"indications":["jsc","js","javascript"]},
   "KeyValueMapOperations" :{"indications":["keyvaluemapoperations","kv","kvm","kvmops"]},
@@ -57,6 +57,6 @@
   "VerifyJWS" :{"indications":["verifyjws","jws","vjws","^verifyjws$"]},
   "VerifyJWT" :{"indications":["verifyjwt","jwt","vjwt","^verifyjwt$"]},
   "XMLThreatProtection" :{"indications":["xmltp","xtp","tp","^xmltp$"]},
-  "XMLToJSON" :{"indications":["xmltojson","x2j","^xmltojson$"]},
+  "XMLToJSON" :{"indications":["xmltojson","x2j","xtoj","^xmltojson$"]},
   "XSL" :{"indications":["xsl","^xsl$"]}
 }
