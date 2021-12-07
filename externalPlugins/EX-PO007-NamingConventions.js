@@ -1,5 +1,5 @@
 /*
-  Copyright 2019 Google LLC
+  Copyright 2019-2021 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
   limitations under the License.
 */
 
-var plugin = {
+const plugin = {
     ruleId: "EX-PO007",
     name: "Policy Naming Conventions - type indication",
     message:
@@ -24,84 +24,67 @@ var plugin = {
     nodeType: "Policy",
     enabled: true
   },
-  policyMetaData = {
-    AccessControl: { indications: ["AC-"] },
-    AccessEntity: { indications: ["AE-"] },
-    AssignMessage: { indications: ["AM-"] },
-    BasicAuthentication: {indications: ["BA-"] },
-    ExtractVariables: { indications: ["EV-"] },
-    FlowCallout: { indications: ["FC-"] }, 
-    GenerateSAMLAssertion: { indications: ["SA-"] },
-    GetOAuthV1Info:{indications: ["OA-"]},
-    GetOAuthV2Info: {indications: ["OA-"]},
-    InvalidateCache: {indications: ["CI-"] },
-    JSONThreatProtection: {indications: ["JT-"] },
-    JSONToXML: { indications: ["JX-"] },
-    JavaCallout: { indications: ["JC-"] },
-    Javascript: { indications: ["JS-"] }, 
-    KeyValueMapOperations: {indications: ["KV-"] },
-    Ldap: { indications: ["LD-"] },
-    LookupCache: { indications: ["CL-"] }, 
-    MessageLogging: { indications: ["ML-"] }, 
-    MessageValidation: { indications: ["MV-"] },
-    OAuthV1: {indications: ["OA-"]},
-    OAuthV2: {indications: ["OA-"]},
-    PopulateCache: {indications: ["CP-"] },
-    Quota: { indications: ["QU-"] },
-    RaiseFault: { indications: ["RF-"] },
-    RegularExpressionProtection: { indications: ["RE-"] },
-    ResetQuota: { indications: ["QR-"] },
-    ResponseCache: { indications: ["RC-"] },
-    Script: { indications: ["PY-"] },
-    ServiceCallout: { indications: ["SC-"] },
-    SpikeArrest: { indications: ["SA-"] },
-    StatisticsCollector: { indications: ["SC-"] },
-    VerifyAPIKey: { indications: ["VK-"] },
-    XMLThreatProtection: { indications: ["XT-"] },
-    XMLToJSON: { indications: ["XJ-"] },
-    XSL: { indications: ["XS-"] },
-    "": { indications: [] }
+  policyPrefixes = {
+    AccessControl: ["AC-"] ,
+    AccessEntity: ["AE-"] ,
+    AssignMessage: ["AM-"] ,
+    BasicAuthentication: ["BA-"] ,
+    ExtractVariables: ["EV-"] ,
+    FlowCallout: ["FC-"] ,
+    GenerateSAMLAssertion: ["SA-"] ,
+    GetOAuthV1Info: ["OA-"],
+    GetOAuthV2Info: ["OA-"],
+    InvalidateCache: ["CI-"] ,
+    JSONThreatProtection: ["JT-"] ,
+    JSONToXML: ["JX-"] ,
+    JavaCallout: ["JC-"] ,
+    Javascript: ["JS-"] ,
+    KeyValueMapOperations: ["KV-"] ,
+    Ldap: ["LD-"] ,
+    LookupCache: ["CL-"] ,
+    MessageLogging: ["ML-"] ,
+    MessageValidation: ["MV-"] ,
+    OAuthV1: ["OA-"],
+    OAuthV2: ["OA-"],
+    PopulateCache: ["CP-"] ,
+    Quota: ["QU-"] ,
+    RaiseFault: ["RF-"] ,
+    RegularExpressionProtection: ["RE-"] ,
+    ResetQuota: ["QR-"] ,
+    ResponseCache: ["RC-"] ,
+    Script: ["PY-"] ,
+    ServiceCallout: ["SC-"] ,
+    SpikeArrest: ["SA-"] ,
+    StatisticsCollector: ["SC-"] ,
+    VerifyAPIKey: ["VK-"] ,
+    XMLThreatProtection: ["XT-"] ,
+    XMLToJSON: ["XJ-"] ,
+    XSL: ["XS-"] ,
+    "": []
   };
 
-var onPolicy = function(policy, cb) {
-  var displayName = policy.getDisplayName(),
-    policyType = policy.getType(),
-    found = false,
-    hadWarn = false,
-    policyMeta = policyMetaData[policyType];
-    
-  if (!policyMeta) {
-      // No prefix defined for this policy
-      found=false;
-      hadWarn=false;
-      return;
-  }
-  var prefixes = policyMeta.indications;
-
-  prefixes.some(function(prefix) {
-    if (displayName.startsWith(prefix)) {
-      found = true;
-      return;
-    }
-  });
-
-  if (!found || displayName === "") {
-    policy.addMessage({
-      plugin,
-      message:
-        'Naming Conventions: Policy "' +
-        displayName +
-        '" of type "' +
-        policyType +
-        '" should have an indicative prefix. Valid prefixes include: ' +
-        JSON.stringify(prefixes)
-    });
-    hadWarn = true;
-  }
-  if (typeof cb == "function") {
-    cb(null, hadWarn);
-  }
-};
+const onPolicy = function(policy, cb) {
+  let policyName = policy.getName(),
+      policyType = policy.getType(),
+      prefixes = policyPrefixes[policyType],
+      flagged = false;
+      if (prefixes) {
+        let found = prefixes.some(prefix =>
+                                  policyName.startsWith(prefix));
+        if (!found || policyName === "") {
+          policy.addMessage({
+            plugin,
+            message:
+            `Naming Conventions: Policy "${policyName}" of type "${policyType}" should have an indicative prefix. Valid prefixes include: ` +
+              JSON.stringify(prefixes)
+          });
+          flagged = true;
+        }
+      }
+      if (typeof cb == "function") {
+        cb(null, flagged);
+      }
+    };
 
 module.exports = {
   plugin,
