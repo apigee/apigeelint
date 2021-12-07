@@ -1,0 +1,10 @@
+<CORS name='CORS'>
+  <AllowOrigins>{request.header.origin:*}</AllowOrigins>
+  <AllowMethods>GET, PUT, POST, DELETE, OPTIONS</AllowMethods>
+  <AllowHeaders>origin, x-requested-with</AllowHeaders>
+  <ExposeHeaders>*</ExposeHeaders>
+  <MaxAge>1800</MaxAge>
+  <AllowCredentials>true</AllowCredentials>
+  <GeneratePreflightResponse>true</GeneratePreflightResponse>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</CORS>

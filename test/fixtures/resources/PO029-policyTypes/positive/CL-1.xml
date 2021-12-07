@@ -1,0 +1,9 @@
+<LookupCache name='CL-1'>
+    <CacheResource>cache1</CacheResource>
+    <AssignTo>flowvariable</AssignTo> <!-- name of flow variable -->
+    <Scope>Application</Scope>
+    <CacheKey>
+      <!--  <Prefix>apiAccessToken</Prefix> -->
+      <KeyFragment ref='flowvariable.name' />
+    </CacheKey>
+</LookupCache>

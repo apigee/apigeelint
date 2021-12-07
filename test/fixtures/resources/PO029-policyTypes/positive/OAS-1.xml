@@ -1,0 +1,7 @@
+<OASValidation name="OAS-1">
+   <OASResource>oas://my-spec.json</OASResource>
+   <Options>
+      <ValidateMessageBody>true</ValidateMessageBody>
+   </Options>
+   <Source>request</Source>
+</OASValidation>

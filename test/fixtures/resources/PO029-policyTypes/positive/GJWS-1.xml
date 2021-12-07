@@ -1,0 +1,13 @@
+<GenerateJWS name='GJWS-1'>
+  <Algorithm>PS256</Algorithm>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <PrivateKey>
+    <Value ref="private.key"/>
+    <Id>cb24a396-4414-4793-b4ce-90333b694bff</Id>
+  </PrivateKey>
+  <AdditionalHeaders>
+    <Claim name='additional-claim-name'>additional-claim-value-goes-here</Claim>
+  </AdditionalHeaders>
+  <Payload ref="request.content"/>
+  <OutputVariable>variable-name-here</OutputVariable>
+</GenerateJWS>

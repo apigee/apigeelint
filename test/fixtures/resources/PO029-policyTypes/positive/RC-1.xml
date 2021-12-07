@@ -1,0 +1,17 @@
+<ResponseCache name="RC-1">
+    <CacheResource>cache1</CacheResource>
+    <CacheKey>
+      <Prefix/>
+      <KeyFragment ref='flowvariable.name' />
+    </CacheKey>
+    <Scope>Application</Scope>
+    <ExpirySettings>
+      <TimeoutInSeconds ref="flow.variable.here">420</TimeoutInSeconds>
+    </ExpirySettings>
+    <SkipCacheLookup>request.verb != "GET"</SkipCacheLookup>
+    <SkipCachePopulation>request.verb != "GET"</SkipCachePopulation>
+    <!--
+        <UseAcceptHeader/>
+        <UseResponseCacheHeaders/>
+    -->
+</ResponseCache>

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2020 Google LLC
+  Copyright 2019-2021 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -13,12 +13,12 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-
+/* global describe, it */
 const assert = require("assert"),
       path = require("path"),
       bl = require("../../lib/package/bundleLinter.js");
 
-describe(`DC002 - ConcurrentRateLimit Policy is deprecated`, () => {
+describe(`DC001 - ConcurrentRateLimit Policy is deprecated`, () => {
   it('should generate the expected errors', () => {
     let configuration = {
           debug: true,
@@ -39,10 +39,11 @@ describe(`DC002 - ConcurrentRateLimit Policy is deprecated`, () => {
       let actualErrors = items.filter(item => item.messages && item.messages.length);
       assert.equal(actualErrors.length, 1);
       assert.ok(actualErrors[0].messages.length);
-      assert.equal(actualErrors[0].messages.length, 1);
       assert.ok(actualErrors[0].messages[0].message);
-      assert.ok(actualErrors[0].messages[0].message.startsWith('ConcurrentRateLimit Policy is'),
-               actualErrors[0].messages[0].message);
+      assert.ok(actualErrors[0].messages.length);
+      assert.ok(actualErrors[0].messages
+                .find( m => m.message.startsWith('ConcurrentRateLimit Policy is')),
+                "could not find expected error message");
     });
   });
 

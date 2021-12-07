@@ -1,0 +1,8 @@
+<GraphQL name="GraphQL-1" >
+  <Source>request</Source>
+  <OperationType>query</OperationType>
+  <MaxDepth>10</MaxDepth>
+  <MaxCount>10</MaxCount>
+  <Action>parse</Action>
+  <ResourceURL>PATH/TO/SCHEMA.xsd</ResourceURL>
+</GraphQL>

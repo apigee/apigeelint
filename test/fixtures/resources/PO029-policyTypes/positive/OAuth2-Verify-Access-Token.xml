@@ -1,0 +1,21 @@
+<OAuthV2 name='OAuth2-Verify-Access-Token'>
+    <Operation>VerifyAccessToken</Operation>
+    <Scope>xyz</Scope>
+    <!--
+    This policy sets the following flow variables:
+      organization_name
+      developer.id
+      developer.app.name
+      client_id
+      grant_type
+      token_type
+      access_token
+      accesstoken.{custom_attribute}
+      issued_at
+      expires_in
+      status
+      scope
+      apiproduct.name*
+      apiproduct.<custom_attribute_name>*
+    -->
+</OAuthV2>

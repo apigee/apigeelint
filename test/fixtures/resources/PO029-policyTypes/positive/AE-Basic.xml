@@ -1,0 +1,8 @@
+<AccessEntity name='AE-Basic'>
+  <EntityType value='developer'/>
+  <EntityIdentifier type='apikey' ref='varName' />
+<!--
+  The result is stored in a variable:  AccessEntity.##
+  Next step is to use ExtractVariables to get a value from that entity.
+-->
+</AccessEntity>

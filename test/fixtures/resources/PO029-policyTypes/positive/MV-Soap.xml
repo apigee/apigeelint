@@ -1,0 +1,6 @@
+<MessageValidation name="MV-Soap">
+   <Source>message</Source> <!-- must be message type -->
+   <ResourceURL>wsdl://example.wsdl</ResourceURL>
+   <SOAPMessage version='1.1'/> <!-- optional -->
+   <Element namespace="http://finance.com/1999">ElementUnderBody</Element>
+</MessageValidation>

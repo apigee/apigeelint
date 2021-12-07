@@ -1,0 +1,33 @@
+<DataCapture name="DC-1">
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <ThrowExceptionOnLimit>false</ThrowExceptionOnLimit>
+
+  <!-- Existing Variable -->
+  <Capture>
+    <Collect ref="existing-variable" default="0"></Collect>
+    <DataCollector>dc_1</DataCollector>
+  </Capture>
+
+  <!-- JSONPayload -->
+  <Capture>
+    <DataCollector>dc_2</DataCollector>
+    <Collect default="0">
+      <Source>request</Source>
+      <JSONPayload>
+        <JSONPath>result.var</JSONPath>
+      </JSONPayload>
+    </Collect>
+  </Capture>
+
+  <!-- URIPath -->
+  <Capture>
+    <DataCollector>dc_3</DataCollector>
+    <Collect default="0">
+      <URIPath>
+        <!-- All patterns must specify a single variable to extract named $ -->
+        <Pattern ignoreCase="false">/foo/{$}</Pattern>
+        <Pattern ignoreCase="false">/foo/bar/{$}</Pattern>
+      </URIPath>
+    </Collect>
+  </Capture>
+</DataCapture>
