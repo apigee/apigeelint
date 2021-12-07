@@ -2,7 +2,7 @@
 // ------------------------------------------------------------------
 //
 // created: Mon Nov 16 17:03:04 2020
-// last saved: <2021-September-09 09:35:34>
+// last saved: <2021-December-06 14:08:43>
 
 /* jshint esversion:9, node:true, strict:implied */
 /* global describe, it */
@@ -14,7 +14,7 @@ const testID = "PO007",
       Policy = require("../../lib/package/Policy.js"),
       Dom = require("@xmldom/xmldom").DOMParser;
 
-const policyXmlTemplate = '<Quota async="false" continueOnError="false" enabled="true" name="@@PREFIX@@-Enforce">\n' +
+const policyXmlTemplate = '<Quota name="@@PNAME@@">\n' +
       '   <Identifier ref="client_id"/>\n' +
       '   <Allow countRef="apiproduct.developer.quota.limit" count="10000"/>\n' +
       '   <Interval ref="apiproduct.developer.quota.interval">1</Interval>\n' +
@@ -24,9 +24,9 @@ const policyXmlTemplate = '<Quota async="false" continueOnError="false" enabled=
       '</Quota>\n';
 
 const test = (expectSuccess) =>
-  (prefix) => {
-    it(`allows acceptable prefix(${prefix})`, () => {
-      let policyXml = policyXmlTemplate.replace('@@PREFIX@@', prefix),
+  (policyName) => {
+    it(`allows acceptable policyName(${policyName})`, () => {
+      let policyXml = policyXmlTemplate.replace('@@PNAME@@', policyName),
           doc = new Dom().parseFromString(policyXml),
           p = new Policy(doc.documentElement, this);
 
@@ -44,7 +44,7 @@ const test = (expectSuccess) =>
           assert.ok(p.getReport().messages, "messages undefined");
           assert.equal(p.getReport().messages.length, 1, "unexpected number of messages");
           assert.ok(p.getReport().messages[0].message, 'did not find message member');
-          assert.equal(p.getReport().messages[0].message, `Non-standard prefix (${prefix}). Valid prefixes for Quota include: ["quota","q"]`);
+          assert.equal(p.getReport().messages[0].message, `Non-standard name for policy (${policyName}). Valid prefixes for the Quota policy: ["quota","q"]. Valid patterns: ["^q$","^quota$"].`);
         }
       });
     });
@@ -55,10 +55,13 @@ const negativeCase = test(false);
 
 describe(`PO007 - QuotaPolicyPrefix`, () => {
 
+  positiveCase('Q-Enforce');
+  positiveCase('Quota-Enforce');
+  positiveCase('QUOTA-1');
   positiveCase('Q');
   positiveCase('Quota');
-  positiveCase('QUOTA');
 
-  negativeCase('unQ');
+  negativeCase('unQ-Enforce');
+  negativeCase('NotQuota');
 
 });

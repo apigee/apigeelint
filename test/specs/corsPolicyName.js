@@ -43,7 +43,14 @@ describe(`PO007 - CORS policy name`, () => {
     assert.ok(p.getReport().messages, "messages undefined");
     assert.equal(p.getReport().messages.length, 1, "unexpected number of messages");
     assert.ok(p.getReport().messages[0].message, 'did not find message member');
-    assert.equal(p.getReport().messages[0].message, 'Non-standard prefix (AM). Valid prefixes for CORS include: ["cors"]');
+    assert.equal(p.getReport().messages[0].message, 'Non-standard name for policy (AM-CORS-1). Valid prefixes for the CORS policy: ["cors"]. Valid patterns: ["^cors$"].');
+  });
+
+  test('CORS.xml', (p, foundIssues) => {
+    console.log(JSON.stringify(p.getReport().messages));
+    assert.equal(foundIssues, false);
+    assert.ok(p.getReport().messages, "messages undefined");
+    assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
   });
 
 });
