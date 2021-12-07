@@ -1,0 +1,22 @@
+<ServiceCallout name='SC-Get-Simple'>
+  <Request variable='simpleGetRequest'>
+    <Set>
+      <Verb>GET</Verb>
+      <Path>/status</Path>
+    </Set>
+  </Request>
+  <!-- exclude Response to make this call async -->
+  <!--
+    <Response>tokenResponse</Response>
+  -->
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <IgnoreValidationErrors>false</IgnoreValidationErrors>
+    </SSLInfo>
+    <Properties>
+      <Property name='success.codes'>2xx</Property>
+    </Properties>
+    <URL>https://dchiesa-first-project.appspot.com</URL>
+  </HTTPTargetConnection>
+</ServiceCallout>

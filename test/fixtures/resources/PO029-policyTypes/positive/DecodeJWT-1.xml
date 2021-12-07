@@ -1,0 +1,3 @@
+<DecodeJWT name='DecodeJWT-1'>
+  <Source>inbound.jwt</Source>
+</DecodeJWT>

@@ -1,0 +1,32 @@
+<GENERATEJWT name="GJWT">
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <Algorithm>ES256</Algorithm>
+  <PrivateKey>
+    <Value ref="private.ec_privatekey"/>
+    <Id>09f558a60b23</Id>
+  </PrivateKey>
+  <AdditionalHeaders>
+    <Claim type="map" name='map1'>{
+      "b19829": {
+         "A": "asd",
+         "DD627D19-B97A-4A38-B524-F2EA6421B77A": {"qwe":"pwe","234":"rty"}
+       }
+    }
+    </Claim>
+  </AdditionalHeaders>
+  <Subject>subject1</Subject>
+  <Issuer>urn://apigee-edge-JWT-policy-test</Issuer>
+  <Audience>audience-here</Audience>
+  <Id/>  <!-- optional; empty implies generate a jti -->
+  <ExpiresIn>15m</ExpiresIn>
+  <AdditionalClaims>
+    <Claim type='map' name='custom-claim-name'>{
+      "abc": {
+        "abc": "asd",
+        "xyz": {"qwe":"pwe","234":"rty"}
+      }
+    }</Claim>
+    <Claim type='string' array="true" name='string-array-claim'>claim1,claim2,claim3</Claim>
+  </AdditionalClaims>
+  <OutputVariable>generated</OutputVariable>
+</GENERATEJWT>

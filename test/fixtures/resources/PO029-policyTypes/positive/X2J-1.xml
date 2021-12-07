@@ -1,0 +1,7 @@
+<XMLToJSON name='X2J-1'>
+  <Source>request</Source>
+  <OutputVariable>request.content</OutputVariable>
+  <Options>
+    <StripLevels>3</StripLevels>
+  </Options>
+</XMLToJSON>

@@ -1,0 +1,7 @@
+<JSONToXML name='J2X-1'>
+  <Source>request</Source>
+  <OutputVariable>request</OutputVariable>
+  <Options>
+    <OmitXmlDeclaration>true</OmitXmlDeclaration>
+  </Options>
+</JSONToXML>

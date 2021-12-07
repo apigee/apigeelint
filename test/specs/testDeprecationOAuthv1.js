@@ -20,7 +20,7 @@ const assert = require("assert"),
       path = require("path"),
       bl = require("../../lib/package/bundleLinter.js");
 
-describe(`DC001 - OAuth V1 policies are deprecated`, () => {
+describe(`DC002 - OAuth V1 policies are deprecated`, () => {
   it('should generate the expected errors', () => {
     let configuration = {
           debug: true,
@@ -41,10 +41,10 @@ describe(`DC001 - OAuth V1 policies are deprecated`, () => {
       let actualErrors = items.filter(item => item.messages && item.messages.length);
       assert.equal(actualErrors.length, 3);
       assert.ok(actualErrors[0].messages.length);
-      assert.equal(actualErrors[0].messages.length, 1);
-      assert.ok(actualErrors[0].messages[0].message);
-      assert.ok(actualErrors[0].messages[0].message.startsWith('OAuth V1 policies are deprecated'),
-               actualErrors[0].messages[0].message);
+      assert.ok(actualErrors[0].messages.length);
+      assert.ok(actualErrors[0].messages
+                .find( m => m.message.startsWith('OAuth V1 policies are deprecated')),
+                "could not find expected error message");
     });
   });
 

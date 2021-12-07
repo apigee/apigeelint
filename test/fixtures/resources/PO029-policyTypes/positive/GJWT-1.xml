@@ -1,0 +1,12 @@
+<GenerateJWT name='GJWT-1'>
+  <Algorithms>
+    <Key>A128KW</Key>
+    <Content>A128GCM</Content>
+  </Algorithms>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <SecretKey>
+    <Value ref='private.secretkey'/>
+  </SecretKey>
+  <Payload ref='foobar'/>
+  <OutputVariable>generated</OutputVariable>
+</GenerateJWT>

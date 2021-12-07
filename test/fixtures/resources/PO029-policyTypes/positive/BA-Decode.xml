@@ -1,0 +1,7 @@
+<BasicAuthentication name='BA-Decode'>
+   <Operation>Decode</Operation>
+   <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+   <User ref='inbound_username' />
+   <Password ref='inbound_password' />
+   <Source>request.header.Authorization</Source>
+</BasicAuthentication>

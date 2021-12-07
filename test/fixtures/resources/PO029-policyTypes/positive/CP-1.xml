@@ -1,0 +1,10 @@
+<PopulateCache name='CP-1'>
+  <Source>variable.containing.value</Source>
+  <Scope>proxy</Scope>
+  <CacheKey>
+    <KeyFragment ref='variable.containing.keyfrag' />
+  </CacheKey>
+  <ExpirySettings>
+    <TimeoutInSeconds ref='duration_variable'>300</TimeoutInSeconds>
+  </ExpirySettings>
+</PopulateCache>

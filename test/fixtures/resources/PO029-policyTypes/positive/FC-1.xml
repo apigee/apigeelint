@@ -1,0 +1,6 @@
+<FlowCallout name='FC-1'>
+  <Parameters>
+    <Parameter name='dialPercent' ref='private.dialPercent'/>
+  </Parameters>
+  <SharedFlowBundle>Shared-Flow-Name</SharedFlowBundle>
+</FlowCallout>

@@ -1,0 +1,12 @@
+<AccessControl name='AC-Basic'>
+  <IgnoreTrueClientIPHeader>true</IgnoreTrueClientIPHeader> <!-- recommended always -->
+
+  <!-- optional. If not present, policy uses XFF -->
+  <ClientIPVariable>VARIABLE_NAME</ClientIPVariable>
+
+  <IPRules noRuleMatchAction = 'ALLOW'>
+    <MatchRule action = 'DENY'>
+      <SourceAddress mask='32'>198.51.100.1</SourceAddress>
+    </MatchRule>
+  </IPRules>
+</AccessControl>

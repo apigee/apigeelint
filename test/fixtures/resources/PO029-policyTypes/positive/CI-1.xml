@@ -1,0 +1,8 @@
+<InvalidateCache name='CI-1'>
+    <CacheResource>ApigeeCache</CacheResource>
+    <Scope>Application</Scope>
+    <CacheKey>
+      <KeyFragment ref='flowvariable.name' />
+    </CacheKey>
+    <PurgeChildEntries>true</PurgeChildEntries>
+</InvalidateCache>

@@ -1,0 +1,7 @@
+<PublishMessage name="PM-Basic">
+    <Source>message</Source>
+    <CloudPubSub>
+        <Topic>topic1</Topic>
+    </CloudPubSub>
+    <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+</PublishMessage>

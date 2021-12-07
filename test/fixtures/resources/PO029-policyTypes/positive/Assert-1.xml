@@ -1,0 +1,3 @@
+<AssertCondition name="Assert-1">
+  <Condition>request.header.sha256 = null</Condition>
+</AssertCondition>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ConcurrentRatelimit name="ConnectionThrottler">
+<ConcurrentRateLimit name="CCR-ConnectionThrottler">
     <AllowConnections count="200" ttl="5"/>
     <Distributed>true</Distributed>
     <StrictOnTtl>false</StrictOnTtl>
     <TargetIdentifier name="default" ref="header/qparam/flow variables"/>
-</ConcurrentRatelimit>
+</ConcurrentRateLimit>
