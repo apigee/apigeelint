@@ -51,8 +51,6 @@ const assert = require("assert"),
           );
       };
 
-//now generate a full report and check the format of the report
-
 
 describe(`${testID} - ${plugin.plugin.name}`, function() {
 
@@ -61,44 +59,41 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
     '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>.*Exception in thread.*</Pattern></URIPath></RegularExpressionProtection>',
     false
   );
+
   test(
     2,
     '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>(?/(@?[w_?w:*]+([[^]]+])*)?)+</Pattern></URIPath></RegularExpressionProtection>',
     true
   );
+});
+
+
+describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   debug("test configuration: " + JSON.stringify(configuration));
 
   let bundle = new Bundle(configuration);
   bl.executePlugin(testID, bundle);
 
-  //need a case where we are using ref for the key
-  //also prefix
+  let report = bundle.getReport();
 
-  describe("Print plugin results $(testID)", function() {
-    let report = bundle.getReport(),
-        formatter = bl.getFormatter("json.js");
+  it("should create a report object with valid schema", function() {
+    let formatter = bl.getFormatter("json.js");
 
     if (!formatter) {
       assert.fail("formatter implementation not defined");
     }
 
-    it("should create a report object with valid schema", function() {
-      let schema = require("./../fixtures/reportSchema.js"),
-          Validator = require("jsonschema").Validator,
-          v = new Validator(),
-          jsonReport = JSON.parse(formatter(bundle.getReport())),
-          validationResult = v.validate(jsonReport, schema);
-      assert.equal(
-        validationResult.errors.length,
-        0,
-        validationResult.errors
-      );
-    });
-
+    let schema = require("./../fixtures/reportSchema.js"),
+        Validator = require("jsonschema").Validator,
+        v = new Validator(),
+        jsonReport = JSON.parse(formatter(bundle.getReport())),
+        validationResult = v.validate(jsonReport, schema);
+    assert.equal(
+      validationResult.errors.length,
+      0,
+      validationResult.errors
+    );
   });
 
-  var stylimpl = bl.getFormatter("unix.js");
-  var stylReport = stylimpl(bundle.getReport());
-  debug("unix formatted report: \n" + stylReport);
 });

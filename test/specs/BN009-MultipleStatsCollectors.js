@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2020 Google LLC
+  Copyright 2019-2021 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,8 +14,10 @@
   limitations under the License.
 */
 
+/* global describe, it, configuration */
+
 const assert = require("assert"),
-      testID = "PO025",
+      testID = "BN009",
       debug = require("debug")("apigeelint:" + testID),
       Bundle = require("../../lib/package/Bundle.js"),
       bl = require("../../lib/package/bundleLinter.js"),
@@ -26,27 +28,18 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   debug("test configuration: " + JSON.stringify(configuration));
   let bundle = new Bundle(configuration);
   bl.executePlugin(testID, bundle);
+  let report = bundle.getReport();
 
-  describe(`Print plugin results`, function() {
-    let report = bundle.getReport(),
-    formatter = bl.getFormatter("json.js");
-
+  it("should create a report object with valid schema", function() {
+    let formatter = bl.getFormatter("json.js");
     if (!formatter) {
       assert.fail("formatter implementation not defined");
     }
-
-    it("should create a report object with valid schema", function() {
-      let schema = require("../fixtures/reportSchema.js"),
-          Validator = require("jsonschema").Validator,
-          v = new Validator(),
-          jsonReport = JSON.parse(formatter(bundle.getReport())),
-          validationResult = v.validate(jsonReport, schema);
-      assert.equal(validationResult.errors.length, 0, validationResult.errors);
-    });
-
+    let schema = require("./../fixtures/reportSchema.js"),
+        Validator = require("jsonschema").Validator,
+        v = new Validator(),
+        jsonReport = JSON.parse(formatter(report)),
+        validationResult = v.validate(jsonReport, schema);
+    assert.equal(validationResult.errors.length, 0, validationResult.errors);
   });
-
-  var stylimpl = bl.getFormatter("unix.js");
-  var stylReport=stylimpl(bundle.getReport());
-  debug("unix formatted report: \n" + stylReport);
 });

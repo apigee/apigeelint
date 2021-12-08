@@ -35,10 +35,10 @@ describe("AllPlugins", function() {
 
   describe("StaticAnalysis", function() {
     let knownIds = {};
-    fs.readdirSync(pluginPath).forEach(function(shortFileName) {
-      if (shortFileName.endsWith(".js")) {
-          let fqPluginPath = path.join(pluginPath, shortFileName),
-              plugin = require(fqPluginPath).plugin;
+    bl.listPlugins().forEach(shortFileName => {
+      let fqPluginPath = bl.resolvePlugin(shortFileName);
+      if (fqPluginPath) {
+          let plugin = require(fqPluginPath).plugin;
 
         it(`${shortFileName} should match the required pattern`, function() {
           assert.ok(shortFileName.match(pluginRe.filename), `noncompliant plugin filename [${shortFileName}]`);
@@ -63,11 +63,9 @@ describe("AllPlugins", function() {
   });
 
   const runTests = function(configToRun) {
-          fs.readdirSync(pluginPath).forEach(function(shortFileName) {
-            //is this a js file
-            if (shortFileName.endsWith(".js")) {
-              let fqPluginPath = path.join(pluginPath, shortFileName);
-
+    bl.listPlugins().forEach(shortFileName => {
+      let fqPluginPath = bl.resolvePlugin(shortFileName);
+      if (fqPluginPath) {
               it(`${shortFileName} with ${configToRun.source.bundleType} should create a report object`,
                  function() {
                    let bundle = new Bundle(configToRun);

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2020 Google LLC
+  Copyright 2019-2021 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
+/* global describe, it */
 
 const assert = require("assert"),
       testID = "TD001",
@@ -80,39 +81,30 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   </TargetEndpoint>`,
     true
   );
+});
 
+describe(`${testID} - Print plugin results`, function() {
   debug("test configuration: " + JSON.stringify(configuration));
-
   var bundle = new Bundle(configuration);
   bl.executePlugin(testID, bundle);
+  let report = bundle.getReport();
 
-  //need a case where we are using ref for the key
-  //also prefix
+  it("should create a report object with valid schema", function() {
 
-  describe(`Print plugin results (${testID})`, function() {
-    let report = bundle.getReport(),
-        formatter = bl.getFormatter("json.js");
-
+    let formatter = bl.getFormatter("json.js");
     if (!formatter) {
       assert.fail("formatter implementation not defined");
     }
-    it("should create a report object with valid schema", function() {
-      let schema = require("./../fixtures/reportSchema.js"),
-          Validator = require("jsonschema").Validator,
-          v = new Validator(),
-          jsonReport = JSON.parse(formatter(bundle.getReport())),
-          validationResult = v.validate(jsonReport, schema);
-
-      assert.equal(
-        validationResult.errors.length,
-        0,
-        validationResult.errors
-      );
-    });
-
+    let schema = require("./../fixtures/reportSchema.js"),
+        Validator = require("jsonschema").Validator,
+        v = new Validator(),
+        jsonReport = JSON.parse(formatter(report)),
+        validationResult = v.validate(jsonReport, schema);
+    assert.equal(
+      validationResult.errors.length,
+      0,
+      validationResult.errors
+    );
   });
 
-  var stylimpl = bl.getFormatter("unix.js");
-  var stylReport = stylimpl(bundle.getReport());
-  debug("unix formatted report: \n" + stylReport);
 });

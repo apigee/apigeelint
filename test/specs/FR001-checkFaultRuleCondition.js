@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2020 Google LLC
+  Copyright 2019-2021 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
   limitations under the License.
 */
 
+/* global describe, it */
 const assert = require("assert"),
       testID = "FR001",
       debug = require("debug")("apigeelint:" + testID),
@@ -29,18 +30,18 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   var bundle = new Bundle(configuration);
   bl.executePlugin(testID, bundle);
+  let report = bundle.getReport();
 
   //need a case where we are using ref for the key
   //also prefix
 
   describe(`Print plugin results (${testID})`, function() {
-    let report = bundle.getReport(),
-        formatter = bl.getFormatter("json.js");
-
-    if (!formatter) {
-      assert.fail("formatter implementation not defined");
-    }
     it("should create a report object with valid schema", function() {
+      let formatter = bl.getFormatter("json.js");
+
+      if (!formatter) {
+        assert.fail("formatter implementation not defined");
+      }
       let schema = require("./../fixtures/reportSchema.js"),
           Validator = require("jsonschema").Validator,
           v = new Validator(),
@@ -55,7 +56,4 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
       });
   });
 
-  var stylimpl = bl.getFormatter("unix.js");
-  var stylReport = stylimpl(bundle.getReport());
-  debug("unix formatted report: \n" + stylReport);
 });

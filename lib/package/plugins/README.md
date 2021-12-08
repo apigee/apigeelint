@@ -43,6 +43,7 @@ But these prefixes are mere convention for categorization. If you choose PO for 
 The `DDD` decimal digits are just a unique number wihtin the specific prefix. Together the `XXDDD` comprise the
 "ruleID" for the plugin, which must be unique across all plugins.
 
+If you have code you would like to load that is not a plugin file, then name it with a prefix underscore. The loader will not interpret such files as plugin definitions.
 
 ## The plugin descriptor
 
@@ -145,7 +146,7 @@ Also note that if you need to modify the plugin descriptor to denote say a chang
             });
 ```
 
-### plugin lifecycle
+### Plugin Lifecycle
 
 Your plugin module is instantiated once for the life of linter execution.
 
