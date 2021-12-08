@@ -21,7 +21,7 @@ const assert = require("assert"),
         it(`${exp} should be ${assertion}`, function() {
           var tt = new TruthTable(exp),
           ast=tt.getAST();
-          console.log(ast);
+          //console.log(ast);
           assert.ok(ast);
         });
       };

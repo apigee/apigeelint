@@ -1,6 +1,15 @@
 # apigeelint
 
+<!--
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/260964318a4e4e689cbd6d059472765e)](https://www.codacy.com/app/davidwallen/bundle-linter?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=apigeecs/bundle-linter&amp;utm_campaign=Badge_Grade)
+-->
+
+[![Apache 2.0](https://img.shields.io/badge/license-apache%202.0-blue.svg)](LICENSE)
+![Node](https://img.shields.io/node/v/apigeelint.svg)
+![Test](https://raw.githubusercontent.com/DinoChiesa/apigeelint/master/test/badge.svg?sanitize=true)
+![LastCommit](https://img.shields.io/github/last-commit/apigeelint/apigeelint/main.svg)
+![CommitActivity](https://img.shields.io/github/commit-activity/4w/apigee/apigeelint)
+![Downloads](https://img.shields.io/npm/dm/apigeelint.svg)
 
 Static code analysis for Apigee proxy and sharedflow bundles to encourage API developers to use best practices and avoid anti-patterns.
 
@@ -67,19 +76,37 @@ This tool does both traditional linting (looking for problematic patterns) and s
 The `test` directory includes scripts to exercise a subset of rules. Overall linting can be tested with:
 
 ```
-apigeelint -s ./test/sampleProxy/24Solver/apiproxy/
+apigeelint -s ./test/fixtures/resources/sampleProxy/24Solver/apiproxy/
 ```
+This sample exhibits many bad practices and as such generates some noisy output.
 
-This sample includes many bad practices and as such generates a bit of noise.
+In a development installation, the equivalent to the command above is:
+```
+node ./cli.js  -s ./test/fixtures/resources/sampleProxy/24Solver/apiproxy/
+```
 
 ## Contributing
 
+We welcome pull requests for bug fixes and new features.
 In lieu of a formal style guide, take care to maintain the existing coding style.
 Add unit tests for any new or changed functionality. Lint and test your code.
 
+Run the unit tests like this:
+
+```
+npm run test
+```
+
+
+You can also contribute by reporting issues, asking for new features.
+
 ## Rules
 
-The list of rules is a work in progress and expected to increase over time. As product features change, rules will change as well. Linting and reporting will fall into one of the following broad categories:
+The list of rules is a work in progress. We expect it to increase over time. As
+product features change (new policies, etc), we will change rules as
+well.
+
+This is the current list:
 
 | Linter | Status | Code | Name | Description |
 | ------ | ------ | ---- | ---- | ----------- |
@@ -147,6 +174,7 @@ The list of rules is a work in progress and expected to increase over time. As p
 | &nbsp; |:white_check_mark:| CC004 | Overly complex condition |  Condition complexity should be limited to fix number of variables and conjunctions. |
 | &nbsp; |:white_check_mark:| CC005 | unterminated strings in Condition |  Strings within a Condition element must be properly wrapped by double quotes. |
 | &nbsp; |:white_check_mark:| CC006 | Detect logical absurdities |  Conditions should not have internal logic conflicts - warn when these are detected. |
+| Endpoints | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| EP001 | CORS Policy attachment | Check for multiple CORS policies, or attachment to Target Endpoint. |
 | Deprecation | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| DC001 | ConcurrentRateLimit Policy Deprecation |  Check usage of deprecated policy ConcurrentRateLimit. |
@@ -154,9 +182,17 @@ The list of rules is a work in progress and expected to increase over time. As p
 
 From an implementation perspective the focus is on plugin support and flexibility over performance. Compute is cheap.
 
+
 ## Support
-Issues filed on Github are not subject to service level agreements (SLAs) and responses should be assumed to be on an ad-hoc volunteer basis. The
-[Apigee community board](https://community.apigee.com/) is recommended as for community support and is regularly checked by Apigee experts.
+
+If you find issues, file a ticket here on Github.  Keep in mind that there is no
+service level agreement (SLA) for responses to these issues. Assume all
+responses are on an ad-hoc, volunteer basis.
+
+If you simply have questions, we recommend asking on the [Apigee
+forum](https://www.googlecloudcommunity.com/gc/Apigee/bd-p/cloud-apigee/) on
+GoogleCloudCommunity. Apigee experts regularly check that forum.
+checked by Apigee experts.
 
 Apigee customers should use [formal support channels](https://cloud.google.com/apigee/support) for Apigee product related concerns.
 

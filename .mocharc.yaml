@@ -1,0 +1,4 @@
+# .mocharc.yml
+spec:
+  - 'test/fixtures/*.js'
+  - 'test/specs/*.js'
