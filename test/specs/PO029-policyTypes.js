@@ -26,18 +26,20 @@ const testID = "PO029",
       Dom = require("@xmldom/xmldom").DOMParser,
       rootDir = path.resolve(__dirname, '../fixtures/resources/PO029-policyTypes');
 
-const testOne = (sourceDir, cb) => shortFileName => {
+const loadPolicy = (sourceDir, shortFileName) => {
     let fqPath = path.join(sourceDir, shortFileName),
         policyXml = fs.readFileSync(fqPath).toString('utf-8'),
         doc = new Dom().parseFromString(policyXml),
         p = new Policy(doc.documentElement, this);
         p.getElement = () => doc.documentElement;
-        cb(p);
+        p.fileName = shortFileName;
+        return p;
   };
 
 describe(`${testID} - policy is of known type`, function() {
   let sourceDir = path.join(rootDir, 'positive');
-  let cb = (policy) => {
+  let testOne = (shortFileName) => {
+        let policy = loadPolicy(sourceDir, shortFileName);
         let policyType = policy.getType();
         it(`check ${policyType} is known`, () => {
           assert.notEqual(policyType, undefined, `${policyType} should be defined`);
@@ -50,15 +52,17 @@ describe(`${testID} - policy is of known type`, function() {
           });
         });
       };
+
   fs.readdirSync(sourceDir)
     .filter( shortFileName => shortFileName.endsWith(".xml"))
-    .forEach( testOne(sourceDir, cb) );
+    .forEach( testOne );
 
 });
 
 describe(`${testID} - policy is of unknown type`, () => {
   let sourceDir = path.join(rootDir, 'negative');
-  let cb = (policy) => {
+  let testOne = (shortFileName) => {
+        let policy = loadPolicy(sourceDir, shortFileName);
         let policyType = policy.getType();
         it(`check ${policyType} is unknown`, () => {
           assert.notEqual(policyType, undefined, `${policyType} should be defined`);
@@ -76,6 +80,6 @@ describe(`${testID} - policy is of unknown type`, () => {
 
   fs.readdirSync(sourceDir)
     .filter( shortFileName => shortFileName.endsWith(".xml"))
-    .forEach( testOne(sourceDir, cb) );
+    .forEach( testOne );
 
 });
