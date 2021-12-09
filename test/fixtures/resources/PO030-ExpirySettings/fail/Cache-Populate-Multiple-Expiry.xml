@@ -1,0 +1,16 @@
+<PopulateCache name='Cache-Populate-1'>
+  <CacheResource>cache1</CacheResource>
+  <Source>request.queryparam.value</Source>
+  <Scope>Application</Scope>
+  <CacheKey>
+    <KeyFragment ref='apiproxy.name' />
+    <KeyFragment ref='request.queryparam.cachekey' />
+  </CacheKey>
+  <ExpirySettings>
+    <TimeoutInSeconds>120</TimeoutInSeconds>
+  </ExpirySettings>
+  <!-- duplicate -->
+  <ExpirySettings>
+    <TimeoutInSeconds>120</TimeoutInSeconds>
+  </ExpirySettings>
+</PopulateCache>

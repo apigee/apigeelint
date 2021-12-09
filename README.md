@@ -164,6 +164,7 @@ This is the current list:
 | &nbsp; |:white_check_mark:| PO027 | HMAC Usage | With HMAC, check that the SecretKey is present and that a ref= attribute refers to a private variable. |
 | &nbsp; |:white_check_mark:| PO028 | Policy Availability in profile | Check for policies available in particular profiles. |
 | &nbsp; |:white_check_mark:| PO029 | Known policy type | Check that all policies are of a known type. |
+| &nbsp; |:white_check_mark:| PO030 | ExpirySettings | ExpirySettings should use exactly one child element, no deprecated elements. |
 | FaultRules | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| FR001 | No Condition on FaultRule | It's not a best practice to have a FaultRule without an outer condition, which automatically makes the FaultRule true. |
 | &nbsp; |:white_check_mark:| FR002 | DefaultFaultRule Structure | DefaultFaultRule should have only supported child elements, at most one AlwaysEnforce element, and at most one Condition element. |
