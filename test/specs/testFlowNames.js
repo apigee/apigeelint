@@ -20,15 +20,12 @@ const assert = require("assert"),
       Endpoint = require("../../lib/package/Endpoint.js"),
       Dom = require("@xmldom/xmldom").DOMParser,
       test = function(exp, assertion) {
-        it("testing flow names ", function() {
-          var result = [],
-              doc = new Dom().parseFromString(exp),
-              ep = new Endpoint(doc, this,"/dummy/test/apiproxy/proxies/foo.xml"),
-              flows = ep.getFlows();
+        it("should find flow names", function() {
+          let doc = new Dom().parseFromString(exp),
+              ep = new Endpoint(doc, this, "/dummy/test/apiproxy/proxies/foo.xml"),
+              flows = ep.getFlows(),
+              result = flows.map( f => f.getName() );
 
-          flows.forEach(function(f) {
-            result.push(f.getName());
-          });
           assert.deepEqual(
             result,
             assertion,
@@ -41,34 +38,34 @@ describe("FlowNames", function() {
 
   test(
     `
-  <ProxyEndpoint name="default">
+<ProxyEndpoint name="default">
   <Flows>
-                <Flow name="condition1">
-              <Description>This is condition 1</Description>
-              <Request>
-                  <Step>
-                        <Name>jsCalculate</Name>
-                  </Step>
-              </Request>
-              <Response>
-              </Response>
-              <Condition>(request.verb = "GET") and (proxy.pathsuffix MatchesPath "/condition1")</Condition>
-          </Flow>
-                <Flow name="condition2">
-              <Description>This is condition 2</Description>
-              <Request>
-                  <Step>
-                        <Name>jsCalculateFromContext</Name>
-                  </Step>
-              </Request>
-              <Response>
-              </Response>
-              <Condition>(request.verb = "GET") and (proxy.pathsuffix MatchesPath "/condition2")</Condition>
-          </Flow>
-    </Flows>
-    </ProxyEndpoint>
+    <Flow name="flow1">
+      <Description>This is condition 1</Description>
+      <Request>
+        <Step>
+          <Name>JS-Calculate</Name>
+        </Step>
+      </Request>
+      <Response>
+      </Response>
+      <Condition>(request.verb = "GET") and (proxy.pathsuffix MatchesPath "/condition1")</Condition>
+    </Flow>
+    <Flow name="flow2">
+      <Description>This is condition 2</Description>
+      <Request>
+        <Step>
+          <Name>JS-CalculateFromContext</Name>
+        </Step>
+      </Request>
+      <Response>
+      </Response>
+      <Condition>(request.verb = "GET") and (proxy.pathsuffix MatchesPath "/condition2")</Condition>
+    </Flow>
+  </Flows>
+</ProxyEndpoint>
   `,
-    ["condition1", "condition2"]
+    ["flow1", "flow2"]
   );
 
 });

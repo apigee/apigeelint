@@ -18,6 +18,8 @@
 
 const assert = require("assert"),
       path = require("path"),
+      debug = require("debug")("apigeelint:ST002"),
+      util = require("util"),
       bl = require("../../lib/package/bundleLinter.js");
 
 describe(`ST002 - StepHygiene`, () => {
@@ -38,8 +40,12 @@ describe(`ST002 - StepHygiene`, () => {
       let items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
+      debug(util.format(items));
       let proxyEndpointItems = items.filter( m => m.filePath.endsWith('endpoint1.xml'));
+      debug(util.format(proxyEndpointItems));
       assert.equal(proxyEndpointItems.length, 1);
+      proxyEndpointItems.forEach( item =>
+                                  debug(util.format(item.messages)));
       let st002Messages = proxyEndpointItems[0].messages.filter( m => m.ruleId == 'ST002');
       assert.equal(st002Messages.length, 3);
 
