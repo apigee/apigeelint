@@ -11,13 +11,13 @@
 ![CommitActivity](https://img.shields.io/github/commit-activity/4w/apigee/apigeelint)
 ![Downloads](https://img.shields.io/npm/dm/apigeelint.svg)
 
-Static code analysis for Apigee proxy and sharedflow bundles to encourage API developers to use best practices and avoid anti-patterns.
+Static code analysis for Apigee proxy and sharedflow bundles to encourage API developers to use [best practices](https://cloud.google.com/apigee/docs/api-platform/fundamentals/best-practices-api-proxy-design-and-development) and avoid [anti-patterns](https://cloud.google.com/apigee/docs/api-platform/antipatterns/intro).
 
 This utility is intended to capture the best practices knowledge from across Apigee including our Global Support Center team, Customer Success, Engineering, and our product team in a tool that will help developers create more scalable, performant, and stable API bundles using the Apigee DSL.
 
 ## Status
 
-At this point we are focused on plugin execution and modelling the various lintable assets including Bundles, Proxies, SharedFlows, Targets, Flows, Steps, and Policies.
+At this point, we are focused on plugin execution and modelling the various lintable assets including Bundles, Proxies, SharedFlows, Targets, Flows, Steps, and Policies.
 
 Plugins that test these abstractions are being developed concurrently.
 
@@ -180,7 +180,7 @@ This is the current list:
 | &nbsp; |:white_check_mark:| DC001 | ConcurrentRateLimit Policy Deprecation |  Check usage of deprecated policy ConcurrentRateLimit. |
 | &nbsp; |:white_check_mark:| DC002 | OAuth V1 Policies Deprecation |  Check usage of deprecated OAuth V1 policies. |
 
-From an implementation perspective the focus is on plugin support and flexibility over performance. Compute is cheap.
+From an implementation perspective, the focus is on plugin support and flexibility over performance. Compute is cheap.
 
 
 ## Support
