@@ -1,0 +1,11 @@
+<AssignMessage name='AM-CleanResponseHeaders' enabled='false'>
+  <!--
+       This policy is not enabled.  Using it with CORS on a loopback
+       policy, even as the first policy in the response preflow, will
+       erase the response headers that the cORS policy sets.
+  -->
+  <Remove>
+    <Headers/>
+  </Remove>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+</AssignMessage>

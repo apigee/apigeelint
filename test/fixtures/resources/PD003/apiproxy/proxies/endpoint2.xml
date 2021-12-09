@@ -1,0 +1,46 @@
+<ProxyEndpoint name="endpoint2">
+  <HTTPProxyConnection>
+    <BasePath>/PD003/endpoint2</BasePath>
+  </HTTPProxyConnection>
+
+  <PreFlow name="PreFlow">
+    <Request>
+      <Step>
+        <Name>CORS-1</Name>
+      </Step>
+    </Request>
+    <Response>
+      <Step>
+        <Name>AM-CleanResponseHeaders</Name>
+      </Step>
+      <Step>
+        <Name>JS-RemoveCopiedHeaders</Name>
+      </Step>
+      <Step>
+        <Name>AM-InjectProxyVersionHeader</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+
+  <Flows>
+    <Flow name="f1">
+      <Request/>
+      <Response/>
+      <Condition>proxy.pathsuffix MatchesPath "/hello"</Condition>
+    </Flow>
+
+  </Flows>
+
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response/>
+  </PostFlow>
+
+  <RouteRule name="noroute"/>
+
+  <RouteRule name="http-1">
+    <Condition>proxy.pathsuffix MatchesPath "/t1"</Condition>
+    <TargetEndpoint>http-1</TargetEndpoint>
+  </RouteRule>
+
+</ProxyEndpoint>
