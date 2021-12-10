@@ -1,0 +1,10 @@
+<RaiseFault name="RF-InvalidRequest">
+  <FaultResponse>
+    <Set>
+      <Payload contentType="text/plain">Bad Request</Payload>
+      <StatusCode>400</StatusCode>
+      <ReasonPhrase>Bad Request</ReasonPhrase>
+    </Set>
+  </FaultResponse>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>
