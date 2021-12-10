@@ -1,0 +1,13 @@
+<AssignMessage name='AM-1'>
+  <AssignTo createNew='true' transport='http' type='request'>contrivedMessage</AssignTo>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <Set>
+    <Headers>
+      <Header name='content-type'>text/plain</Header>
+    </Headers>
+    <Payload>
+payload-text-here
+</Payload>
+    <Verb>POST</Verb>
+  </Set>
+</AssignMessage>
