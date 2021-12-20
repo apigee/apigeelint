@@ -49,6 +49,7 @@
   "ServiceCallout" :{"indications":["callout","sc"]},
   "SetDialogResponse" :{"indications":["setdialogresponse","dialogflow","sdr","^setdialogresponse$"], "profiles":["apigeex"] },
   "SetIntegrationRequest" :{"indications":["setintegrationrequest","integration","sir","^setintegrationrequest$"], "profiles":["apigeex"] },
+  "SetOAuthV2Info" :{"indications":["oauthv2info","oauthinfo","oai","accesstoken"]},
   "SpikeArrest" :{"indications":["spikearrest","spike","sa","^spikearrest$"]},
   "StatisticsCollector" :{"indications":["stats","statcoll"], "profiles":["apigee"] },
   "TraceCapture" :{"indications":["tracecapture","tc","^tracecapture$","^tc$"], "profiles":["apigeex"] },
