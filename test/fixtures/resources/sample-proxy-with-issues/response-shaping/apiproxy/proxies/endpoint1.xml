@@ -1,0 +1,106 @@
+<ProxyEndpoint name="endpoint1">
+  <Description/>
+  <HTTPProxyConnection>
+    <BasePath>/response-shaping</BasePath>
+    <VirtualHost>secure</VirtualHost>
+  </HTTPProxyConnection>
+
+  <PreFlow name="PreFlow">
+    <Request>
+      <Step>
+        <!-- filter out invalid requests -->
+        <Name>RF-BadRequest</Name>
+        <Condition>(request.header.accept = null) or (request.header.accept =| "application/xml") or (request.header.accept =| "text/xml") or (request.verb != "GET")</Condition>
+      </Step>
+    </Request>
+    <Response/>
+  </PreFlow>
+
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response>
+      <Step><Name>AM-CleanResponseHeaders</Name></Step>
+    </Response>
+  </PostFlow>
+
+  <FaultRules>
+    <FaultRule name="invalid-key">
+      <Step>
+        <Name>AM-InvalidApiKey</Name>
+      </Step>
+      <Condition>fault.name = "InvalidApiKey" OR fault.name = "InvalidApiKeyForGivenResource"</Condition>
+    </FaultRule>
+
+    <FaultRule name="missing-key">
+      <Step>
+        <Name>AM-MissingKey</Name>
+      </Step>
+      <Condition>fault.name = "FailedToResolveAPIKey"</Condition>
+    </FaultRule>
+
+    <FaultRule name="key-expired">
+      <Step>
+        <Name>AM-ExpiredKey</Name>
+      </Step>
+      <Condition>fault.name = "consumer_key_expired"</Condition>
+    </FaultRule>
+
+  </FaultRules>
+
+
+  <Flows>
+    <!-- all of the following get IATA info -->
+
+    <Flow name='passthrough'>
+      <Request>
+        <Step><Name>VerifyAPIKey-1</Name></Step>
+        <Step><Name>EV-Keyword</Name></Step>
+      </Request>
+
+      <Response>
+        <!-- no filtering done here -->
+
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/iata-t1/*") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name='shape response based on developer app'>
+      <Request>
+        <Step><Name>VerifyAPIKey-1</Name></Step>
+        <Step><Name>EV-Keyword</Name></Step>
+      </Request>
+
+      <Response>
+        <Step><Name>JS-ApplyFieldFilter-Client</Name></Step>
+      </Response>
+
+      <Condition>(proxy.pathsuffix MatchesPath "/iata-t2/*") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name='shape response based on API Product'>
+      <Request>
+        <Step><Name>VerifyAPIKey-1</Name></Step>
+        <Step><Name>EV-Keyword</Name></Step>
+      </Request>
+
+      <Response>
+        <Step><Name>JS-ApplyFieldFilter-Product</Name></Step>
+      </Response>
+
+      <Condition>(proxy.pathsuffix MatchesPath "/iata-t3/*") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name='unknown request'>
+      <Request>
+        <Step><Name>RF-UnknownRequest</Name></Step>
+      </Request>
+      <Response/>
+    </Flow>
+
+  </Flows>
+
+  <RouteRule name="default">
+    <TargetEndpoint>amadeus</TargetEndpoint>
+  </RouteRule>
+
+</ProxyEndpoint>

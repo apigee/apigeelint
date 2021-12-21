@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="1" name="response-shaping">
+    <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+    <CreatedAt>1452715334834</CreatedAt>
+    <CreatedBy>DChiesa@google.com</CreatedBy>
+    <Description>see https://github.com/DinoChiesa/Apigee-Response-Shaping</Description>
+    <DisplayName>response-shaping</DisplayName>
+    <LastModifiedAt>1466713648718</LastModifiedAt>
+    <LastModifiedBy>DChiesa@google.com</LastModifiedBy>
+    <Policies/>
+    <ProxyEndpoints>
+      <ProxyEndpoint>endpoint1</ProxyEndpoint>
+    </ProxyEndpoints>
+    <TargetServers/>
+    <TargetEndpoints>
+        <TargetEndpoint>amadeus</TargetEndpoint>
+    </TargetEndpoints>
+    <validate>false</validate>
+</APIProxy>

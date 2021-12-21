@@ -1,0 +1,14 @@
+<AssignMessage name="AM-InvalidApiKey">
+  <Set>
+    <StatusCode>401</StatusCode>
+    <ReasonPhrase>Not Authorized</ReasonPhrase>
+    <Payload contentType="application/json">{
+  "error" : {
+    "code" : 401.23,
+    "message" : "the apikey is not valid for this resource"
+  }
+}
+</Payload>
+  </Set>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

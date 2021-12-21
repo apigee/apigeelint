@@ -14,15 +14,13 @@
   limitations under the License.
 */
 /* global describe, it, configuration */
+/* jslint esversion:9 */
 
 const assert = require("assert"),
-      debug = require("debug")("apigeelint"),
-      Bundle = require("../../lib/package/Bundle.js"),
+      debug = require("debug")("apigeelint:Formatters"),
+      //Bundle = require("../../lib/package/Bundle.js"),
       //util = require("util"),
       bl = require("../../lib/package/bundleLinter.js");
-
-debug("test configuration: " + JSON.stringify(configuration));
-let bundle = new Bundle(configuration);
 
 const formatters = [
   "checkstyle.js",
@@ -41,13 +39,16 @@ const formatters = [
 ];
 
 describe("Formatters", function() {
+  configuration.source.path = './test/fixtures/resources/sample-proxy-with-issues/response-shaping/apiproxy';
+  configuration.output = () => {}; // suppress output
+  debug("test configuration: " + JSON.stringify(configuration));
+
   formatters.forEach( formatter => {
-    it(`implementation for ${formatter} should not be undefined`, function() {
-      let impl = bl.getFormatter(formatter);
-      if (!impl) {
-        assert.fail("implementation not defined: " + formatter);
-      }
-      let report = impl( bundle.getReport() );
+    it(`Linting with formatter ${formatter} should succeed`, function() {
+      configuration.formatter = formatter;
+      let bundle = bl.lint(configuration);
+      let report = bundle.getReport();
+      assert.ok(report);
       debug("formatted report: \n" + report);
     });
   });

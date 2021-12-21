@@ -1,0 +1,13 @@
+<AssignMessage name='AM-Extract-Amadeus-Token'>
+
+  <AssignVariable>
+    <Name>path1</Name>
+    <Value>$.access_token</Value>
+  </AssignVariable>
+
+  <AssignVariable>
+    <Name>amadeus_bearer_token</Name>
+    <Template>{jsonPath(path1,tokenResponse.content)}</Template>
+  </AssignVariable>
+
+</AssignMessage>

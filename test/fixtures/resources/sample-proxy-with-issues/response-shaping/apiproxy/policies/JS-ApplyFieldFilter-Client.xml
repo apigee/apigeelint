@@ -1,0 +1,7 @@
+<Javascript name='JS-ApplyFieldFilter-Client' timeLimit='200' >
+  <Properties>
+    <Property name='response_filter'>{verifyapikey.VerifyAPIKey-1.response_filter}</Property>
+  </Properties>
+  <IncludeURL>jsc://fieldFiltering.js</IncludeURL>
+  <ResourceURL>jsc://applyFieldFilter.js</ResourceURL>
+</Javascript>

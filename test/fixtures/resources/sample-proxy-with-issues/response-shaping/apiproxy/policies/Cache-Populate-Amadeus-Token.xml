@@ -1,0 +1,15 @@
+<PopulateCache name='Cache-Populate-Amadeus-Token'>
+<!--
+  <CacheResource>cache1</CacheResource>
+-->
+  <Scope>Application</Scope>
+  <Source>amadeus_bearer_token</Source>
+  <CacheKey>
+    <KeyFragment>amadeus-token</KeyFragment>
+    <KeyFragment ref='system.uuid'/>
+  </CacheKey>
+  <ExpirySettings>
+    <!-- Amadeus tokens last 30 minutes -->
+    <TimeoutInSec>1740</TimeoutInSec>
+  </ExpirySettings>
+</PopulateCache>

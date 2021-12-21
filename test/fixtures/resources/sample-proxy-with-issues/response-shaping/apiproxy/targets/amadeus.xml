@@ -1,0 +1,48 @@
+<TargetEndpoint name='amadeus'>
+  <Description>Connect to the sandbox at Amadeus</Description>
+
+  <PreFlow name='PreFlow'>
+    <Request>
+
+      <!-- ============================================ -->
+      <!-- obtain a token from Cache or request a new one -->
+      <Step>
+        <Name>Cache-Lookup-Amadeus-Token</Name>
+      </Step>
+      <Step>
+        <Name>KVM-Get-Amadeus-Credentials</Name>
+        <Condition>amadeus_bearer_token = null</Condition>
+      </Step>
+      <Step>
+        <Name>SC-PostToken</Name>
+        <Condition>amadeus_bearer_token = null</Condition>
+      </Step>
+      <Step>
+        <Name>AM-Extract-Amadeus-Token</Name>
+        <Condition>amadeus_bearer_token = null</Condition>
+      </Step>
+      <Step>
+        <Name>Cache-Populate-Amadeus-Token</Name>
+        <Condition>tokenResponse != null</Condition>
+      </Step>
+      <!-- ============================================ -->
+
+      <Step>
+        <Name>AM-Outbound-Amadeus-Parameters</Name>
+      </Step>
+    </Request>
+    <Response/>
+
+  </PreFlow>
+
+  <PostFlow name='PostFlow'>
+    <Request/>
+    <Response/>
+  </PostFlow>
+
+  <Flows/>
+  <FaultRules/>
+  <HTTPTargetConnection>
+    <URL>https://test.api.amadeus.com/v1/reference-data/locations</URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>

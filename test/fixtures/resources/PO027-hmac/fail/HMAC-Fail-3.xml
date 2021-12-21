@@ -1,0 +1,9 @@
+<HMAC name="HMAC-Fail-2">
+  <!-- more than one Algorithm element -->
+  <Algorithm>SHA-256</Algorithm>
+  <Algorithm>SHA-1</Algorithm>
+  <Message>{template_for_message}</Message>
+  <SecretKey ref='private.secret_key'/>
+  <Output encoding='base16'>output_value</Output>
+  <VerificationValue ref='variable_name'/> <!-- optional -->
+</HMAC>

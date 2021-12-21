@@ -1,0 +1,31 @@
+<AssignMessage name='AM-Outbound-Amadeus-Parameters'>
+  <AssignTo createNew='false' type='request'/>
+  <Remove>
+    <Headers>
+      <Header name='apikey'/>
+      <Header name='cookie'/>
+      <Header name='user-agent'/>
+      <Header name='postman-token'/>
+      <Header name='x-forwarded-for'/>
+      <Header name='x-forwarded-port'/>
+      <Header name='x-forwarded-proto'/>
+    </Headers>
+  </Remove>
+
+  <Set>
+    <Headers>
+      <Header name='authorization'>Bearer {amadeus_bearer_token}</Header>
+      <Header name='accept'>application/json</Header>
+    </Headers>
+    <QueryParams>
+      <QueryParam name='subType'>AIRPORT</QueryParam>
+      <QueryParam name='keyword'>{keyword}</QueryParam>
+    </QueryParams>
+  </Set>
+
+  <AssignVariable>
+    <Name>target.copy.pathsuffix</Name>
+    <Value>false</Value>
+  </AssignVariable>
+
+</AssignMessage>

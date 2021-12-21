@@ -1,0 +1,11 @@
+<LookupCache name='Cache-Lookup-Amadeus-Token'>
+<!--
+  <CacheResource>cache1</CacheResource>
+-->
+  <Scope>Application</Scope>
+  <CacheKey>
+    <KeyFragment>amadeus-token</KeyFragment>
+    <KeyFragment ref='system.uuid'/>
+  </CacheKey>
+  <AssignTo>amadeus_bearer_token</AssignTo>
+</LookupCache>

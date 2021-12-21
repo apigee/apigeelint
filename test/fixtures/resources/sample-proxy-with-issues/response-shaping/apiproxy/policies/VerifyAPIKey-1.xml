@@ -1,0 +1,23 @@
+<VerifyAPIKey name='VerifyAPIKey-1'>
+  <DisplayName>Verify API Key</DisplayName>
+  <APIKey ref='request.header.apikey'></APIKey>
+  <!--
+      Variables populated by this policy: verifyapikey.{policy_name}.
+
+      client_id: The consumer key (aka API key or app key) supplied by the requesting app
+      client_secret: The consumer secret associated with the consumer key
+      redirection_uris: Any redirect URIs in the request
+      developer.app.name: The app name of the developer app making the request
+      developer.id: The developer ID of the developer registered as the owner of the requesting app
+      failed: Set when API Key validation fails
+      developer.app.{custom_attribute_name} ?? - custom attribute on the app
+      {custom_attribute_name_of_app}: Any custom attribute derived from the app profile?
+      {custom_attribute_name_of_appkey}: Any custom attributes derived from the app key profile
+      apiproduct.name*: The name of the API product used to validate the request
+      apiproduct.{custom_attribute_name}*: Any custom attribute derived from the API product profile
+      apiproduct.developer.quota.limit*
+      apiproduct.developer.quota.interval*
+      apiproduct.developer.quota.timeunit*
+
+  -->
+</VerifyAPIKey>

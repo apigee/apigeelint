@@ -1,0 +1,7 @@
+<ExtractVariables name='EV-Keyword'>
+  <Source>request</Source>
+  <URIPath>
+    <Pattern ignoreCase='true'>/iata-{trial}/{keyword}</Pattern>
+  </URIPath>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</ExtractVariables>
