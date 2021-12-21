@@ -16,12 +16,12 @@
       <Name>AM-AddCORSHeaders</Name>
     </Step>
     <Step>
-        <!-- no error: faultrules uncommon here, but ok -->
+        <!-- no error: empty faultrules uncommon and unnecessary here, but ignored -->
         <FaultRules/>
       <Name>AM-GenericError</Name>
     </Step>
     <Step>
-      <!-- error: whitespace around name value -->
+      <!-- error: Name value should not have leading or trailing ws -->
       <Name> AM-AddCORSHeaders </Name>
     </Step>
     <AlwaysEnforce>false</AlwaysEnforce>
@@ -32,6 +32,7 @@
     </Request>
     <Response>
       <Step>
+        <!-- error: Multiple Condition elements for Step -->
         <Name>AM-CleanResponseHeaders</Name>
         <Condition>request.verb != "GET"</Condition>
         <Condition>request.verb = "OPTIONS"</Condition>
@@ -41,16 +42,16 @@
   <PostFlow name="PostFlow">
     <Request>
       <Step>
-        <!-- error empty Name element -->
+        <!-- error: empty Name element -->
         <Name></Name>
       </Step>
     </Request>
     <Response>
       <Step>
-        <!-- error no children -->
+        <!-- error no children at all -->
       </Step>
       <Step>
-        <!-- error no Name child -->
+        <!-- error missing Name element -->
         <Condition>request.verb = "OPTIONS"</Condition>
       </Step>
 
@@ -60,6 +61,13 @@
         <Step>
           <Name>AM-PostFlow</Name>
         </Step>
+      </Step>
+
+      <Step>
+        <Name>
+          <!-- error unknown extraneous child element -->
+           <Step>AM-PostFlow</Step>
+        </Name>
       </Step>
 
     </Response>
@@ -75,6 +83,23 @@
 
     <Flow name="flow1">
       <Request>
+        <Step>
+          <!-- error: empty Condition element -->
+          <Name>AM-PostFlow</Name>
+          <Condition></Condition>
+        </Step>
+        <Step>
+          <!-- error: empty Condition element -->
+          <Name>AM-PostFlow</Name>
+          <Condition> </Condition>
+        </Step>
+        <Step>
+          <!-- error: Stray element under Condition element -->
+          <Name>AM-PostFlow</Name>
+          <Condition>
+            <Name>proxy.pathsuffix = "/foo"</Name>
+          </Condition>
+        </Step>
       </Request>
       <Response>
         <Step>

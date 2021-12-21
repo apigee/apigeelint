@@ -1,0 +1,14 @@
+<AssignMessage name="AM-MissingKey">
+  <Set>
+    <StatusCode>400</StatusCode>
+    <ReasonPhrase>Bad Request</ReasonPhrase>
+    <Payload contentType="application/json">{
+  "error" : {
+    "code" : 400.14,
+    "message" : "the apikey is missing"
+  }
+}
+</Payload>
+  </Set>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

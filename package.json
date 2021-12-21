@@ -8,7 +8,7 @@
   },
   "scripts": {
     "badge": "mocha --reporter mocha-badge-generator",
-    "coverage": "nyc mocha",
+    "coverage": "npx nyc --reporter=text mocha",
     "preinstall": "([ ! -f package-lock.json ] && npm install --package-lock-only --ignore-scripts --no-audit); npx npm-force-resolutions",
     "test": "mocha"
   },
@@ -35,7 +35,6 @@
     "chalk": "4.1.2",
     "commander": "^2.9.0",
     "debug": "latest",
-    "decache": "latest",
     "decompress": "latest",
     "eslint": "latest",
     "js-yaml": "latest",
@@ -47,11 +46,9 @@
     "path": ">= 0.11.14",
     "pdfmake": "latest",
     "pluralize": "latest",
-    "request": "latest",
     "strip-ansi": "^6.0.1",
     "table": "latest",
     "text-table": "latest",
-    "util": "^0.10.3",
     "xpath": "latest"
   },
   "devDependencies": {

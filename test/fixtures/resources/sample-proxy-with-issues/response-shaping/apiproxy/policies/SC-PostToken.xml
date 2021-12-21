@@ -1,0 +1,32 @@
+<ServiceCallout name='SC-PostToken'>
+  <Request clearPayload="false" variable="tokenRequest">
+<!--
+curl -X POST -H "Content-Type: application/x-www-form-urlencoded" \
+  https://test.api.amadeus.com/v1/security/oauth2/token \
+  -d "grant_type=client_credentials&client_id=${amadeus_client_id}&client_secret=${amadeus_client_secret}"
+
+-->
+    <Set>
+      <Headers>
+        <Header name='content-type'>application/x-www-form-urlencoded</Header>
+      </Headers>
+      <FormParams>
+        <FormParam name='grant_type'>client_credentials</FormParam>
+        <FormParam name='client_id'>{private.amadeus_client_id}</FormParam>
+        <FormParam name='client_secret'>{private.amadeus_client_secret}</FormParam>
+      </FormParams>
+      <Verb>POST</Verb>
+    </Set>
+  </Request>
+  <Response>tokenResponse</Response>
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <IgnoreValidationErrors>true</IgnoreValidationErrors>
+    </SSLInfo>
+    <Properties>
+      <Property name='success.codes'>2xx, 3xx</Property>
+    </Properties>
+    <URL>https://test.api.amadeus.com/v1/security/oauth2/token</URL>
+  </HTTPTargetConnection>
+</ServiceCallout>
