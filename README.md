@@ -1,9 +1,5 @@
 # apigeelint
 
-<!--
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/260964318a4e4e689cbd6d059472765e)](https://www.codacy.com/app/davidwallen/bundle-linter?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=apigeecs/bundle-linter&amp;utm_campaign=Badge_Grade)
--->
-
 [![Apache 2.0](https://img.shields.io/badge/license-apache%202.0-blue.svg)](LICENSE)
 ![Node](https://img.shields.io/node/v/apigeelint.svg)
 ![Test](https://raw.githubusercontent.com/apigee/apigeelint/master/test/badge.svg?sanitize=true)
@@ -25,11 +21,28 @@ Reporters (the means to report out results), Ingesters (bundle loaders) are to b
 
 ## Installation
 
-Install using npm
+You can install apigeellint using npm. But, there is a minimum version of `npm` required.
 
-```
-npm install -g apigeelint
-```
+1. First verify the version of npm:
+   ```
+   npm --version
+   ```
+
+   If the version is 8.3.0 or later, then proceed to step 2. 
+   If the version is less than `8.3.0`, then update:
+   ```
+   npm install npm@8.3.0 -g
+   ```
+
+   Alternatively, you may choose to get the latest npm:
+   ```
+   npm install npm@latest -g
+   ```
+
+2. Then install apigeelint:
+   ```
+   npm install -g apigeelint
+   ```
 
 ## Usage
 
