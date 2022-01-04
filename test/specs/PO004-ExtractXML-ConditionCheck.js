@@ -16,7 +16,7 @@
 /* global describe, it, configuration */
 
 const assert = require("assert"),
-      testID = "PO003",
+      testID = "PO004",
       debug = require("debug")("apigeelint:" + testID),
       Bundle = require("../../lib/package/Bundle.js"),
       bl = require("../../lib/package/bundleLinter.js"),
@@ -73,6 +73,7 @@ const assert = require("assert"),
           );
       };
 
+
 const policyXml = {
         test1: `<ExtractVariables name="EV-test1">
      <Source>response</Source>
@@ -84,12 +85,9 @@ const policyXml = {
            <JSONPath>$.results[0].geometry.location.lng</JSONPath>
         </Variable>
      </JSONPayload>
-     <FormParam name="greeting">
-        <Pattern>hello {user}</Pattern>
-     </FormParam>
      <VariablePrefix>geocoderesponse</VariablePrefix>
   </ExtractVariables>`,
-        test2: `<ExtractVariables name="EV-test2">
+test2: `<ExtractVariables name="EV-test2">
    <Source>scResponse</Source>
    <XMLPayload>
      <Namespaces>
@@ -103,11 +101,11 @@ const policyXml = {
 </ExtractVariables>`,
         test3 : `<ExtractVariables name="EV-test3">
    <Source>private.geis.kvm.api.config</Source>
-     <JSONPayload>
-        <Variable name="location" type="string">
-           <JSONPath>$.targets.location</JSONPath>
-        </Variable>
-     </JSONPayload>
+   <XMLPayload>
+     <Variable name='targetLocation' type='string'>
+       <XPath>/config/target/text()</XPath>
+     </Variable>
+   </XMLPayload>
    <VariablePrefix>config</VariablePrefix>
 </ExtractVariables>`,
         test4: `<RegularExpressionProtection name="REP-1">
@@ -119,11 +117,12 @@ const policyXml = {
 </RegularExpressionProtection>`
       };
 
+
 describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   test(
     1,
-    policyXml.test1,
+    policyXml.test2,
     null,
     null,
     false //not attached
@@ -131,7 +130,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   test(
     2,
-    policyXml.test1,
+    policyXml.test2,
     `<Step>
       <Condition>foo != ""</Condition>
       <Name>EV--Policy-Name-Does-Not-Matter</Name>
@@ -142,69 +141,70 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   test(
     3,
-    policyXml.test2,
+    policyXml.test1,
     `<Step>
       <Condition>foo != ""</Condition>
       <Name>EV--Policy-Name-Does-Not-Matter</Name>
   </Step>`,
     null,
-    false // attached, insufficient condition, but not JSONPayload
+    false // attached, insufficient condition, but not XMLPayload
   );
 
   test(
     4,
-    policyXml.test1,
+    policyXml.test2,
     `<Step>
-    <Condition>response.content != ""</Condition>
-    <Name>EV--Policy-Name-Does-Not-Matter</Name>
+      <Condition>scResponse.content != ""</Condition>
+      <Name>EV--Policy-Name-Does-Not-Matter</Name>
 </Step>`,
     null,
-    false //attached, sufficient condition
+    false //attached good condition
   );
 
   test(
     5,
-    policyXml.test1,
+    policyXml.test2,
     `<Step>
-    <Condition>message.content != ""</Condition>
-    <Name>EV--Policy-Name-Does-Not-Matter</Name>
+      <Condition>message.content != ""</Condition>
+      <Name>EV--Policy-Name-Does-Not-Matter</Name>
 </Step>`,
     null,
-    true //attached insufficient condition. condition var does not match policy.
+    true //attached insufficient condition
   );
 
   test(
     6,
-    policyXml.test1,
+    policyXml.test2,
     `<Step>
-    <Condition>foo != ""</Condition>
-    <Name>EV--Policy-Name-Does-Not-Matter</Name>
+      <Condition>foo != ""</Condition>
+      <Name>EV--Policy-Name-Does-Not-Matter</Name>
 </Step>`,
     `<Flow name="flow2">
         <Step>
-          <Condition>foo != ""</Condition>
-          <Name>EV--Policy-Name-Does-Not-Matter</Name>
+            <Condition>foo != ""</Condition>
+            <Name>ExtractVariables-5</Name>
         </Step>
         <Condition/>
     </Flow>`,
     true //attached insufficient condition
   );
 
+
   test(
     7,
-    policyXml.test1,
+    policyXml.test2,
     ` <Step>
         <Condition>foo != ""</Condition>
-        <Name>EV--Policy-Name-Does-Not-Matter</Name>
+        <Name>ExtractVariables-6</Name>
     </Step>`,
     ` <Flow name="flow2">
         <Step>
-          <Condition>foo != ""</Condition>
-          <Name>EV--Policy-Name-Does-Not-Matter</Name>
+            <Condition>foo != ""</Condition>
+            <Name>ExtractVariables-6</Name>
         </Step>
-        <Condition>response.content != ""</Condition>
+        <Condition>scResponse.content != ""</Condition>
     </Flow>`,
-    false //attached sufficient condition in parent
+    false //attached sufficient condition
   );
 
   test(
@@ -227,7 +227,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   );
 
   test(
-    10,
+    9,
     policyXml.test3,
     `<Step>
     <Condition>private.geis.kvm.api.config IsNot null</Condition>
@@ -239,7 +239,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
 
 
   test(
-    11,
+    10,
     policyXml.test3,
     `<Step>
     <Condition>private.geis.kvm.api != ""</Condition>
