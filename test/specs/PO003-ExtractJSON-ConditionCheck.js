@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2022 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -122,7 +122,7 @@ const policyXml = {
 describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   test(
-    1,
+    10,
     policyXml.test1,
     null,
     null,
@@ -130,18 +130,18 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   );
 
   test(
-    2,
+    20,
     policyXml.test1,
     `<Step>
       <Condition>foo != ""</Condition>
       <Name>EV--Policy-Name-Does-Not-Matter</Name>
   </Step>`,
     null,
-    true //attached insufficient condition
+    true // attached insufficient condition
   );
 
   test(
-    3,
+    30,
     policyXml.test2,
     `<Step>
       <Condition>foo != ""</Condition>
@@ -152,7 +152,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   );
 
   test(
-    4,
+    40,
     policyXml.test1,
     `<Step>
     <Condition>response.content != ""</Condition>
@@ -163,7 +163,73 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   );
 
   test(
-    5,
+    41,
+    policyXml.test1,
+    `<Step>
+    <Condition> response.content   !=""</Condition> <!-- with spaces -->
+    <Name>EV--Policy-Name-Does-Not-Matter</Name>
+</Step>`,
+    null,
+    false //attached, sufficient condition
+  );
+
+  test(
+    42,
+    policyXml.test1,
+    `<Step>
+    <Condition>(response.content !=null) and (response.status.code !="401" )</Condition> <!-- compound condition -->
+    <Name>EV--Policy-Name-Does-Not-Matter</Name>
+</Step>`,
+    null,
+    false //attached, sufficient condition
+  );
+
+  test(
+    50,
+    policyXml.test1,
+    `<Step>
+    <Condition>(response.content != "")</Condition> <!-- wrapped in parens -->
+    <Name>EV--Policy-Name-Does-Not-Matter</Name>
+</Step>`,
+    null,
+    false //attached, sufficient condition with parenthesis
+  );
+
+  test(
+    51,
+    policyXml.test1,
+    `<Step>
+    <Condition>( response.content != "")</Condition> <!-- extra leading space -->
+    <Name>EV--Policy-Name-Does-Not-Matter</Name>
+</Step>`,
+    null,
+    false //attached, sufficient condition with parenthesis
+  );
+
+  test(
+    52,
+    policyXml.test1,
+    `<Step>
+    <Condition> ( response.content != "") </Condition> <!-- leading and trailing spaces -->
+    <Name>EV--Policy-Name-Does-Not-Matter</Name>
+</Step>`,
+    null,
+    false //attached, sufficient condition
+  );
+
+  test(
+    53,
+    policyXml.test1,
+    `<Step>
+    <Condition> ( response.content !=""   ) </Condition> <!-- leading and trailing spaces -->
+    <Name>EV--Policy-Name-Does-Not-Matter</Name>
+</Step>`,
+    null,
+    false //attached, sufficient condition
+  );
+
+  test(
+    60,
     policyXml.test1,
     `<Step>
     <Condition>message.content != ""</Condition>
@@ -174,7 +240,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   );
 
   test(
-    6,
+    70,
     policyXml.test1,
     `<Step>
     <Condition>foo != ""</Condition>
@@ -191,7 +257,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   );
 
   test(
-    7,
+    80,
     policyXml.test1,
     ` <Step>
         <Condition>foo != ""</Condition>
@@ -208,7 +274,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   );
 
   test(
-    8,
+    90,
     policyXml.test4,
     null,
     null,
@@ -216,18 +282,18 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   );
 
   test(
-    9,
+    100,
     policyXml.test3,
     `<Step>
     <Condition>private.geis.kvm.api.config != ""</Condition>
     <Name>EV-3</Name>
 </Step>`,
     null,
-    false //attached sufficient condition
+    false // attached sufficient condition
   );
 
   test(
-    10,
+    110,
     policyXml.test3,
     `<Step>
     <Condition>private.geis.kvm.api.config IsNot null</Condition>
@@ -237,9 +303,8 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
     false //attached sufficient condition
   );
 
-
   test(
-    11,
+    120,
     policyXml.test3,
     `<Step>
     <Condition>private.geis.kvm.api != ""</Condition>
