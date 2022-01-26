@@ -138,6 +138,7 @@ This is the current list:
 | &nbsp; |:white_check_mark:| PD002 | Unreachable Route Rules - defaults |  Only one RouteRule should be present without a condition |
 | &nbsp; |:white_check_mark:| PD003 | Unreachable Route Rules |  RouteRule without a condition should be last. |
 | &nbsp; |:white_check_mark:| PD004 | ProxyEndpoint name | ProxyEndpoint name should match basename of filename. |
+| &nbsp; |:white_check_mark:| PD005 | VirtualHost | ProxyEndpoint should have one HTTPProxyConnection, and in the case of profile=apigeex, no VirtualHost. |
 | Target Definition | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| TD001 | Mgmt Server as Target |  Discourage calls to the Management Server from a Proxy via target. |
 | &nbsp; |:white_check_mark:| TD002 | Use Target Servers |  Encourage the use of target servers |

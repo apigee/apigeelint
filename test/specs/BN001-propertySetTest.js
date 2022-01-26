@@ -16,8 +16,11 @@
 
 /* global describe, it */
 
-const assert = require("assert"),
+const ruleId = 'BN001',
+      assert = require("assert"),
       path = require("path"),
+      util = require("util"),
+      debug = require("debug")(`apigeelint:${ruleId}`),
       bl = require("../../lib/package/bundleLinter.js");
 
 describe(`BN001 - bundle with properties resource`, () => {
@@ -39,12 +42,13 @@ describe(`BN001 - bundle with properties resource`, () => {
       let items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
-      let actualErrors = items.filter(item => item.messages && item.messages.length);
-      assert.equal(actualErrors.length, 1);
-      assert.ok(actualErrors[0].messages.length);
-      assert.equal(actualErrors[0].messages.length, 1);
-      assert.ok(actualErrors[0].messages[0].message);
-      assert.ok(actualErrors[0].messages[0].message.startsWith('Unexpected folder found "frobjo"'));
+      let actualIssues = items.filter(item => item.messages && item.messages.length && item.messages.find( m => m.ruleId == ruleId));
+      assert.equal(actualIssues.length, 1);
+      debug(JSON.stringify(actualIssues, null, 2));
+      assert.ok(actualIssues[0].messages.length);
+      assert.equal(actualIssues[0].messages.length, 1);
+      assert.ok(actualIssues[0].messages[0].message);
+      assert.ok(actualIssues[0].messages[0].message.startsWith('Unexpected folder found "frobjo"'));
 
     });
   });

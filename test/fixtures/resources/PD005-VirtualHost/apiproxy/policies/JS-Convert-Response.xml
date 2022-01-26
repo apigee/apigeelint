@@ -1,0 +1,21 @@
+<Javascript name='JS-Convert-Response'>
+  <Source><![CDATA[
+var c = JSON.parse(context.getVariable('response.content'));
+if (Number(c.totalRows) >0) {
+  var fieldnames = c.schema.fields.map(function(field){
+        return field.name;
+      });
+  var rows = c.rows.map(function(row) {
+        var values = row.f.map(function(f){ return f.v; });
+        var result = {};
+        fieldnames.forEach(function(name, ix){ result[name] = values[ix]; });
+        return result;
+      });
+  c.rows = rows;
+}
+delete c.kind;
+delete c.jobReference;
+context.setVariable('response.content', JSON.stringify(c,null,2)+'\n');
+]]>
+  </Source>
+</Javascript>

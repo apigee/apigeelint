@@ -59,6 +59,7 @@
     "nyc": "^15.1.0"
   },
   "overrides": {
+    "badge-up": "https://registry.npmjs.org/@rpl/badge-up/-/badge-up-3.0.0.tgz",
     "nth-check": "^2.0.1",
     "svgo": "^2.8.0",
     "uuid": "^7.0.3"
