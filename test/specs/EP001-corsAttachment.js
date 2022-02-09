@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2022 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -39,20 +39,22 @@ describe(`EP001 - bundle with properties resource`, () => {
       let items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
-      let actualErrors = items.filter(item => item.messages && item.messages.length);
-      assert.equal(actualErrors.length, 2);
-      assert.ok(actualErrors[0].messages.length);
-      assert.equal(actualErrors[0].messages.length, 3);
-      assert.ok(actualErrors[0].messages[0].message);
-      assert.equal(actualErrors[0].messages[0].message, 'There are multiple CORS policies and policy CORS-1 is attached to a Step without a Condition.');
-      assert.equal(actualErrors[0].messages[1].message, 'There are multiple CORS policies and policy CORS-2 is attached to a Step without a Condition.');
-      assert.ok(actualErrors[0].messages[2].message.startsWith('There are multiple CORS policies attached, at least one without a condition.'));
+      let ep001Errors = items.filter(item => item.messages && item.messages.length &&
+                                      item.messages.find(m => m.ruleId == 'EP001'));
+      assert.equal(ep001Errors.length, 2);
+      assert.ok(ep001Errors[0].messages.length);
+      assert.equal(ep001Errors[0].messages.length, 3);
+      assert.ok(ep001Errors[0].messages[0].message);
+      assert.equal(ep001Errors[0].messages[0].message, 'There are multiple CORS policies and policy CORS-1 is attached to a Step without a Condition.');
+      assert.equal(ep001Errors[0].messages[1].message, 'There are multiple CORS policies and policy CORS-2 is attached to a Step without a Condition.');
+      assert.ok(ep001Errors[0].messages[2].message.startsWith('There are multiple CORS policies attached, at least one without a condition.'));
 
 
-      assert.ok(actualErrors[1].messages.length);
-      assert.equal(actualErrors[1].messages.length, 1);
-      assert.ok(actualErrors[1].messages[0].message);
-      assert.equal(actualErrors[1].messages[0].message, 'There is a CORS policy attached to a TargetEndpoint.  Attach CORS policies to a ProxyEndpoint.');
+      assert.ok(ep001Errors[1].messages.length);
+      let ep001Messages = ep001Errors[1].messages.filter( m => m.ruleId == 'EP001');
+      assert.equal(ep001Messages.length, 1);
+      assert.ok(ep001Messages[0].message);
+      assert.equal(ep001Messages[0].message, 'There is a CORS policy attached to a TargetEndpoint.  Attach CORS policies to a ProxyEndpoint.');
 
     });
   });

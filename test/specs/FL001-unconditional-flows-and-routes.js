@@ -43,20 +43,22 @@ describe(`${ruleId} - bundle with unconditional flows`, () => {
       assert.ok(items);
       assert.ok(items.length);
       let actualErrors = items.filter(item => item.messages && item.messages.length);
-      assert.equal(actualErrors.length, 2);
+      assert.ok(actualErrors.length);
       debug(util.format(actualErrors));
 
       let ep2 = actualErrors.find(e => e.filePath.endsWith('endpoint2.xml'));
       assert.ok(ep2);
-      assert.equal(ep2.messages.length, 1);
-      assert.ok(ep2.messages[0].message);
-      assert.equal(ep2.messages[0].message, 'Endpoint has an unconditional Flow that is not the final flow. It will be ignored.');
+      let fl001Messages = ep2.messages.filter(m => m.ruleId == 'FL001');
+      assert.equal(fl001Messages.length, 1);
+      assert.ok(fl001Messages[0].message);
+      assert.equal(fl001Messages[0].message, 'Endpoint has an unconditional Flow that is not the final flow. It will be ignored.');
 
       let ep3 = actualErrors.find(e => e.filePath.endsWith('endpoint3.xml'));
       assert.ok(ep3);
-      assert.equal(ep3.messages.length, 1);
-      assert.ok(ep3.messages[0].message);
-      assert.equal(ep3.messages[0].message, 'Endpoint has too many unconditional Flow elements (2). Only one will be executed.');
+      fl001Messages = ep3.messages.filter(m => m.ruleId == 'FL001');
+      assert.equal(fl001Messages.length, 1);
+      assert.ok(fl001Messages[0].message);
+      assert.equal(fl001Messages[0].message, 'Endpoint has too many unconditional Flow elements (2). Only one will be executed.');
 
     });
   });

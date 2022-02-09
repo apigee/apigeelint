@@ -16,6 +16,7 @@
 /* global describe, it */
 const assert = require("assert"),
       path = require("path"),
+      util = require("util"),
       bl = require("../../lib/package/bundleLinter.js");
 
 describe(`DC001 - ConcurrentRateLimit Policy is deprecated`, () => {
@@ -36,8 +37,8 @@ describe(`DC001 - ConcurrentRateLimit Policy is deprecated`, () => {
       let items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
-      let actualErrors = items.filter(item => item.messages && item.messages.length);
-      assert.equal(actualErrors.length, 1);
+      let actualErrors = items.filter(item => item.messages && item.messages.length && item.messages.find(m => m.ruleId == 'DC001'));
+      assert.equal(actualErrors.length, 1, JSON.stringify(actualErrors));
       assert.ok(actualErrors[0].messages.length);
       assert.ok(actualErrors[0].messages[0].message);
       assert.ok(actualErrors[0].messages.length);
