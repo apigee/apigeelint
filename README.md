@@ -28,7 +28,7 @@ You can install apigeellint using npm. But, there is a minimum version of `npm` 
    npm --version
    ```
 
-   If the version is 8.3.0 or later, then proceed to step 2. 
+   If the version is 8.3.0 or later, then proceed to step 2.
    If the version is less than `8.3.0`, then update:
    ```
    npm install npm@8.3.0 -g
@@ -212,5 +212,15 @@ checked by Apigee experts.
 
 Apigee customers should use [formal support channels](https://cloud.google.com/apigee/support) for Apigee product related concerns.
 
+
+
+## License and Copyright
+
+This material is [Copyright (c) 2018-2022 Google LLC](./NOTICE).
+and is licensed under the [Apache 2.0 License](LICENSE).
+
 ## Disclaimer
-This is not an officially supported Google product.
+
+This tool is open-source software. It is not an officially supported Google
+product. It is not a part of Apigee, or any other officially supported Google
+Product.
