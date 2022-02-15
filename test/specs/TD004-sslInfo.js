@@ -44,8 +44,8 @@ const assert = require("assert"),
                  });
                }
                else {
-                 assert.equal(result, false);
-                 assert.equal(target.report.messages.length, 0);
+                 assert.equal(result, false, util.format(target.report.messages));
+                 assert.equal(target.report.messages.length, 0, util.format(target.report.messages));
                }
              });
            } );
@@ -59,7 +59,6 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
-      <Properties/>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
     ['Missing SSLInfo configuration']
@@ -67,15 +66,50 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   test(
     20,
-    'empty SSLInfo',
+    'empty SSLInfo with https url',
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
       <SSLInfo/>
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
-      <Properties/>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
     ['SSLInfo configuration is not Enabled', 'Missing TrustStore in SSLInfo']
+  );
+  test(
+    21,
+    'empty SSLInfo with http url',
+    `<TargetEndpoint name="default">
+    <HTTPTargetConnection>
+      <SSLInfo/>
+      <URL>http://foo.com/apis/{api_name}/maskconfigs</URL>
+    </HTTPTargetConnection>
+  </TargetEndpoint>`,
+    ['SSLInfo should not be used with an insecure http url']
+  );
+
+  test(
+    22,
+    'non-empty SSLInfo with http url',
+    `<TargetEndpoint name="default">
+    <HTTPTargetConnection>
+      <SSLInfo>
+        <Enabled>false</Enabled>
+      </SSLInfo>
+      <URL>http://foo.com/apis/{api_name}/maskconfigs</URL>
+    </HTTPTargetConnection>
+  </TargetEndpoint>`,
+    ['SSLInfo should not be used with an insecure http url']
+  );
+
+  test(
+    23,
+    'no SSLInfo, using http url',
+    `<TargetEndpoint name="default">
+    <HTTPTargetConnection>
+      <URL>http://foo.com/apis/{api_name}/maskconfigs</URL>
+    </HTTPTargetConnection>
+  </TargetEndpoint>`,
+    null  /* http URL does not require SSLInfo */
   );
 
   test(
@@ -87,7 +121,6 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
         <Enabled>false</Enabled>
       </SSLInfo>
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
-      <Properties/>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
     ['SSLInfo configuration is not Enabled', 'Missing TrustStore in SSLInfo']
@@ -103,7 +136,6 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
         <Enabled>true</Enabled>
       </SSLInfo>
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
-      <Properties/>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
     ['Missing TrustStore in SSLInfo']
@@ -119,7 +151,6 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
         <TrustStore>truststore1</TrustStore>
       </SSLInfo>
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
-      <Properties/>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
     null
@@ -136,10 +167,28 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
         <TrustStore>truststore1</TrustStore>
       </SSLInfo>
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
-      <Properties/>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
     null
+  );
+
+  test(
+    43,
+    'SSLInfo Enabled = true, with LoadBalancer',
+    `<TargetEndpoint name="default">
+    <HTTPTargetConnection>
+      <SSLInfo>
+        <Enabled>true</Enabled>
+        <IgnoreValidationErrors>false</IgnoreValidationErrors>
+        <TrustStore>truststore1</TrustStore>
+      </SSLInfo>
+      <LoadBalancer>
+         <Server name="server1"/>
+         <Server name="server2"/>
+      </LoadBalancer>
+    </HTTPTargetConnection>
+  </TargetEndpoint>`,
+    ['HTTPTargetConnection/SSLInfo should not be used with LoadBalancer']
   );
 
   test(
@@ -152,7 +201,6 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
         <IgnoreValidationErrors>true</IgnoreValidationErrors>
       </SSLInfo>
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
-      <Properties/>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
     ['SSLInfo configuration includes IgnoreValidationErrors = true', 'Missing TrustStore in SSLInfo']
@@ -169,7 +217,6 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
         <TrustStore>truststore1</TrustStore>
       </SSLInfo>
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
-      <Properties/>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
     ['SSLInfo configuration includes IgnoreValidationErrors = true', 'SSLInfo configuration is not Enabled']
@@ -188,7 +235,6 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
         <KeyAlias>key1</KeyAlias>
       </SSLInfo>
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
-      <Properties/>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
     null
@@ -196,7 +242,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   test(
     71,
-    'SSLInfo ClientAuthEnabled missing KeyStore',
+    'SSLInfo ClientAuthEnabled missing KeyStore + KeyAlias',
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
       <SSLInfo>
@@ -209,7 +255,6 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
         -->
       </SSLInfo>
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
-      <Properties/>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
     ['When ClientAuthEnabled = true, use a KeyStore and KeyAlias']
@@ -217,21 +262,77 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   test(
     72,
-    'SSLInfo ClientAuthEnabled missing KeyStore',
+    'SSLInfo ClientAuthEnabled missing KeyAlias',
+    `<TargetEndpoint name="default">
+    <HTTPTargetConnection>
+      <SSLInfo>
+        <Enabled>true</Enabled>
+        <ClientAuthEnabled>true</ClientAuthEnabled>
+        <TrustStore>truststore1</TrustStore>
+          <KeyStore>keystore1</KeyStore>
+        <!--
+          <KeyAlias>key1</KeyAlias>
+        -->
+      </SSLInfo>
+      <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
+    </HTTPTargetConnection>
+  </TargetEndpoint>`,
+    ['When ClientAuthEnabled = true, use a KeyStore and KeyAlias']
+  );
+
+  test(
+    73,
+    'SSLInfo ClientAuthEnabled = false, includes KeyStore + KeyAlias',
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
       <SSLInfo>
         <Enabled>true</Enabled>
         <ClientAuthEnabled>false</ClientAuthEnabled>
         <TrustStore>truststore1</TrustStore>
-          <KeyStore>keystore1</KeyStore>
-          <KeyAlias>key1</KeyAlias>
+        <KeyStore>keystore1</KeyStore>
+        <KeyAlias>key1</KeyAlias>
       </SSLInfo>
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
-      <Properties/>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
     ['When ClientAuthEnabled = false, do not use a KeyStore and KeyAlias']
+  );
+
+  test(
+    74,
+    'SSLInfo ClientAuthEnabled element not present, includes KeyStore + KeyAlias',
+    `<TargetEndpoint name="default">
+    <HTTPTargetConnection>
+      <SSLInfo>
+        <Enabled>true</Enabled>
+        <!-- <ClientAuthEnabled>false</ClientAuthEnabled> -->
+        <TrustStore>truststore1</TrustStore>
+        <KeyStore>keystore1</KeyStore>
+        <KeyAlias>key1</KeyAlias>
+      </SSLInfo>
+      <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
+    </HTTPTargetConnection>
+  </TargetEndpoint>`,
+    ['When ClientAuthEnabled = false, do not use a KeyStore and KeyAlias']
+  );
+
+  test(
+    80,
+    'SSLInfo with URL and LoadBalancer',
+    `<TargetEndpoint name="default">
+    <HTTPTargetConnection>
+      <SSLInfo>
+        <Enabled>true</Enabled>
+        <TrustStore>truststore1</TrustStore>
+      </SSLInfo>
+      <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
+      <LoadBalancer>
+         <Server name="server1"/>
+         <Server name="server2"/>
+      </LoadBalancer>
+    </HTTPTargetConnection>
+  </TargetEndpoint>`,
+    ['Using both URL and LoadBalancer in a proxy leads to undefined behavior']
   );
 
   });
