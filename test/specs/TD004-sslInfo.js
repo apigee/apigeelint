@@ -188,7 +188,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
       </LoadBalancer>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ['HTTPTargetConnection/SSLInfo should not be used with LoadBalancer']
+    ['With LoadBalancer, SSLInfo should be configured within TargetServer, not under HTTPTargetConnection']
   );
 
   test(
