@@ -43,15 +43,16 @@ describe(`${ruleId} - bundle with unconditional routes`, () => {
       assert.ok(items);
       assert.ok(items.length);
       let actualErrors = items.filter(item => item.messages && item.messages.length);
-      assert.equal(actualErrors.length, 1);
+      assert.ok(actualErrors.length);
       debug(util.format(actualErrors));
 
       let ep2 = actualErrors.find(e => e.filePath.endsWith('endpoint2.xml'));
       assert.ok(ep2);
       debug(util.format(ep2.messages));
-      assert.equal(ep2.messages.length, 1);
-      assert.ok(ep2.messages[0].message);
-      assert.equal(ep2.messages[0].message, 'Endpoint has an unconditional RouteRule that is not the final RouteRule. It will be ignored.');
+      let pd003Messages = ep2.messages.filter(m => m.ruleId == 'PD003');
+      assert.equal(pd003Messages.length, 1);
+      assert.ok(pd003Messages[0].message);
+      assert.equal(pd003Messages[0].message, 'Endpoint has an unconditional RouteRule that is not the final RouteRule. It will be ignored.');
 
     });
   });

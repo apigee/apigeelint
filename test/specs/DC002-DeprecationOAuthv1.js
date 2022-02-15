@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2022 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -38,13 +38,17 @@ describe(`DC002 - OAuth V1 policies are deprecated`, () => {
       let items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
-      let actualErrors = items.filter(item => item.messages && item.messages.length);
+      let actualErrors = items.filter(item => item.messages && item.messages.length &&
+                                      item.messages.find(m => m.ruleId == 'DC002'));
       assert.equal(actualErrors.length, 3);
-      assert.ok(actualErrors[0].messages.length);
-      assert.ok(actualErrors[0].messages.length);
-      assert.ok(actualErrors[0].messages
+      //console.log(JSON.stringify(actualErrors, null, 2));
+      actualErrors.forEach( e => {
+        assert.ok(e.messages);
+        assert.ok(e.messages.length);
+        assert.ok(e.messages
                 .find( m => m.message.startsWith('OAuth V1 policies are deprecated')),
                 "could not find expected error message");
+      });
     });
   });
 
