@@ -1,0 +1,92 @@
+<ProxyEndpoint name="endpoint1">
+  <Description>Proxy Endpoint 1</Description>
+  <HTTPProxyConnection>
+    <BasePath>/PD001-missing-target</BasePath>
+    <Properties/>
+    <VirtualHost>secure</VirtualHost>
+  </HTTPProxyConnection>
+
+  <FaultRules/>
+  <DefaultFaultRule name="fault-rule">
+    <Step>
+      <Name>AM-InjectProxyVersionHeader</Name>
+    </Step>
+    <AlwaysEnforce>true</AlwaysEnforce>
+  </DefaultFaultRule>
+
+  <PreFlow name="PreFlow">
+    <Request>
+      <Step>
+        <Name>JS-1</Name>
+      </Step>
+    </Request>
+    <Response>
+      <Step>
+        <Name>AM-CleanResponseHeaders</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+  <PostFlow name="PostFlow">
+    <Request>
+    </Request>
+    <Response>
+      <Step>
+        <Name>AM-InjectProxyVersionHeader</Name>
+      </Step>
+    </Response>
+  </PostFlow>
+  <PostClientFlow name="PostClientFlow">
+    <Request>
+    </Request>
+    <Response>
+    </Response>
+  </PostClientFlow>
+
+  <Flows>
+
+    <Flow name="flow1">
+      <Request>
+        <Step>
+          <Name>MV-1</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AM-Response-1</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/t1") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="unknown request">
+      <Request>
+        <Step>
+          <Name>RF-UnknownRequest</Name>
+        </Step>
+      </Request>
+      <Response>
+      </Response>
+    </Flow>
+
+  </Flows>
+
+  <RouteRule name='rule1'>
+    <TargetEndpoint>target1</TargetEndpoint>
+    <Condition>request.header.routing = "rule1"</Condition>
+  </RouteRule>
+
+  <RouteRule name='rule2'>
+    <TargetEndpoint></TargetEndpoint>
+    <Condition>request.header.routing = "rule2"</Condition>
+  </RouteRule>
+
+  <RouteRule name="rule3">
+    <TargetEndpoint>target2</TargetEndpoint>
+    <Condition>request.header.routing = "rule3"</Condition>
+  </RouteRule>
+
+  <RouteRule name="no-route">
+    <!-- this is ok -->
+  </RouteRule>
+
+</ProxyEndpoint>
