@@ -1,0 +1,16 @@
+<Javascript name='JS-1' timeLimit='200' >
+  <Source>
+    function getProp(setname, shortpropname) {
+      try {
+        var name = 'propertyset.' + setname + '.' + shortpropname;
+        var c = String(context.getVariable(name));
+        return c;
+      }
+      catch (e) {
+        return String(e);
+      }
+    }
+    var keys = ['value1','value2','bailiwick','identifier']
+    keys.forEach(function(k) {getProp('set1',k);});
+  </Source>
+</Javascript>
