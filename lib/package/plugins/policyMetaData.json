@@ -6,6 +6,7 @@
   "AssignMessage" :{"indications":["assign","build","am","assignmessage","set","response","send","add"]},
   "BasicAuthentication" :{"indications":["encode","decode","basicauth","ba","auth"]},
   "ConcurrentRateLimit" :{"indications":["ccr"], "profiles":["apigee"] },
+  "ConnectorCallout" :{"indications":["cc", "connect", "connector", "connectorcallout", "^connectorcallout$"], "profiles":["apigee"] },
   "CORS" :{"indications":["cors","^cors$"], "profiles":["apigeex"] },
   "DataCapture" :{"indications":["datacapture","dc","^datacapture$","^dc$"], "profiles":["apigeex"] },
   "DeleteOAuthV1Info" :{"indications":["oauthv1","oauth"], "profiles":["apigee"] },
