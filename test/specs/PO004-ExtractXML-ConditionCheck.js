@@ -37,7 +37,7 @@ const assert = require("assert"),
 
              let origAddMessage = p.addMessage;
              p.addMessage = function(msg) {
-               //debug(msg);
+               debug(msg);
                origAddMessage.call(p, msg);
              };
 
@@ -114,33 +114,42 @@ test2: `<ExtractVariables name="EV-test2">
   <URIPath>
     <Pattern>(?/(@?[w_?w:*]+([[^]]+])*)?)+</Pattern>
   </URIPath>
-</RegularExpressionProtection>`
+</RegularExpressionProtection>`,
+        test5: `<ExtractVariables name="EV-test5">
+     <Source>request</Source>
+   <XMLPayload>
+     <Variable name='targetLocation' type='string'>
+       <XPath>/config/target/text()</XPath>
+     </Variable>
+   </XMLPayload>
+   <VariablePrefix>extracted</VariablePrefix>
+  </ExtractVariables>`
       };
 
 
 describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   test(
-    1,
+    10,
     policyXml.test2,
     null,
     null,
-    false //not attached
+    false // not attached
   );
 
   test(
-    2,
+    20,
     policyXml.test2,
     `<Step>
       <Condition>foo != ""</Condition>
       <Name>EV--Policy-Name-Does-Not-Matter</Name>
   </Step>`,
     null,
-    true //attached insufficient condition
+    true // attached insufficient condition
   );
 
   test(
-    3,
+    30,
     policyXml.test1,
     `<Step>
       <Condition>foo != ""</Condition>
@@ -151,18 +160,40 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   );
 
   test(
-    4,
+    40,
     policyXml.test2,
     `<Step>
       <Condition>scResponse.content != ""</Condition>
       <Name>EV--Policy-Name-Does-Not-Matter</Name>
 </Step>`,
     null,
-    false //attached good condition
+    false // attached good condition
   );
 
   test(
-    5,
+    41,
+    policyXml.test5,
+    `<Step>
+      <Condition>(request.content != null)</Condition>
+      <Name>EV--Policy-Name-Does-Not-Matter</Name>
+</Step>`,
+    null,
+    false // attached good condition
+  );
+
+  test(
+    42,
+    policyXml.test5,
+    `<Step>
+      <Condition>(notrequest.content != null)</Condition>
+      <Name>EV--Policy-Name-Does-Not-Matter</Name>
+</Step>`,
+    null,
+    true // attached, bad condition
+  );
+
+  test(
+    50,
     policyXml.test2,
     `<Step>
       <Condition>message.content != ""</Condition>
@@ -173,7 +204,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   );
 
   test(
-    6,
+    60,
     policyXml.test2,
     `<Step>
       <Condition>foo != ""</Condition>
@@ -189,9 +220,8 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
     true //attached insufficient condition
   );
 
-
   test(
-    7,
+    70,
     policyXml.test2,
     ` <Step>
         <Condition>foo != ""</Condition>
@@ -208,7 +238,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   );
 
   test(
-    8,
+    80,
     policyXml.test4,
     null,
     null,
@@ -216,7 +246,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   );
 
   test(
-    9,
+    90,
     policyXml.test3,
     `<Step>
     <Condition>private.geis.kvm.api.config != ""</Condition>
@@ -227,7 +257,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   );
 
   test(
-    9,
+    91,
     policyXml.test3,
     `<Step>
     <Condition>private.geis.kvm.api.config IsNot null</Condition>
@@ -237,9 +267,8 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
     false //attached sufficient condition
   );
 
-
   test(
-    10,
+    100,
     policyXml.test3,
     `<Step>
     <Condition>private.geis.kvm.api != ""</Condition>
