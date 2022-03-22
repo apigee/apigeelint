@@ -79,6 +79,12 @@ apigeelint -x ./externalPlugins -e PO007 -s test/fixtures/resources/sampleProxy/
 Where `-x` points to the directory containing externally developed plugins and `-e` excludes the builtin plugin from executing.
 This example uses the "externalPlugins" directory with a plugin for alternate policy naming conventions and effectively overrides the built in naming conventions plugin. The output will include the external plugin identifier  `EX-PO007`.
 
+### Listing plugins
+List plugins and formatters, with or without --externalPluginsDirectory.
+```
+apigeelint --list
+apigeelint --list -x ./externalPlugins or apigeelint --externalPluginsDirectory ./externalPlugins --list 
+ ```
 
 ## Does this tool just lint or does it also check style?
 
