@@ -17,6 +17,7 @@
 */
 
 const program    = require("commander"),
+      fs         = require("fs"),
       bl         = require("./lib/package/bundleLinter.js"),
       pkj        = require('./package.json'),
       bundleType = require('./lib/package/BundleTypes.js');
@@ -46,6 +47,9 @@ program.parse(process.argv);
 if (program.list) {
   console.log('available plugins: ' + bl.listRuleIds().join(', ') + '\n');
   console.log('available formatters: ' + bl.listFormatters().join(', '));
+  if(fs.existsSync(program.externalPluginsDirectory)){
+    console.log('\n'+'available external plugins: ' + bl.listExternalRuleIds(program.externalPluginsDirectory).join(', ') + '\n');
+  }
   process.exit(0);
 }
 
