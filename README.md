@@ -83,7 +83,7 @@ This example uses the "externalPlugins" directory with a plugin for alternate po
 List plugins and formatters, with or without --externalPluginsDirectory.
 ```
 apigeelint --list
-apigeelint --list -x ./externalPlugins or apigeelint --externalPluginsDirectory ./externalPlugins --list 
+apigeelint --list -x ./externalPlugins or apigeelint --list --externalPluginsDirectory ./externalPlugins 
  ```
 
 ## Does this tool just lint or does it also check style?
