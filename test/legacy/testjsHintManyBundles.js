@@ -31,7 +31,10 @@ var assert = require("assert"),
   bl = require("../../lib/package/bundleLinter.js"),
   rootDir = "/Users/davidwallen/Projects/";
 
-process.chdir(rootDir);
+The stuff in this legacy folder is not currently used.
+
+  process.chdir(rootDir);
+
 var folders = new FindFolder("apiproxy");
 process.chdir(cwd);
 
