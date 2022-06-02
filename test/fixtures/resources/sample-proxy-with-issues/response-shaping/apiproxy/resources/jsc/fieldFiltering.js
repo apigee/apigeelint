@@ -103,6 +103,8 @@
 //
 // created: Mon Apr 11 17:48:59 2016
 // last saved: <2016-April-15 17:41:03>
+/* global exports:true */
+/* jshint strict:implied */
 
 
 (function (){

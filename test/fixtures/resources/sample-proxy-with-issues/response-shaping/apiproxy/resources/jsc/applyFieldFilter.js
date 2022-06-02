@@ -19,7 +19,8 @@
 // source is response.content by default.
 // destination is response.content by default.
 //
-/* global properties context response applyFieldFilter */
+/* global applyFieldFilter:true */
+/* jshint strict:implied */
 
 // apply the field filter, and replace the response output
 var isSourceUndefined = ('' + properties.source == 'undefined');
@@ -41,6 +42,9 @@ if (sourceObj) {
         var isDestinationUndefined = ('' + properties.destination == 'undefined');
         context.setVariable((isDestinationUndefined) ? 'response.content' : properties.destination,
                             JSON.stringify(transformedPayload, null, 2) + '\n');
+
+        // content is not a known variable, should be flagged by jshint
+        content.setVariable('something', 'a-value');
       }
     }
   }
