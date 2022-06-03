@@ -47,6 +47,20 @@ describe(`PO026 - AssignVariableHygiene`, () => {
                 column: 3
               }
             ],
+            'AM-AssignVariable-TooManyNameElements.xml' : [
+              {
+                message: "There is more than one Name element",
+                line: 3,
+                column: 3
+              }
+            ],
+            'AM-AssignVariable-RefWithCurlies.xml' : [
+              {
+                message: "The text of the Ref element must be a variable name, should not be wrapped in curlies",
+                line: 7,
+                column: 10
+              }
+            ],
             'AM-AssignVariable-MultipleProblems.xml' : [
               {
                 message: "There is no Name element",
@@ -59,7 +73,7 @@ describe(`PO026 - AssignVariableHygiene`, () => {
                 column: 3
               },
               {
-                message: "The text of the Ref element must be a variable name, should not be wrapped in curlies.",
+                message: "The text of the Ref element must be a variable name, should not be wrapped in curlies",
                 line: 15,
                 column: 10
               },
@@ -91,7 +105,7 @@ describe(`PO026 - AssignVariableHygiene`, () => {
             ]
           };
 
-      Object.keys(expected).forEach( policyName => {
+      Object.keys(expected).forEach( (policyName, px) => {
         let policyItems = items.filter( m => m.filePath.endsWith(policyName));
         assert.equal(policyItems.length, 1);
         let po026Messages = policyItems[0].messages.filter( m => m.ruleId == 'PO026');
@@ -99,7 +113,7 @@ describe(`PO026 - AssignVariableHygiene`, () => {
 
         expected[policyName].forEach( (item, ix) => {
           Object.keys(item).forEach( key => {
-            assert.equal(po026Messages[ix][key], item[key], `case(${ix}) key(${key})`);
+            assert.equal(po026Messages[ix][key], item[key], `case(${px},${ix}) key(${key})`);
           });
         });
       });
