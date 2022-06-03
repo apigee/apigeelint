@@ -1,9 +1,10 @@
 {
     "env": {
-        "browser": true,
-        "commonjs": true,
+        "browser": false,
+        "commonjs": false,
+        "strict": true,
         "es6": true,
-        "node": true
+        "node": false
     },
     "parserOptions": {
         "ecmaFeatures": {

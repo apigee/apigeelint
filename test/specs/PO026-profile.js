@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2022 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ const assert = require("assert"),
       bl = require("../../lib/package/bundleLinter.js");
 
 describe(`PO026 - PropertySetRef with --profile 'apigeex' for PO026-apigeex-proxy`, () => {
-  it('should NOT generate errors for ProperSetRef', () => {
+  it('should NOT generate errors for PropertySetRef', () => {
     let configuration = {
           debug: true,
           source: {
@@ -49,7 +49,7 @@ describe(`PO026 - PropertySetRef with --profile 'apigeex' for PO026-apigeex-prox
 });
 
 describe(`PO026 - PropertySetRef with --profile 'apigee' for PO026-apigeex-proxy`, () => {
-  it('should generate errors for ProperSetRef', () => {
+  it('should generate errors for PropertySetRef', () => {
     let configuration = {
           debug: true,
           source: {
