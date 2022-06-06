@@ -15,45 +15,114 @@
 */
 
 /* global describe, it */
-const assert = require("assert"),
-      testID = "FR001",
-      debug = require("debug")("apigeelint:" + testID),
-      util = require("util"),
-      Bundle = require("../../lib/package/Bundle.js"),
-      bl = require("../../lib/package/bundleLinter.js"),
-      plugin = require(bl.resolvePlugin(testID));
+const assert = require('assert'),
+      testID = 'FR001',
+      debug = require('debug')(`apigeelint:${testID}`),
+      util = require('util'),
+      path = require('path'),
+      Bundle = require('../../lib/package/Bundle.js'),
+      bl = require('../../lib/package/bundleLinter.js');
 
-// generate a full report and check the format of the report
-describe(`${testID} - ${plugin.plugin.name}`, function() {
+describe(`${testID} - check condition on FaultRules`, function() {
 
-  debug("test configuration: " + JSON.stringify(configuration));
+  let configuration = {
+        debug: true,
+        source: {
+          type: 'filesystem',
+          path: path.resolve(__dirname, '../fixtures/resources/FR001/apiproxy'),
+          bundleType: 'apiproxy'
+        },
+        profile: 'apigee',
+        excluded: {},
+        setExitCode: false,
+        output: () => {} // suppress output
+      };
 
-  var bundle = new Bundle(configuration);
-  bl.executePlugin(testID, bundle);
-  let report = bundle.getReport();
+  debug('test configuration: ' + JSON.stringify(configuration));
 
-  //need a case where we are using ref for the key
-  //also prefix
+  bl.lint(configuration, bundle => {
+    let items = bundle.getReport();
+      let itemsWithFR001Errors = items.filter(item =>
+                                              item.messages && item.messages.length &&
+                                              item.messages.find( m => m.ruleId == testID));
 
-  describe(`Print plugin results (${testID})`, function() {
-    it("should create a report object with valid schema", function() {
-      let formatter = bl.getFormatter("json.js");
+    it('should generate the expected errors', () => {
+      assert.ok(items);
+      assert.ok(items.length);
+      assert.equal(itemsWithFR001Errors.length, 4);
+    });
+
+    it('should generate a warning for proxy endpoint1', () => {
+      let proxyEp1Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/proxies/endpoint1.xml');
+      assert.ok(proxyEp1Error);
+
+      let messages = proxyEp1Error.messages.filter(msg => msg.ruleId == testID);
+      assert.ok(messages);
+      assert.equal(messages.length, 1);
+      assert.ok(messages[0].message.indexOf('Consider migrating to DefaultFaultRule') > 0);
+      assert.equal(messages[0].severity, 1);
+    });
+
+    it('should generate an error for proxy endpoint2', () => {
+      let proxyEp2Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/proxies/endpoint2.xml');
+      assert.ok(proxyEp2Error);
+      let messages = proxyEp2Error.messages.filter(msg => msg.ruleId == testID);
+      assert.ok(messages);
+      assert.equal(messages.length, 1);
+      assert.ok(messages[0].message.indexOf('FaultRule (rule2) has no Condition or the Condition is empty') > 0);
+      assert.equal(messages[0].severity, 2);
+    });
+
+    it('should generate no error for proxy endpoint3', () => {
+      let proxyEp3Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/proxies/endpoint3.xml');
+      assert.ok( ! proxyEp3Error);
+    });
+
+    it('should generate no error for target1', () => {
+      let targetEp1Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/targets/target1.xml');
+      messages = targetEp1Error && targetEp1Error.messages.filter(msg => msg.ruleId == testID);
+      assert.ok( !targetEp1Error || messages.length == 0);
+    });
+
+    it('should generate an error for target2', () => {
+      let targetEp2Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/targets/target2.xml');
+      assert.ok( targetEp2Error );
+      messages = targetEp2Error.messages.filter(msg => msg.ruleId == testID);
+      assert.ok(messages);
+      assert.equal(messages.length, 1);
+      assert.equal(messages[0].severity, 2);
+      assert.ok(messages[0].message.indexOf('FaultRule (rule1) has no Condition or the Condition is empty') > 0);
+    });
+
+    it('should generate a warning for target3', () => {
+      let targetEp3Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/targets/target3.xml');
+      assert.ok( targetEp3Error );
+      messages = targetEp3Error.messages.filter(msg => msg.ruleId == testID);
+      assert.ok(messages);
+      assert.equal(messages.length, 1);
+      assert.equal(messages[0].severity, 1);
+      assert.equal(messages[0].message.indexOf('Just one FaultRule and no Condition. Consider migrating to DefaultFaultRule'), 0);
+    });
+
+    // generate a full report and check the format of the report
+    it('should create a report object with valid schema', function() {
+      let formatter = bl.getFormatter('json.js');
 
       if (!formatter) {
-        assert.fail("formatter implementation not defined");
+        assert.fail('formatter implementation not defined');
       }
-      let schema = require("./../fixtures/reportSchema.js"),
-          Validator = require("jsonschema").Validator,
+      let schema = require('./../fixtures/reportSchema.js'),
+          Validator = require('jsonschema').Validator,
           v = new Validator(),
-          jsonReport = JSON.parse(formatter(bundle.getReport())),
+          jsonReport = JSON.parse(formatter(items)),
           validationResult = v.validate(jsonReport, schema);
 
-        assert.equal(
-          validationResult.errors.length,
-          0,
-          validationResult.errors
-        );
-      });
+      assert.equal(
+        validationResult.errors.length,
+        0,
+        validationResult.errors
+      );
+    });
   });
 
 });

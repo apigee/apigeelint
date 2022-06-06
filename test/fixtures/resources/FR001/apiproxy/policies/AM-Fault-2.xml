@@ -1,0 +1,24 @@
+<AssignMessage name='AM-Fault-2'>
+
+  <AssignVariable>
+    <Name>t</Name>
+    <Template>{timeFormatUTCMs(propertyset.set1.timeformat,system.timestamp)}</Template>
+  </AssignVariable>
+
+  <AssignVariable>
+    <Name>d</Name>
+    <Template>{timeFormatUTCMs(propertyset.set1.dateformat,system.timestamp)}</Template>
+  </AssignVariable>
+
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <Set>
+    <Payload contentType='application/json'>{
+  "status" : "error",
+  "time" : "{t}",
+  "date" : "{d}"
+}</Payload>
+    <ReasonPhrase>Bad Request</ReasonPhrase>
+    <StatusCode>400</StatusCode>
+  </Set>
+
+</AssignMessage>
