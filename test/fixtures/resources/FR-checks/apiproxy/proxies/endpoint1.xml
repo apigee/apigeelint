@@ -1,23 +1,17 @@
-<ProxyEndpoint name="endpoint3">
-  <Description>Proxy Endpoint 3</Description>
+<ProxyEndpoint name="endpoint1">
+  <Description>Proxy Endpoint 1</Description>
   <HTTPProxyConnection>
-    <BasePath>/FR001-3</BasePath>
+    <BasePath>/FR-checks-1</BasePath>
     <Properties/>
     <VirtualHost>secure</VirtualHost>
   </HTTPProxyConnection>
 
   <FaultRules>
-    <!-- more than one FaultRule, all but the first should have a Condition -->
-    <FaultRule name="rule1-3">
+    <!-- single FaultRule, does not need a condition. -->
+    <FaultRule name="rule1">
       <Step>
         <Name>AM-Fault-1</Name>
       </Step>
-    </FaultRule>
-    <FaultRule name="rule2-3">
-      <Step>
-        <Name>AM-Fault-2</Name>
-      </Step>
-      <Condition>fault.name = "foobar"</Condition>
     </FaultRule>
   </FaultRules>
 

@@ -1,7 +1,7 @@
 <ProxyEndpoint name="endpoint2">
   <Description>Proxy Endpoint 2</Description>
   <HTTPProxyConnection>
-    <BasePath>/FR001-2</BasePath>
+    <BasePath>/FR-checks-2</BasePath>
     <Properties/>
     <VirtualHost>secure</VirtualHost>
   </HTTPProxyConnection>
