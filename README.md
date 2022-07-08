@@ -190,8 +190,9 @@ This is the current list:
 | &nbsp; |:white_check_mark:| PO030 | ExpirySettings | ExpirySettings should use exactly one child element, no deprecated elements. |
 | &nbsp; |:white_check_mark:| PO031 | AssignMessage content-type | When assigning to Payload, you should also assign content-type, exactly once. |
 | FaultRules | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
-| &nbsp; |:white_check_mark:| FR001 | No Condition on FaultRule | It's not a best practice to have a FaultRule without an outer condition, which automatically makes the FaultRule true. |
+| &nbsp; |:white_check_mark:| FR001 | No Condition on FaultRule | Use Condition elements on FaultRules, unless it is the fallback rule. |
 | &nbsp; |:white_check_mark:| FR002 | DefaultFaultRule Structure | DefaultFaultRule should have only supported child elements, at most one AlwaysEnforce element, and at most one Condition element. |
+| &nbsp; |:white_check_mark:| FR003 | single FaultRule | When a single FaultRule is present, consider using a DefaultFaultRule. |
 | Conditional | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| CC001 | Literals in Conditionals |  Warn on literals in any conditional statement. |
 | &nbsp; |:white_medium_square:| CC002 | Null Blank Checks |  Blank checks should also check for null conditions. (to be reviewed) |

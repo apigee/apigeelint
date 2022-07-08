@@ -1,0 +1,83 @@
+<ProxyEndpoint name="endpoint3">
+  <Description>Proxy Endpoint 3</Description>
+  <HTTPProxyConnection>
+    <BasePath>/FR-checks-3</BasePath>
+    <Properties/>
+    <VirtualHost>secure</VirtualHost>
+  </HTTPProxyConnection>
+
+  <FaultRules>
+    <!-- more than one FaultRule, all but the first should have a Condition -->
+    <FaultRule name="rule1-3">
+      <Step>
+        <Name>AM-Fault-1</Name>
+      </Step>
+    </FaultRule>
+    <FaultRule name="rule2-3">
+      <Step>
+        <Name>AM-Fault-2</Name>
+      </Step>
+      <Condition>fault.name = "foobar"</Condition>
+    </FaultRule>
+  </FaultRules>
+
+  <DefaultFaultRule name="fault-rule">
+    <AlwaysEnforce>true</AlwaysEnforce>
+    <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+    </Step>
+  </DefaultFaultRule>
+
+  <PreFlow name="PreFlow">
+    <Request>
+    </Request>
+    <Response>
+      <Step>
+        <Name>AM-Clean-Request-Headers-From-Response</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+  <PostFlow name="PostFlow">
+    <Request>
+    </Request>
+    <Response>
+      <Step>
+        <Name>AM-Inject-Proxy-Revision-Header</Name>
+      </Step>
+    </Response>
+  </PostFlow>
+  <PostClientFlow name="PostClientFlow">
+    <Request>
+    </Request>
+    <Response>
+    </Response>
+  </PostClientFlow>
+
+  <Flows>
+
+    <Flow name="flow1">
+      <Request>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AM-Response-1</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/t1") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="unknown request">
+      <Request>
+        <Step>
+          <Name>RF-Unknown-Request</Name>
+        </Step>
+      </Request>
+      <Response>
+      </Response>
+    </Flow>
+
+  </Flows>
+
+  <RouteRule name="no-route"/>
+
+</ProxyEndpoint>

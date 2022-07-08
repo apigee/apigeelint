@@ -16,13 +16,13 @@
 
 /* global describe, it */
 const assert = require('assert'),
-      testID = 'FR001',
+      testID = 'FR003',
       debug = require('debug')(`apigeelint:${testID}`),
       path = require('path'),
       Bundle = require('../../lib/package/Bundle.js'),
       bl = require('../../lib/package/bundleLinter.js');
 
-describe(`${testID} - check condition on FaultRules`, function() {
+describe(`${testID} - check for single FaultRule`, function() {
 
   let configuration = {
         debug: true,
@@ -41,57 +41,58 @@ describe(`${testID} - check condition on FaultRules`, function() {
 
   bl.lint(configuration, bundle => {
     let items = bundle.getReport();
-    let itemsWithFR001Errors = items.filter(item =>
+    let itemsWithFR003Errors = items.filter(item =>
                                             item.messages && item.messages.length &&
                                             item.messages.find( m => m.ruleId == testID));
 
-    it('should generate the expected errors', () => {
+    it('should generate the expected warnings', () => {
       assert.ok(items);
       assert.ok(items.length);
-      assert.equal(itemsWithFR001Errors.length, 2);
+      assert.equal(itemsWithFR003Errors.length, 2);
     });
 
-    it('should generate no errors or warnings for proxy endpoint1', () => {
-      let proxyEp1Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/proxies/endpoint1.xml');
-      let messages = proxyEp1Error && proxyEp1Error.messages.filter(msg => msg.ruleId == testID);
-      assert.ok( !proxyEp1Error || messages.length == 0);
+    it('should generate a warning for proxy endpoint1', () => {
+      let proxyEp1Error = itemsWithFR003Errors.find( item => item.filePath == '/apiproxy/proxies/endpoint1.xml');
+      assert.ok(proxyEp1Error);
+
+      let messages = proxyEp1Error.messages.filter(msg => msg.ruleId == testID);
+      assert.ok(messages);
+      assert.equal(messages.length, 1);
+      assert.ok(messages[0].message.indexOf('Consider migrating to DefaultFaultRule') > 0);
+      assert.equal(messages[0].severity, 1);
     });
 
     it('should generate an error for proxy endpoint2', () => {
-      let proxyEp2Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/proxies/endpoint2.xml');
-      assert.ok(proxyEp2Error);
-      let messages = proxyEp2Error.messages.filter(msg => msg.ruleId == testID);
-      assert.ok(messages);
-      assert.equal(messages.length, 1);
-      assert.ok(messages[0].message.indexOf('a FaultRule other than the fallback (rule2) has no Condition or the Condition is empty') > 0);
-      assert.equal(messages[0].severity, 2);
+      let proxyEp2Error = itemsWithFR003Errors.find( item => item.filePath == '/apiproxy/proxies/endpoint2.xml');
+      let messages = proxyEp2Error && proxyEp2Error.messages.filter(msg => msg.ruleId == testID);
+      assert.ok( !proxyEp2Error || messages.length == 0);
     });
 
     it('should generate no error for proxy endpoint3', () => {
-      let proxyEp3Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/proxies/endpoint3.xml');
+      let proxyEp3Error = itemsWithFR003Errors.find( item => item.filePath == '/apiproxy/proxies/endpoint3.xml');
       assert.ok( ! proxyEp3Error);
     });
 
     it('should generate no error for target1', () => {
-      let targetEp1Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/targets/target1.xml');
+      let targetEp1Error = itemsWithFR003Errors.find( item => item.filePath == '/apiproxy/targets/target1.xml');
       let messages = targetEp1Error && targetEp1Error.messages.filter(msg => msg.ruleId == testID);
       assert.ok( !targetEp1Error || messages.length == 0);
     });
 
-    it('should generate an error for target2', () => {
-      let targetEp2Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/targets/target2.xml');
-      assert.ok( targetEp2Error );
-      let messages = targetEp2Error.messages.filter(msg => msg.ruleId == testID);
-      assert.ok(messages);
-      assert.equal(messages.length, 1);
-      assert.equal(messages[0].severity, 2);
-      assert.ok(messages[0].message.indexOf('a FaultRule other than the fallback (rule1) has no Condition or the Condition is empty') > 0);
+    it('should generate no error for target2', () => {
+      let targetEp2Error = itemsWithFR003Errors.find( item => item.filePath == '/apiproxy/targets/target2.xml');
+      let messages = targetEp2Error && targetEp2Error.messages.filter(msg => msg.ruleId == testID);
+      assert.ok( !targetEp2Error || messages.length == 0);
     });
 
-    it('should generate no error or warning for target3', () => {
-      let targetEp3Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/targets/target3.xml');
-      let messages = targetEp3Error && targetEp3Error.messages.filter(msg => msg.ruleId == testID);
-      assert.ok( !targetEp3Error || messages.length == 0);
+    it('should generate a warning for target3', () => {
+      let targetEp3Error = itemsWithFR003Errors.find( item => item.filePath == '/apiproxy/targets/target3.xml');
+      assert.ok( targetEp3Error );
+      let messages = targetEp3Error.messages.filter(msg => msg.ruleId == testID);
+      assert.ok(messages);
+      assert.equal(messages.length, 1);
+      assert.equal(messages[0].severity, 1);
+      assert.equal(messages[0].message.indexOf('Just one FaultRule and no Condition. Consider migrating to DefaultFaultRule'), 0);
     });
 
     // generate a full report and check the format of the report
