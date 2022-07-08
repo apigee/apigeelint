@@ -1,0 +1,6 @@
+<AssignMessage name='AM-Clean-Response-Headers' enabled='true'>
+  <Remove>
+    <Headers/>
+  </Remove>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+</AssignMessage>

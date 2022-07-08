@@ -1,0 +1,27 @@
+<TargetEndpoint name="http-1">
+  <PreFlow name="PreFlow">
+    <Request>
+    </Request>
+    <Response/>
+  </PreFlow>
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response/>
+  </PostFlow>
+  <Flows/>
+
+  <Flows/>
+
+  <MisPlaced/>
+
+  <HTTPTargetConnection>
+    <LoadBalancer>
+      <Server name="target1" />
+      <Server name="target2" />
+    </LoadBalancer>
+    <Path>/test</Path>
+  </HTTPTargetConnection>
+
+  <RouteRule name="noroute"/>
+
+</TargetEndpoint>

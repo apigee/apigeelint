@@ -1,0 +1,90 @@
+<ProxyEndpoint name="endpoint1">
+  <HTTPProxyConnection>
+    <BasePath>/EP002</BasePath>
+  </HTTPProxyConnection>
+
+  <FaultRules/>
+  <FaultRules/> <!-- duplicate, will error -->
+
+  <Framjo> <!-- invalid -->
+    <!-- misplaced -->
+    <DefaultFaultRule name="default-fault-rule">
+      <Step>
+        <Name>AM-Inject-Proxy-Revision-Header</Name>
+      </Step>
+      <AlwaysEnforce>true</AlwaysEnforce>
+    </DefaultFaultRule>
+  </Framjo>
+
+  <DefaultFaultRule name="default-fault-rule">
+    <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+    </Step>
+    <AlwaysEnforce>true</AlwaysEnforce>
+  </DefaultFaultRule>
+
+  <PreFlow name="PreFlow">
+    <Request>
+    </Request>
+    <Response>
+      <Step>
+        <Name>AM-Clean-Response-Headers</Name>
+      </Step>
+      <Step>
+        <Name>JS-Remove-Copied-Headers</Name>
+      </Step>
+      <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+
+  <PostClientFlow name='PostClientFlow'>
+    <!-- error: misplaced Step -->
+    <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+    </Step>
+  </PostClientFlow>
+
+  <!-- misplaced -->
+  <Flow name="this-is-misplaced">
+    <Description></Description>
+    <Request>
+      <Step>
+        <Name>AM-Inject-Proxy-Revision-Header</Name>
+      </Step>
+    </Request>
+    <Response/>
+    <Condition>(proxy.pathsuffix MatchesPath "/urlpath") and (request.verb = "HEAD")</Condition>
+  </Flow>
+
+  <Flows>
+    <Flow name="f1">
+      <Description>purposefully raise a fault</Description>
+      <Request>
+        <Step>
+          <Name>RF-Invalid-Request</Name>
+        </Step>
+      </Request>
+      <Response/>
+      <Condition>proxy.pathsuffix MatchesPath "/fault"</Condition>
+    </Flow>
+  </Flows>
+
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response>
+      <Step>
+        <Name>AM-Response</Name>
+        <Condition>request.verb != "OPTIONS"</Condition>
+      </Step>
+    </Response>
+  </PostFlow>
+
+  <RouteRule name="http-1">
+    <Condition>proxy.pathsuffix MatchesPath "/t1"</Condition>
+    <TargetEndpoint>http-1</TargetEndpoint>
+  </RouteRule>
+
+  <RouteRule name="noroute"/>
+</ProxyEndpoint>
