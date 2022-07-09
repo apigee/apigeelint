@@ -1,0 +1,13 @@
+<Javascript name="JS-Remove-Copied-Headers" enabled='true'>
+  <!--
+       This policy removes the request headers that Apigee
+       implicitly copies to the response, on a loopback proxy.
+  -->
+  <Source>
+var names = String(context.getVariable('request.headers.names'));
+names = names.substring(1, names.length-1);
+names.split(',').forEach(function(name) {
+  context.removeVariable('response.header.' + name.trim());
+});
+  </Source>
+</Javascript>
