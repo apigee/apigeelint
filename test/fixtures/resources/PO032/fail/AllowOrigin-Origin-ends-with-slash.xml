@@ -1,0 +1,11 @@
+<CORS name="AllowOrigin-Origin-ends-with-slash" >
+  <AllowOrigins>https://dinochiesa.github.io/</AllowOrigins>
+  <AllowMethods>GET, POST, PUT, DELETE</AllowMethods>
+  <!-- missing comma in headers -->
+  <AllowHeaders>origin, x-requested-with, content-type</AllowHeaders>
+  <ExposeHeaders>via, x-request-id</ExposeHeaders>
+  <MaxAge>180</MaxAge>
+  <AllowCredentials>true</AllowCredentials>
+  <GeneratePreflightResponse>true</GeneratePreflightResponse>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</CORS>
