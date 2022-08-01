@@ -1,0 +1,11 @@
+<CORS name="AllowOrigin-request-header-origin" >
+  <!-- request.header.origin defeats the purpose -->
+  <AllowOrigins>{request.header.origin}</AllowOrigins>
+  <AllowMethods>GET, POST, PUT, DELETE</AllowMethods>
+  <AllowHeaders>origin, x-requested-with, content-type</AllowHeaders>
+  <ExposeHeaders>via, x-request-id</ExposeHeaders>
+  <MaxAge>180</MaxAge>
+  <AllowCredentials>true</AllowCredentials>
+  <GeneratePreflightResponse>true</GeneratePreflightResponse>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</CORS>
