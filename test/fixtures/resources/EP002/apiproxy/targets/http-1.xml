@@ -10,41 +10,65 @@
   </PostFlow>
   <Flows/>
 
-  <Flows/>
+  <Flows>
+    <Flow name="example flow name">
+      <Description>none</Description>
+      <Request>
+        <SocketReadTimeoutInSec>30</SocketReadTimeoutInSec>
+      </Request>
+      <Response/>
+      <Condition>(proxy.pathsuffix MatchesPath "/urlpath") and (request.verb = "GET")</Condition>
+    </Flow>
+  </Flows>
 
   <MisPlaced/>
 
   <HTTPTargetConnection>
+    <HTTPMonitor>this-is-misplaced</HTTPMonitor>
     <LoadBalancer>
-        <Algorithm>RoundRobin</Algorithm>
-        <Server name="target-east"/>
-        <Server name="target-south"/>
-        <MaxFailures>2</MaxFailures>
-        <ServerUnhealthyResponse>
-          <ResponseCode>502</ResponseCode>
+      <Algorithm>RoundRobin</Algorithm>
+      <Server name="target-east"/>
+      <Server name="target-south"/>
+      <MaxFailures>2</MaxFailures>
+      <RetryEnabled>true</RetryEnabled>
+      <TargetDisableSecs>12</TargetDisableSecs>
+      <ServerUnhealthyResponse>
+        <ResponseCode>502</ResponseCode>
       </ServerUnhealthyResponse>
     </LoadBalancer>
     <Properties>
-        <Property name="connect.timeout.millis">120000</Property>
+      <Property name="connect.timeout.millis">120000</Property>
     </Properties>
     <Path>/basepath</Path>
     <HealthMonitor>
-        <IsEnabled>true</IsEnabled>
-        <IntervalInSec>5</IntervalInSec>
-        <HTTPMonitor>
-            <Request>
-                <ConnectTimeoutInMin>10</ConnectTimeoutInMin>
-                <SocketReadTimeoutInSec>30</SocketReadTimeoutInSec>
-                <Port>443</Port>
-                <Verb>GET</Verb>
-                <Path>/basepath/health</Path>
-            </Request>
-            <SuccessResponse>
-                <ResponseCode>200</ResponseCode>
-            </SuccessResponse>
-        </HTTPMonitor>
+      <ThisIsBogus/>
+      <IsEnabled>true</IsEnabled>
+      <IntervalInSec>5</IntervalInSec>
+      <HTTPMonitor>
+        <Request>
+          <ConnectTimeoutInMin>10</ConnectTimeoutInMin>
+          <SocketReadTimeoutInSec>30</SocketReadTimeoutInSec>
+          <Port>443</Port>
+          <Verb>GET</Verb>
+          <Path>/basepath/health</Path>
+        </Request>
+        <SuccessResponse>
+          <ResponseCode>200</ResponseCode>
+          <Status>OK</Status>
+        </SuccessResponse>
+      </HTTPMonitor>
+
+      <!-- the following is mutually exclusive with the HTTPMonitor -->
+      <TCPMonitor>
+        <ConnectTimeoutInSec>10</ConnectTimeoutInSec>
+        <Port>80</Port>
+      </TCPMonitor>
     </HealthMonitor>
-</HTTPTargetConnection>
+
+    <HealthMonitor>
+      this one should be flagged as duplicate. "There can be only one."
+    </HealthMonitor>
+  </HTTPTargetConnection>
 
   <LocalTargetConnection>
     <Path>/foobar</Path>
