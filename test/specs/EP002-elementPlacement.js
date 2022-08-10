@@ -74,7 +74,8 @@ describe(`EP002 - bundle with misplaced elements`, () => {
             'Extra Flows element',
             'Invalid MisPlaced element',
             'LocalTargetConnection element conflicts with HTTPTargetConnection on line 17',
-            'Invalid RouteRule element'
+            'Invalid RouteRule element',
+            "Misplaced 'ConnectTimeoutInMin' element child of Request"
           ];
       targetErrors[0].messages.forEach( msg => {
         assert.ok(msg.message);

@@ -16,11 +16,35 @@
 
   <HTTPTargetConnection>
     <LoadBalancer>
-      <Server name="target1" />
-      <Server name="target2" />
+        <Algorithm>RoundRobin</Algorithm>
+        <Server name="target-east"/>
+        <Server name="target-south"/>
+        <MaxFailures>2</MaxFailures>
+        <ServerUnhealthyResponse>
+          <ResponseCode>502</ResponseCode>
+      </ServerUnhealthyResponse>
     </LoadBalancer>
-    <Path>/test</Path>
-  </HTTPTargetConnection>
+    <Properties>
+        <Property name="connect.timeout.millis">120000</Property>
+    </Properties>
+    <Path>/basepath</Path>
+    <HealthMonitor>
+        <IsEnabled>true</IsEnabled>
+        <IntervalInSec>5</IntervalInSec>
+        <HTTPMonitor>
+            <Request>
+                <ConnectTimeoutInMin>10</ConnectTimeoutInMin>
+                <SocketReadTimeoutInSec>30</SocketReadTimeoutInSec>
+                <Port>443</Port>
+                <Verb>GET</Verb>
+                <Path>/basepath/health</Path>
+            </Request>
+            <SuccessResponse>
+                <ResponseCode>200</ResponseCode>
+            </SuccessResponse>
+        </HTTPMonitor>
+    </HealthMonitor>
+</HTTPTargetConnection>
 
   <LocalTargetConnection>
     <Path>/foobar</Path>
