@@ -85,5 +85,10 @@
     <TargetEndpoint>http-1</TargetEndpoint>
   </RouteRule>
 
+  <RouteRule name="http-2">
+    <Condition>proxy.pathsuffix MatchesPath "/t2"</Condition>
+    <TargetEndpoint>http-2</TargetEndpoint>
+  </RouteRule>
+
   <RouteRule name="noroute"/>
 </ProxyEndpoint>

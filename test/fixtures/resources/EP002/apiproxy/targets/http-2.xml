@@ -1,0 +1,27 @@
+<TargetEndpoint name="http-2">
+    <PreFlow name="PreFlow">
+      <Request>
+      </Request>
+      <Response/>
+    </PreFlow>
+    <PostFlow name="PostFlow">
+      <Request/>
+      <Response/>
+    </PostFlow>
+
+    <Flows>
+      <Flow name="example flow name">
+        <Description>none</Description>
+        <Request/>
+        <Response/>
+        <Condition>(proxy.pathsuffix MatchesPath "/urlpath") and (request.verb = "GET")</Condition>
+      </Flow>
+    </Flows>
+    
+    <HTTPTargetConnection>
+        <Properties/>
+        <URL>https://targeturl/path</URL>
+    </HTTPTargetConnection>
+    
+  </TargetEndpoint>
+  
