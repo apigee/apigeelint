@@ -46,7 +46,7 @@ describe(`EP002 - bundle with misplaced elements`, () => {
       assert.equal(ep002Errors.length, 2);
     });
 
-    it('should generate messages for the proxy endpoint', () => {
+    it('should generate the correct messages for the proxy endpoint', () => {
       let util = require('util');
       let proxyEp1Errors = ep002Errors.filter( item => item.filePath == '/apiproxy/proxies/endpoint1.xml');
       assert.ok(proxyEp1Errors);
@@ -58,30 +58,42 @@ describe(`EP002 - bundle with misplaced elements`, () => {
             'Misplaced Step element child of PostClientFlow',
             'Invalid Flow element'
           ];
+      assert.equal(proxyEp1Errors[0].messages.length, expectedErrors.length, "number of errors");
       proxyEp1Errors[0].messages.forEach( msg => {
         assert.ok(msg.message);
         assert.ok(expectedErrors.includes(msg.message));
+        // disallow repeats
         expectedErrors = expectedErrors.filter( item => item != msg.message);
       });
       assert.equal(expectedErrors.length, 0);
     });
 
-    it('should generate messages for the target endpoint', () => {
+    it('should generate the correct messages for the target endpoint', () => {
       let targetErrors = ep002Errors.filter( item => item.filePath == '/apiproxy/targets/http-1.xml');
       assert.ok(targetErrors);
       assert.equal(targetErrors.length, 1);
+      // let util = require('util');
+      // console.log(util.format(targetErrors[0].messages));
       let expectedErrors = [
             'Extra Flows element',
+            "Misplaced 'SocketReadTimeoutInSec' element child of Request",
+            "Misplaced 'HTTPMonitor' element child of HTTPTargetConnection",
+            "Misplaced 'ThisIsBogus' element child of HealthMonitor",
             'Invalid MisPlaced element',
-            'LocalTargetConnection element conflicts with HTTPTargetConnection on line 17',
-            'Invalid RouteRule element'
+            'LocalTargetConnection element conflicts with HTTPTargetConnection on line 26',
+            'Invalid RouteRule element',
+            "Misplaced 'ConnectTimeoutInMin' element child of Request",
+            "Misplaced 'Status' element child of SuccessResponse",
+            'Redundant HealthMonitor element',
+            'TCPMonitor element conflicts with HTTPMonitor on line 47'
           ];
+      assert.equal(targetErrors[0].messages.length, expectedErrors.length, "number of errors");
       targetErrors[0].messages.forEach( msg => {
         assert.ok(msg.message);
-        assert.ok(expectedErrors.includes(msg.message));
+        assert.ok(expectedErrors.includes(msg.message), msg.message);
+        // disallow repeats
         expectedErrors = expectedErrors.filter( item => item != msg.message);
       });
-      assert.equal(expectedErrors.length, 0);
     });
   });
 });
