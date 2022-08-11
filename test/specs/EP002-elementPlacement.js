@@ -68,7 +68,7 @@ describe(`EP002 - bundle with misplaced elements`, () => {
       assert.equal(expectedErrors.length, 0);
     });
 
-    it('should generate the correct messages for the target endpoint', () => {
+    it('should generate the correct messages for the http-1 target endpoint', () => {
       let targetErrors = ep002Errors.filter( item => item.filePath == '/apiproxy/targets/http-1.xml');
       assert.ok(targetErrors);
       assert.equal(targetErrors.length, 1);
@@ -95,5 +95,12 @@ describe(`EP002 - bundle with misplaced elements`, () => {
         expectedErrors = expectedErrors.filter( item => item != msg.message);
       });
     });
+
+    it('should generate no messages for the http-2 target endpoint', () => {
+      let targetErrors = ep002Errors.filter( item => item.filePath == '/apiproxy/targets/http-2.xml');
+      assert.ok(targetErrors);
+      assert.equal(targetErrors.length, 0);
+    });
+
   });
 });
