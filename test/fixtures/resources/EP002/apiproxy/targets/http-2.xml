@@ -21,6 +21,7 @@
     <HTTPTargetConnection>
         <Properties/>
         <URL>https://targeturl/path</URL>
+        <SSLInfo/>
     </HTTPTargetConnection>
     
   </TargetEndpoint>
