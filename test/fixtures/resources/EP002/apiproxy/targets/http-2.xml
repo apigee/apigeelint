@@ -24,6 +24,6 @@
         <SSLInfo/>
         <Authentication/>
     </HTTPTargetConnection>
-    
+    <HostedTarget/>
   </TargetEndpoint>
   
