@@ -62,6 +62,7 @@
       <Description>purposefully raise a fault</Description>
       <Request>
         <Step>
+          <FaultRules />
           <Name>RF-Invalid-Request</Name>
         </Step>
       </Request>
@@ -74,6 +75,7 @@
     <Request/>
     <Response>
       <Step>
+        <FaultRules />
         <Name>AM-Response</Name>
         <Condition>request.verb != "OPTIONS"</Condition>
       </Step>
