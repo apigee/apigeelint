@@ -1,0 +1,7 @@
+<PublishMessage name="Pub-1">
+    <Source>{flow-variable-1}</Source>
+    <CloudPubSub>
+        <Topic>projects/{flow-variable-project-id}/topics/{flow-variable-topic-name}</Topic>
+    </CloudPubSub>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</PublishMessage>

@@ -1,0 +1,14 @@
+<VerifyJWT name='VJWT-1'>
+  <Algorithm>PS256</Algorithm>
+  <Source>inbound.jwt</Source>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <PublicKey>
+    <JWKS ref='jwksResponse.content'/>
+  </PublicKey>
+  <Subject>DinoChiesa</Subject>
+  <Issuer>accounts.google.com</Issuer>
+  <Audience>urn://www.apigee.com/the-google-kirkland-office</Audience>
+  <AdditionalClaims>
+    <Claim name='scope'>urn://www.apigee.com/apis/forever</Claim>
+  </AdditionalClaims>
+</VerifyJWT>

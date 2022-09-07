@@ -1,0 +1,6 @@
+<DataCapture name="DC-1">
+    <Capture>
+        <DataCollector>dc_data_collector</DataCollector>
+        <Collect ref="my_data_variable" />
+    </Capture>
+</DataCapture>

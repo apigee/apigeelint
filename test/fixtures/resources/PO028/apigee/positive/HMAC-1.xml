@@ -1,0 +1,6 @@
+<HMAC name="HMAC-1">
+    <Algorithm>SHA-256</Algorithm>
+    <Message>{template_for_message}</Message>
+    <SecretKey ref='private.context-variable'/>
+    <Output encoding='base64'>output_value</Output>
+</HMAC>
