@@ -1,0 +1,8 @@
+<TraceCapture name="TC-1">
+  <Variables>
+    <Variable name="VariableName1" ref="flowVariableName1">defaultValue</Variable>
+    <Variable name="VariableName2" ref="flowVariableName2">defaultValue</Variable>
+  </Variables>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <ThrowExceptionOnLimit>false</ThrowExceptionOnLimit>
+</TraceCapture>

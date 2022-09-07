@@ -1,0 +1,39 @@
+<SetDialogflowResponse name="SDFR-1">
+    <Source>${1:myMessageVar}</Source>
+    <DialogflowVersion>CX</DialogflowVersion>
+    <NaturalLanguageResponse>
+        <MergeBehavior>APPEND</MergeBehavior>
+        <Phrases>
+            <Phrase>
+                <JSONPath>$.claim.status.text</JSONPath>
+            </Phrase>
+            <Phrase>
+                <Header name="X-Response-Text"/>
+            </Phrase>
+            <Phrase>
+                <Ref>myVar</Ref>
+            </Phrase>
+            <Phrase>
+                <Value>You call is important to us</Value>
+            </Phrase>
+        </Phrases>
+    </NaturalLanguageResponse>
+    <Parameters>
+        <Parameter name="claimStatus">
+            <JSONPath>$.claim.status.value</JSONPath>
+        </Parameter>
+        <Parameter name="claimAmount">
+            <JSONPath>$.claim.amount</JSONPath>
+        </Parameter>
+        <Parameter name="timeSpent">
+            <Header name="X-Time-Spent"/>
+        </Parameter>
+        <Parameter name="myVar">
+            <Ref>dialogflow.my.var</Ref>
+        </Parameter>
+        <Parameter name="responder">
+            <Value>SYSTEM</Value>
+        </Parameter>
+    </Parameters>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</SetDialogflowResponse>

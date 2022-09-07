@@ -1,0 +1,49 @@
+<GenerateSAMLAssertion name="SAML-Generate-1" ignoreContentType="false">
+
+  <!--
+      <CanonicalizationAlgorithm></CanonicalizationAlgorithm>
+  -->
+
+  <!-- issuer and subject values -->
+  <Issuer ref='varname'>urn://18CF315A-6A9A-481F-93B8-C1AB988A7D49</Issuer>
+  <Subject ref='varname'>subject</Subject>
+
+  <!-- the digest and signature algorithms -->
+  <DigestMethod>SHA256</DigestMethod>
+  <SignatureAlgorithm>rsa-sha256</SignatureAlgorithm>
+
+  <!-- the key and cert for signing -->
+  <KeyStore>
+    <Name>20191028-rzt9q2ppa6e</Name>
+    <Alias>key1</Alias> <!-- cert and key -->
+  </KeyStore>
+
+  <!-- where to put the assertion -->
+  <OutputVariable>
+    <Message name="request">
+      <Namespaces>
+        <Namespace prefix="soap">http://schemas.xmlsoap.org/soap/envelope/</Namespace>
+        <Namespace prefix="wsse">http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd</Namespace>
+      </Namespaces>
+      <!-- this node must exist in the document -->
+      <XPath>/soap:Envelope/soap:Header/wsse:Security</XPath>
+    </Message>
+  </OutputVariable>
+
+  <!-- the content of the assertion. -->
+  <!-- if you omit the Template, Apigee will use a default template for the Assertion. -->
+  <Template ignoreUnresolvedVariables="false">
+    <saml:Assertion xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion"
+                    ID="{saml.id}" Version="2.0" IssueInstant="{saml.issueInstant}">
+      <saml:Issuer>{saml.issuer}</saml:Issuer>
+      <saml:Subject>
+        <saml:NameID Format="{saml.subjectFormat}">{saml.subject}</saml:NameID>
+      </saml:Subject>
+      <saml:AuthnStatement AuthnInstant="{saml.authnInstant}" SessionIndex="{saml.authnSessionIndex}">
+        <saml:AuthnContext>
+          <saml:AuthnContextClassRef>{saml.authnContextClassRef}</saml:AuthnContextClassRef>
+        </saml:AuthnContext>
+      </saml:AuthnStatement>
+    </saml:Assertion>
+  </Template>
+</GenerateSAMLAssertion>

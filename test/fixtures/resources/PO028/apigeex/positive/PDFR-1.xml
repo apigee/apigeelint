@@ -1,0 +1,4 @@
+<ParseDialogflowRequest enabled="true" name="PDFR-1">
+  <VariablePrefix>my-prefix</VariablePrefix>
+  <DialogflowVersion>CX</DialogflowVersion>
+</ParseDialogflowRequest>
