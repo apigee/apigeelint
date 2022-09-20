@@ -18,6 +18,7 @@
 
 const assert = require("assert"),
       path = require("path"),
+      util = require('util'),
       bl = require("../../lib/package/bundleLinter.js");
 
 describe(`EP002 - bundle with misplaced elements`, () => {
@@ -46,9 +47,8 @@ describe(`EP002 - bundle with misplaced elements`, () => {
       assert.equal(ep002Errors.length, 2);
     });
 
-    it('should generate the correct messages for the proxy endpoint', () => {
-      let util = require('util');
-      let proxyEp1Errors = ep002Errors.filter( item => item.filePath == '/apiproxy/proxies/endpoint1.xml');
+    it('should generate the correct messages for proxy endpoint 1', () => {
+      let proxyEp1Errors = ep002Errors.filter( item => item.filePath == '/apiproxy/proxies/proxy-endpoint-1.xml');
       assert.ok(proxyEp1Errors);
       assert.equal(proxyEp1Errors.length, 1);
       let expectedErrors = [
@@ -68,11 +68,24 @@ describe(`EP002 - bundle with misplaced elements`, () => {
       assert.equal(expectedErrors.length, 0);
     });
 
+    it('should generate the correct messages for proxy endpoint 2', () => {
+      let proxyEp2Errors = ep002Errors.filter( item => item.filePath == '/apiproxy/proxies/proxy-endpoint-2.xml');
+      assert.ok(proxyEp2Errors);
+      assert.equal(proxyEp2Errors.length, 0);
+      // assert.equal(proxyEp2Errors[0].messages.length, expectedErrors.length, "number of errors");
+      // proxyEp2Errors[0].messages.forEach( msg => {
+      //   assert.ok(msg.message);
+      //   assert.ok(expectedErrors.includes(msg.message));
+      //   // disallow repeats
+      //   expectedErrors = expectedErrors.filter( item => item != msg.message);
+      // });
+      // assert.equal(expectedErrors.length, 0);
+    });
+
     it('should generate the correct messages for the target endpoint', () => {
       let targetErrors = ep002Errors.filter( item => item.filePath == '/apiproxy/targets/http-1.xml');
       assert.ok(targetErrors);
       assert.equal(targetErrors.length, 1);
-      // let util = require('util');
       // console.log(util.format(targetErrors[0].messages));
       let expectedErrors = [
             'Extra Flows element',

@@ -1,0 +1,63 @@
+<ProxyEndpoint name="proxy-endpoint-2">
+  <HTTPProxyConnection>
+    <BasePath>/EP002/2</BasePath>
+  </HTTPProxyConnection>
+
+  <FaultRules/>
+
+  <DefaultFaultRule name="default-fault-rule">
+    <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+    </Step>
+    <AlwaysEnforce>true</AlwaysEnforce>
+  </DefaultFaultRule>
+
+  <PreFlow name="PreFlow">
+    <Request>
+    </Request>
+    <Response>
+      <Step>
+        <Name>AM-Clean-Response-Headers</Name>
+      </Step>
+      <Step>
+        <Name>JS-Remove-Copied-Headers</Name>
+      </Step>
+      <Step>
+        <Name>AM-Inject-Proxy-Revision-Header</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+
+  <PostClientFlow name='PostClientFlow'>
+  </PostClientFlow>
+
+  <Flows>
+    <Flow name="f1">
+      <Description>purposefully raise a fault</Description>
+      <Request>
+        <Step>
+          <Name>RF-Invalid-Request</Name>
+        </Step>
+      </Request>
+      <Response/>
+      <Condition>proxy.pathsuffix MatchesPath "/fault"</Condition>
+    </Flow>
+  </Flows>
+
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response>
+      <Step>
+        <Name>AM-Response</Name>
+        <Condition>request.verb != "OPTIONS"</Condition>
+      </Step>
+    </Response>
+  </PostFlow>
+
+  <RouteRule name="rr-1">
+    <Condition>proxy.pathsuffix MatchesPath "/t1"</Condition>
+    <URL>https://foo-bar.com</URL>
+  </RouteRule>
+
+  <RouteRule name="noroute"/>
+</ProxyEndpoint>
