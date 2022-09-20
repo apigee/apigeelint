@@ -1,6 +1,6 @@
-<ProxyEndpoint name="endpoint1">
+<ProxyEndpoint name="proxy-endpoint-1">
   <HTTPProxyConnection>
-    <BasePath>/EP002</BasePath>
+    <BasePath>/EP002/1</BasePath>
   </HTTPProxyConnection>
 
   <FaultRules/>
@@ -82,12 +82,12 @@
     </Response>
   </PostFlow>
 
-  <RouteRule name="http-1">
+  <RouteRule name="rr-1">
     <Condition>proxy.pathsuffix MatchesPath "/t1"</Condition>
     <TargetEndpoint>http-1</TargetEndpoint>
   </RouteRule>
 
-  <RouteRule name="http-2">
+  <RouteRule name="rr-2">
     <Condition>proxy.pathsuffix MatchesPath "/t2"</Condition>
     <TargetEndpoint>http-2</TargetEndpoint>
   </RouteRule>
