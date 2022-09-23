@@ -12,5 +12,6 @@ module.exports = {
   "AllowOrigin-request-header-origin.xml" : "Using {request.header.origin} in AllowOrigins defeats the purpose of CORS.",
   "AllowCredentials-invalid-value.xml" : "invalid value for AllowCredentials element.",
   "AllowCredentials-missing-value.xml" : "missing value for AllowCredentials element.",
+  "CORS-Expose-Mixed.xml" : "Do not use a wildcard as well as specific values in the ExposeHeaders element.",
   "ExposeHeaders-Dupe.xml" : "extraneous ExposeHeaders element"
 };

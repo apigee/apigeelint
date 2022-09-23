@@ -1,0 +1,10 @@
+<CORS name="CORS-Multiple-Origins-with-Wildcard" >
+  <AllowOrigins>https://foo.bar, https://example.org</AllowOrigins>
+  <AllowMethods>GET, POST, PUT, DELETE</AllowMethods>
+  <AllowHeaders>origin, x-requested-with, content-type</AllowHeaders>
+  <ExposeHeaders>*</ExposeHeaders>
+  <MaxAge>180</MaxAge>
+  <AllowCredentials>true</AllowCredentials>
+  <GeneratePreflightResponse>true</GeneratePreflightResponse>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</CORS>
