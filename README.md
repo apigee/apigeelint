@@ -81,9 +81,14 @@ This example uses the "externalPlugins" directory with a plugin for alternate po
 
 ### Listing plugins
 List plugins and formatters, with or without --externalPluginsDirectory.
-```
+```sh
 apigeelint --list
-apigeelint --list -x ./externalPlugins or apigeelint --list --externalPluginsDirectory ./externalPlugins 
+apigeelint --list -x ./externalPlugins
+
+# or
+
+apigeelint --list --externalPluginsDirectory ./externalPlugins
+
  ```
 
 ## Does this tool just lint or does it also check style?
@@ -122,7 +127,7 @@ You can also contribute by reporting issues, asking for new features.
 ## Rules
 
 The list of rules is a work in progress. We expect it to increase over time. As
-product features change (new policies, etc), we will change rules as
+product features change (new policies, deprecated policies, etc), we will change rules as
 well.
 
 This is the current list:
@@ -155,14 +160,14 @@ This is the current list:
 | Flow | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| FL001 | Unconditional Flows |  Only one unconditional flow will get executed. Error if more than one was detected. |
 | Step | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
-| &nbsp; |:white_check_mark:| ST001 | Empty Step |  Empty steps clutter the bundle. |
+| &nbsp; |:white_check_mark:| ST001 | Empty Step | Empty steps clutter the bundle. |
 | &nbsp; |:white_check_mark:| ST002 | Step Structure | each Step should have at most one Name element, one Condition element, no others. |
+| &nbsp; |:white_check_mark:| ST003 | Extract Variables Step with JSONPayload | A check for message content must be performed before policy execution. |
+| &nbsp; |:white_check_mark:| ST004 | Extract Variables Step with XMLPayload | A check for message content must be performed before policy execution. |
+| &nbsp; |:white_check_mark:| ST005 | Extract Variables Step with FormParam | A check for message content must be performed before policy execution. |
+| &nbsp; |:white_check_mark:| ST006 | JSON Threat Protection Step | A check for message content must be performed before policy execution. |
+| &nbsp; |:white_check_mark:| ST007 | XML Threat Protection Step | A check for message content must be performed before policy execution. |
 | Policy | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
-| &nbsp; |:white_check_mark:| PO001 | JSON Threat Protection |  A check for a body element must be performed before policy execution. |
-| &nbsp; |:white_check_mark:| PO002 | XML Threat Protection |  A check for a body element must be performed before policy execution. |
-| &nbsp; |:white_check_mark:| PO003 | Extract Variables with JSONPayload |  A check for a body element must be performed before policy execution. |
-| &nbsp; |:white_check_mark:| PO004 | Extract Variables with XMLPayload |  A check for a body element must be performed before policy execution. |
-| &nbsp; |:white_check_mark:| PO005 | Extract Variables with FormParam |  A check for a body element must be performed before policy execution. |
 | &nbsp; |:white_check_mark:| PO006 | Policy Name &amp; filename agreement |  Policy name attribute should coincide with the policy filename. |
 | &nbsp; |:white_check_mark:| PO007 | Policy Naming Conventions - type indication |  It is recommended that the policy name use a prefix or follow a pattern that indicates the policy type. |
 | &nbsp; |:white_check_mark:| PO008 | Policy DisplayName &amp; DisplayName agreement |  Check that the policy filename matches the display name of the policy. |

@@ -1,0 +1,55 @@
+<SharedFlow name="sf-default">
+  <!-- ST003: error, no condition -->
+  <!-- ST004: no error, not an XMLPayload -->
+  <!-- ST005: no error, EV does not extract from FormParam -->
+  <Step>
+    <Name>EV-JSONPayload-1</Name>
+  </Step>
+
+  <!-- ST003: no error, not a JSONPayload -->
+  <!-- ST004: error, no condition -->
+  <!-- ST005: no error, EV does not extract from FormParam -->
+  <Step>
+    <Name>EV-XMLPayload-response</Name>
+  </Step>
+
+
+  <!-- ST003: no error, includes proper Condition -->
+  <!-- ST004: no error, not an XMLPayload -->
+  <!-- ST005: no error, EV does not extract from FormParam -->
+  <Step>
+    <Condition>response.content != null</Condition>
+    <Name>EV-JSONPayload-1</Name>
+  </Step>
+
+  <!-- ST003: no error, not a JSONPayload -->
+  <!-- ST004: no error, includes proper Condition -->
+  <!-- ST005: no error, EV does not extract from FormParam -->
+  <Step>
+    <Condition>response.content != null</Condition>
+    <Name>EV-XMLPayload-response</Name>
+  </Step>
+
+  <!-- ST003: no error, EV does not extract from JSONPayload -->
+  <!-- ST004: no error, EV does not extract from XMLPayload -->
+  <!-- ST005: error, EV FormParam but no check -->
+  <Step>
+    <Name>EV-Formparam-1</Name>
+  </Step>
+
+  <!-- ST003: no error, EV does not extract from JSONPayload -->
+  <!-- ST004: no error, EV does not extract from XMLPayload -->
+  <!-- ST005: no error, EV FormParam and there is a check -->
+  <Step>
+    <Condition>request.formstring != null</Condition>
+    <Name>EV-Formparam-1</Name>
+  </Step>
+
+  <!-- ST003: no error, EV does not extract from JSONPayload -->
+  <!-- ST004: no error, EV does not extract from XMLPayload -->
+  <!-- ST005: no error, EV does not extract from FormParam -->
+  <Step>
+    <Name>EV-URIPath-1</Name>
+  </Step>
+
+</SharedFlow>

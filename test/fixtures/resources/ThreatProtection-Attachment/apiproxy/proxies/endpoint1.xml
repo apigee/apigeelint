@@ -1,0 +1,116 @@
+<ProxyEndpoint name="endpoint1">
+  <Description>Proxy Endpoint 1</Description>
+  <HTTPProxyConnection>
+    <BasePath>/tp-attachment</BasePath>
+    <Properties/>
+    <VirtualHost>secure</VirtualHost>
+  </HTTPProxyConnection>
+
+  <FaultRules/>
+
+  <PreFlow name="PreFlow">
+    <Request>
+    </Request>
+    <Response>
+    </Response>
+  </PreFlow>
+  <PostFlow name="PostFlow">
+    <Request>
+    </Request>
+    <Response>
+    </Response>
+  </PostFlow>
+  <PostClientFlow name="PostFlow">
+    <Request>
+    </Request>
+    <Response>
+    </Response>
+  </PostClientFlow>
+
+  <Flows>
+
+    <Flow name="flow-jtp-1">
+      <!-- ST006: error, no check -->
+      <!-- ST007: no error, EV does not extract from XMLPayload -->
+      <Request>
+        <Step>
+          <Name>JTP-request-1</Name>
+        </Step>
+      </Request>
+      <Condition>(proxy.pathsuffix MatchesPath "/jtp-1") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="flow-jtp-1">
+      <!-- ST006: no error, sufficient check -->
+      <!-- ST007: no error, EV does not extract from XMLPayload -->
+      <Request>
+        <Step>
+          <Condition>request.content != null</Condition>
+          <Name>JTP-request-1</Name>
+        </Step>
+      </Request>
+      <Condition>(proxy.pathsuffix MatchesPath "/jtp-2") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="flow-xtp-1">
+      <!-- ST006: no error, not a JSONThreatProtection policy -->
+      <!-- ST007: error, no check for content or formstring -->
+      <Request>
+        <Step>
+          <Name>XTP-request-1</Name>
+        </Step>
+      </Request>
+      <Condition>(proxy.pathsuffix MatchesPath "/xtp-1") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="flow-xtp-2">
+      <!-- ST006: no error, not a JSONThreatProtection policy -->
+      <!-- ST007: no error, sufficient check -->
+      <Request>
+        <Step>
+          <Condition>request.content != null</Condition>
+          <Name>XTP-request-1</Name>
+        </Step>
+      </Request>
+      <Condition>(proxy.pathsuffix MatchesPath "/xtp-2") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="flow-xtp-3">
+      <!-- ST006: no error, not a JSONThreatProtection policy -->
+      <!-- ST007: no error, sufficient check -->
+      <Request>
+        <Step>
+          <Condition>myRequest.content != null</Condition>
+          <Name>XTP-myRequest-1</Name>
+        </Step>
+      </Request>
+      <Condition>(proxy.pathsuffix MatchesPath "/xtp-3") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="flow-xtp-3">
+      <!-- ST006: no error, not a JSONThreatProtection policy -->
+      <!-- ST007: error, insufficient check (wrong variable)-->
+      <Request>
+        <Step>
+          <Condition>request.content != null</Condition>
+          <Name>XTP-myRequest-1</Name>
+        </Step>
+      </Request>
+      <Condition>(proxy.pathsuffix MatchesPath "/xtp-4") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="unknown request">
+      <!-- ST006: no error, not a JSONThreatProtection policy -->
+      <!-- ST007: no error, not a XMLThreatProtection policy -->
+      <Request>
+        <Step>
+          <Name>RF-UnknownRequest</Name>
+        </Step>
+      </Request>
+    </Flow>
+
+  </Flows>
+
+  <RouteRule name="NoRouteRule"/>
+
+</ProxyEndpoint>

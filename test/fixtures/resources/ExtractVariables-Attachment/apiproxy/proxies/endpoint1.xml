@@ -1,0 +1,238 @@
+<ProxyEndpoint name="endpoint1">
+  <Description>Proxy Endpoint 1</Description>
+  <HTTPProxyConnection>
+    <BasePath>/ev-attachment</BasePath>
+    <Properties/>
+    <VirtualHost>secure</VirtualHost>
+  </HTTPProxyConnection>
+
+  <FaultRules/>
+
+  <PreFlow name="PreFlow">
+    <Request>
+    </Request>
+    <Response>
+    </Response>
+  </PreFlow>
+  <PostFlow name="PostFlow">
+    <Request>
+    </Request>
+    <Response>
+    </Response>
+  </PostFlow>
+  <PostClientFlow name="PostFlow">
+    <Request>
+    </Request>
+    <Response>
+    </Response>
+  </PostClientFlow>
+
+  <Flows>
+
+    <Flow name="flow-json-1">
+      <!-- ST003: error -->
+      <!-- ST004: no error, EV does not extract from XMLPayload -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Response>
+        <Step>
+          <Name>EV-JSONPayload-1</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/json-1") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow-json-2">
+      <!-- ST003: error -->
+      <!-- ST004: no error, EV does not extract from XMLPayload -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Response>
+        <Step>
+          <Condition/>
+          <Name>EV-JSONPayload-1</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/json-2") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow-json-3">
+      <!-- ST003: error -->
+      <!-- ST004: no error, EV does not extract from XMLPayload -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Response>
+        <Step>
+          <Condition>response.header.content-type = "application/json"</Condition>
+          <Name>EV-JSONPayload-1</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/json-3") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow-json-4">
+      <!-- ST003: no error, Condition checks for content  -->
+      <!-- ST004: no error, EV does not extract from XMLPayload -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Response>
+        <Step>
+          <Condition>response.content != null</Condition>
+          <Name>EV-JSONPayload-1</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/json-4") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow-json-5">
+      <!-- ST003: no error, Condition on parent checks for content  -->
+      <!-- ST004: no error, EV does not extract from XMLPayload -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Response>
+        <Step>
+          <Name>EV-JSONPayload-1</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/json-5") and (request.verb = "GET") and (response.content != null)</Condition>
+    </Flow>
+
+
+    <Flow name="flow-xml-1">
+      <!-- ST003: no error, EV does not extract from JSONPayload -->
+      <!-- ST004: error -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Response>
+        <Step>
+          <Name>EV-XMLPayload-response</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/xml-1") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow-xml-2">
+      <!-- ST003: no error, EV does not extract from JSONPayload -->
+      <!-- ST004: error -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Response>
+        <Step>
+          <Condition/>
+          <Name>EV-XMLPayload-response</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/xml-2") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow-xml-3">
+      <!-- ST003: no error, EV does not extract from JSONPayload -->
+      <!-- ST004: error -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Response>
+        <Step>
+          <Condition>response.header.content-type = "application/xml"</Condition>
+          <Name>EV-XMLPayload-response</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/xml-3") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow-xml-4">
+      <!-- ST003: no error, EV does not extract from JSONPayload -->
+      <!-- ST004: no error, Condition checks for content  -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Response>
+        <Step>
+          <Condition>response.content != null</Condition>
+          <Name>EV-XMLPayload-response</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/xml-4") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow-xml-5">
+      <!-- ST003: no error, EV does not extract from JSONPayload -->
+      <!-- ST004: no error, Condition on parent checks for content  -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Response>
+        <Step>
+          <Name>EV-XMLPayload-response</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/xml-5") and (request.verb = "GET") and (response.content != null)</Condition>
+    </Flow>
+
+    <Flow name="flow-xml-6">
+      <!-- ST003: no error, EV does not extract from JSONPayload -->
+      <!-- ST004: no error, Condition checks for content in custom message -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Response>
+        <Step>
+          <Condition>scResponse.content != null</Condition>
+          <Name>EV-XMLPayload-scResponse</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/xml-6") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow-xml-7">
+      <!-- ST003: no error, EV does not extract from JSONPayload -->
+      <!-- ST004: error, Condition on parent checks for content on wrong message  -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Response>
+        <Step>
+          <Condition>response.content != null</Condition>
+          <Name>EV-XMLPayload-scResponse</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/xml-6") and (request.verb = "GET")</Condition>
+    </Flow>
+
+
+    <Flow name="flow-form-1">
+      <!-- ST003: no error, EV does not extract from JSONPayload -->
+      <!-- ST004: no error, EV does not extract from XMLPayload -->
+      <!-- ST005: error, EV FormParam but no check -->
+      <Response>
+        <Step>
+          <Name>EV-Formparam-1</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/form-1") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow-form-2">
+      <!-- ST003: no error, EV does not extract from JSONPayload -->
+      <!-- ST004: no error, EV does not extract from XMLPayload -->
+      <!-- ST005: no error, EV FormParam and there is a check -->
+      <Request>
+        <Step>
+          <Condition>request.formstring != null</Condition>
+          <Name>EV-Formparam-1</Name>
+        </Step>
+      </Request>
+      <Condition>(proxy.pathsuffix MatchesPath "/form-1") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow-uripath-1">
+      <!-- ST003: no error, EV does not extract from JSONPayload -->
+      <!-- ST004: no error, EV does not extract from XMLPayload -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Request>
+        <Step>
+          <Name>EV-URIPath-1</Name>
+        </Step>
+      </Request>
+      <Condition>(proxy.pathsuffix MatchesPath "/form-2") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="unknown request">
+      <!-- ST003: no error, not an EV policy -->
+      <!-- ST004: no error, not an EV policy -->
+      <!-- ST005: no error, not an EV policy -->
+      <Request>
+        <Step>
+          <Name>RF-UnknownRequest</Name>
+        </Step>
+      </Request>
+    </Flow>
+
+  </Flows>
+
+  <RouteRule name="NoRouteRule"/>
+
+</ProxyEndpoint>
