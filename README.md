@@ -146,14 +146,14 @@ This is the current list:
 | &nbsp; |:white_check_mark:| BN009 | Statistics Collector - duplicate policies |  Warn on duplicate policies when no conditions are present or conditions are duplicates. |
 | &nbsp; |:white_check_mark:| BN010 | Missing policies | Issue an error if a referenced policy is not present in the bundle. |
 | Proxy Definition | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
-| &nbsp; |:white_check_mark:| PD001 | RouteRules to Targets | RouteRules should map to defined Targets |
-| &nbsp; |:white_check_mark:| PD002 | Unreachable Route Rules - defaults |  Only one RouteRule should be present without a condition |
+| &nbsp; |:white_check_mark:| PD001 | RouteRules to Targets | RouteRules should map to defined Targets. |
+| &nbsp; |:white_check_mark:| PD002 | Unreachable Route Rules - defaults |  Only one RouteRule should be present without a condition. |
 | &nbsp; |:white_check_mark:| PD003 | Unreachable Route Rules |  RouteRule without a condition should be last. |
 | &nbsp; |:white_check_mark:| PD004 | ProxyEndpoint name | ProxyEndpoint name should match basename of filename. |
 | &nbsp; |:white_check_mark:| PD005 | VirtualHost | ProxyEndpoint should have one HTTPProxyConnection, and in the case of profile=apigeex, no VirtualHost. |
 | Target Definition | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| TD001 | Mgmt Server as Target |  Discourage calls to the Management Server from a Proxy via target. |
-| &nbsp; |:white_check_mark:| TD002 | Use Target Servers |  Encourage the use of target servers |
+| &nbsp; |:white_check_mark:| TD002 | Use Target Servers |  Encourage the use of target servers. |
 | &nbsp; |:white_check_mark:| TD003 | TargetEndpoint name | TargetEndpoint name should match basename of filename. |
 | &nbsp; |:white_check_mark:| TD004 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection should enable TLS/SSL. |
 | &nbsp; |:white_check_mark:| TD005 | TargetEndpoint SSLInfo references | TargetEndpoint SSLInfo should use references for KeyStore and TrustStore. |
@@ -162,16 +162,16 @@ This is the current list:
 | Step | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| ST001 | Empty Step | Empty steps clutter the bundle. |
 | &nbsp; |:white_check_mark:| ST002 | Step Structure | each Step should have at most one Name element, one Condition element, no others. |
-| &nbsp; |:white_check_mark:| ST003 | Extract Variables Step with JSONPayload | A check for message content must be performed before policy execution. |
-| &nbsp; |:white_check_mark:| ST004 | Extract Variables Step with XMLPayload | A check for message content must be performed before policy execution. |
-| &nbsp; |:white_check_mark:| ST005 | Extract Variables Step with FormParam | A check for message content must be performed before policy execution. |
-| &nbsp; |:white_check_mark:| ST006 | JSON Threat Protection Step | A check for message content must be performed before policy execution. |
-| &nbsp; |:white_check_mark:| ST007 | XML Threat Protection Step | A check for message content must be performed before policy execution. |
+| &nbsp; |:white_check_mark:| ST003 | Extract Variables Step with JSONPayload | A check for message content should be performed before policy execution. |
+| &nbsp; |:white_check_mark:| ST004 | Extract Variables Step with XMLPayload | A check for message content should be performed before policy execution. |
+| &nbsp; |:white_check_mark:| ST005 | Extract Variables Step with FormParam | A check for message content should be performed before policy execution. |
+| &nbsp; |:white_check_mark:| ST006 | JSON Threat Protection Step | A check for message content should be performed before policy execution. |
+| &nbsp; |:white_check_mark:| ST007 | XML Threat Protection Step | A check for message content should be performed before policy execution. |
 | Policy | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| PO006 | Policy Name &amp; filename agreement |  Policy name attribute should coincide with the policy filename. |
 | &nbsp; |:white_check_mark:| PO007 | Policy Naming Conventions - type indication |  It is recommended that the policy name use a prefix or follow a pattern that indicates the policy type. |
 | &nbsp; |:white_check_mark:| PO008 | Policy DisplayName &amp; DisplayName agreement |  Check that the policy filename matches the display name of the policy. |
-| &nbsp; |:white_medium_square:| PO009 | Service Callout Target - Mgmt Server |  Targeting management server may result in higher than expected latency use with caution. |
+| &nbsp; |:white_medium_square:| PO009 | Service Callout Target - Mgmt Server |  Targeting management server may result in higher than expected latency; use with caution. |
 | &nbsp; |:white_medium_square:| PO010 | Service Callout Target - Target Server |  Encourage use of target servers. |
 | &nbsp; |:white_medium_square:| PO011 | Service Callout Target - Dynamic URLs |  Error on dynamic URLs in target server URL tag. |
 | &nbsp; |:white_check_mark:| PO012 | AssignMessage/AssignTo | Warn on unnecessary AssignTo in AssignMessage when createNew is false and no destination variable. |
@@ -214,6 +214,28 @@ This is the current list:
 | &nbsp; |:white_check_mark:| DC002 | OAuth V1 Policies Deprecation |  Check usage of deprecated OAuth V1 policies. |
 
 From an implementation perspective, the focus is on plugin support and flexibility over performance. Compute is cheap.
+
+## Release Notes
+
+### Release v2.31.0
+
+#### Condition checks around policies
+
+In release v2.31.0, the plugins PO001, PO002, PO003, PO004, and PO005 have been
+converted to ST006, ST007, ST003, ST004, and ST005, respectively.  These plugins
+move from the "Policy" category to the "Step" category because the plugin
+analyzes the attachment of the policy in a Step element, rather than the policy
+itself. Also these plugins will now generate warnings, rather than errors.
+
+If previously you excluded PO003 via the `--excluded` option, you must now
+exclude ST003, and so on.
+
+#### Sharedflows
+
+Starting with release v2.31.0, using apigeelint against Sharedflows will
+generate a correct report. Previously the report on a sharedflow was truncated
+and omitted some warnings and errors.
+
 
 
 ## Support
