@@ -1,0 +1,35 @@
+<SharedFlow name="sf-default">
+  <!-- ST006: error, no check -->
+  <!-- ST007: no error, EV does not extract from XMLPayload -->
+  <Step>
+    <Name>JTP-request-1</Name>
+  </Step>
+
+  <!-- ST006: no error, not a JSONThreatProtection policy -->
+  <!-- ST007: error, no check for content or formstring -->
+  <Step>
+    <Name>XTP-request-1</Name>
+  </Step>
+
+  <!-- ST006: no error, sufficient check -->
+  <!-- ST007: no error, EV does not extract from XMLPayload -->
+  <Step>
+    <Condition>request.content != null</Condition>
+    <Name>JTP-request-1</Name>
+  </Step>
+
+  <!-- ST006: no error, not a JSONThreatProtection policy -->
+  <!-- ST007: no error, sufficient check -->
+  <Step>
+    <Condition>request.content != null</Condition>
+    <Name>XTP-request-1</Name>
+  </Step>
+
+
+  <!-- ST006: no error, not a JSONThreatProtection policy -->
+  <!-- ST007: no error, not an XMLThreatProtection policy -->
+  <Step>
+    <Name>EV-URIPath-1</Name>
+  </Step>
+
+</SharedFlow>

@@ -1,0 +1,10 @@
+<ExtractVariables name="EV-JSONPayload-1">
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <JSONPayload>
+    <Variable name="errorcode">
+      <JSONPath>$.errorCode</JSONPath>
+    </Variable>
+  </JSONPayload>
+  <Source clearPayload="false">response</Source>
+  <VariablePrefix>extracted</VariablePrefix>
+</ExtractVariables>

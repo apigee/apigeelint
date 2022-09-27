@@ -1,0 +1,10 @@
+<ExtractVariables name="EV-Formparam-1">
+  <Source>request</Source>
+  <FormParam name="greeting">
+    <Pattern>hello {user}</Pattern>
+  </FormParam>
+  <FormParam name="salutation">
+    <Pattern>welcome {person}</Pattern>
+  </FormParam>
+  <VariablePrefix>formp</VariablePrefix>
+</ExtractVariables>

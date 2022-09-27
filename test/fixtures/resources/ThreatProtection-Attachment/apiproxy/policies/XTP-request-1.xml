@@ -1,0 +1,22 @@
+<XMLThreatProtection name="XTP-request-1">
+   <Source>request</Source>
+   <NameLimits>
+      <Element>10</Element>
+      <Attribute>10</Attribute>
+      <NamespacePrefix>10</NamespacePrefix>
+      <ProcessingInstructionTarget>10</ProcessingInstructionTarget>
+   </NameLimits>
+   <StructureLimits>
+      <NodeDepth>5</NodeDepth>
+      <AttributeCountPerElement>2</AttributeCountPerElement>
+      <NamespaceCountPerElement>3</NamespaceCountPerElement>
+      <ChildCount includeComment="true" includeElement="true" includeProcessingInstruction="true" includeText="true">3</ChildCount>
+   </StructureLimits>
+   <ValueLimits>
+      <Text>15</Text>
+      <Attribute>10</Attribute>
+      <NamespaceURI>10</NamespaceURI>
+      <Comment>10</Comment>
+      <ProcessingInstructionData>10</ProcessingInstructionData>
+   </ValueLimits>
+</XMLThreatProtection>

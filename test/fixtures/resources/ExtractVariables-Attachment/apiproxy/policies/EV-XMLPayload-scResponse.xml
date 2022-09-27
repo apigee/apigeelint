@@ -1,0 +1,12 @@
+<ExtractVariables name="EV-XMLPayload-scResponse">
+   <Source>scResponse</Source>
+   <XMLPayload>
+     <Namespaces>
+       <Namespace prefix='soap'>http://schemas.xmlsoap.org/soap/envelope/</Namespace>
+     </Namespaces>
+     <Variable name='topLevelResponseElement' type='string'>
+       <XPath>local-name(/soap:Envelope/soap:Body/*[1])</XPath>
+     </Variable>
+   </XMLPayload>
+   <VariablePrefix>soapresponse</VariablePrefix>
+</ExtractVariables>

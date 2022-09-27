@@ -1,0 +1,10 @@
+<ExtractVariables name='EV-URIPath-1'>
+   <Source>request</Source>
+   <VariablePrefix>extracted</VariablePrefix>
+   <URIPath>
+      <!-- put the extracted value into extracted.id -->
+      <!-- NB: The Pattern is matched against pathsuffix (what comes AFTER the basepath) -->
+      <Pattern ignoreCase='true'>/accounts/{id}</Pattern>
+   </URIPath>
+   <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</ExtractVariables>
