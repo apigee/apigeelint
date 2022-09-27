@@ -24,7 +24,7 @@ const assert = require("assert"),
       bl = require("../../lib/package/bundleLinter.js");
 
 const expectedMessageRe =
-  new RegExp("For the [A-Za-z]{4,} step, an appropriate check for a message body was not found on the enclosing Step or Flow.");
+  new RegExp("For the [A-Za-z]{4,} step \\([-A-Za-z0-9_]{2,}\\), an appropriate check for a message body was not found.");
 
 describe(`${ruleId} - JSONThreatProtection Conditions`, () => {
   function check(suffix, bundleType, expected) {
@@ -58,13 +58,14 @@ describe(`${ruleId} - JSONThreatProtection Conditions`, () => {
       expected.forEach( (item, ix) => {
         assert.equal(st006Messages[ix].line, item.line, `case(${ix}) line`);
         assert.equal(st006Messages[ix].column, item.column, `case(${ix}) column`);
+        assert.equal(st006Messages[ix].severity, 1, `case(${ix}) severity`);
         assert.ok(st006Messages[ix].message.match(expectedMessageRe), `case(${ix}) message`);
       });
 
     });
   }
 
-  it('should generate the expected errors in an apiproxy', () => {
+  it('should generate the expected warnings in an apiproxy', () => {
       let expected = [
             {
               line: 36,
@@ -74,7 +75,7 @@ describe(`${ruleId} - JSONThreatProtection Conditions`, () => {
     check('endpoint1.xml', 'apiproxy', expected);
   });
 
-  it('should generate the expected errors in a sharedflow', () => {
+  it('should generate the expected warnings in a sharedflow', () => {
       let expected = [
             {
               line: 4,

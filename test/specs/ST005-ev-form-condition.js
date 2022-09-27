@@ -23,8 +23,8 @@ const assert = require("assert"),
       util = require("util"),
       bl = require("../../lib/package/bundleLinter.js");
 
-const expectedMessage =
-        "For the ExtractVariables step, an appropriate check for a message body was not found on the enclosing Step or Flow.";
+const expectedMessageRe =
+  new RegExp("For the ExtractVariables step \\([-A-Za-z0-9_]{2,}\\), an appropriate check for a message body was not found.");
 
 describe(`${ruleId} - ExtractVariables XMLPayload Conditions`, () => {
   function check(suffix, bundleType, expected) {
@@ -58,13 +58,14 @@ describe(`${ruleId} - ExtractVariables XMLPayload Conditions`, () => {
       expected.forEach( (item, ix) => {
         assert.equal(st005Messages[ix].line, item.line, `case(${ix}) line`);
         assert.equal(st005Messages[ix].column, item.column, `case(${ix}) column`);
-        assert.equal(st005Messages[ix].message, expectedMessage, `case(${ix}) message`);
+        assert.equal(st005Messages[ix].severity, 1, `case(${ix}) severity`);
+        assert.ok(st005Messages[ix].message.match(expectedMessageRe), `case(${ix}) message`);
       });
 
     });
   }
 
-  it('should generate the expected errors in an apiproxy', () => {
+  it('should generate the expected warnings in an apiproxy', () => {
       let expected = [
             {
               line: 48,
@@ -86,7 +87,7 @@ describe(`${ruleId} - ExtractVariables XMLPayload Conditions`, () => {
     check('endpoint1.xml', "apiproxy", expected);
   });
 
-  it('should generate the expected errors in a sharedflow', () => {
+  it('should generate the expected warnings in a sharedflow', () => {
       let expected = [
             {
               line: 36,
