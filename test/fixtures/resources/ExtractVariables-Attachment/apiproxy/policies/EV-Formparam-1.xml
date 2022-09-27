@@ -3,5 +3,8 @@
   <FormParam name="greeting">
     <Pattern>hello {user}</Pattern>
   </FormParam>
+  <FormParam name="salutation">
+    <Pattern>welcome {person}</Pattern>
+  </FormParam>
   <VariablePrefix>formp</VariablePrefix>
 </ExtractVariables>

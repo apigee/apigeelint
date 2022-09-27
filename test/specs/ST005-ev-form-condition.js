@@ -44,14 +44,16 @@ describe(`${ruleId} - ExtractVariables XMLPayload Conditions`, () => {
       let items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
-      debug(util.format(items));
-      let proxyEndpointItems = items.filter( m => m.filePath.endsWith(suffix));
-      debug(util.format(proxyEndpointItems));
-      assert.equal(proxyEndpointItems.length, 1);
-      proxyEndpointItems.forEach( item =>
-                                  debug(util.format(item.messages)));
-      let st005Messages = proxyEndpointItems[0].messages.filter( m => m.ruleId == ruleId);
-      debug(util.format(st005Messages));
+      debug('all items: ' + util.format(items));
+      let itemsForFileOfInterest = items.filter( m => m.filePath.endsWith(suffix));
+      debug('items for that filepath: ' + util.format(itemsForFileOfInterest));
+      assert.equal(itemsForFileOfInterest.length, 1);
+
+      itemsForFileOfInterest.forEach( (item, ix) =>
+                                      debug(`item ${ix}: ` + util.format(item.messages)));
+
+      let st005Messages = itemsForFileOfInterest[0].messages.filter( m => m.ruleId == ruleId);
+      debug(`ST005 messages (${st005Messages.length}): ` + util.format(st005Messages));
       assert.equal(st005Messages.length, expected.length);
       expected.forEach( (item, ix) => {
         assert.equal(st005Messages[ix].line, item.line, `case(${ix}) line`);
@@ -65,7 +67,19 @@ describe(`${ruleId} - ExtractVariables XMLPayload Conditions`, () => {
   it('should generate the expected errors in an apiproxy', () => {
       let expected = [
             {
-              line: 191,
+              line: 48,
+              column: 7
+            },
+            {
+              line: 54,
+              column: 7
+            },
+            {
+              line: 72,
+              column: 7
+            },
+            {
+              line: 254,
               column: 9
             }
           ];

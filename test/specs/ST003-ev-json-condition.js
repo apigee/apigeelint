@@ -51,7 +51,6 @@ describe(`${ruleId} - ExtractVariables JSONPayload Conditions`, () => {
       sfItems.forEach( item =>
                        debug(util.format(item.messages)));
       let st003Messages = sfItems[0].messages.filter( m => m.ruleId == ruleId);
-
       debug(util.format(st003Messages));
       assert.equal(st003Messages.length, expected.length);
 
@@ -66,15 +65,15 @@ describe(`${ruleId} - ExtractVariables JSONPayload Conditions`, () => {
   it('should find the expected errors in an apiproxy', () => {
     let expected = [
           {
-            line: 37,
+            line: 100,
             column: 9
           },
           {
-            line: 49,
+            line: 112,
             column: 9
           },
           {
-            line: 62,
+            line: 125,
             column: 9
           }
         ];

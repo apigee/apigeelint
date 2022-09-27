@@ -44,15 +44,15 @@ describe(`${ruleId} - ExtractVariables XMLPayload Conditions`, () => {
       let items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
-      debug(util.format(items));
-      let sfItems = items.filter( m => m.filePath.endsWith(suffix));
-      debug(util.format(sfItems));
-      assert.equal(sfItems.length, 1);
-      sfItems.forEach( item =>
-                       debug(util.format(item.messages)));
-      let st004Messages = sfItems[0].messages.filter( m => m.ruleId == ruleId);
+      debug('all items: ' + util.format(items));
+      let itemsForFileOfInterest = items.filter( m => m.filePath.endsWith(suffix));
+      debug('items for that filepath: ' + util.format(itemsForFileOfInterest));
+      assert.equal(itemsForFileOfInterest.length, 1);
+      // itemsForFileOfInterest.forEach( item =>
+      //                  debug(util.format(item.messages)));
+      let st004Messages = itemsForFileOfInterest[0].messages.filter( m => m.ruleId == ruleId);
 
-      debug(util.format(st004Messages));
+      debug(`ST004 messages (${st004Messages.length}): ` + util.format(st004Messages));
       assert.equal(st004Messages.length, expected.length);
 
       expected.forEach( (item, ix) => {
@@ -63,22 +63,30 @@ describe(`${ruleId} - ExtractVariables XMLPayload Conditions`, () => {
     });
   }
 
-  it('should generate the expected errors', () => {
+  it('should generate the expected errors in an apiproxy', () => {
     let expected = [
             {
-              line: 101,
+              line: 29,
+              column: 7
+            },
+            {
+              line: 38,
+              column: 7
+            },
+            {
+              line: 164,
               column: 9
             },
             {
-              line: 113,
+              line: 176,
               column: 9
             },
             {
-              line: 126,
+              line: 189,
               column: 9
             },
             {
-              line: 177,
+              line: 240,
               column: 9
             }
           ];

@@ -6,14 +6,77 @@
     <VirtualHost>secure</VirtualHost>
   </HTTPProxyConnection>
 
-  <FaultRules/>
+  <FaultRules>
+    <FaultRule name='rule1'>
+      <!-- ST004: no error, there is a sufficient condition in the parent -->
+      <Step>
+        <Name>EV-XMLPayload-response</Name>
+      </Step>
+      <Condition>response.content != null</Condition>
+    </FaultRule>
+
+    <FaultRule name='rule2'>
+      <!-- ST004: no error, there is a sufficient condition in the Step -->
+      <Step>
+        <Condition>response.content != null</Condition>
+        <Name>EV-XMLPayload-response</Name>
+      </Step>
+      <Condition>fault.name = "foobar"</Condition>
+    </FaultRule>
+
+    <FaultRule name='rule3'>
+      <!-- ST004: error, there is a condition, but it is insufficient -->
+      <Step>
+        <Condition>response.header.content-type = "application/xml"</Condition>
+        <Name>EV-XMLPayload-response</Name>
+      </Step>
+      <Condition>fault.name = "foobar"</Condition>
+    </FaultRule>
+
+    <FaultRule name='rule4-fallback'>
+      <!-- ST004: error, there is no condition -->
+      <Step>
+        <Name>EV-XMLPayload-response</Name>
+      </Step>
+    </FaultRule>
+
+  </FaultRules>
 
   <PreFlow name="PreFlow">
     <Request>
+      <!-- ST005: error, EV FormParam but no check for formstring or specific param -->
+      <Step>
+        <Condition>request.content != null</Condition>
+        <Name>EV-Formparam-1</Name>
+      </Step>
+
+      <!-- ST005: error, EV FormParam but no check for formstring or specific param -->
+      <Step>
+        <Condition>request.formparams.count != 0</Condition>
+        <Name>EV-Formparam-1</Name>
+      </Step>
+
+      <!-- ST005: no error, EV FormParam and check for specific param -->
+      <Step>
+        <Condition>request.formparam.greeting != null</Condition>
+        <Name>EV-Formparam-1</Name>
+      </Step>
+
+      <!-- ST005: no error, EV FormParam and check for formstring -->
+      <Step>
+        <Condition>request.formstring != null</Condition>
+        <Name>EV-Formparam-1</Name>
+      </Step>
+
+      <!-- ST005: error, EV FormParam but check is for wrong specific param -->
+      <Step>
+        <Condition>request.formparam.hello != null</Condition>
+        <Name>EV-Formparam-1</Name>
+      </Step>
     </Request>
-    <Response>
-    </Response>
+    <Response/>
   </PreFlow>
+
   <PostFlow name="PostFlow">
     <Request>
     </Request>
