@@ -24,7 +24,7 @@ const assert = require("assert"),
       bl = require("../../lib/package/bundleLinter.js");
 
 const expectedMessageRe =
-  new RegExp("For the [A-Za-z]{4,} step \\([-A-Za-z0-9_]{2,}\\), an appropriate check for a message body was not found.");
+  new RegExp("^For the [A-Za-z]{4,} step \\([-A-Za-z0-9_]{2,}\\), an appropriate check for a message body was not found\\..*");
 
 describe(`${ruleId} - JSONThreatProtection Conditions`, () => {
   function check(suffix, bundleType, expected) {

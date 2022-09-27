@@ -24,7 +24,7 @@ const assert = require("assert"),
       bl = require("../../lib/package/bundleLinter.js");
 
 const expectedMessageRe =
-  new RegExp("For the ExtractVariables step \\([-A-Za-z0-9_]{2,}\\), an appropriate check for a message body was not found.");
+  new RegExp("^For the ExtractVariables step \\([-A-Za-z0-9_]{2,}\\), an appropriate check for a message body was not found\\..*");
 
 describe(`${ruleId} - ExtractVariables JSONPayload Conditions`, () => {
   function check(suffix, bundleType, expected) {
