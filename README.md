@@ -6,7 +6,7 @@
 ![LastCommit](https://img.shields.io/github/last-commit/apigee/apigeelint/master.svg)
 ![CommitActivity](https://img.shields.io/github/commit-activity/4w/apigee/apigeelint)
 ![Downloads](https://img.shields.io/npm/dm/apigeelint.svg)
-[![Publish to NPM](https://github.com/apigee/apigeelint/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/apigee/apigeelint/actions/workflows/npm-publish.yml)
+[![Node.js Package](https://github.com/apigee/apigeelint/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/apigee/apigeelint/actions/workflows/npm-publish.yml)
 
 Static code analysis for Apigee proxy and sharedflow bundles to encourage API developers to use [best practices](https://cloud.google.com/apigee/docs/api-platform/fundamentals/best-practices-api-proxy-design-and-development) and avoid [anti-patterns](https://cloud.google.com/apigee/docs/api-platform/antipatterns/intro).
 
