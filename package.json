@@ -50,6 +50,7 @@
     "xpath": "latest"
   },
   "devDependencies": {
+    "es6-template-strings": "^2.0.1",
     "mocha": "^9.1.3",
     "mocha-badge-generator": "^0.9.0",
     "mocha-lcov-reporter": "^1.3.0",
