@@ -40,7 +40,7 @@ describe(`TD002 - Edgemicro`, () => {
       assert.ok(items.length);
       items = items.filter(item => item.messages && item.messages.length && item.messages.find(m => m.ruleId == 'TD002'));
       items.forEach( (item) => {
-        if( item.filePath === "/apiproxy/targets/default.xml") {
+        if( item.filePath.endsWith("/apiproxy/targets/default.xml")) {
             assert.equal(item.warningCount, 0);
         }
       });
