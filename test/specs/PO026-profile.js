@@ -40,7 +40,7 @@ describe(`PO026 - PropertySetRef with --profile 'apigeex' for PO026-apigeex-prox
       assert.ok(items.length);
       items.forEach( (item) => {
         // console.log( item );
-        if( item.filePath === "/apiproxy/policies/AM-config-properties.xml") {
+        if (item.filePath.endsWith("/apiproxy/policies/AM-config-properties.xml")) {
             assert.equal(item.errorCount,0);
         }
       });
@@ -69,7 +69,7 @@ describe(`PO026 - PropertySetRef with --profile 'apigee' for PO026-apigeex-proxy
       assert.ok(items.length);
       items.forEach( (item) => {
         // console.log( item );
-        if( item.filePath === "/apiproxy/policies/AM-config-properties.xml") {
+        if (item.filePath.endsWith("/apiproxy/policies/AM-config-properties.xml")) {
             assert.equal(item.errorCount,6);
         }
       });

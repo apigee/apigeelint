@@ -40,7 +40,7 @@ describe(`TD002 - Not an Edgemicro proxy`, () => {
       assert.ok(items.length);
       items = items.filter(item => item.messages &&
                            item.messages.length &&
-                           item.filePath === "/apiproxy/targets/default.xml");
+                           item.filePath.endsWith("/apiproxy/targets/default.xml"));
 
       assert.equal(items.length, 1);
       assert.equal(items[0].messages.filter(m => m.ruleId == 'TD002').length, 1, JSON.stringify(items[0].messages));

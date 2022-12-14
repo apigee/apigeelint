@@ -52,13 +52,13 @@ describe(`${testID} - check condition on FaultRules`, function() {
     });
 
     it('should generate no errors or warnings for proxy endpoint1', () => {
-      let proxyEp1Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/proxies/endpoint1.xml');
+      let proxyEp1Error = itemsWithFR001Errors.find( item => item.filePath.endsWith('/apiproxy/proxies/endpoint1.xml'));
       let messages = proxyEp1Error && proxyEp1Error.messages.filter(msg => msg.ruleId == testID);
       assert.ok( !proxyEp1Error || messages.length == 0);
     });
 
     it('should generate an error for proxy endpoint2', () => {
-      let proxyEp2Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/proxies/endpoint2.xml');
+      let proxyEp2Error = itemsWithFR001Errors.find( item => item.filePath.endsWith('/apiproxy/proxies/endpoint2.xml'));
       assert.ok(proxyEp2Error);
       let messages = proxyEp2Error.messages.filter(msg => msg.ruleId == testID);
       assert.ok(messages);
@@ -68,18 +68,18 @@ describe(`${testID} - check condition on FaultRules`, function() {
     });
 
     it('should generate no error for proxy endpoint3', () => {
-      let proxyEp3Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/proxies/endpoint3.xml');
+      let proxyEp3Error = itemsWithFR001Errors.find( item => item.filePath.endsWith('/apiproxy/proxies/endpoint3.xml'));
       assert.ok( ! proxyEp3Error);
     });
 
     it('should generate no error for target1', () => {
-      let targetEp1Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/targets/target1.xml');
+      let targetEp1Error = itemsWithFR001Errors.find( item => item.filePath.endsWith('/apiproxy/targets/target1.xml'));
       let messages = targetEp1Error && targetEp1Error.messages.filter(msg => msg.ruleId == testID);
       assert.ok( !targetEp1Error || messages.length == 0);
     });
 
     it('should generate an error for target2', () => {
-      let targetEp2Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/targets/target2.xml');
+      let targetEp2Error = itemsWithFR001Errors.find( item => item.filePath.endsWith('/apiproxy/targets/target2.xml'));
       assert.ok( targetEp2Error );
       let messages = targetEp2Error.messages.filter(msg => msg.ruleId == testID);
       assert.ok(messages);
@@ -89,7 +89,7 @@ describe(`${testID} - check condition on FaultRules`, function() {
     });
 
     it('should generate no error or warning for target3', () => {
-      let targetEp3Error = itemsWithFR001Errors.find( item => item.filePath == '/apiproxy/targets/target3.xml');
+      let targetEp3Error = itemsWithFR001Errors.find( item => item.filePath.endsWith('/apiproxy/targets/target3.xml'));
       let messages = targetEp3Error && targetEp3Error.messages.filter(msg => msg.ruleId == testID);
       assert.ok( !targetEp3Error || messages.length == 0);
     });
