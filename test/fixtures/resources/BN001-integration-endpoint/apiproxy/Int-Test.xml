@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="1" name="Int-Test">
+  <DisplayName/>
+  <Description/>
+  <CreatedAt>1677518021725</CreatedAt>
+  <LastModifiedAt>1677518021725</LastModifiedAt>
+  <BasePaths>/int-test</BasePaths>
+  <Policies>
+    <Policy>set-integration-request</Policy>
+  </Policies>
+  <ProxyEndpoints>
+    <ProxyEndpoint>default</ProxyEndpoint>
+  </ProxyEndpoints>
+  <IntegrationEndpoints>
+    <IntegrationEndpoint>default</IntegrationEndpoint>
+  </IntegrationEndpoints>
+</APIProxy>
