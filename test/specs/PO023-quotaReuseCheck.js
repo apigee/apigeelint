@@ -50,7 +50,7 @@ const assert = require("assert"),
                  assertion,
                  result
                    ? "  steps attached is greater than 1 "
-                   : "stes attached is 0 or 1"
+                   : "steps attached is 0 or 1"
                );
              });
            }
