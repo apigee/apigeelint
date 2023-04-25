@@ -1,6 +1,6 @@
 {
   "name": "apigeelint",
-  "version": "2.38.0",
+  "version": "2.39.0",
   "description": "Node module and tool to lint a bundle for an Apigee API Proxy or sharedflow.",
   "main": "index.js",
   "bin": {
