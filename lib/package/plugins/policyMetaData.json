@@ -34,7 +34,7 @@
   "LookupCache" :{"indications":["lookup","lu","lucache","cache","lc"]},
   "MessageLogging" :{"indications":["messagelogging","logging","ml"]},
   "MessageValidation" :{"indications":["messagevalidation","mv","messval"]},
-  "MonetizationLimitsCheck" :{"indications":["monetizationlimitscheck","monetizationcheck","mcheck","mc","^monetizationlimitscheck$"], "profiles":["apigeex"] },
+  "MonetizationLimitsCheck" :{"indications":["monetizationlimitscheck","monetizationcheck","mcheck","mc","^monetizationlimitscheck$"]},
   "OASValidation" :{"indications":["oas","oasValidation","^oas$"]},
   "OAuthV1" :{"indications":["oauthv1","oauth","oa","accesstoken","verify"], "profiles":["apigee"] },
   "OAuthV2" :{"indications":["oauthv2","oauth","oa","accesstoken","verify"]},
