@@ -83,11 +83,11 @@ const testID = "PO026",
       fs = require("fs"),
       plugin = require(bl.resolvePlugin(testID));
 
-const resourceUrlTest =
-  (suffix, profile, cb) => {
+const singlePolicyFileTest =
+  (fixtureDir, suffix, profile, cb) => {
     let filename = `AM-AssignVariable-${suffix}.xml`;
     it(`should correctly process ${filename} for profile ${profile}`, () => {
-      let fqfname = path.resolve(__dirname, '../fixtures/resources/PO026-assignVariable-resourceUrl', filename),
+      let fqfname = path.resolve(__dirname, '../fixtures/resources/', fixtureDir, filename),
           policyXml = fs.readFileSync(fqfname, 'utf-8'),
           doc = new Dom().parseFromString(policyXml),
           p = new Policy(doc.documentElement, this);
@@ -105,13 +105,13 @@ const resourceUrlTest =
 
 describe(`PO026 - AssignVariable with ResourceURL`, () => {
 
-  resourceUrlTest('1', 'apigeex', (p, foundIssues) => {
+  singlePolicyFileTest('PO026-assignVariable-resourceUrl', '1', 'apigeex', (p, foundIssues) => {
     assert.equal(foundIssues, false);
     assert.ok(p.getReport().messages, "messages undefined");
     assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
   });
 
-  resourceUrlTest('1', 'apigee', (p, foundIssues) => {
+  singlePolicyFileTest('PO026-assignVariable-resourceUrl', '1', 'apigee', (p, foundIssues) => {
     assert.equal(foundIssues, true);
     assert.ok(p.getReport().messages, "messages undefined");
     assert.equal(p.getReport().messages.length, 2);
@@ -119,4 +119,24 @@ describe(`PO026 - AssignVariable with ResourceURL`, () => {
     assert.ok(p.getReport().messages[1].message.indexOf("You should have at least one of")>=0);
   });
 
+});
+
+describe(`PO026 - AssignVariable with PropertySetRef`, () => {
+
+  singlePolicyFileTest('PO026-assignVariable-propertySetRef', '1', 'apigeex', (p, foundIssues) => {
+    assert.equal(foundIssues, true);
+    assert.ok(p.getReport().messages, "messages undefined");
+    assert.equal(p.getReport().messages.length, 1);
+    assert.ok(p.getReport().messages[0].message === "The text of the PropertySetRef element must be a variable name, should not be wrapped in curlies");
+  });
+  singlePolicyFileTest('PO026-assignVariable-propertySetRef', '2', 'apigeex', (p, foundIssues) => {
+    assert.equal(foundIssues, false);
+    assert.ok(p.getReport().messages, "messages undefined");
+    assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
+  });
+  singlePolicyFileTest('PO026-assignVariable-propertySetRef', '3', 'apigeex', (p, foundIssues) => {
+    assert.equal(foundIssues, false);
+    assert.ok(p.getReport().messages, "messages undefined");
+    assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
+  });
 });

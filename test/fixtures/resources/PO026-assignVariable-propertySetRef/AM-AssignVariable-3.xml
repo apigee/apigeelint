@@ -1,0 +1,9 @@
+<AssignMessage name='AM-AssignVariable-3'>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <AssignVariable>
+    <!-- the PropertySeteRef element should contain a template
+         that isn't a single variable -->
+    <Name>valid_propertysetref</Name>
+    <PropertySetRef>{curlies_are_fine_here}-fixed-string-{another_curly}</PropertySetRef>
+  </AssignVariable>
+</AssignMessage>
