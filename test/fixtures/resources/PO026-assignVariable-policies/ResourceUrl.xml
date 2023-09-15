@@ -1,4 +1,4 @@
-<AssignMessage name='AM-AssignVariable-1'>
+<AssignMessage name='AM-AssignVariable-ResourceUrl'>
   <AssignVariable>
     <Name>assigned</Name>
     <ResourceURL>jsc://settings.json</ResourceURL>

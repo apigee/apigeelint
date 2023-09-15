@@ -1,0 +1,7 @@
+<AssignMessage name='PropertySetRef-1'>
+  <AssignVariable>
+    <Name>assigned</Name>
+    <!-- ok: could resolve to a string with exactly one dot -->
+    <PropertySetRef>{foobar}</PropertySetRef>
+  </AssignVariable>
+</AssignMessage>

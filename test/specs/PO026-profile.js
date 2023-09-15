@@ -17,6 +17,7 @@
 
 const assert = require("assert"),
       path = require("path"),
+      debug = require("debug")("apigeelint:PO026-test"),
       bl = require("../../lib/package/bundleLinter.js");
 
 const propertySetRefTest = (profile) => () => {
@@ -40,6 +41,7 @@ const propertySetRefTest = (profile) => () => {
           assert.ok(items.length);
           items.forEach( (item) => {
             if (item.filePath.endsWith("/apiproxy/policies/AM-config-properties.xml")) {
+              debug(item);
               assert.equal(item.errorCount, expectedCount);
             }
           });
@@ -59,11 +61,10 @@ const testID = "PO026",
       fs = require("fs"),
       plugin = require(bl.resolvePlugin(testID));
 
-const resourceUrlTest =
-  (suffix, profile, cb) => {
-    const filename = `AM-AssignVariable-${suffix}.xml`;
+const po026Test =
+  (filename, profile, cb) => {
     it(`should correctly process ${filename} for profile ${profile}`, () => {
-     const fqfname = path.resolve(__dirname, '../fixtures/resources/PO026-assignVariable-resourceUrl', filename),
+     const fqfname = path.resolve(__dirname, '../fixtures/resources/PO026-assignVariable-policies', filename),
           policyXml = fs.readFileSync(fqfname, 'utf-8'),
           doc = new Dom().parseFromString(policyXml),
           p = new Policy(doc.documentElement, this);
@@ -81,18 +82,78 @@ const resourceUrlTest =
 
 describe(`PO026 - AssignVariable with ResourceURL`, () => {
 
-  resourceUrlTest('1', 'apigeex', (p, foundIssues) => {
+  po026Test(`ResourceUrl.xml`, 'apigeex', (p, foundIssues) => {
     assert.equal(foundIssues, false);
     assert.ok(p.getReport().messages, "messages undefined");
     assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
   });
 
-  resourceUrlTest('1', 'apigee', (p, foundIssues) => {
+  po026Test(`ResourceUrl.xml`, 'apigee', (p, foundIssues) => {
     assert.equal(foundIssues, true);
     assert.ok(p.getReport().messages, "messages undefined");
     assert.equal(p.getReport().messages.length, 2);
     assert.ok(p.getReport().messages[0].message.indexOf("stray element")>0);
     assert.ok(p.getReport().messages[1].message.indexOf("You should have at least one of")>=0);
+  });
+
+});
+
+
+describe(`PO026 - AssignVariable with PropertySetRef`, () => {
+
+  po026Test(`PropertySetRef-1.xml`, 'apigeex', (p, foundIssues) => {
+    assert.equal(foundIssues, false);
+    assert.ok(p.getReport().messages, "messages undefined");
+    assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
+    debug(p.getReport().messages);
+  });
+
+  po026Test(`PropertySetRef-2.xml`, 'apigeex', (p, foundIssues) => {
+    assert.equal(foundIssues, true);
+    assert.ok(p.getReport().messages, "messages undefined");
+    assert.equal(p.getReport().messages.length, 1, JSON.stringify(p.getReport().messages));
+    debug(p.getReport().messages);
+  });
+
+  po026Test(`PropertySetRef-3.xml`, 'apigeex', (p, foundIssues) => {
+    assert.equal(foundIssues, false);
+    assert.ok(p.getReport().messages, "messages undefined");
+    assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
+    debug(p.getReport().messages);
+  });
+
+  po026Test(`PropertySetRef-4.xml`, 'apigeex', (p, foundIssues) => {
+    assert.equal(foundIssues, true);
+    assert.ok(p.getReport().messages, "messages undefined");
+    assert.equal(p.getReport().messages.length, 1, JSON.stringify(p.getReport().messages));
+    debug(p.getReport().messages);
+  });
+
+  po026Test(`PropertySetRef-5.xml`, 'apigeex', (p, foundIssues) => {
+    assert.equal(foundIssues, false);
+    assert.ok(p.getReport().messages, "messages undefined");
+    assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
+    debug(p.getReport().messages);
+  });
+
+  po026Test(`PropertySetRef-6.xml`, 'apigeex', (p, foundIssues) => {
+    assert.equal(foundIssues, false);
+    assert.ok(p.getReport().messages, "messages undefined");
+    assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
+    debug(p.getReport().messages);
+  });
+
+  po026Test(`PropertySetRef-7.xml`, 'apigeex', (p, foundIssues) => {
+    assert.equal(foundIssues, true);
+    assert.ok(p.getReport().messages, "messages undefined");
+    assert.equal(p.getReport().messages.length, 1, JSON.stringify(p.getReport().messages));
+    debug(p.getReport().messages);
+  });
+
+  po026Test(`PropertySetRef-8.xml`, 'apigeex', (p, foundIssues) => {
+    assert.equal(foundIssues, false);
+    assert.ok(p.getReport().messages, "messages undefined");
+    assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
   });
 
 });

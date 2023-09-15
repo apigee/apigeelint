@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2023 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -19,11 +19,12 @@
 
 const assert = require("assert"),
       path = require("path"),
+      debug = require("debug")("apigeelint:BN001-test"),
       bl = require("../../lib/package/bundleLinter.js");
 
 describe(`BN001 - bundle with XSD resource`, () => {
   it('should generate the expected errors', () => {
-    let configuration = {
+    const configuration = {
           debug: true,
           source: {
             type: "filesystem",
@@ -37,10 +38,12 @@ describe(`BN001 - bundle with XSD resource`, () => {
         };
 
     bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
+      const items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
-      let actualErrors = items.filter(item => item.messages && item.messages.length);
+      const actualErrors = items.filter(item => item.messages && item.messages.length);
+      debug(JSON.stringify(actualErrors, null, 2));
+
       assert.equal(actualErrors.length, 1);
       assert.ok(actualErrors[0].messages.length);
       assert.equal(actualErrors[0].messages.length, 1);

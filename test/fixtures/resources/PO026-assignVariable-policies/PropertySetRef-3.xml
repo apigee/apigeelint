@@ -1,0 +1,7 @@
+<AssignMessage name='PropertySetRef-3'>
+  <AssignVariable>
+    <Name>assigned</Name>
+    <!-- ok: could resolve to a thing with exactly one dot -->
+    <PropertySetRef>{apiproxy.name}.logging_url</PropertySetRef>
+  </AssignVariable>
+</AssignMessage>
