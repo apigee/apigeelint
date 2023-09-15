@@ -35,6 +35,9 @@ describe("TemplateCheck", function() {
           ["{a}{b}", true],
           ["{timeFormatUTCMs(propertyset.set1.timeformat,system.timestamp)}", true],
           ["{timeFormatUTCMs(propertyset.set1.timeformat,system.timestamp) }", false],
+          ["{createUuid()}", true],
+          ["{badcreateUuid()}", false],
+          ["{createUuid(]}", false],
         ];
 
   testCases.forEach( (item, _ix) => {
