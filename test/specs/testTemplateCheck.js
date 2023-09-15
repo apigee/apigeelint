@@ -35,6 +35,9 @@ describe("TemplateCheck", function() {
           ["{a}{b}", true],
           ["{timeFormatUTCMs(propertyset.set1.timeformat,system.timestamp)}", true],
           ["{timeFormatUTCMs(propertyset.set1.timeformat,system.timestamp) }", false],
+          [`{  "organization": "{organization.name}", "environment": "{environment.name}" } `, true],
+          [`{  "organization": "{organization.name}", "environment": "{environment.{name}}" } `, false],
+          [`{  "organization": "{organization.name}", "other": {"environment": "{environment.name}" } } `, true],
         ];
 
   testCases.forEach( (item, _ix) => {
