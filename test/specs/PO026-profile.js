@@ -19,63 +19,39 @@ const assert = require("assert"),
       path = require("path"),
       bl = require("../../lib/package/bundleLinter.js");
 
-describe(`PO026 - PropertySetRef with --profile 'apigeex' for PO026-apigeex-proxy`, () => {
-  it('should NOT generate errors for PropertySetRef', () => {
-    let configuration = {
-          debug: true,
-          source: {
-            type: "filesystem",
-            path: path.resolve(__dirname, '../fixtures/resources/PO026-apigeex-proxy/apiproxy'),
-            bundleType: "apiproxy"
-          },
-          excluded: {},
-          setExitCode: false,
-          output: () => {}, // suppress output
-          profile: "apigeex"
-        };
+const propertySetRefTest = (profile) => () => {
+        const configuration = {
+                debug: true,
+                source: {
+                  type: "filesystem",
+                  path: path.resolve(__dirname, '../fixtures/resources/PO026-apigeex-proxy/apiproxy'),
+                  bundleType: "apiproxy"
+                },
+                excluded: {},
+                setExitCode: false,
+                output: () => {}, // suppress output
+                profile
+              };
+        const expectedCount = (profile == 'apigee') ? 8 : 0;
 
-    bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
-      assert.ok(items);
-      assert.ok(items.length);
-      items.forEach( (item) => {
-        // console.log( item );
-        if (item.filePath.endsWith("/apiproxy/policies/AM-config-properties.xml")) {
-            assert.equal(item.errorCount,0);
-        }
-      });
-    });
-  });
+        bl.lint(configuration, (bundle) => {
+          const items = bundle.getReport();
+          assert.ok(items);
+          assert.ok(items.length);
+          items.forEach( (item) => {
+            if (item.filePath.endsWith("/apiproxy/policies/AM-config-properties.xml")) {
+              assert.equal(item.errorCount, expectedCount);
+            }
+          });
+        });
+      };
+
+
+describe(`PO026 - PropertySetRef with various profiles`, () => {
+  it(`should NOT generate errors with profile 'apigeex'`, propertySetRefTest('apigeex'));
+  it(`should generate errors with profile 'apigee'`, propertySetRefTest('apigee'));
 });
 
-describe(`PO026 - PropertySetRef with --profile 'apigee' for PO026-apigeex-proxy`, () => {
-  it('should generate errors for PropertySetRef', () => {
-    let configuration = {
-          debug: true,
-          source: {
-            type: "filesystem",
-            path: path.resolve(__dirname, '../fixtures/resources/PO026-apigeex-proxy/apiproxy'),
-            bundleType: "apiproxy"
-          },
-          excluded: {},
-          setExitCode: false,
-          output: () => {}, // suppress output
-          profile: "apigee"
-        };
-
-    bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
-      assert.ok(items);
-      assert.ok(items.length);
-      items.forEach( (item) => {
-        // console.log( item );
-        if (item.filePath.endsWith("/apiproxy/policies/AM-config-properties.xml")) {
-            assert.equal(item.errorCount,6);
-        }
-      });
-    });
-  });
-});
 
 const testID = "PO026",
       Policy = require("../../lib/package/Policy.js"),
@@ -85,9 +61,9 @@ const testID = "PO026",
 
 const resourceUrlTest =
   (suffix, profile, cb) => {
-    let filename = `AM-AssignVariable-${suffix}.xml`;
+    const filename = `AM-AssignVariable-${suffix}.xml`;
     it(`should correctly process ${filename} for profile ${profile}`, () => {
-      let fqfname = path.resolve(__dirname, '../fixtures/resources/PO026-assignVariable-resourceUrl', filename),
+     const fqfname = path.resolve(__dirname, '../fixtures/resources/PO026-assignVariable-resourceUrl', filename),
           policyXml = fs.readFileSync(fqfname, 'utf-8'),
           doc = new Dom().parseFromString(policyXml),
           p = new Policy(doc.documentElement, this);

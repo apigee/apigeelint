@@ -22,7 +22,7 @@ const assert = require("assert"),
 
 describe(`PO026 - AssignVariableHygiene`, () => {
   it('should generate the expected errors', () => {
-    let configuration = {
+    const configuration = {
           debug: true,
           source: {
             type: "filesystem",
@@ -35,11 +35,11 @@ describe(`PO026 - AssignVariableHygiene`, () => {
         };
 
     bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
+      const items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
 
-      let expected = {
+      const expected = {
             'AM-AssignVariable-MissingNameElement.xml' : [
               {
                 message: "There is no Name element",
@@ -56,7 +56,7 @@ describe(`PO026 - AssignVariableHygiene`, () => {
             ],
             'AM-AssignVariable-RefWithCurlies.xml' : [
               {
-                message: "The text of the Ref element must be a variable name, should not be wrapped in curlies",
+                message: "The text of the Ref element must be a variable name, should not include curlies",
                 line: 7,
                 column: 10
               }
@@ -73,7 +73,7 @@ describe(`PO026 - AssignVariableHygiene`, () => {
                 column: 3
               },
               {
-                message: "The text of the Ref element must be a variable name, should not be wrapped in curlies",
+                message: "The text of the Ref element must be a variable name, should not include curlies",
                 line: 15,
                 column: 10
               },
@@ -106,9 +106,9 @@ describe(`PO026 - AssignVariableHygiene`, () => {
           };
 
       Object.keys(expected).forEach( (policyName, px) => {
-        let policyItems = items.filter( m => m.filePath.endsWith(policyName));
+        const policyItems = items.filter( m => m.filePath.endsWith(policyName));
         assert.equal(policyItems.length, 1);
-        let po026Messages = policyItems[0].messages.filter( m => m.ruleId == 'PO026');
+        const po026Messages = policyItems[0].messages.filter( m => m.ruleId == 'PO026');
         assert.equal(po026Messages.length, expected[policyName].length);
 
         expected[policyName].forEach( (item, ix) => {
