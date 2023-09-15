@@ -1,0 +1,14 @@
+<AssignMessage name='Template-2'>
+  <AssignVariable>
+    <Name>assigned</Name>
+    <Template>
+{
+    "organization": "{organization.name}",
+    "environment": "{environment.name}",
+    "region":"{system.region.name}",
+    "pod":"{system.pod.name}",
+    "messageId":"{messageid{}}"
+}
+</Template>
+  </AssignVariable>
+</AssignMessage>
