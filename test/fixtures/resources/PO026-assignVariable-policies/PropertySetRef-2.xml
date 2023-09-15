@@ -1,0 +1,7 @@
+<AssignMessage name='PropertySetRef-2'>
+  <AssignVariable>
+    <Name>assigned</Name>
+    <!-- error: invalid template -->
+    <PropertySetRef>{}</PropertySetRef>
+  </AssignVariable>
+</AssignMessage>

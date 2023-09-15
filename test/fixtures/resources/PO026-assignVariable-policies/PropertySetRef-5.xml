@@ -1,0 +1,7 @@
+<AssignMessage name='PropertySetRef-5'>
+  <AssignVariable>
+    <Name>assigned</Name>
+    <!-- ok: one dot -->
+    <PropertySetRef>settings.logging_url</PropertySetRef>
+  </AssignVariable>
+</AssignMessage>

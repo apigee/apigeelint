@@ -5,12 +5,7 @@
         <Name>private.flow.target.basepath</Name>
         <PropertySetRef>{apiproxy.name}.target_basepath</PropertySetRef>
     </AssignVariable>
-    <!--
-    <AssignVariable>
-        <Name>property.flow.target_basepath</Name>
-        <PropertySetRef>{apiproxy.name}.target_basepath</PropertySetRef>
-    </AssignVariable>
-    -->
+
     <AssignVariable>
         <Name>property.logging</Name>
         <PropertySetRef>{apiproxy.name}.logging</PropertySetRef>
@@ -19,20 +14,10 @@
         <Name>property.logging_url</Name>
         <PropertySetRef>{apiproxy.name}.logging_url</PropertySetRef>
     </AssignVariable>
-    <!-- debug apigeelint 
+
     <AssignVariable>
-        <Value>property.flow.target_basepath</Value>
-        <PropertySetRef>{apiproxy.name}.target_basepath</PropertySetRef>
+        <Name>effective-setting</Name>
+        <PropertySetRef>{variable-that-resolves-to-a-string}</PropertySetRef>
     </AssignVariable>
-    <AssignVariable>
-        <Name>private.flow.target.basepath</Name>
-        <Reference>{apiproxy.name}.target_basepath</Reference>
-    </AssignVariable>
-    <AssignVariable>
-        <Variable>private.flow.target.basepath</Variable>
-        <Reference>{apiproxy.name}.target_basepath</Reference>
-    </AssignVariable>
-    <AssignVariable>
-    </AssignVariable>
-    -->
+
 </AssignMessage>

@@ -1,0 +1,7 @@
+<AssignMessage name='PropertySetRef-8'>
+  <AssignVariable>
+    <Name>assigned</Name>
+    <!-- ok: this could resolve to a thing with exactly one dot.  -->
+    <PropertySetRef>{flow.var1}.{flow.var2}</PropertySetRef>
+  </AssignVariable>
+</AssignMessage>
