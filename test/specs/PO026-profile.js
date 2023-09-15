@@ -156,4 +156,16 @@ describe(`PO026 - AssignVariable with PropertySetRef`, () => {
     assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
   });
 
+  po026Test(`Template-1.xml`, 'apigeex', (p, foundIssues) => {
+    assert.equal(foundIssues, false);
+    assert.ok(p.getReport().messages, "messages undefined");
+    assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
+  });
+
+  po026Test(`Template-2.xml`, 'apigeex', (p, foundIssues) => {
+    assert.equal(foundIssues, true);
+    assert.ok(p.getReport().messages, "messages undefined");
+    assert.equal(p.getReport().messages.length, 1, JSON.stringify(p.getReport().messages));
+  });
+
 });
