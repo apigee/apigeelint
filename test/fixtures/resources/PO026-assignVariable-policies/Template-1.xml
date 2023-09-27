@@ -11,4 +11,8 @@
 }
 </Template>
   </AssignVariable>
+  <AssignVariable>
+    <Name>timeStamp</Name>
+    <Template>{timeFormatUTCMs('yyyy-MM-dd HH-mm-ss',system.timestamp)} UTC</Template>
+  </AssignVariable>
 </AssignMessage>
