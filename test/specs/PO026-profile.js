@@ -16,156 +16,210 @@
 /* global describe, it */
 
 const assert = require("assert"),
-      path = require("path"),
-      debug = require("debug")("apigeelint:PO026-test"),
-      bl = require("../../lib/package/bundleLinter.js");
+  path = require("path"),
+  debug = require("debug")("apigeelint:PO026-test"),
+  bl = require("../../lib/package/bundleLinter.js");
 
 const propertySetRefTest = (profile) => () => {
-        const configuration = {
-                debug: true,
-                source: {
-                  type: "filesystem",
-                  path: path.resolve(__dirname, '../fixtures/resources/PO026-apigeex-proxy/apiproxy'),
-                  bundleType: "apiproxy"
-                },
-                excluded: {},
-                setExitCode: false,
-                output: () => {}, // suppress output
-                profile
-              };
-        const expectedCount = (profile == 'apigee') ? 8 : 0;
+  const configuration = {
+    debug: true,
+    source: {
+      type: "filesystem",
+      path: path.resolve(
+        __dirname,
+        "../fixtures/resources/PO026-apigeex-proxy/apiproxy",
+      ),
+      bundleType: "apiproxy",
+    },
+    excluded: {},
+    setExitCode: false,
+    output: () => {}, // suppress output
+    profile,
+  };
+  const expectedCount = profile == "apigee" ? 8 : 0;
 
-        bl.lint(configuration, (bundle) => {
-          const items = bundle.getReport();
-          assert.ok(items);
-          assert.ok(items.length);
-          items.forEach( (item) => {
-            if (item.filePath.endsWith("/apiproxy/policies/AM-config-properties.xml")) {
-              debug(item);
-              assert.equal(item.errorCount, expectedCount);
-            }
-          });
-        });
-      };
-
+  bl.lint(configuration, (bundle) => {
+    const items = bundle.getReport();
+    assert.ok(items);
+    assert.ok(items.length);
+    items.forEach((item) => {
+      if (
+        item.filePath.endsWith("/apiproxy/policies/AM-config-properties.xml")
+      ) {
+        debug(item);
+        assert.equal(item.errorCount, expectedCount);
+      }
+    });
+  });
+};
 
 describe(`PO026 - PropertySetRef with various profiles`, () => {
-  it(`should NOT generate errors with profile 'apigeex'`, propertySetRefTest('apigeex'));
-  it(`should generate errors with profile 'apigee'`, propertySetRefTest('apigee'));
+  it(
+    `should NOT generate errors with profile 'apigeex'`,
+    propertySetRefTest("apigeex"),
+  );
+  it(
+    `should generate errors with profile 'apigee'`,
+    propertySetRefTest("apigee"),
+  );
 });
 
-
 const testID = "PO026",
-      Policy = require("../../lib/package/Policy.js"),
-      Dom = require("@xmldom/xmldom").DOMParser,
-      fs = require("fs"),
-      plugin = require(bl.resolvePlugin(testID));
+  Policy = require("../../lib/package/Policy.js"),
+  Dom = require("@xmldom/xmldom").DOMParser,
+  fs = require("fs"),
+  plugin = require(bl.resolvePlugin(testID));
 
-const po026Test =
-  (filename, profile, cb) => {
-    it(`should correctly process ${filename} for profile ${profile}`, () => {
-     const fqfname = path.resolve(__dirname, '../fixtures/resources/PO026-assignVariable-policies', filename),
-          policyXml = fs.readFileSync(fqfname, 'utf-8'),
-          doc = new Dom().parseFromString(policyXml),
-          p = new Policy(doc.documentElement, this);
+const po026Test = (filename, profile, cb) => {
+  it(`should correctly process ${filename} for profile ${profile}`, () => {
+    const fqfname = path.resolve(
+        __dirname,
+        "../fixtures/resources/PO026-assignVariable-policies",
+        filename,
+      ),
+      policyXml = fs.readFileSync(fqfname, "utf-8"),
+      doc = new Dom().parseFromString(policyXml),
+      p = new Policy(doc.documentElement, this);
 
-      p.getElement = () => doc.documentElement;
+    p.getElement = () => doc.documentElement;
 
-      plugin.onBundle({profile});
-      plugin.onPolicy(p, (e, foundIssues) => {
-        assert.equal(e, undefined, "should be undefined");
-        cb(p, foundIssues);
-      });
+    plugin.onBundle({ profile });
+    plugin.onPolicy(p, (e, foundIssues) => {
+      assert.equal(e, undefined, "should be undefined");
+      cb(p, foundIssues);
     });
-  };
-
+  });
+};
 
 describe(`PO026 - AssignVariable with ResourceURL`, () => {
-
-  po026Test(`ResourceUrl.xml`, 'apigeex', (p, foundIssues) => {
+  po026Test(`ResourceUrl.xml`, "apigeex", (p, foundIssues) => {
     assert.equal(foundIssues, false);
     assert.ok(p.getReport().messages, "messages undefined");
-    assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
+    assert.equal(
+      p.getReport().messages.length,
+      0,
+      JSON.stringify(p.getReport().messages),
+    );
   });
 
-  po026Test(`ResourceUrl.xml`, 'apigee', (p, foundIssues) => {
+  po026Test(`ResourceUrl.xml`, "apigee", (p, foundIssues) => {
     assert.equal(foundIssues, true);
     assert.ok(p.getReport().messages, "messages undefined");
     assert.equal(p.getReport().messages.length, 2);
-    assert.ok(p.getReport().messages[0].message.indexOf("stray element")>0);
-    assert.ok(p.getReport().messages[1].message.indexOf("You should have at least one of")>=0);
+    assert.ok(p.getReport().messages[0].message.indexOf("stray element") > 0);
+    assert.ok(
+      p
+        .getReport()
+        .messages[1].message.indexOf("You should have at least one of") >= 0,
+    );
   });
-
 });
 
-
 describe(`PO026 - AssignVariable with PropertySetRef`, () => {
-
-  po026Test(`PropertySetRef-1.xml`, 'apigeex', (p, foundIssues) => {
+  po026Test(`PropertySetRef-1.xml`, "apigeex", (p, foundIssues) => {
     assert.equal(foundIssues, false);
     assert.ok(p.getReport().messages, "messages undefined");
-    assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
+    assert.equal(
+      p.getReport().messages.length,
+      0,
+      JSON.stringify(p.getReport().messages),
+    );
     debug(p.getReport().messages);
   });
 
-  po026Test(`PropertySetRef-2.xml`, 'apigeex', (p, foundIssues) => {
+  po026Test(`PropertySetRef-2.xml`, "apigeex", (p, foundIssues) => {
     assert.equal(foundIssues, true);
     assert.ok(p.getReport().messages, "messages undefined");
-    assert.equal(p.getReport().messages.length, 1, JSON.stringify(p.getReport().messages));
+    assert.equal(
+      p.getReport().messages.length,
+      1,
+      JSON.stringify(p.getReport().messages),
+    );
     debug(p.getReport().messages);
   });
 
-  po026Test(`PropertySetRef-3.xml`, 'apigeex', (p, foundIssues) => {
+  po026Test(`PropertySetRef-3.xml`, "apigeex", (p, foundIssues) => {
     assert.equal(foundIssues, false);
     assert.ok(p.getReport().messages, "messages undefined");
-    assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
+    assert.equal(
+      p.getReport().messages.length,
+      0,
+      JSON.stringify(p.getReport().messages),
+    );
     debug(p.getReport().messages);
   });
 
-  po026Test(`PropertySetRef-4.xml`, 'apigeex', (p, foundIssues) => {
+  po026Test(`PropertySetRef-4.xml`, "apigeex", (p, foundIssues) => {
     assert.equal(foundIssues, true);
     assert.ok(p.getReport().messages, "messages undefined");
-    assert.equal(p.getReport().messages.length, 1, JSON.stringify(p.getReport().messages));
+    assert.equal(
+      p.getReport().messages.length,
+      1,
+      JSON.stringify(p.getReport().messages),
+    );
     debug(p.getReport().messages);
   });
 
-  po026Test(`PropertySetRef-5.xml`, 'apigeex', (p, foundIssues) => {
+  po026Test(`PropertySetRef-5.xml`, "apigeex", (p, foundIssues) => {
     assert.equal(foundIssues, false);
     assert.ok(p.getReport().messages, "messages undefined");
-    assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
+    assert.equal(
+      p.getReport().messages.length,
+      0,
+      JSON.stringify(p.getReport().messages),
+    );
     debug(p.getReport().messages);
   });
 
-  po026Test(`PropertySetRef-6.xml`, 'apigeex', (p, foundIssues) => {
+  po026Test(`PropertySetRef-6.xml`, "apigeex", (p, foundIssues) => {
     assert.equal(foundIssues, false);
     assert.ok(p.getReport().messages, "messages undefined");
-    assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
+    assert.equal(
+      p.getReport().messages.length,
+      0,
+      JSON.stringify(p.getReport().messages),
+    );
     debug(p.getReport().messages);
   });
 
-  po026Test(`PropertySetRef-7.xml`, 'apigeex', (p, foundIssues) => {
+  po026Test(`PropertySetRef-7.xml`, "apigeex", (p, foundIssues) => {
     assert.equal(foundIssues, true);
     assert.ok(p.getReport().messages, "messages undefined");
-    assert.equal(p.getReport().messages.length, 1, JSON.stringify(p.getReport().messages));
+    assert.equal(
+      p.getReport().messages.length,
+      1,
+      JSON.stringify(p.getReport().messages),
+    );
     debug(p.getReport().messages);
   });
 
-  po026Test(`PropertySetRef-8.xml`, 'apigeex', (p, foundIssues) => {
+  po026Test(`PropertySetRef-8.xml`, "apigeex", (p, foundIssues) => {
     assert.equal(foundIssues, false);
     assert.ok(p.getReport().messages, "messages undefined");
-    assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
+    assert.equal(
+      p.getReport().messages.length,
+      0,
+      JSON.stringify(p.getReport().messages),
+    );
   });
 
-  po026Test(`Template-1.xml`, 'apigeex', (p, foundIssues) => {
+  po026Test(`Template-1.xml`, "apigeex", (p, foundIssues) => {
     assert.equal(foundIssues, false);
     assert.ok(p.getReport().messages, "messages undefined");
-    assert.equal(p.getReport().messages.length, 0, JSON.stringify(p.getReport().messages));
+    assert.equal(
+      p.getReport().messages.length,
+      0,
+      JSON.stringify(p.getReport().messages),
+    );
   });
 
-  po026Test(`Template-2.xml`, 'apigeex', (p, foundIssues) => {
+  po026Test(`Template-2.xml`, "apigeex", (p, foundIssues) => {
     assert.equal(foundIssues, true);
     assert.ok(p.getReport().messages, "messages undefined");
-    assert.equal(p.getReport().messages.length, 1, JSON.stringify(p.getReport().messages));
+    assert.equal(
+      p.getReport().messages.length,
+      1,
+      JSON.stringify(p.getReport().messages),
+    );
   });
-
 });
