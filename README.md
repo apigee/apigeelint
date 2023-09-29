@@ -137,7 +137,7 @@ This is the current list:
 | ------ | ------ | ---- | ---- | ----------- |
 | Bundle | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| BN001 | Bundle folder structure correctness.  | Bundles have a clear structure. This plugin ignores some files, like .DS\_store and any file ending in ~. |
-| &nbsp; |:white_check_mark:| BN002 | Extraneous files. | Ensure each folder contains appropriate resources in the bundle. |
+| &nbsp; |:white_medium_square:| BN002 | Extraneous files. | Ensure each folder contains appropriate resources in the bundle. |
 | &nbsp; |:white_check_mark:| BN003 | Cache Coherence | A bundle that includes cache reads should include cache writes with the same keys. |
 | &nbsp; |:white_medium_square:| BN004 | Unused variables. |  Within a bundle variables created should be used in conditions, resource callouts, or policies. |
 | &nbsp; |:white_check_mark:| BN005 | Unattached policies. |  Unattached policies are dead code and should be removed from production bundles. |
@@ -146,6 +146,7 @@ This is the current list:
 | &nbsp; |:white_medium_square:| BN008 | IgnoreUnresolvedVariables and FaultRules |  Use of IgnoreUnresolvedVariables without the use of FaultRules may lead to unexpected errors. |
 | &nbsp; |:white_check_mark:| BN009 | Statistics Collector - duplicate policies |  Warn on duplicate policies when no conditions are present or conditions are duplicates. |
 | &nbsp; |:white_check_mark:| BN010 | Missing policies | Issue an error if a referenced policy is not present in the bundle. |
+| &nbsp; |:white_check_mark:| BN011 | Check each XML file for well-formedness.|
 | Proxy Definition | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| PD001 | RouteRules to Targets | RouteRules should map to defined Targets. |
 | &nbsp; |:white_check_mark:| PD002 | Unreachable Route Rules - defaults |  Only one RouteRule should be present without a condition. |
