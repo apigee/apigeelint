@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--
-  Copyright 2019 Google LLC
+  Copyright 2019,2023 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -15,19 +15,28 @@
   limitations under the License.
  -->
 
-<TargetEndpoint name="default">
+<ProxyEndpoint name="default">
     <Description/>
     <PreFlow name="PreFlow">
         <Request>
+            <Step>
+                <Name>Stats-1</Name>
+            </Step>
         </Request>
         <Response/>
     </PreFlow>
-    <Flows/>
-    <HTTPTargetConnection>
-        <URL>http://api.foo.com/</URL>
-    </HTTPTargetConnection>
+    <Flows>
+    </Flows>
     <PostFlow name="PostFlow">
         <Request/>
-        <Response/>
+        <Response>
+        </Response>
     </PostFlow>
-</TargetEndpoint>
+    <RouteRule name="foo">
+        <TargetEndpoint>default</TargetEndpoint>
+    </RouteRule>
+    <HTTPProxyConnection>
+        <BasePath>/no_condition</BasePath>
+        <VirtualHost>secure</VirtualHost>
+    </HTTPProxyConnection>
+</ProxyEndpoint>

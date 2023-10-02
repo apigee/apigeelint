@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--
-  Copyright 2019 Google LLC
+  Copyright 2023 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,12 +14,9 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  -->
-
-<StatisticsCollector async="false" continueOnError="false" enabled="true" name="StatisticsCollectorFlows">
-    <DisplayName>StatisticsCollectorFlows</DisplayName>
-    <Properties/>
-    <Statistics>
-        <Statistic name="name2" ref="" type="STRING">value</Statistic>
-        <Statistic name="name3" ref="" type="STRING">value</Statistic>
-    </Statistics>
-</StatisticsCollector>
+<APIProxy name="no_condition">
+  <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+  <CreatedAt>1491498008040</CreatedAt>
+  <Description/>
+  <DisplayName>no_condition</DisplayName>
+</APIProxy>

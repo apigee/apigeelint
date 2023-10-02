@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--
-  Copyright 2019 Google LLC
+  Copyright 2019,2023 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -15,11 +15,8 @@
   limitations under the License.
  -->
 
-<StatisticsCollector async="false" continueOnError="false" enabled="true" name="StatisticsCollectorFlows">
-    <DisplayName>StatisticsCollectorFlows</DisplayName>
-    <Properties/>
+<StatisticsCollector name="Stats-Username-1">
     <Statistics>
-        <Statistic name="name2" ref="" type="STRING">value</Statistic>
-        <Statistic name="name3" ref="" type="STRING">value</Statistic>
+        <Statistic name="name" ref="username" type="STRING">value</Statistic>
     </Statistics>
 </StatisticsCollector>
