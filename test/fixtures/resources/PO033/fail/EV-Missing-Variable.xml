@@ -1,0 +1,5 @@
+<ExtractVariables name="EV-Missing-Variable">
+    <JSONPayload>
+    </JSONPayload>
+    <Source clearPayload="false">response</Source>
+</ExtractVariables>
