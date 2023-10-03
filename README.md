@@ -95,8 +95,11 @@ This would effectively override the naming conventions that apigeelint checks.
 apigeelint -s sampleProxy/apiproxy -f table.js -w existing-outputdir --quiet
 ```
 
-The `-w` option can point to an existing directory, in which case the output will be emitted to apigeeLint.json in that
-directory.  Otherwise, the `-w` option is treated as the name of a file.
+The `-w` option can point to an existing directory, in which case the output
+will be emitted to a file named apigeelint.out in that directory, in whatever
+format you specify. An existing file by that name will be overwritten. If the
+`-w` option is not a directory, it is treated as the name of a file, and output
+is written there.
 
 If you do not also specify `--quiet` the report will go to both stdout and to the specified filesystem destination.
 
