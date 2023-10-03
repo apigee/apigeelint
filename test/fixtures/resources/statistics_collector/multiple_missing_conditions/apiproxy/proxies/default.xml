@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--
-  Copyright 2019 Google LLC
+  Copyright 2019,2023 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,46 +20,26 @@
     <PreFlow name="PreFlow">
         <Request>
             <Step>
-                <Name>StatisticsCollector1</Name>
+                <Name>Stats-1</Name>
             </Step>
         </Request>
         <Response>
           <Step>
-              <Name>StatisticsCollectorZip</Name>
+              <Name>Stats-2</Name>
           </Step>
         </Response>
     </PreFlow>
     <Flows>
-      <Flow name="Flow1">
-        <Description>Flow1 Description</Description>
-        <Request>
-            <Step>
-                <Name>StatisticsCollectorFlows</Name>
-                <Condition>request.queryparam.param1 == true</Condition>
-            </Step>
-        </Request>
-        <Condition>(proxy.pathsuffix MatchesPath "/flow1") and (request.verb = "POST")</Condition>
-      </Flow>
-      <Flow name="Flow2">
-         <Description>Flow2 Description</Description>
-        <Request>
-        </Request>
-        <Response>
-          <Step>
-              <Name>StatisticsCollectorFlows2</Name>
-          </Step>
-        </Response>
-      </Flow>
     </Flows>
     <PostFlow name="PostFlow">
         <Request>
             <Step>
-                <Name>StatisticsCollector10</Name>
+                <Name>Stats-3</Name>
             </Step>
         </Request>
         <Response>
           <Step>
-              <Name>StatisticsCollectorAddress</Name>
+              <Name>Stats-4</Name>
           </Step>
         </Response>
     </PostFlow>
@@ -67,8 +47,7 @@
         <TargetEndpoint>default</TargetEndpoint>
     </RouteRule>
     <HTTPProxyConnection>
-        <BasePath>/24solver</BasePath>
-        <VirtualHost>default</VirtualHost>
+        <BasePath>/multiple_missing_conditions</BasePath>
         <VirtualHost>secure</VirtualHost>
     </HTTPProxyConnection>
 </ProxyEndpoint>
