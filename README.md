@@ -2,8 +2,8 @@
 
 [![Apache 2.0](https://img.shields.io/badge/license-apache%202.0-blue.svg)](LICENSE)
 ![Node](https://img.shields.io/node/v/apigeelint.svg)
-![Test](https://raw.githubusercontent.com/apigee/apigeelint/master/test/badge.svg?sanitize=true)
-![LastCommit](https://img.shields.io/github/last-commit/apigee/apigeelint/master.svg)
+![Test](https://raw.githubusercontent.com/apigee/apigeelint/main/test/badge.svg?sanitize=true)
+![LastCommit](https://img.shields.io/github/last-commit/apigee/apigeelint/main.svg)
 ![CommitActivity](https://img.shields.io/github/commit-activity/4w/apigee/apigeelint)
 ![Downloads](https://img.shields.io/npm/dm/apigeelint.svg)
 [![Node.js Package](https://github.com/apigee/apigeelint/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/apigee/apigeelint/actions/workflows/npm-publish.yml)
