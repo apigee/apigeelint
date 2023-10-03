@@ -1,0 +1,13 @@
+<ExtractVariables name="EV-Multiple-JSONPayload">
+    <JSONPayload>
+        <Variable name="oauth_foo" type="string">
+            <JSONPath>$.foo</JSONPath>
+        </Variable>
+    </JSONPayload>
+    <JSONPayload>
+        <Variable name="oauth_bar" type="string">
+            <JSONPath>$.bar</JSONPath>
+        </Variable>
+    </JSONPayload>
+    <Source clearPayload="false">response</Source>
+</ExtractVariables>

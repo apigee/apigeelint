@@ -1,0 +1,11 @@
+<ExtractVariables name="EV-Type-foo">
+    <JSONPayload>
+        <Variable name="oauth_error" type="foo">
+            <JSONPath>$.error</JSONPath>
+        </Variable>
+        <Variable name="oauth_error_description">
+            <JSONPath>$.error_description</JSONPath>
+        </Variable>
+    </JSONPayload>
+    <Source clearPayload="false">response</Source>
+</ExtractVariables>

@@ -122,6 +122,12 @@ Run the unit tests like this:
 npm run test
 ```
 
+or, run a subset of tests like this:
+
+```
+./node_modules/mocha/bin/mocha --grep PO033
+```
+
 
 You can also contribute by reporting issues, asking for new features.
 
@@ -197,6 +203,7 @@ This is the current list:
 | &nbsp; |:white_check_mark:| PO030 | ExpirySettings | ExpirySettings should use exactly one child element, no deprecated elements. |
 | &nbsp; |:white_check_mark:| PO031 | AssignMessage content-type | When assigning to Payload, you should also assign content-type, exactly once. |
 | &nbsp; |:white_check_mark:| PO032 | CORS policy hygiene | In a CORS policy, wildcard origins should generate a warning. And other hygiene checks.|
+| &nbsp; |:white_check_mark:| PO033 | ExtractVariables policy hygiene | In an ExtractVariables policy, check variable types and other hygiene. |
 | FaultRules | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| FR001 | No Condition on FaultRule | Use Condition elements on FaultRules, unless it is the fallback rule. |
 | &nbsp; |:white_check_mark:| FR002 | DefaultFaultRule Structure | DefaultFaultRule should have only supported child elements, at most one AlwaysEnforce element, and at most one Condition element. |
