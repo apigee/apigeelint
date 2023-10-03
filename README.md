@@ -59,6 +59,7 @@ Options:
   -w, --write [value]                     file path to write results
   -e, --excluded [value]                  The comma separated list of tests to exclude (default: none)
   -x, --externalPluginsDirectory [value]  Relative or full path to an external plugins directory
+  -q, --quiet                             do not emit the report to stdout. (can use --write option to write to file)
   --list                                  do not execute, instead list the available plugins and formatters
   --maxWarnings [value]                   Number of warnings to trigger nonzero exit code (default: -1)
   --profile [value]                       Either apigee or apigeex (default: apigee)
@@ -66,21 +67,62 @@ Options:
 ```
 Example:
 ```
-apigeelint -s sampleProxy/ -f table.js
+apigeelint -s sampleProxy/apiproxy -f table.js
 ```
 
 Where `-s` points to the apiProxy source directory and `-f` is the output formatter desired.
 
 Possible formatters are: "json.js" (the default), "stylish.js", "compact.js", "codeframe.js", "html.js", "table.js", "unix.js", "visualstudio.js", "checkstyle.js", "jslint-xml.js", "junit.js" and "tap.js".
 
-Example Using External Plugins:
-```
-apigeelint -x ./externalPlugins -e PO007 -s test/fixtures/resources/sampleProxy/24Solver/apiproxy -f table.js
-```
-Where `-x` points to the directory containing externally developed plugins and `-e` excludes the builtin plugin from executing.
-This example uses the "externalPlugins" directory with a plugin for alternate policy naming conventions and effectively overrides the built in naming conventions plugin. The output will include the external plugin identifier  `EX-PO007`.
+### More Examples
 
-### Listing plugins
+#### Using External Plugins:
+```
+apigeelint -x ./externalPlugins -s path/to/your/apiproxy -f table.js
+```
+Where `-x` points to the directory containing externally developed plugins.
+
+You could, for example, create your own plugin for naming conventions, and
+exclude the builtin plugin that enforces naming conventions (`PO007`) with the
+`-e` option:
+
+```
+apigeelint -x ./externalPlugins -e PO007 -s path/to/your/apiproxy -f table.js
+```
+
+This would effectively override the built-in naming conventions that apigeelint checks.
+
+
+#### Excluding plugins
+
+You can, of course, exclude plugins without providing a replacement implementation:
+
+```
+apigeelint -s path/to/your/apiproxy -f table.js -e PO007,ST003
+```
+
+The above would exclude the policy naming convention check (`PO007`), and would
+also not check for conditions on an ExtractVariables with a JSONPayload
+(`ST003`), if for some reason you wanted to do that.
+
+
+#### Writing output to a file
+```
+apigeelint -s sampleProxy/apiproxy -f table.js -w existing-outputdir --quiet
+```
+
+The `-w` option can point to an existing directory, in which case the output
+will be emitted to a file named apigeelint.out in that directory, in whatever
+format you specify with `-f`. An existing file by that name will be overwritten. If the
+`-w` option is not a directory, it is treated as the name of a file, and output
+is written there.
+
+If you do not also specify `--quiet` the report will go to both stdout and to
+the specified filesystem destination.
+
+
+
+#### Listing plugins
 List plugins and formatters, with or without --externalPluginsDirectory.
 ```sh
 apigeelint --list

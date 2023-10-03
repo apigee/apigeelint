@@ -33,6 +33,7 @@ program
   // .option("-p, --password [value]", "Apigee password")
   // .option("-o, --organization [value]", "Apigee organization")
   .option("-x, --externalPluginsDirectory [value]", "Relative or full path to an external plugins directory")
+  .option("-q, --quiet", "do not emit the report to stdout. (can use --write option to write to file)")
   .option("--list", "do not execute, instead list the available plugins and formatters")
   .option("--maxWarnings [value]", "Number of warnings to trigger nonzero exit code (default: -1)")
   .option("--profile [value]", "Either apigee or apigeex (default: apigee)");
@@ -74,6 +75,10 @@ if (program.formatter) {
   configuration.formatter = program.formatter || "json.js";
 }
 
+if (program.quiet) {
+  configuration.output = 'none';
+}
+
 if (program.excluded && typeof(program.excluded) === "string") {
   configuration.excluded = program
     .excluded
@@ -91,4 +96,3 @@ if (program.profile) {
 }
 
 bl.lint(configuration);
-
