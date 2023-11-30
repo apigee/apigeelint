@@ -1,0 +1,30 @@
+<ExternalCallout name="EC-1-valid">
+
+  <GrpcConnection>
+    <Server name="grpcserver"/>
+    <!--
+        For Apigee X, connecting to a service in Cloud Run, include an
+        Authentication element like the following. Your Audience value will be
+        different.
+
+        Then, you will need to deploy the proxy with an account with "runAs"
+        permissions, and specify a service account.
+    -->
+
+    <Authentication>
+      <GoogleIDToken>
+        <Audience>https://external-callout-2s6vjmoabq-uw.a.run.app</Audience>
+        <IncludeEmail>false</IncludeEmail>
+      </GoogleIDToken>
+    </Authentication>
+
+  </GrpcConnection>
+
+  <TimeoutMs>5000</TimeoutMs>
+  <Configurations>
+    <Property name="with.request.content">true</Property>
+    <Property name="with.request.headers">true</Property>
+    <Property name="with.response.content">true</Property>
+    <Property name="with.response.headers">true</Property>
+  </Configurations>
+</ExternalCallout>
