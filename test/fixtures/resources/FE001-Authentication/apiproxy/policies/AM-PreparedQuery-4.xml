@@ -1,0 +1,6 @@
+<AssignMessage name='AM-PreparedQuery-4'>
+  <AssignVariable>
+    <Name>bq_query</Name>
+    <Template>SELECT airline, count(*) AS total_count FROM [bigquery-samples.airline_ontime_data.flights] WHERE departure_airport = '{param1}' AND date = '{param2}' GROUP BY airline</Template>
+  </AssignVariable>
+</AssignMessage>

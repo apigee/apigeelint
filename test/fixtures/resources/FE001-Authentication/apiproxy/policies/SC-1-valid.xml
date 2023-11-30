@@ -1,0 +1,32 @@
+<ServiceCallout name='SC-1-valid'>
+  <Request variable='myrequestvariable'>
+    <Set>
+      <Headers>
+        <Header name='whatever'>anything here</Header>
+      </Headers>
+      <Verb>POST</Verb>
+    </Set>
+  </Request>
+  <Response>tokenResponse</Response>
+
+  <HTTPTargetConnection>
+
+    <Authentication>
+      <GoogleAccessToken>
+        <Scopes>
+          <Scope>SCOPE</Scope>
+        </Scopes>
+      </GoogleAccessToken>
+    </Authentication>
+
+    <SSLInfo>
+        <Enabled>true</Enabled>
+        <IgnoreValidationErrors>true</IgnoreValidationErrors>
+        <TrustStore>ref://truststore-1</TrustStore>
+    </SSLInfo>
+    <Properties>
+      <Property name='success.codes'>2xx, 3xx</Property>
+    </Properties>
+    <URL>https://www.my-site.com/service</URL>
+  </HTTPTargetConnection>
+</ServiceCallout>

@@ -290,6 +290,8 @@ This is the current list:
 | Endpoints | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| EP001 | CORS Policy attachment | Check for multiple CORS policies, or attachment to Target Endpoint. |
 | &nbsp; |:white_check_mark:| EP002 | Misplaced Elements | Check for commonly misplaced configuration elements in Proxy and Target Endpoints. |
+| Features | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
+| &nbsp; |:white_check_mark:| FE001 | Use of Authentication element | Check for the Authentication element in policies or in Target Endpoints. |
 | Deprecation | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| DC001 | ConcurrentRateLimit Policy Deprecation |  Check usage of deprecated policy ConcurrentRateLimit. |
 | &nbsp; |:white_check_mark:| DC002 | OAuth V1 Policies Deprecation |  Check usage of deprecated OAuth V1 policies. |

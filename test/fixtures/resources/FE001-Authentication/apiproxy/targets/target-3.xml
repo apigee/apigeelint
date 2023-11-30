@@ -1,0 +1,47 @@
+<TargetEndpoint name="target-3">
+  <PreFlow name="PreFlow">
+    <Request>
+        <Step>
+          <Name>AM-Query</Name>
+        </Step>
+    </Request>
+    <Response>
+      <Step>
+        <Name>AM-Clean-Response-Headers</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response>
+    </Response>
+  </PostFlow>
+
+  <Flows/>
+
+  <HTTPTargetConnection>
+
+   <!-- multiple token elements -->
+   <Authentication>
+     <GoogleAccessToken>
+        <Scopes>
+          <Scope>SCOPE</Scope>
+        </Scopes>
+      </GoogleAccessToken>
+      <GoogleIDToken>
+        <Audience>https://external-callout-2s6vjmoabq-uw.a.run.app</Audience>
+        <IncludeEmail>false</IncludeEmail>
+      </GoogleIDToken>
+    </Authentication>
+
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <IgnoreValidationErrors>false</IgnoreValidationErrors>
+      <TrustStore>ref://truststore-1</TrustStore>
+    </SSLInfo>
+    <Properties/>
+    <!-- assemble the target path -->
+    <URL>https://bigquery.googleapis.com/bigquery/v2/projects/infinite-chain-292422/queries</URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>
