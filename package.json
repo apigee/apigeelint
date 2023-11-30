@@ -9,6 +9,7 @@
   "scripts": {
     "badge": "mocha --reporter mocha-badge-generator",
     "coverage": "npx nyc --reporter=text mocha",
+    "postinstall": "npx mkdirp build && ./node_modules/peggy/bin/peggy.js -o build/ConditionsParser.js src/peggy/Apigee-Condition.pegjs",
     "test": "mocha"
   },
   "repository": {
@@ -51,11 +52,14 @@
     "xpath": "latest"
   },
   "devDependencies": {
+    "chai": "^4.3.10",
     "es6-template-strings": "^2.0.1",
+    "mkdirp": "^3.0.1",
     "mocha": "^9.1.3",
     "mocha-badge-generator": "^0.10.6",
     "mocha-lcov-reporter": "^1.3.0",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0",
+    "peggy": "^3.0.2"
   },
   "overrides": {
     "badge-up": "https://registry.npmjs.org/@rpl/badge-up/-/badge-up-3.0.0.tgz",
@@ -64,7 +68,7 @@
     "uuid": "^7.0.3"
   },
   "engines": {
-    "node": ">= 12.22.0",
+    "node": ">= 14",
     "npm": ">= 8.3.0"
   }
 }

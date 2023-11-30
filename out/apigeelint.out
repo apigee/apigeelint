@@ -1,0 +1,33 @@
+
+[4m/Users/dchiesa/dev/apigeelint/test/fixtures/resources/statistics_collector/multiple_stats_collector_missing_conditions/apiproxy[24m
+  [2m0:0[22m  [33mwarning[39m  There are several Statistics Collector policies attached to a step without a condition.  If you have more than two Statistics Collector policies, only the last one in the flow will execute.  Include a condition to make sure the correct one executes  [2mBN009[22m
+
+[4m/Users/dchiesa/dev/apigeelint/test/fixtures/resources/statistics_collector/multiple_stats_collector_missing_conditions/apiproxy/proxies/default.xml[24m
+  [2m17:6[22m  [31merror[39m  Configuration for proxy endpoint default is not well-formed XML (XML declaration allowed only at the start of the document.)  [2mBN011[22m
+
+[4m/Users/dchiesa/dev/apigeelint/test/fixtures/resources/statistics_collector/multiple_stats_collector_missing_conditions/apiproxy/targets/default.xml[24m
+  [2m17:6[22m  [31merror[39m    Configuration for target endpoint default is not well-formed XML (XML declaration allowed only at the start of the document.)  [2mBN011[22m
+   [2m0:0[22m  [33mwarning[39m  TargetEndpoint (default) is using URL (http://api.foo.com/), using a Target Server simplifies CI/CD                            [2mTD002[22m
+
+[4m/Users/dchiesa/dev/apigeelint/test/fixtures/resources/statistics_collector/multiple_stats_collector_missing_conditions/apiproxy/policies/StatisticsCollector1.xml[24m
+   [2m0:0[22m   [33mwarning[39m  StatisticsCollector1 is attached to a step without a condition.  If you have more than two Statistics Collector policies, only the last one in the flow will execute.  Include a condition to make sure the correct one executes  [2mBN009[22m
+  [2m17:6[22m   [31merror[39m    Step StatisticsCollector1 configuration is not well-formed XML (XML declaration allowed only at the start of the document.)                                                                                                       [2mBN011[22m
+  [2m18:80[22m  [33mwarning[39m  Non-standard name for policy (StatisticsCollector1). Valid prefixes for the StatisticsCollector policy: ["stats","statcoll"]                                                                                                      [2mPO007[22m
+
+[4m/Users/dchiesa/dev/apigeelint/test/fixtures/resources/statistics_collector/multiple_stats_collector_missing_conditions/apiproxy/policies/StatisticsCollector10.xml[24m
+   [2m0:0[22m   [33mwarning[39m  StatisticsCollector10 is attached to a step without a condition.  If you have more than two Statistics Collector policies, only the last one in the flow will execute.  Include a condition to make sure the correct one executes  [2mBN009[22m
+  [2m17:6[22m   [31merror[39m    Step StatisticsCollector10 configuration is not well-formed XML (XML declaration allowed only at the start of the document.)                                                                                                       [2mBN011[22m
+  [2m18:80[22m  [33mwarning[39m  Non-standard name for policy (StatisticsCollector10). Valid prefixes for the StatisticsCollector policy: ["stats","statcoll"]                                                                                                      [2mPO007[22m
+
+[4m/Users/dchiesa/dev/apigeelint/test/fixtures/resources/statistics_collector/multiple_stats_collector_missing_conditions/apiproxy/policies/StatisticsCollectorAddress.xml[24m
+   [2m0:0[22m   [33mwarning[39m  StatisticsCollectorAddress is attached to a step without a condition.  If you have more than two Statistics Collector policies, only the last one in the flow will execute.  Include a condition to make sure the correct one executes  [2mBN009[22m
+  [2m17:6[22m   [31merror[39m    Step StatisticsCollectorAddress configuration is not well-formed XML (XML declaration allowed only at the start of the document.)                                                                                                       [2mBN011[22m
+  [2m18:80[22m  [33mwarning[39m  Non-standard name for policy (StatisticsCollectorAddress). Valid prefixes for the StatisticsCollector policy: ["stats","statcoll"]                                                                                                      [2mPO007[22m
+
+[4m/Users/dchiesa/dev/apigeelint/test/fixtures/resources/statistics_collector/multiple_stats_collector_missing_conditions/apiproxy/policies/StatisticsCollectorZip.xml[24m
+   [2m0:0[22m   [33mwarning[39m  StatisticsCollectorZip is attached to a step without a condition.  If you have more than two Statistics Collector policies, only the last one in the flow will execute.  Include a condition to make sure the correct one executes  [2mBN009[22m
+  [2m17:6[22m   [31merror[39m    Step StatisticsCollectorZip configuration is not well-formed XML (XML declaration allowed only at the start of the document.)                                                                                                       [2mBN011[22m
+  [2m18:80[22m  [33mwarning[39m  Non-standard name for policy (StatisticsCollectorZip). Valid prefixes for the StatisticsCollector policy: ["stats","statcoll"]                                                                                                      [2mPO007[22m
+
+[31m[1m✖ 16 problems (6 errors, 10 warnings)[22m[39m
+[31m[1m[22m[39m
