@@ -1,0 +1,15 @@
+<AssignMessage name='AM-Query'>
+  <AssignTo>request</AssignTo>
+  <AssignVariable>
+    <Name>target.copy.pathsuffix</Name>
+    <Value>false</Value>
+  </AssignVariable>
+  <Set>
+    <Headers>
+      <Header name='Accept'>application/json</Header>
+    </Headers>
+    <Payload contentType='application/json'>{"query": "{bq_query}"}
+    </Payload>
+    <Verb>POST</Verb>
+  </Set>
+</AssignMessage>

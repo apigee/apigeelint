@@ -120,9 +120,8 @@ is written there.
 If you do not also specify `--quiet` the report will go to both stdout and to
 the specified filesystem destination.
 
-
-
 #### Listing plugins
+
 List plugins and formatters, with or without --externalPluginsDirectory.
 ```sh
 apigeelint --list
@@ -132,11 +131,42 @@ apigeelint --list -x ./externalPlugins
 
 apigeelint --list --externalPluginsDirectory ./externalPlugins
 
- ```
+```
+
+#### Selecting a profile
+
+Apigee X/hybrid is very similar to Apigee Edge, but there are differences in the
+supported policy types, and some of the supported configuration options. For
+example, policies like GraphQL, the AssertCondition, or the Integration policy
+step types are available only in X/hybrid.
+
+As a result of these differences, a proxy that is valid in Apigee Edge might not
+work in Apigee X, and vice versa.  Apigeelint uses the `--profile` option to
+allow the user to configure which target environment is intended: Edge
+(`--profile apigee`) or X/hybrid (`--profile apigeex`). The default is `apigee`.
+
+```sh
+# lint a proxy that will be used in Apigee X/hybrid
+apigeelint -f table.js --profile apigeex -s path/to/your/apiproxy
+
+# lint a proxy that will be used in Apigee Edge
+apigeelint -f table.js --profile apigee -s path/to/your/apiproxy
+```
+
+As an example, if you lint a proxy that uses the GraphQL policy type, and you
+specify the `apigee` profile, the PO028 plugin will issue an error, telling you
+that the GraphQL policy is not available in the apigee profile.  If you lint the
+same proxy with the `apigeex` profile, apigeelint will not generate an error.
+
+The selection of a profile affects other checks, too. For example, [the Google
+Authentication feature](https://cloud.google.com/apigee/docs/api-platform/security/google-auth/overview)
+is available only in X/hybrid.
+
 
 ## Does this tool just lint or does it also check style?
 
-This tool does both traditional linting (looking for problematic patterns) and style checking (enforcement of conventions). You can use it for both.
+This tool does both traditional linting (looking for problematic patterns) and
+style checking (enforcement of conventions). You can use it for both.
 
 ## Tests
 
@@ -145,7 +175,7 @@ The `test` directory includes scripts to exercise a subset of rules. Overall lin
 ```
 apigeelint -s ./test/fixtures/resources/sampleProxy/24Solver/apiproxy/
 ```
-This sample exhibits many bad practices and as such generates some noisy output.
+This sample exhibits many bad practices and as such generates numerous errors and warnings in output.
 
 In a development installation, the equivalent to the command above is:
 ```
@@ -260,6 +290,8 @@ This is the current list:
 | Endpoints | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| EP001 | CORS Policy attachment | Check for multiple CORS policies, or attachment to Target Endpoint. |
 | &nbsp; |:white_check_mark:| EP002 | Misplaced Elements | Check for commonly misplaced configuration elements in Proxy and Target Endpoints. |
+| Features | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
+| &nbsp; |:white_check_mark:| FE001 | Use of Authentication element | Check for the Authentication element in policies or in Target Endpoints. |
 | Deprecation | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| DC001 | ConcurrentRateLimit Policy Deprecation |  Check usage of deprecated policy ConcurrentRateLimit. |
 | &nbsp; |:white_check_mark:| DC002 | OAuth V1 Policies Deprecation |  Check usage of deprecated OAuth V1 policies. |

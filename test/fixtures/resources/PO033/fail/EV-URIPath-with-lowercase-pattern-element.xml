@@ -1,0 +1,6 @@
+<ExtractVariables name="EV-URIPath-with-lowercase-pattern-element">
+  <URIPath>
+    <pattern ignoreCase="false">/accounts/{id}</pattern>
+  </URIPath>
+  <Source clearPayload="false">request</Source>
+</ExtractVariables>

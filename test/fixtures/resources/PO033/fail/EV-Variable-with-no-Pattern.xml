@@ -1,0 +1,5 @@
+<ExtractVariables name="EV-Variable-with-no-Pattern">
+  <Variable>
+  </Variable>
+  <Source clearPayload="false">request</Source>
+</ExtractVariables>

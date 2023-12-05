@@ -1,0 +1,7 @@
+<ExtractVariables name='EV-PathParams-4'>
+  <Source>request</Source>
+  <URIPath>
+    <Pattern ignoreCase="true">/airports/{param1}/counts/{param2}</Pattern>
+  </URIPath>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</ExtractVariables>

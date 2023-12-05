@@ -1,0 +1,27 @@
+<ExternalCallout name="EC-2-accesstoken">
+
+  <GrpcConnection>
+    <Server name="grpcserver"/>
+    <!--
+        For Apigee X, ExternalCallout must not use AccessToken.
+        only GoogleIDToken is supported.
+    -->
+
+    <Authentication>
+      <GoogleAccessToken>
+        <Scopes>
+          <Scope>SCOPE</Scope>
+        </Scopes>
+      </GoogleAccessToken>
+    </Authentication>
+
+  </GrpcConnection>
+
+  <TimeoutMs>5000</TimeoutMs>
+  <Configurations>
+    <Property name="with.request.content">true</Property>
+    <Property name="with.request.headers">true</Property>
+    <Property name="with.response.content">true</Property>
+    <Property name="with.response.headers">true</Property>
+  </Configurations>
+</ExternalCallout>
