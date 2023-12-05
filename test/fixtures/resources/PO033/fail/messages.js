@@ -9,5 +9,9 @@ module.exports = {
   "EV-Missing-Variable.xml":
     "JSONPayload element exists but there is no Variable element.",
   "EV-XML-bool.xml":
-    "XMLPayload/Variable/@type is (bool), must be one of boolean,double,float,integer,long,nodeset,string"
+    "XMLPayload/Variable/@type is (bool), must be one of boolean,double,float,integer,long,nodeset,string",
+  "EV-URIPath-with-lowercase-pattern-element.xml":
+    "Unexpected element 'pattern' as child of URIPath.",
+  "EV-Variable-with-no-Pattern.xml":
+    "There should be at least one Pattern element as child of Variable."
 };
