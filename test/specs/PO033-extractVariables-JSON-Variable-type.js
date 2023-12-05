@@ -62,7 +62,7 @@ describe(`${testID} - policy passes ExtractVariables hygiene check`, function ()
     .forEach(testOne);
 });
 
-describe(`${testID} - policy does not ExtractVariables hygiene check`, () => {
+describe(`${testID} - policy does not pass ExtractVariables hygiene check`, () => {
   const sourceDir = path.join(rootDir, "fail");
   const expectedErrorMessages = require(path.join(sourceDir, "messages.js"));
   const testOne = (shortFileName) => {
