@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2023 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,42 +16,35 @@
 /* global it, describe */
 
 const assert = require("assert"),
-      testID = "CC001",
-      debug = require("debug")("apigeelint:" + testID),
-      bl = require("../../lib/package/bundleLinter.js"),
-      Condition = require("../../lib/package/Condition.js"),
-      plugin = require(bl.resolvePlugin(testID)),
-      Dom = require("@xmldom/xmldom").DOMParser,
-      test = function(exp, expected) {
-        it(`tests whether exp(${exp}) includes a literal, expect(${expected})`,
-          function() {
-            let doc = new Dom().parseFromString(exp),
-                c = new Condition(doc, this);
+  testID = "CC001",
+  debug = require("debug")("apigeelint:" + testID),
+  bl = require("../../lib/package/bundleLinter.js"),
+  Condition = require("../../lib/package/Condition.js"),
+  plugin = require(bl.resolvePlugin(testID)),
+  Dom = require("@xmldom/xmldom").DOMParser,
+  test = function (exp, expected) {
+    it(`tests whether exp(${exp}) includes a literal, expect(${expected})`, function () {
+      const doc = new Dom().parseFromString(exp),
+        c = new Condition(doc, this);
 
-            c.addMessage = function(msg) {
-              debug(msg);
-            };
-
-            plugin.onCondition(c, function(err, result) {
-              assert.equal(
-                err,
-                undefined,
-                err ? " err " : " no err"
-              );
-              assert.equal(
-                result,
-                expected,
-                result ? " literal found " : "literal not found"
-              );
-            });
-          }
-        );
+      c.addMessage = function (msg) {
+        debug(msg);
       };
+
+      plugin.onCondition(c, function (e, result) {
+        assert.equal(e, undefined, e ? " error " : " no error");
+        assert.equal(
+          result,
+          expected,
+          result ? " literal found " : "literal not found"
+        );
+      });
+    });
+  };
 
 //now generate a full report and check the format of the report
 
-describe(`${testID} - ${plugin.plugin.name}`, function() {
-
+describe(`${testID} - ${plugin.plugin.name}`, function () {
   test("false", true);
   test("true", true);
   test("true OR false", true);
@@ -64,39 +57,36 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   test("1", true);
   test('"foo"', true);
   test("request.queryparams.foo", false);
-  test(
-    'request.header.Content-Type = "application/json"',
-    false
-  );
+  test('request.header.Content-Type = "application/json"', false);
   test(
     'request.verb = "POST" and request.header.Content-Type = "application/json"',
     false
   );
+  // the newlines in the following condition are important
+  test(
+    `request.header.content-type != "text/xml" AND
+          request.header.content-type != "application/xml`,
+    false
+  );
 });
 
-describe(`${testID} - Print plugin results`, function() {
+describe(`${testID} - Print plugin results`, function () {
   debug("test configuration: " + JSON.stringify(configuration));
   const Bundle = require("../../lib/package/Bundle.js"),
-        bundle = new Bundle(configuration);
+    bundle = new Bundle(configuration);
   bl.executePlugin(testID, bundle);
-  let report = bundle.getReport();
+  const report = bundle.getReport();
 
-  it("should create a report object with valid schema", function() {
-
-    let formatter = bl.getFormatter("json.js");
+  it("should create a report object with valid schema", function () {
+    const formatter = bl.getFormatter("json.js");
     if (!formatter) {
       assert.fail("formatter implementation not defined");
     }
-    let schema = require("./../fixtures/reportSchema.js"),
-        Validator = require("jsonschema").Validator,
-        v = new Validator(),
-        jsonReport = JSON.parse(formatter(report)),
-        validationResult = v.validate(jsonReport, schema);
-    assert.equal(
-      validationResult.errors.length,
-      0,
-      validationResult.errors
-    );
+    const schema = require("./../fixtures/reportSchema.js"),
+      Validator = require("jsonschema").Validator,
+      v = new Validator(),
+      jsonReport = JSON.parse(formatter(report)),
+      validationResult = v.validate(jsonReport, schema);
+    assert.equal(validationResult.errors.length, 0, validationResult.errors);
   });
-
 });
