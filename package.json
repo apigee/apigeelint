@@ -9,7 +9,9 @@
   "scripts": {
     "badge": "mocha --reporter mocha-badge-generator",
     "coverage": "npx nyc --reporter=text mocha",
-    "postinstall": "npx mkdirp build && ./node_modules/peggy/bin/peggy.js -o build/ConditionsParser.js src/peggy/Apigee-Condition.pegjs",
+    "build-condition-parser": "npx mkdirp build && ./node_modules/peggy/bin/peggy.js -o build/ConditionParser.js lib/peggy/Apigee-Condition.pegjs",
+    "postinstall": "npm run build-condition-parser",
+    "pretest": "npm run build-condition-parser",
     "test": "mocha"
   },
   "repository": {
