@@ -1,0 +1,1519 @@
+<xsd:schema elementFormDefault="qualified"
+            targetNamespace="http://www.usexample.com/schema/ICS/DomainData/v1/"
+            version="2.0"
+            xmlns:domain="http://www.usexample.com/schema/ICS/DomainData/v1/"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:simpleType name="EnumPaymentTypeDSType">
+    <xsd:annotation>
+      <xsd:documentation>valid values for PaymentTypeDS</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="CHARGE"/>
+      <xsd:enumeration value="REVOLVE"/>
+      <xsd:enumeration value="LOAN"/>
+      <xsd:enumeration value="LOC"/>
+      <xsd:enumeration value="FLEXILOAN"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EnumInsuranceStateCodeType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="C1B"/>
+      <xsd:enumeration value="C1C"/>
+      <xsd:enumeration value="C1D"/>
+      <xsd:enumeration value="DB0"/>
+      <xsd:enumeration value="DB1"/>
+      <xsd:enumeration value="DB2"/>
+      <xsd:enumeration value="DF8"/>
+      <xsd:enumeration value="HW8"/>
+      <xsd:enumeration value="HW9"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EnumPaymentTypeCDType">
+    <xsd:annotation>
+      <xsd:documentation>Valid values for PaymentTypeCD
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="G"/>
+      <xsd:enumeration value="X"/>
+      <xsd:enumeration value="I"/>
+      <xsd:enumeration value="O"/>
+      <xsd:enumeration value="F"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EnumAddressPurposeType">
+    <xsd:annotation>
+      <xsd:documentation>valid values for AddressPurpose. BILLING is only value currently returned
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="BILLING"/>
+      <xsd:enumeration value="PLASTIC"/>
+      <xsd:enumeration value="INSIGNIFICANT"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EnumAccountAgeType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="0"/>
+      <xsd:enumeration value="30"/>
+      <xsd:enumeration value="60"/>
+      <xsd:enumeration value="90"/>
+      <xsd:enumeration value="120"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EnumInsuranceProductCodeType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="C2"/>
+      <xsd:enumeration value="C1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EnumLineOfBusinessCodeType">
+    <xsd:annotation>
+      <xsd:documentation>valid values for lineofBusinessCD
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="C"/>
+      <xsd:enumeration value="S"/>
+      <xsd:enumeration value="R"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EnumLineOfBusinessDSType">
+    <xsd:annotation>
+      <xsd:documentation>valid values for lineOfBusinessDS
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="COMPANY"/>
+      <xsd:enumeration value="CORPORATE"/>
+      <xsd:enumeration value="CONSUMER"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EnumAddressUsageType">
+    <xsd:annotation>
+      <xsd:documentation>valid values for AddressUsage
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="PRIMARY"/>
+      <xsd:enumeration value="ALTERNATE"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EnumTelephoneTypeCodeType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="HOME"/>
+      <xsd:enumeration value="WORK"/>
+      <xsd:enumeration value="MOBILE"/>
+      <xsd:enumeration value="FAX"/>
+      <xsd:enumeration value="SUPP"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EnumSourceCDType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="MC"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EnumCardSelectionCDType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="AllCards"/>
+      <xsd:enumeration value="ReqCard"/>
+      <xsd:enumeration value="ReqAndBasicCards"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EnumPaymentHierarchyType">
+    <xsd:annotation>
+      <xsd:documentation>Valid values for PaymentHierarchyTypeCD
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="PayBucket"/>
+      <xsd:enumeration value="PayCombo"/>
+      <xsd:enumeration value="PayOptionD"/>
+      <xsd:enumeration value="PayHierarchy"/>
+      <xsd:enumeration value="PayPlan"/>
+      <xsd:enumeration value="PaySettlement"/>
+      <xsd:enumeration value="PayLoans"/>
+      <xsd:enumeration value="UserDefined"/>
+      <xsd:enumeration value="PayM"/>
+      <xsd:enumeration value="PayN"/>
+      <xsd:enumeration value="ProRata"/>
+      <xsd:enumeration value="PayQ"/>
+      <xsd:enumeration value="PayI"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="AccountInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Contains the attributes applicable to the Account
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="accountStatus" type="domain:AccountStatusType"/>
+      <xsd:element minOccurs="0" name="cycleInfo" type="domain:CycleInfoType"/>
+      <xsd:element minOccurs="0" name="languageCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>the language code of the account, G* native value
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="languageIsoCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>language code of the account in ISO format
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cashBackIN" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>indicates whether spend on the account earns CashBack
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="statementCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+            <![CDATA[<td class="xl65">
+                     <p>Statement flag.</p>
+                     <p>Space | normal statement</p>
+                     <p>O | online only</p>
+                     <p>H | Hold</p>
+                     <p>R | Returned</p>
+                     <p>S | Signed out</p>
+                     <p>I | Interim</p>
+                     <p>C | Cycle</p>
+                     <p>U | User defined</p>
+                     <p>Z | Suppressed</p>
+                     <p>0-9 | User hold codes</p>
+                     <p>P | Paperless code to be archived but not printed (NEW)</p>
+                     </td>
+                     <p>
+                     <br></p>
+                     <p>
+                     <br></p>
+                     <p>
+                     <br></p>
+                     <p>
+                     <br></p>
+                     <p>
+                     <br></p>
+                     <p>
+                     <br></p>
+                     <p>
+                     <br></p>
+                     <p>
+                     <br></p>
+                     <p>
+                     <br></p>
+                     <p>
+                     <br></p>
+                     <p>
+                     <br></p>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="paperlessStatementCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Indicates the paperless statement status of the account.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" name="cardInfo" type="domain:CardInfoType"/>
+      <xsd:element minOccurs="0" name="outstandingDPPBalanceIN" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>Indicates if Account has DPP balalnce
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CountryType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="countryCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation><![CDATA[<span style="font-size:11pt;font-family:"Times New Roman","serif";">Three character ISO standard country code</span>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="TelephoneAddressType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="countryCodeNO" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="telephoneNO" type="xsd:string"/>
+    </xsd:sequence>
+    <xsd:attribute name="telephoneType" type="domain:EnumTelephoneTypeCodeType">
+      <xsd:annotation>
+        <xsd:documentation>Indicates the type of telephone number being returned
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:complexType name="CardInfoType">
+    <xsd:annotation>
+      <xsd:documentation>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="cardNO" type="domain:CardNOType">
+        <xsd:annotation>
+          <xsd:documentation>current cardnumber belonging to the Card on the account
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="basicCardIN" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>indicates whether the card is basic or supplementary
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardSinceDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>Date since Card opened
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="plasticInfo" type="domain:PlasticInfoType"/>
+      <xsd:element minOccurs="0" name="cardStatus" type="domain:CardStatusType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="EmployerNMType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="langCD" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="CurrencyType">
+    <xsd:annotation>
+      <xsd:documentation>Currency in standard ISO format
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="currencyCD" type="domain:EnumCurrencyCodeType">
+        <xsd:annotation>
+          <xsd:documentation><![CDATA[<span style="font-size:11pt;font-family:"Times New Roman","serif";">ISO standard currency code</span>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="currencyDecimalNO" type="xsd:integer">
+        <xsd:annotation>
+          <xsd:documentation>Number of decimal places for the market currency.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="percentageDecimalNO" type="xsd:integer"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="StatementIndicatorsType">
+    <xsd:sequence>
+      <xsd:element name="paperlessStatementCD" type="xsd:string"/>
+      <xsd:element name="statementViewableIN" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddressType">
+    <xsd:annotation>
+      <xsd:documentation>
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="regionCD" type="xsd:string"/>
+      <xsd:element name="countryCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>so here should we associate to the generic CountryType ? I would say yes, if the field is returning real standard country data
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="postalCD" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="dateRange" type="domain:DateRangeType"/>
+      <xsd:element name="addressLineGroup" type="domain:AddressLineGroupType"/>
+    </xsd:sequence>
+    <xsd:attribute name="addressUsage" type="domain:EnumAddressUsageType">
+      <xsd:annotation>
+        <xsd:documentation>Indicates the type of address being returned.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="addressPurpose" type="domain:EnumAddressPurposeType"/>
+  </xsd:complexType>
+  <xsd:complexType name="AccountProductLegalDSType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="langCD" type="xsd:string"/>
+        <xsd:attribute name="langISOCD" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="LineOfBusinessType">
+    <xsd:annotation>
+      <xsd:documentation>Line of Business for the account
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="lineOfBusinessCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+            <![CDATA[<p class="MsoBodyText">
+                     <span></span>
+                     <span>LOB code value</span>
+                     </p>
+                     <p></p>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="lineOfBusinessDS" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>LOB description
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DirectDebitInfoType">
+    <xsd:annotation>
+      <xsd:documentation>This parameter represents the direct debit information on a card account.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="bankNM" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="bankID" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="bankAccountNO" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="bankBranchNM" type="xsd:string"/>
+      <xsd:element name="paymentMethodCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+            <![CDATA[<p>Valid values: 'A' , 'J', 'M'</p>
+                     <p>'A' - Fixed Amount Payment</p>
+                     <p>'J' - Full Payment</p>
+                     <p>'M' - Minimum 5% Payment</p>
+                     <p></p>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="fixedPaymentAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="directDebitCutoffDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="directDebitRequestDay" type="xsd:integer"/>
+      <xsd:element name="directDebitFrequencyCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+            <![CDATA[<p>Valid values: '0', '1', '2', '3', '4'</p>
+                     <p>'0' - DD not used</p>
+                     <p>'1' - DD Monthly</p>
+                     <p>'2' - DD Weekly</p>
+                     <p>'3' - DD Bi-weekly</p>
+                     <p>'4' - DD Daily</p>
+                     <p></p>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="directDebitDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BaseBalanceSummaryType">
+    <xsd:annotation>
+      <xsd:documentation>This parameter type represents the sub-entity that is defined by a collection of base balance summary data.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="paymentCurrencyCD" type="domain:EnumCurrencyCodeType">
+        <xsd:annotation>
+          <xsd:documentation>ISO 3-Alpha currency code that identifies the unit of currency.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="previousBalanceAM" type="xsd:decimal"/>
+      <xsd:element name="newChargesAM" type="xsd:decimal"/>
+      <xsd:element name="totalPaymentsAndCreditsAM" type="xsd:decimal"/>
+      <xsd:element name="totalFinancialChargeAM" type="xsd:decimal"/>
+      <xsd:element name="newBalanceAM" type="xsd:decimal"/>
+      <xsd:element name="pastDueTotalAM" type="xsd:decimal"/>
+      <xsd:element name="minPaymentDueAM" type="xsd:decimal"/>
+      <xsd:element name="totalPaymentDueAM" type="xsd:decimal">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="totalCreditLimitAM" type="xsd:decimal"/>
+      <xsd:element name="totalCashLimitAM" type="xsd:decimal"/>
+      <xsd:element name="availableCashLimitAM" type="xsd:decimal"/>
+      <xsd:element name="availableCreditLimitAM" type="xsd:decimal"/>
+      <xsd:element name="paymentDueDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="overCreditLimitAM" type="xsd:decimal"/>
+      <xsd:element name="suspendedAM" type="xsd:decimal"/>
+      <xsd:element name="paymentRemitMethodCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+            <![CDATA[<p>Valid values: '0', '3'</p>
+                     <p>'0' - Non Direct Debit Card Member</p>
+                     <p>'3' - Direct Debit Card Member</p>
+                     <p></p>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="directDebitIN" type="xsd:boolean"/>
+      <xsd:element minOccurs="0" name="averageInterestAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="estimatedInterestNextMonthAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="totalPlanOpenBalanceAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="totalPlanCurrentBalanceAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="totalPlanCTDDebitAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="totalPlanCTDCreditAM" type="xsd:decimal"/>
+      <xsd:element name="hashTotalAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="totalDeferredPrincipalAM" type="xsd:decimal"/>
+      <xsd:element name="totalDeferredChargeAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="totalDeferredDueAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="ibpoBalanceAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="payflexClosingBalanceAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="chargeClosingBalanceAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="payfexCreditLimitAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="payflexDueAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="chargeDueAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="payflexPaymentsAndCreditsAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="chargePaymentsAndCreditsAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="payflexPreviousBalanceAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="chargePreviousBalanceAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="payflexNewChargesAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="chargeNewChargesAM" type="xsd:decimal"/>
+      <xsd:element name="payflexIN" type="xsd:boolean"/>
+      <xsd:element name="deferredPaymentExclustionIN" type="xsd:boolean"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="priorityMessageText" type="domain:PriorityMessageTextType"/>
+      <xsd:element minOccurs="0" name="directDebitBalanceSummary" type="domain:DirectDebitBalanceSummaryType">
+        <xsd:annotation>
+          <xsd:documentation>See parameter type 'DirectDebitBalanceSummaryType'.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddressLineGroupType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="addressLine" type="domain:AddressLineType"/>
+      <xsd:element name="cityNM" type="xsd:string"/>
+    </xsd:sequence>
+    <xsd:attribute name="langCD" type="xsd:string"/>
+  </xsd:complexType>
+  <xsd:simpleType name="AddressLineNOType">
+    <xsd:annotation>
+      <xsd:documentation>Valid values for Address line No
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:integer">
+      <xsd:maxInclusive value="3"/>
+      <xsd:minInclusive value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="CoBrandPartnerType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="coBrandPartnerCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CardBalanceSummaryType">
+    <xsd:annotation>
+      <xsd:documentation>This parameter type represents the sub-entity that is defined by a collection of card level balance summary data.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="cardNO" type="domain:CardNOType">
+        <xsd:annotation>
+          <xsd:documentation>
+            <![CDATA[<p>15-digit card number | basic and supp.</p>
+                     <p>It will be left justified with trailing spaces to make the length 19, as defined by ISO.</p>
+                     <p></p>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="totalCreditAM" type="xsd:decimal"/>
+      <xsd:element name="totalDebitAM" type="xsd:decimal"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CardStatusType">
+    <xsd:annotation>
+      <xsd:documentation>status of a Card on an Account. NOT CURRENTLY AVAILABLE
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="cardCancellationCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>placeholder for future release, not currently available
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardCancellationDS" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>placeholder for future release, not currently available
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardInfoCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>palceholder for future release, not currently available
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardInfoDS" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>palceholder for future release, not currently available
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="EnumCurrencyCodeType">
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="AED"/>
+      <xsd:enumeration value="AFN"/>
+      <xsd:enumeration value="ALL"/>
+      <xsd:enumeration value="AMD"/>
+      <xsd:enumeration value="ANG"/>
+      <xsd:enumeration value="AOA"/>
+      <xsd:enumeration value="ARS"/>
+      <xsd:enumeration value="AUD"/>
+      <xsd:enumeration value="AWG"/>
+      <xsd:enumeration value="AZN"/>
+      <xsd:enumeration value="BAM"/>
+      <xsd:enumeration value="BBD"/>
+      <xsd:enumeration value="BDT"/>
+      <xsd:enumeration value="BGN"/>
+      <xsd:enumeration value="BHD"/>
+      <xsd:enumeration value="BIF"/>
+      <xsd:enumeration value="BMD"/>
+      <xsd:enumeration value="BND"/>
+      <xsd:enumeration value="BOB"/>
+      <xsd:enumeration value="BOV"/>
+      <xsd:enumeration value="BRL"/>
+      <xsd:enumeration value="BSD"/>
+      <xsd:enumeration value="BTN"/>
+      <xsd:enumeration value="BWP"/>
+      <xsd:enumeration value="BYR"/>
+      <xsd:enumeration value="BZD"/>
+      <xsd:enumeration value="CAD"/>
+      <xsd:enumeration value="CDF"/>
+      <xsd:enumeration value="CHE"/>
+      <xsd:enumeration value="CHF"/>
+      <xsd:enumeration value="CHW"/>
+      <xsd:enumeration value="CLF"/>
+      <xsd:enumeration value="CLP"/>
+      <xsd:enumeration value="CNY"/>
+      <xsd:enumeration value="COP"/>
+      <xsd:enumeration value="COU"/>
+      <xsd:enumeration value="CRC"/>
+      <xsd:enumeration value="CUC"/>
+      <xsd:enumeration value="CUP"/>
+      <xsd:enumeration value="CVE"/>
+      <xsd:enumeration value="CZK"/>
+      <xsd:enumeration value="DJF"/>
+      <xsd:enumeration value="DKK"/>
+      <xsd:enumeration value="DOP"/>
+      <xsd:enumeration value="DZD"/>
+      <xsd:enumeration value="EEK"/>
+      <xsd:enumeration value="EGP"/>
+      <xsd:enumeration value="ERN"/>
+      <xsd:enumeration value="ETB"/>
+      <xsd:enumeration value="EUR"/>
+      <xsd:enumeration value="FJD"/>
+      <xsd:enumeration value="FKP"/>
+      <xsd:enumeration value="GBP"/>
+      <xsd:enumeration value="GEL"/>
+      <xsd:enumeration value="GHS"/>
+      <xsd:enumeration value="GIP"/>
+      <xsd:enumeration value="GMD"/>
+      <xsd:enumeration value="GNF"/>
+      <xsd:enumeration value="GTQ"/>
+      <xsd:enumeration value="GWP"/>
+      <xsd:enumeration value="GYD"/>
+      <xsd:enumeration value="HKD"/>
+      <xsd:enumeration value="HNL"/>
+      <xsd:enumeration value="HRK"/>
+      <xsd:enumeration value="HTG"/>
+      <xsd:enumeration value="HUF"/>
+      <xsd:enumeration value="IDR"/>
+      <xsd:enumeration value="ILS"/>
+      <xsd:enumeration value="INR"/>
+      <xsd:enumeration value="IQD"/>
+      <xsd:enumeration value="IRR"/>
+      <xsd:enumeration value="ISK"/>
+      <xsd:enumeration value="JMD"/>
+      <xsd:enumeration value="JOD"/>
+      <xsd:enumeration value="JPY"/>
+      <xsd:enumeration value="KES"/>
+      <xsd:enumeration value="KGS"/>
+      <xsd:enumeration value="KHR"/>
+      <xsd:enumeration value="KMF"/>
+      <xsd:enumeration value="KPW"/>
+      <xsd:enumeration value="KRW"/>
+      <xsd:enumeration value="KWD"/>
+      <xsd:enumeration value="KYD"/>
+      <xsd:enumeration value="KZT"/>
+      <xsd:enumeration value="LAK"/>
+      <xsd:enumeration value="LBP"/>
+      <xsd:enumeration value="LKR"/>
+      <xsd:enumeration value="LRD"/>
+      <xsd:enumeration value="LSL"/>
+      <xsd:enumeration value="LTL"/>
+      <xsd:enumeration value="LVL"/>
+      <xsd:enumeration value="LYD"/>
+      <xsd:enumeration value="MAD"/>
+      <xsd:enumeration value="MDL"/>
+      <xsd:enumeration value="MGA"/>
+      <xsd:enumeration value="MKD"/>
+      <xsd:enumeration value="MMK"/>
+      <xsd:enumeration value="MNT"/>
+      <xsd:enumeration value="MOP"/>
+      <xsd:enumeration value="MRO"/>
+      <xsd:enumeration value="MUR"/>
+      <xsd:enumeration value="MVR"/>
+      <xsd:enumeration value="MWK"/>
+      <xsd:enumeration value="MXN"/>
+      <xsd:enumeration value="MXV"/>
+      <xsd:enumeration value="MYR"/>
+      <xsd:enumeration value="MZN"/>
+      <xsd:enumeration value="NAD"/>
+      <xsd:enumeration value="NGN"/>
+      <xsd:enumeration value="NIO"/>
+      <xsd:enumeration value="NOK"/>
+      <xsd:enumeration value="NPR"/>
+      <xsd:enumeration value="NZD"/>
+      <xsd:enumeration value="OMR"/>
+      <xsd:enumeration value="PAB"/>
+      <xsd:enumeration value="PEN"/>
+      <xsd:enumeration value="PGK"/>
+      <xsd:enumeration value="PHP"/>
+      <xsd:enumeration value="PKR"/>
+      <xsd:enumeration value="PLN"/>
+      <xsd:enumeration value="PYG"/>
+      <xsd:enumeration value="QAR"/>
+      <xsd:enumeration value="RON"/>
+      <xsd:enumeration value="RSD"/>
+      <xsd:enumeration value="RUB"/>
+      <xsd:enumeration value="RWF"/>
+      <xsd:enumeration value="SAR"/>
+      <xsd:enumeration value="SBD"/>
+      <xsd:enumeration value="SCR"/>
+      <xsd:enumeration value="SDG"/>
+      <xsd:enumeration value="SEK"/>
+      <xsd:enumeration value="SGD"/>
+      <xsd:enumeration value="SHP"/>
+      <xsd:enumeration value="SLL"/>
+      <xsd:enumeration value="SOS"/>
+      <xsd:enumeration value="SRD"/>
+      <xsd:enumeration value="STD"/>
+      <xsd:enumeration value="SVC"/>
+      <xsd:enumeration value="SYP"/>
+      <xsd:enumeration value="SZL"/>
+      <xsd:enumeration value="THB"/>
+      <xsd:enumeration value="TJS"/>
+      <xsd:enumeration value="TMT"/>
+      <xsd:enumeration value="TND"/>
+      <xsd:enumeration value="TOP"/>
+      <xsd:enumeration value="TRY"/>
+      <xsd:enumeration value="TTD"/>
+      <xsd:enumeration value="TWD"/>
+      <xsd:enumeration value="TZS"/>
+      <xsd:enumeration value="UAH"/>
+      <xsd:enumeration value="UGX"/>
+      <xsd:enumeration value="USD"/>
+      <xsd:enumeration value="USN"/>
+      <xsd:enumeration value="USS"/>
+      <xsd:enumeration value="UYI"/>
+      <xsd:enumeration value="UYU"/>
+      <xsd:enumeration value="UZS"/>
+      <xsd:enumeration value="VEF"/>
+      <xsd:enumeration value="VND"/>
+      <xsd:enumeration value="VUV"/>
+      <xsd:enumeration value="WST"/>
+      <xsd:enumeration value="XAF"/>
+      <xsd:enumeration value="XAG"/>
+      <xsd:enumeration value="XAU"/>
+      <xsd:enumeration value="XBA"/>
+      <xsd:enumeration value="XBB"/>
+      <xsd:enumeration value="XBC"/>
+      <xsd:enumeration value="XBD"/>
+      <xsd:enumeration value="XCD"/>
+      <xsd:enumeration value="XDR"/>
+      <xsd:enumeration value="XFU"/>
+      <xsd:enumeration value="XOF"/>
+      <xsd:enumeration value="XPD"/>
+      <xsd:enumeration value="XPF"/>
+      <xsd:enumeration value="XPT"/>
+      <xsd:enumeration value="XTS"/>
+      <xsd:enumeration value="XXX"/>
+      <xsd:enumeration value="YER"/>
+      <xsd:enumeration value="ZAR"/>
+      <xsd:enumeration value="ZMK"/>
+      <xsd:enumeration value="ZWL"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="DateRangeType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="startDate" nillable="true" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="endDate" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>indicates the lift date for alternate customer record
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AddressInfoType">
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="address" type="domain:AddressType"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="telephoneAddress" type="domain:TelephoneAddressType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AccountDemographicInfoType">
+    <xsd:annotation>
+      <xsd:documentation>container to hold the AccountDemographic fragment for the Account
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element maxOccurs="unbounded" name="cardmember" type="domain:CardmemberType"/>
+      <xsd:element minOccurs="0" name="accountAddressInfo" type="domain:AddressInfoType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CardmemberFullNMType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:simpleType name="EnumInterestRateCodeType">
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="M"/>
+      <xsd:enumeration value="Y"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="PriorityMessageTextType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="priorityID" type="xsd:integer" use="required">
+          <xsd:annotation>
+            <xsd:documentation>1 = Highest priority
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="AccountProductInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Product info at account level.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="accountFeatureBundleCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Globestar PCT for the Account (Basic Card)
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="productCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>G* LOGO
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="lineOfBusiness" type="domain:LineOfBusinessType"/>
+      <xsd:element minOccurs="0" name="acctPaymentTypeCD" type="domain:EnumPaymentTypeCDType">
+        <xsd:annotation>
+          <xsd:documentation>PaymentType, also referred to as card Type - Charge, revolve, Loan etc
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="acctPaymentTypeDS" type="domain:EnumPaymentTypeDSType">
+        <xsd:annotation>
+          <xsd:documentation>PaymentType description
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" name="acctProdLegalDS" type="domain:AccountProductLegalDSType"/>
+      <xsd:element name="acctProductShortDS" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+            <![CDATA[<p>Plastic colour, also referred to as Short Description</p>
+                     <p></p>
+                     <p></p>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="acctDigitalAssetID" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>digial asset ID of the account (basic card). used to identify the correct card art
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="coBrandPartner" type="domain:CoBrandPartnerType"/>
+      <xsd:element minOccurs="0" name="market" type="domain:MarketType"/>
+      <xsd:element minOccurs="0" name="payflex" type="domain:PayflexType"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="cardProductInfo" type="domain:CardProductInfoType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="StatementCycleType">
+    <xsd:sequence>
+      <xsd:element name="statementKeyDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="statementFromDT" nillable="true" type="xsd:date"/>
+      <xsd:element name="statementToDT" nillable="true" type="xsd:date"/>
+      <xsd:element name="daysInCycleCT" type="xsd:integer"/>
+      <xsd:element name="paperlessStatementViewableIN" type="xsd:boolean"/>
+    </xsd:sequence>
+    <xsd:attribute name="seqNO" type="xsd:integer">
+      <xsd:annotation>
+        <xsd:documentation>
+          <![CDATA[<p>0 = the most recent statement cycle</p>
+                   <p>(assuming the cycle data ordered when returned from G* tbd)</p>
+                   <p></p>]]>
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:complexType name="AccountBalanceSummaryType">
+    <xsd:annotation>
+      <xsd:documentation>This parameter type represents the Account Balance Summary entity which encompasses a number of sub-entities: Base Balance Summary, Card Balance Summary, Plan Balance Summary and Loan Plan Balance Summary.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="cardNO" type="domain:CardNOType">
+        <xsd:annotation>
+          <xsd:documentation>15-digit card number specified to locate the card account, which identifies the card account from customer's perspective.It will be left justified with trailing spaces to make the length 19, as defined by ISO.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="statementDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>This represents cycle cut date. Value = '0001-01-01' represents the current un-billed cycle. Else, the actual cycle cut date.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="cardBalanceSummary" type="domain:CardBalanceSummaryType">
+        <xsd:annotation>
+          <xsd:documentation>See parameter type 'CardBalanceSummaryType'.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="planBalanceSummary" type="domain:PlanBalanceSummaryType">
+        <xsd:annotation>
+          <xsd:documentation>See parameter type 'PlanBalanceSummaryType'.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="baseBalanceSummary" type="domain:BaseBalanceSummaryType">
+        <xsd:annotation>
+          <xsd:documentation>See parameter type 'BaseBalanceSummaryType'.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="suppCardCT" type="xsd:integer">
+        <xsd:annotation>
+          <xsd:documentation>Number of Supplementary Cards
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PayflexType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="payflexIN" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>
+            <![CDATA[<p class="MsoBodyText">
+                     <span></span>
+                     <span>indicates whether Payflex applies for the account</span>
+                     </p>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="payflexStatusCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation><![CDATA[<p class="MsoBodyText"><span></span>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PlanInfoType">
+    <xsd:annotation>
+      <xsd:documentation>This parameter type represents the plan information on a card account.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="planTypeCD" type="domain:EnumPlanTypeCodeType">
+        <xsd:annotation>
+          <xsd:documentation>
+            <![CDATA[<p>Globestar's valid values: 'C', 'A', 'L', 'T', 'B', other</p>
+                     <p>"C', 'A' = Cash</p>
+                     <p>'L' = Loan</p>
+                     <p>'T', 'B' = Balance, Transfers</p>
+                     <p>other = Retail"</p>
+                     <p>Will be mapped to enumeration literals:</p>
+                     <p>CASH, LOAN, BT, RETAIL</p>
+                     <p></p>
+                     <p></p>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="planDS" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="interestRateCD" type="domain:EnumInterestRateCodeType">
+        <xsd:annotation>
+          <xsd:documentation>
+            <![CDATA[<p>Globestar's valid values: 'M', 'Y'</p>
+                     <p>'M' = Monthly</p>
+                     <p>'Y' = Yearly</p>
+                     <p>Will be mapped to enumeration literals:</p>
+                     <p>M, Y</p>
+                     <p></p>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="planExpiryDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="planSetupDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="DirectDebitBalanceSummaryType">
+    <xsd:sequence>
+      <xsd:element name="projectedDirectDebitAM" type="xsd:decimal"/>
+      <xsd:element name="withdrawalDirectDebitAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="directDebitInfo" type="domain:DirectDebitInfoType">
+        <xsd:annotation>
+          <xsd:documentation>See parameter type 'DirectDebitInfoType'.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AccountStatusType">
+    <xsd:annotation>
+      <xsd:documentation>Provides the information pertaining to the Account Status
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="acctCancellationCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>populated when account is cancelled. returns G* block code 1 value
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="acctCancellationDS" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>block code 1 description
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="acctCancellationCodeDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>date the block code was applied
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="acctInfoCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>account status info for the account, may be present for cancelled or non-cancelled accounts. G* block code 2 value
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="acctInfoDS" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>G* block code 2 description
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="acctInfoDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>date the block code 2 was applied
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="MarketType">
+    <xsd:annotation>
+      <xsd:documentation>market is an internal USex concept. Markets are associated to Countries, however one Country may have multiple markets. G* ORG
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="marketCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation><![CDATA[<span style="font-size:11pt;font-family:"Times New Roman","serif";">Globestar ORG Number</span>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="country" type="domain:CountryType"/>
+      <xsd:element minOccurs="0" name="currency" type="domain:CurrencyType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="PlanBalanceSummaryType">
+    <xsd:annotation>
+      <xsd:documentation>This parameter type represents the sub-entity that is defined by a collection of plan level balance summary data.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="planCurrentBalanceAM" type="xsd:decimal"/>
+      <xsd:element name="averageDailyBalanceAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="currentInterestRT" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="monthlyInterestRT" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="annualPercentRT" type="xsd:decimal"/>
+      <xsd:element name="principalMinDueAM" type="xsd:decimal">
+        <xsd:annotation>
+          <xsd:documentation>
+            <![CDATA[<td class="xl66">
+                     <p>This field is ONLY available to Japan or Canada.</p>
+                     <p>For Japan the Principal Minimum Due is stored in this field.</p>
+                     <p>For Canada the Finance Charge is stored in this field.</p>
+                     </td>
+                     <p>
+                     <br></p>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="financialChargesAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="interestMinDueAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="pendingTierReviewRT" type="xsd:decimal"/>
+      <xsd:element name="pendingTierReviewIN" type="xsd:boolean"/>
+      <xsd:element name="planPayflexIN" type="xsd:boolean"/>
+      <xsd:element name="planOpeningBalanceAM" type="xsd:decimal"/>
+      <xsd:element name="planCTDDebitAM" type="xsd:decimal"/>
+      <xsd:element name="planCTDCreditAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="planDefermentEndDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="planDefermentStatusCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+            <![CDATA[<p>Valid values: </p>
+                     <p>space - Not used (not a deferred plan)</p>
+                     <p>'1 - Paid'</p>
+                     <p>'2 - Due'</p>
+                     <p>'3 - Deferred'</p>
+                     <p></p>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="loanPlanBalanceSummary" type="domain:LoanPlanBalanceSummaryType">
+        <xsd:annotation>
+          <xsd:documentation>See parameter type 'LoanPlanBalanceSummaryType'.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="planInfo" type="domain:PlanInfoType">
+        <xsd:annotation>
+          <xsd:documentation>See parameter type 'PlanInfoType'.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="EnumPlanTypeCodeType">
+    <xsd:restriction base="xsd:token">
+      <xsd:enumeration value="CASH"/>
+      <xsd:enumeration value="LOAN"/>
+      <xsd:enumeration value="BT"/>
+      <xsd:enumeration value="RETAIL"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="PlasticInfoType">
+    <xsd:annotation>
+      <xsd:documentation>information specific to a given plastic
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="cardNO" type="domain:CardNOType">
+        <xsd:annotation>
+          <xsd:documentation>cardnumber specific to the plastic in question
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="currentCardIN" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation><![CDATA[
+<span style="font-size:11pt;font-family:"Times New Roman","serif";">Indicates whether this plastic is the current card. G* return values Y or N. This will be converted to Boolean 1, 0</span>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="plasticExpiryDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation><![CDATA[
+<span style="font-size:11pt;font-family:"Times New Roman","serif";">Need to verify if this can really be returned as DataType or if it needs to be string</span>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="validFromDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation><![CDATA[<span style="font-size:11pt;font-family:"Times New Roman","serif";">Need to verify if this can really be returned as DataType or if it needs to be string</span>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="cardmemberEmbossedNM" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation><![CDATA[<span style="font-size:11pt;font-family:"Times New Roman","serif";">The name embossed on the plastic</span>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="businessEmbossedNM" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+            <![CDATA[<p class="MsoNormal">
+                     <span style="font-size:8pt;color:#000000;">Additional name to be embossed on the second </span>
+                     <span style="font-size:8pt;color:#000000;font-family:;">
+                     <span> </span>For example, this field may contain the name of a business if the card is issued for a business account.</span>
+                     </p>
+                     <p>
+                     <span style="font-size:8pt;color:#000000;font-family:;">G* GetARCustomer field : OneCardInfor / <embossedNm2>. G* data field </span>
+                     <span style="font-size:8pt;color:#000000;font-family:"Times New Roman","serif";">AMED-EMBOSSED-NAME-2</span>
+                     </p>
+                     <p>
+                     <span style="font-size:8pt;color:#000000;font-family:"Times New Roman","serif";">Added per MYCA CardService requirements</span>
+                     </p>
+                     <p>
+                     <span style="font-size:8pt;color:#000000;font-family:;"></span>
+                     </p>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="plasticBlockCodeCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>plastic level block code
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="plasticBlockCodeDS" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="plasticBlockCodeDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>date the block code was applied
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CardProductInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Product info specific to a given card on an Account
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="cardNO" type="domain:CardNOType">
+        <xsd:annotation>
+          <xsd:documentation>current cardnumber of the Card
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="basicCardIN" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>indicates whether the card belongs to basic or supplementary
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardFeatureBundleCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>G* PCT for the Card (supp PCT may differ from the basic/Account level PCT)
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardDigitalAssetID" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>digital asset ID for the card
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardProductShortDS" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>product short description (family/colour) for the card. May differ from that of the Basic (Account)
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ProductInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Product info at account level.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="payflex" type="domain:PayflexType"/>
+      <xsd:element minOccurs="0" name="market" type="domain:MarketType"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="coBrandPartner" type="domain:CoBrandPartnerType"/>
+      <xsd:element name="lineOfBusiness" type="domain:LineOfBusinessType"/>
+      <xsd:element maxOccurs="unbounded" name="productLegalDS" type="domain:AccountProductLegalDSType"/>
+      <xsd:element name="productCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>G* LOGO
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="featureBundleCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Globestar PCT
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="accountTypeCD" type="domain:EnumPaymentTypeCDType">
+        <xsd:annotation>
+          <xsd:documentation>PaymentType, also referred to as card Type - Charge, revolve, Loan etc
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="accountTypeDS" type="domain:EnumPaymentTypeDSType">
+        <xsd:annotation>
+          <xsd:documentation>PaymentType description
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="productShortDS" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>
+            <![CDATA[<p>Plastic colour, also referred to as Short Description</p>
+                     <p></p>
+                     <p></p>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="plasticColourDS" type="xsd:string"/>
+      <xsd:element name="digitalAssetID" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>digial asset ID of the account (basic card). used to identify the correct card art
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="affinityFlag" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="paymentHierarchyBase" type="domain:EnumPaymentHierarchyType">
+        <xsd:annotation>
+          <xsd:documentation>Payment Application Method PH1 description
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="paymentHierarchyAboveMinDue" type="domain:EnumPaymentHierarchyType">
+        <xsd:annotation>
+          <xsd:documentation>Payment Application Method PH2 description
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" maxOccurs="20" name="eligibleBillingCycleInfo" type="domain:EligibleBillingCycleInfoType"/>
+    </xsd:sequence>
+    <xsd:attribute name="requestCardNo" type="domain:CardNOType">
+      <xsd:annotation>
+        <xsd:documentation>The card number in the service request for identifying the card account.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:complexType name="AddressLineType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="addressLineNO" type="domain:AddressLineNOType" use="required"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="CardmemberType">
+    <xsd:sequence>
+      <xsd:element name="cardNO" type="domain:CardNOType">
+        <xsd:annotation>
+          <xsd:documentation>current cardnumber belonging to the cardmember
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="basicCardIN" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation>Indicates whether this is Basic or Supplementary cardmember
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="nationalID" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>National ID of cardmember.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="nationalID2" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>national ID 2 applies only to Basic
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="birthDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>Birth date of cardmember
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="genderCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation><![CDATA[Gender of cardmember<span style="font-size:11pt;font-family:;">. Values are M, F, U</span>]]>
+</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="memberSinceDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>cardmember since date of cardmember
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardmemberFirstNM" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>first name of cardmember
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardmemberMiddleNM" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>middle name of cardmember
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardmemberLastNM" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>last name of cardmember
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardmember2LastNM" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>second last name of cardmember
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardmemberTitleDS" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Cm Title description of cardmemberProvided by AMNA-TITLE when a BASIC, AMED-GFS-TITLE when a SUPP
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="businessNM" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>business name
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cardmemberAddressInfo" type="domain:AddressInfoType"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="cardmemberFullNM" type="domain:CardmemberFullNMType"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="employerNM" type="domain:EmployerNMType"/>
+      <xsd:element minOccurs="0" name="vipStatusIN" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:documentation><![CDATA[<span style="font-size:11pt;font-family:;"></span>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="employeeStatusCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation><![CDATA[<span style="font-size:11pt;font-family:;"></span>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CycleInfoType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="accountAge" type="domain:EnumAccountAgeType">
+        <xsd:annotation>
+          <xsd:documentation>this is the transformed age value : needs enum. valid values are 0, 30, 60, 90, 120. NOT RETURNED AT PRESENT
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="cycleDueCD" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>this field is the age code value held on G*
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="LoanPlanBalanceSummaryType">
+    <xsd:annotation>
+      <xsd:documentation>This parameter type represents the sub-entity that is defined by a collection of loan plan balance summary data.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="loanDisbursementDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="originalPrincipalAM" type="xsd:decimal"/>
+      <xsd:element minOccurs="0" name="totalDisclosedLoanAM" type="xsd:decimal"/>
+      <xsd:element name="currentInstallmentNO" type="xsd:integer"/>
+      <xsd:element name="numbeOfInstallmentsCT" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="anticipatedLoanTerminationDT" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="outstandingPrincipalAM" type="xsd:decimal">
+        <xsd:annotation>
+          <xsd:documentation>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="outstandingInterestInsuranceFeesAM" type="xsd:decimal"/>
+      <xsd:element name="totalOutstandingAM" type="xsd:decimal">
+        <xsd:annotation>
+          <xsd:documentation>
+            <![CDATA[<td class="xl66">
+                     <p>Sum of Principal + Int + Ins + Fees outstanding on Loans</p>
+                     </td>
+                     <p></p>]]>
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="EligibleBillingCycleInfoType">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="usexCycleNO">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[A-z0-9]"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element minOccurs="0" name="actualBillingCycleNO" type="xsd:integer"/>
+      <xsd:element minOccurs="0" name="nextProjectedStatementDT" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="secondProjectedStatementDT" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="nextProjectedDueDT" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="secondProjectedDueDT" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="nextProjectedDirectDebitDT" type="xsd:date"/>
+      <xsd:element minOccurs="0" name="secondProjectedDirectDebitDT" type="xsd:date"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="CardNOType">
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="15"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>
