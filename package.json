@@ -1,6 +1,6 @@
 {
   "name": "apigeelint",
-  "version": "2.46.2",
+  "version": "2.46.3",
   "description": "Node module and tool to lint a bundle for an Apigee API Proxy or sharedflow.",
   "main": "index.js",
   "bin": {
@@ -9,9 +9,7 @@
   "scripts": {
     "badge": "mocha --reporter mocha-badge-generator",
     "coverage": "npx nyc --reporter=text mocha",
-    "build-condition-parser": "./node_modules/mkdirp/dist/cjs/src/bin.js build && ./node_modules/peggy/bin/peggy.js -o build/ConditionParser.js lib/peggy/Apigee-Condition.pegjs",
-    "postinstall": "npm run build-condition-parser",
-    "pretest": "npm run build-condition-parser",
+    "build-condition-parser": "npx mkdirp build && npx peggy -o build/ConditionParser.js lib/peggy/Apigee-Condition.pegjs",
     "test": "mocha"
   },
   "repository": {
