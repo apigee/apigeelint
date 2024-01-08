@@ -1,0 +1,20 @@
+<ProxyEndpoint name="default">
+  <HTTPProxyConnection>
+    <BasePath>/</BasePath>
+    <Properties/>
+    <VirtualHost>secure</VirtualHost>
+  </HTTPProxyConnection>
+
+  <PreFlow name="PreFlow">
+    <Request />
+    <Response />
+  </PreFlow>
+  <PostFlow name="PostFlow">
+    <Request />
+    <Response />
+  </PostFlow>
+  <RouteRule name="no-route">
+    <!-- this is ok -->
+  </RouteRule>
+
+</ProxyEndpoint>
