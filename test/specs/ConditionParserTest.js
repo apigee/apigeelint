@@ -159,22 +159,12 @@ describe("ConditionParser", function () {
   });
 
   describe("Invalid Operators", function () {
-    it("rejects double equals as an operator", function () {
+    it("treats = and == as synonyms", function () {
       const c1 = `request.formparam.grant_type == "authorization_code"`;
-      try {
-        parser.parse(c1);
-        expect.fail();
-      } catch (e) {
-        expect(e.toString()).to.include("SyntaxError");
-        expect(e.toString()).to.include('but "="');
-      }
-      try {
-        parser.parse(c1.replace("==", "="));
-        // no error
-        expect(true);
-      } catch (e) {
-        expect.fail();
-      }
+      const result1 = parser.parse(c1);
+      const c2 = c1.replace("==", "=");
+      const result2 = parser.parse(c2);
+      expect(JSON.stringify(result1)).to.equal(JSON.stringify(result2));
     });
 
     it("rejects SeemsLike as an operator", function () {
