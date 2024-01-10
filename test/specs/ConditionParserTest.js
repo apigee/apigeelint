@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2023 Google LLC
+  Copyright 2019-2024 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -72,13 +72,28 @@ describe("ConditionParser", function () {
 
     it("treats parenthesized and non-parenthesized atoms as equivalent", function () {
       const c1 = "!valid";
-      const c2 = "!(valid)";
       const result1 = parser.parse(c1);
+      const json1 = JSON.stringify(result1);
+      expect(json1).to.equal('{"operator":"NOT","operands":["valid"]}');
+      const c2 = "!(valid)";
       const result2 = parser.parse(c2);
-      expect(JSON.stringify(result1)).to.equal(JSON.stringify(result2));
-      expect(JSON.stringify(result1)).to.equal(
-        '{"operator":"NOT","operands":["valid"]}'
-      );
+      expect(json1).to.equal(JSON.stringify(result2));
+      const c3 = "not valid";
+      const result3 = parser.parse(c3);
+      expect(json1).to.equal(JSON.stringify(result3));
+    });
+
+    it("treats NOT as case-insensitive", function () {
+      const c1 = "!(valid)";
+      const result1 = parser.parse(c1);
+      const json1 = JSON.stringify(result1);
+      expect(json1).to.equal('{"operator":"NOT","operands":["valid"]}');
+      const synonyms = ["not(valid)", "Not(valid)", "nOT(valid)"];
+      for (let i = 0; i < synonyms.length; i++) {
+        const c2 = synonyms[i];
+        const result2 = parser.parse(c2);
+        expect(json1).to.equal(JSON.stringify(result2));
+      }
     });
 
     it("parses negation of parenthesized compound expression", function () {
@@ -156,6 +171,18 @@ describe("ConditionParser", function () {
       expect(result.operands[1].operands[0].operator).to.equal("Equals");
       expect(result.operands[1].operands[1].operator).to.equal("Equals");
     });
+
+    it("treats AND as case-insensitive", function () {
+      const c1 = '(proxy.pathsuffix ~ "/authorize") && (request.verb = "POST")';
+      const result1 = parser.parse(c1);
+      const json1 = JSON.stringify(result1);
+      const variants = ["And", "AND", "and", "aNd", "anD", "ANd", "aND"];
+      for (let i = 0; i < variants.length; i++) {
+        const c2 = c1.replace("&&", variants[i]);
+        const result2 = parser.parse(c2);
+        expect(json1).to.equal(JSON.stringify(result2));
+      }
+    });
   });
 
   describe("Invalid Operators", function () {
@@ -176,6 +203,19 @@ describe("ConditionParser", function () {
         expect(e.toString()).to.include("SyntaxError");
       }
     });
+    const validOperators = ["equals", "notquals", "isnot", "is"];
+    validOperators.forEach((goodOp) => {
+      const badOp = goodOp + "a";
+      it(`rejects ${badOp} as an operator`, function () {
+        const c1 = `request.formparam.grant_type ${badOp} "authorization_code"`;
+        try {
+          parser.parse(c1);
+          expect.fail();
+        } catch (e) {
+          expect(e.toString()).to.include("SyntaxError");
+        }
+      });
+    });
   });
 
   describe("OR statements", function () {
@@ -185,6 +225,18 @@ describe("ConditionParser", function () {
       const c2 = c1.replace("or", "||");
       const result2 = parser.parse(c2);
       expect(JSON.stringify(result1)).to.equal(JSON.stringify(result2));
+    });
+
+    it("treats OR as case-insensitive", function () {
+      const c1 = '(proxy.pathsuffix ~ "/authorize") || (request.verb = "POST")';
+      const result1 = parser.parse(c1);
+      const json1 = JSON.stringify(result1);
+      const variants = ["Or", "or", "oR", "OR"];
+      for (let i = 0; i < variants.length; i++) {
+        const c2 = c1.replace("||", variants[i]);
+        const result2 = parser.parse(c2);
+        expect(json1).to.equal(JSON.stringify(result2));
+      }
     });
   });
 
@@ -442,13 +494,14 @@ describe("ConditionParser", function () {
     });
   });
 
-  describe("Operator translation", function () {
+  describe("Operators", function () {
     const cases = [
       {
         expression: 'A := "valid"',
         longFormOperator: "EqualsCaseInsensitive"
       },
       { expression: 'A = "valid"', longFormOperator: "Equals" },
+      { expression: 'A == "valid"', longFormOperator: "Equals" },
       { expression: 'A != "valid"', longFormOperator: "NotEquals" },
       { expression: 'A ~~ "foobar[a-z]+"', longFormOperator: "JavaRegex" },
       { expression: 'A ~/ "/foo/bar"', longFormOperator: "MatchesPath" },
@@ -463,6 +516,49 @@ describe("ConditionParser", function () {
         try {
           const result = parser.parse(testcase.expression);
           expect(result.operator).to.equal(testcase.longFormOperator);
+        } catch (_e) {
+          expect.fail(_e);
+        }
+      });
+    });
+
+    const randomizeCapitalization = (s) =>
+      s
+        .toLowerCase()
+        .split("")
+        .map((c) => (Math.random() < 0.5 ? c : c.toUpperCase()))
+        .join("");
+
+    const cases2 = [
+      'A EqualsCaseInsensitive "valid"',
+      'A Equals "valid"',
+      'A NotEquals "valid"',
+      'A JavaRegex "foobar[a-z]+"',
+      'A MatchesPath "/foo/bar"',
+      'A StartsWith "something"',
+      "A GreaterThanOrEquals 20",
+      "A GreaterThan 20",
+      "A LesserThanOrEquals 20",
+      "A LesserThan 20"
+    ];
+
+    cases2.forEach((expression) => {
+      it(`verifies that ${
+        expression.split(" ")[1]
+      } is treated case insensitively`, function () {
+        try {
+          const result1 = parser.parse(expression);
+          const json1 = JSON.stringify(result1);
+          const parts = expression.split(" ");
+          for (let i = 0; i < 3; i++) {
+            const expression2 = [
+              parts[0],
+              randomizeCapitalization(parts[1]),
+              parts[2]
+            ].join(" ");
+            const result2 = parser.parse(expression2);
+            expect(json1).to.equal(JSON.stringify(result2));
+          }
         } catch (_e) {
           expect.fail(_e);
         }
