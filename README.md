@@ -330,8 +330,9 @@ responses are on an ad-hoc, volunteer basis.
 
 If you simply have questions, we recommend asking on the [Apigee
 forum](https://www.googlecloudcommunity.com/gc/Apigee/bd-p/cloud-apigee/) on
-GoogleCloudCommunity. Apigee experts regularly check that forum.
-checked by Apigee experts.
+[GoogleCloudCommunity.com](https://www.googlecloudcommunity.com/).  Apigee
+experts regularly check that forum.
+
 
 Apigee customers should use [formal support channels](https://cloud.google.com/apigee/support) for Apigee product related concerns.
 
@@ -339,7 +340,7 @@ Apigee customers should use [formal support channels](https://cloud.google.com/a
 
 ## License and Copyright
 
-This material is [Copyright (c) 2018-2022 Google LLC](./NOTICE).
+This material is [Copyright (c) 2018-2024 Google LLC](./NOTICE).
 and is licensed under the [Apache 2.0 License](LICENSE).
 
 ## Disclaimer

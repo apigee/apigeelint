@@ -49,7 +49,7 @@
     "strip-ansi": "^6.0.1",
     "table": "latest",
     "text-table": "latest",
-    "xpath": "^0.0.33"
+    "xpath": "latest"
   },
   "devDependencies": {
     "chai": "^4.3.10",
