@@ -203,6 +203,7 @@ describe("ConditionParser", function () {
         expect(e.toString()).to.include("SyntaxError");
       }
     });
+
     const validOperators = ["equals", "notquals", "isnot", "is"];
     validOperators.forEach((goodOp) => {
       const badOp = goodOp + "a";
@@ -369,24 +370,44 @@ describe("ConditionParser", function () {
       }
     });
 
-    it("rejects symbol on RHS of equals", function () {
-      const c1 = `request.formparam.grant_type = authorization_code`;
-      try {
-        parser.parse(c1);
-        expect.fail();
-      } catch (e) {
-        expect(e.toString()).to.include("SyntaxError");
-        expect(e.toString()).to.include('Expected "-"');
-      }
-      try {
-        const result = parser.parse(
-          c1.replace("authorization_code", '"authorization_code"')
-        );
-        // no error
-        expect(result).to.not.be.null;
-      } catch (_e) {
-        expect.fail();
-      }
+    const operators_accept_symbol = [
+      "Equals",
+      "NotEquals",
+      "LesserThan",
+      "GreaterThan",
+      "LesserThanOrEquals",
+      "GreaterThanOrEquals",
+      "StartsWith"
+    ];
+    operators_accept_symbol.forEach((op) => {
+      it(`allows variable on RHS of ${op}`, function () {
+        const c1 = `request.formparam.grant_type ${op} symbol_name`;
+        try {
+          parser.parse(c1);
+          expect(true);
+        } catch (e) {
+          console.log(e);
+          expect.fail();
+        }
+      });
+    });
+
+    const operators_do_not_accept_symbol = [
+      "EqualsCaseInsensitive",
+      "JavaRegex",
+      "Matches",
+      "MatchesPath"
+    ];
+    operators_do_not_accept_symbol.forEach((op) => {
+      it(`allows variable on RHS of ${op}`, function () {
+        const c1 = `request.formparam.grant_type ${op} symbol_name`;
+        try {
+          parser.parse(c1);
+          expect.fail();
+        } catch (e) {
+          expect(e.toString()).to.include("SyntaxError");
+        }
+      });
     });
 
     it("flags a missing close paren", function () {
