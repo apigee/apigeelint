@@ -705,7 +705,7 @@ function peg$parse(input, options) {
           s4 = peg$FAILED;
         }
         if (s4 !== peg$FAILED) {
-          s5 = peg$parseoperator_for_literal();
+          s5 = peg$parseop_accepts_literal();
           if (s5 !== peg$FAILED) {
             s6 = [];
             s7 = peg$parsews();
@@ -779,7 +779,7 @@ function peg$parse(input, options) {
           s2 = peg$FAILED;
         }
         if (s2 !== peg$FAILED) {
-          s3 = peg$parseoperator_for_literal();
+          s3 = peg$parseop_accepts_literal();
           if (s3 !== peg$FAILED) {
             s4 = [];
             s5 = peg$parsews();
@@ -845,7 +845,7 @@ function peg$parse(input, options) {
               s4 = peg$FAILED;
             }
             if (s4 !== peg$FAILED) {
-              s5 = peg$parseoperator_for_symbol();
+              s5 = peg$parseop_accepts_variable();
               if (s5 !== peg$FAILED) {
                 s6 = [];
                 s7 = peg$parsews();
@@ -919,7 +919,7 @@ function peg$parse(input, options) {
               s2 = peg$FAILED;
             }
             if (s2 !== peg$FAILED) {
-              s3 = peg$parseoperator_for_symbol();
+              s3 = peg$parseop_accepts_variable();
               if (s3 !== peg$FAILED) {
                 s4 = [];
                 s5 = peg$parsews();
@@ -1134,7 +1134,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parseoperator_for_literal() {
+  function peg$parseop_accepts_literal() {
     var s0, s1;
 
     s0 = peg$currPos;
@@ -1238,7 +1238,7 @@ function peg$parse(input, options) {
     return s0;
   }
 
-  function peg$parseoperator_for_symbol() {
+  function peg$parseop_accepts_variable() {
     var s0, s1;
 
     s0 = peg$currPos;
