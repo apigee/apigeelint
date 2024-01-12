@@ -1,0 +1,7 @@
+<AssignMessage name="toplevel-Stray">
+ <Remove>
+   <Headers/>
+ </Remove>
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+ <Header/>
+</AssignMessage>

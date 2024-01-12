@@ -1,0 +1,13 @@
+<AssignMessage name="Multiple-Add">
+  <Add>
+    <Headers>
+      <Header name='something'>hereyago</Header>
+    </Headers>
+ </Add>
+  <Add>
+    <FormParams>
+      <FormParam name='whee'>checkit</FormParam>
+    </FormParams>
+ </Add>
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

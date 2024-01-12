@@ -1,0 +1,7 @@
+<AssignMessage name='Set-Header-no-name-attr'>
+  <Set>
+    <Headers>
+      <Header>{apiproxy.name} r{apiproxy.revision}</Header>
+    </Headers>
+  </Set>
+</AssignMessage>

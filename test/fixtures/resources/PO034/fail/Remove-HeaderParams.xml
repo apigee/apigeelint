@@ -1,0 +1,9 @@
+<AssignMessage name="Remove-HeaderParams">
+ <Remove>
+   <HeaderParams>
+     <Header name="x-apikey"/>
+   </HeaderParams>
+ </Remove>
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+ <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>

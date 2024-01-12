@@ -1,0 +1,6 @@
+<AssignMessage name="Set-Verb-Empty">
+  <Set>
+    <Verb/>
+ </Set>
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

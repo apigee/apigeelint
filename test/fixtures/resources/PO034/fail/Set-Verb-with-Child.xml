@@ -1,0 +1,8 @@
+<AssignMessage name="Set-Verb-with-Child">
+  <Set>
+    <Verb>
+      <Something/>
+    </Verb>
+ </Set>
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

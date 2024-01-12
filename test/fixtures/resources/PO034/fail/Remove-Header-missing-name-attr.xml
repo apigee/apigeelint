@@ -1,0 +1,7 @@
+<AssignMessage name="Remove-Header-missing-name-attr">
+ <Remove>
+   <Headers>
+     <Header/>
+   </Headers>
+ </Remove>
+</AssignMessage>

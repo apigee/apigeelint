@@ -1,0 +1,5 @@
+<AssignMessage name="Set-No-Child">
+ <Set>
+ </Set>
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

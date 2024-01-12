@@ -1,0 +1,6 @@
+<AssignMessage name="Set-Payload-No-Text">
+  <Set>
+    <Payload/>
+ </Set>
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

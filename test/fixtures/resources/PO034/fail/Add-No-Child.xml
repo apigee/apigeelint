@@ -1,0 +1,5 @@
+<AssignMessage name="Add-No-Child">
+ <Add>
+ </Add>
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

@@ -1,0 +1,8 @@
+<AssignMessage name="Set-Conditions">
+ <Set>
+   <Conditions>
+     <Condition name="x-apikey"/>
+   </Conditions>
+ </Set>
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

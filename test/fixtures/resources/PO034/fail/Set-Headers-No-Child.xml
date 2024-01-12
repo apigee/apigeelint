@@ -1,0 +1,6 @@
+<AssignMessage name="Set-Headers-No-Child">
+  <Set>
+    <Headers/>
+ </Set>
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>
