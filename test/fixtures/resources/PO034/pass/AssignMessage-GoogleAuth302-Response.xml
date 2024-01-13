@@ -1,0 +1,28 @@
+<AssignMessage name='AssignMessage-GoogleAuth302-Response'>
+  <DisplayName>AssignMessage-GoogleAuth302</DisplayName>
+  <!-- <AssignTo createNew='false' transport='http' type='request'></AssignTo> -->
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <Set>
+    <!--
+         This is a 302-redirect to an Authentication request to Google.
+         See the documentation at
+         https://developers.google.com/identity/protocols/OpenIDConnect
+
+         For demonstration purposes, you can add queryparam prompt=consent to get
+         consent each time. Also, you can change the scope param to have
+         Google ask for greater consent.
+
+         To use your own app, modify the settings.js file in the
+         apiproxy/resources/jsc directory
+         with values for YOUR APP that you obtained from the Google
+         Developers Console.
+
+    -->
+    <Headers>
+    <Header
+        name='Location'><![CDATA[https://accounts.google.com/o/oauth2/v2/auth?client_id={goog_client_id}&response_type=code&scope=openid%20email&redirect_uri={goog_redirect_uri}&state={state_token}]]></Header>
+    </Headers>
+    <StatusCode>302</StatusCode>
+    <ReasonPhrase>Found</ReasonPhrase>
+  </Set>
+</AssignMessage>

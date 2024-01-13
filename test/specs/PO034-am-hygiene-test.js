@@ -46,8 +46,9 @@ describe(`${testID} - policy passes hygiene evaluation`, function () {
       assert.notEqual(policyType, undefined, `${policyType} should be defined`);
       plugin.onPolicy(policy, (e, foundIssues) => {
         assert.equal(e, undefined, "should be undefined");
-        assert.equal(foundIssues, false, "should be no issues");
         const messages = policy.getReport().messages;
+        debug(util.format(messages));
+        assert.equal(foundIssues, false, "should be no issues");
         assert.ok(messages, "messages should exist");
         assert.equal(messages.length, 0, "unexpected number of messages");
       });

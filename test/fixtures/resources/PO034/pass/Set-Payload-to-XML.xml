@@ -1,0 +1,17 @@
+<AssignMessage name='AM-Request-2'>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <Set>
+    <Payload contentType='application/xml'>
+      <NotResults>
+        <Result>
+          <name>something</name>
+          <code>9283987494</code>
+        </Result>
+        <Result>
+          <name>something-else</name>
+          <code>12345</code>
+        </Result>
+      </NotResults>
+    </Payload>
+  </Set>
+</AssignMessage>
