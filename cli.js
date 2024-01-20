@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /*
-  Copyright 2019-2020 Google LLC
+  Copyright 2019-2024 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -52,6 +52,11 @@ if (program.list) {
     console.log('\n'+'available external plugins: ' + bl.listExternalRuleIds(program.externalPluginsDirectory).join(', ') + '\n');
   }
   process.exit(0);
+}
+
+if ( ! program.path) {
+  console.log('you must specify the -s option, or the long form of that: --path ');
+  process.exit(1);
 }
 
 var configuration = {
