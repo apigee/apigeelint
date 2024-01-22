@@ -1,0 +1,5 @@
+<AssignMessage name="AM-Remove-No-Child">
+ <Remove>
+ </Remove>
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

@@ -1,0 +1,5 @@
+<AssignMessage name="Copy-source-attr">
+  <Copy source='some-message'>
+    <Headers/>
+  </Copy>
+</AssignMessage>

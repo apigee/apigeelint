@@ -1,0 +1,6 @@
+<AssignMessage name="Set-StrayElement">
+ <Set>
+     <StrayElement name="x-apikey"/>
+ </Set>
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

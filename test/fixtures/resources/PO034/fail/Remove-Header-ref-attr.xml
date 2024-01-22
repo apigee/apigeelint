@@ -1,0 +1,7 @@
+<AssignMessage name="Remove-Header-ref-attr">
+ <Remove>
+   <Headers>
+     <Header ref="x-apikey"/>
+   </Headers>
+ </Remove>
+</AssignMessage>

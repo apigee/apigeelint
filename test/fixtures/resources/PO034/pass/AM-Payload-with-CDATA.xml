@@ -1,0 +1,29 @@
+<AssignMessage name='AM-Payload-with-CDATA'>
+  <Description>This policy sets a payload</Description>
+  <Set>
+
+      <Payload contentType='application/json' variablePrefix='%'
+               variableSuffix='#'><![CDATA[{
+  "access_token" : "%oauthv2accesstoken.OAuthV2-GenerateAccessToken-AuthzCode.access_token#",
+  "refresh_token" : "%oauthv2accesstoken.OAuthV2-GenerateAccessToken-AuthzCode.refresh_token#",
+  "scope" : "%oauthv2accesstoken.GetOAuthV2Info-AccessToken.scope#",
+  "issued_at" : "%system.timestamp#",
+  "expires_in" : "%oauthv2accesstoken.OAuthV2-GenerateAccessToken-AuthzCode.expires_in#",
+  "application_name" : "%targetapp.displayName#",
+  "status" : "%oauthv2accesstoken.GetOAuthV2Info-AccessToken.status#",
+  "organization_name" : "%organization.name#"
+}
+]]></Payload>
+      <StatusCode>200</StatusCode>
+      <ReasonPhrase>OK</ReasonPhrase>
+  </Set>
+
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+
+  <!-- Set this flow variable to indicate the response is to be returned -->
+  <AssignVariable>
+    <Name>flowResponse.ready</Name>
+    <Value>true</Value>
+  </AssignVariable>
+
+</AssignMessage>

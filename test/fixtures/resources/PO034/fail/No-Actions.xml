@@ -1,0 +1,4 @@
+<AssignMessage name="No-Actions">
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+ <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>

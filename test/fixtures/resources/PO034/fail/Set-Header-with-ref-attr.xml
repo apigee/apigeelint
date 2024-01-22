@@ -1,0 +1,7 @@
+<AssignMessage name='Set-Header-with-ref-attr'>
+  <Set>
+    <Headers>
+      <Header name='APIProxy' ref='something'>{apiproxy.name} r{apiproxy.revision}</Header>
+    </Headers>
+  </Set>
+</AssignMessage>

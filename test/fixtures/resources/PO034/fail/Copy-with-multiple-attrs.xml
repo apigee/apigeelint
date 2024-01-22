@@ -1,0 +1,5 @@
+<AssignMessage name="Copy-with-multiple-attrs">
+  <Copy source='some-message' extraneous='anything'>
+    <Headers/>
+  </Copy>
+</AssignMessage>

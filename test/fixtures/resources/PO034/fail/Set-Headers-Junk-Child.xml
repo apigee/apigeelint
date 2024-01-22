@@ -1,0 +1,8 @@
+<AssignMessage name="Set-Headers-Junk-Child">
+  <Set>
+    <Headers>
+      <Junk name='fred'>heythere</Junk>
+    </Headers>
+ </Set>
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

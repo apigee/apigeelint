@@ -1,0 +1,8 @@
+<AssignMessage name="Set-Path-with-Child">
+  <Set>
+    <Path>
+      <StrayElement/>
+    </Path>
+ </Set>
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

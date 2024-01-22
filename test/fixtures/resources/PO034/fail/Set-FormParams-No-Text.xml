@@ -1,0 +1,8 @@
+<AssignMessage name="Set-FormParams-No-Text">
+  <Set>
+    <FormParams>
+      <FormParam name='foo'/>
+    </FormParams>
+ </Set>
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

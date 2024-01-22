@@ -1,0 +1,12 @@
+<AssignMessage name='AM-Multiple-AssignVariable'>
+  <AssignVariable>
+    <Name>foo1</Name>
+    <Ref>bar</Ref>
+  </AssignVariable>
+
+  <AssignVariable>
+    <Name>foo2</Name>
+    <Template>{something}</Template>
+  </AssignVariable>
+
+</AssignMessage>

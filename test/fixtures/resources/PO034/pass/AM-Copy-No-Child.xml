@@ -1,0 +1,5 @@
+<AssignMessage name="AM-Copy-No-Child">
+ <Copy>
+ </Copy>
+ <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>
