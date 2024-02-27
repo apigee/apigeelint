@@ -321,8 +321,8 @@ function peg$parse(input, options) {
   var peg$f11 = function() {return "OR"; };
   var peg$f12 = function() { return "EqualsCaseInsensitive"; };
   var peg$f13 = function() {return "StartsWith";};
-  var peg$f14 = function() { return "Equals"; };
-  var peg$f15 = function() { return "NotEquals"; };
+  var peg$f14 = function() { return "NotEquals"; };
+  var peg$f15 = function() { return "Equals"; };
   var peg$f16 = function() {return "GreaterThanOrEquals";};
   var peg$f17 = function() {return "GreaterThan";};
   var peg$f18 = function() {return "LesserThanOrEquals";};
@@ -331,8 +331,8 @@ function peg$parse(input, options) {
   var peg$f21 = function() {return "MatchesPath";};
   var peg$f22 = function() {return "Matches";};
   var peg$f23 = function() {return "StartsWith";};
-  var peg$f24 = function() { return "Equals"; };
-  var peg$f25 = function() { return "NotEquals"; };
+  var peg$f24 = function() { return "NotEquals"; };
+  var peg$f25 = function() { return "Equals"; };
   var peg$f26 = function() {return "GreaterThanOrEquals";};
   var peg$f27 = function() {return "GreaterThan";};
   var peg$f28 = function() {return "LesserThanOrEquals";};
@@ -1154,7 +1154,7 @@ function peg$parse(input, options) {
       s0 = s1;
       if (s0 === peg$FAILED) {
         s0 = peg$currPos;
-        s1 = peg$parseop_equals();
+        s1 = peg$parseop_notequals();
         if (s1 !== peg$FAILED) {
           peg$savedPos = s0;
           s1 = peg$f14();
@@ -1162,7 +1162,7 @@ function peg$parse(input, options) {
         s0 = s1;
         if (s0 === peg$FAILED) {
           s0 = peg$currPos;
-          s1 = peg$parseop_notequals();
+          s1 = peg$parseop_equals();
           if (s1 !== peg$FAILED) {
             peg$savedPos = s0;
             s1 = peg$f15();
@@ -1250,7 +1250,7 @@ function peg$parse(input, options) {
     s0 = s1;
     if (s0 === peg$FAILED) {
       s0 = peg$currPos;
-      s1 = peg$parseop_equals();
+      s1 = peg$parseop_notequals();
       if (s1 !== peg$FAILED) {
         peg$savedPos = s0;
         s1 = peg$f24();
@@ -1258,7 +1258,7 @@ function peg$parse(input, options) {
       s0 = s1;
       if (s0 === peg$FAILED) {
         s0 = peg$currPos;
-        s1 = peg$parseop_notequals();
+        s1 = peg$parseop_equals();
         if (s1 !== peg$FAILED) {
           peg$savedPos = s0;
           s1 = peg$f25();

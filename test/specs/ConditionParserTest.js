@@ -204,11 +204,22 @@ describe("ConditionParser", function () {
       }
     });
 
-    const validOperators = ["equals", "notquals", "isnot", "is"];
+    const validOperators = ["equals", "notequals", "isnot", "is"];
     validOperators.forEach((goodOp) => {
-      const badOp = goodOp + "a";
+      const expr = (op) =>
+        `request.formparam.grant_type ${op} "authorization_code"`;
+      it(`accepts ${goodOp} as an operator`, function () {
+        const c1 = expr(goodOp);
+        try {
+          parser.parse(c1);
+          expect(true);
+        } catch (_e) {
+          expect.fail();
+        }
+      });
+      const badOp = `${goodOp}a`;
       it(`rejects ${badOp} as an operator`, function () {
-        const c1 = `request.formparam.grant_type ${badOp} "authorization_code"`;
+        const c1 = expr(badOp);
         try {
           parser.parse(c1);
           expect.fail();
