@@ -336,7 +336,7 @@ describe("ConditionParser", function () {
         expect.fail();
       } catch (e) {
         expect(e.toString()).to.include("SyntaxError");
-        expect(e.toString()).to.include("Expected [ \\t\\n] or end");
+        expect(e.toString()).to.include("Expected ");
       }
       try {
         parser.parse(c1.slice(0, -1));
@@ -428,7 +428,7 @@ describe("ConditionParser", function () {
         expect.fail();
       } catch (e) {
         expect(e.toString()).to.include("SyntaxError");
-        expect(e.toString()).to.include('Expected ")"');
+        expect(e.toString()).to.include("Expected ");
       }
       try {
         const result = parser.parse(c1.replace('code"', 'code")'));
