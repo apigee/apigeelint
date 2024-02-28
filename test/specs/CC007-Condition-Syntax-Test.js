@@ -96,6 +96,62 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       expression:
         'request.header.content-type = "application/json" AND request.verb = "GET"',
       expectError: false
+    },
+
+    {
+      expression:
+        'not(request.header.content-type = "application/json")AND(request.verb = "GET")',
+      expectError: false
+    },
+    {
+      expression: '(true)AND(request.verb = "GET")',
+      expectError: false
+    },
+    {
+      expression: '(true) AND(request.verb = "GET")',
+      expectError: false
+    },
+    {
+      expression: '( true ) AND( request.verb = "GET" )',
+      expectError: false
+    },
+    {
+      expression: '( true )AND( request.verb = "GET" )',
+      expectError: false
+    },
+    {
+      expression: '(true )AND(request.verb = "GET")',
+      expectError: false
+    },
+    {
+      expression: '(true ) AND(request.verb = "GET")',
+      expectError: false
+    },
+    {
+      expression: '(true ) AND( request.verb = "GET" )',
+      expectError: false
+    },
+
+    /* The following four cases differ only in spacing */
+    {
+      expression:
+        '((a MatchesPath "/b/d") or (b MatchesPath "/c/d/e")) and (request.verb = "GET")',
+      expectError: false
+    },
+    {
+      expression:
+        '((a MatchesPath "/b/d") or (b MatchesPath "/c/d/e"))and (request.verb = "GET")',
+      expectError: false
+    },
+    {
+      expression:
+        '((a MatchesPath "/b/d") or (b MatchesPath "/c/d/e") )and (request.verb = "GET") ',
+      expectError: false
+    },
+    {
+      expression:
+        '( ( a MatchesPath "/b/d") or (b MatchesPath "/c/d/e") )and (request.verb = "GET")',
+      expectError: false
     }
   ];
   cases.forEach((testcase, i) => {

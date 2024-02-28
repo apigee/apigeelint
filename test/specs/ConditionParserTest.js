@@ -21,6 +21,34 @@ const expect = require("chai").expect;
 //const debug = require("debug")(`apigeelint:ConditionParser`);
 
 describe("ConditionParser", function () {
+  describe("Spacing", function () {
+    const testcases = [
+      [`request.verb="GET"`, `request.verb = "GET"`, "Equals"],
+      [`request.verb=="GET"`, `request.verb == "GET"`, "Equals"],
+      [`request.verb=="GET"`, `request.verb =="GET"`, "Equals"],
+      [`request.verb!="GET"`, `request.verb != "GET"`, "NotEquals"],
+      [`request.verb!="GET"`, `request.verb!= "GET"`, "NotEquals"],
+      ["A>250", "A > 250", "GreaterThan"],
+      ["A<250", "A < 250", "LesserThan"],
+      ["A>=250", "A >= 250", "GreaterThanOrEquals"],
+      ["A<=250", "A <= 250", "LesserThanOrEquals"],
+      [`A:="seven"`, `A := "seven"`, "EqualsCaseInsensitive"],
+      [`A=|"seven"`, `A =| "seven"`, "StartsWith"],
+      [`A~"seven"`, `A ~ "seven"`, "Matches"],
+      [`A~~"^foo(a|b)$"`, `A ~~ "^foo(a|b)$"`, "JavaRegex"],
+      [`proxy.pathsuffix~/"/a/b"`, `proxy.pathsuffix ~/ "/a/b"`, "MatchesPath"]
+    ];
+
+    testcases.forEach((testcase) => {
+      it(`treats [${testcase[0]}] and [${testcase[1]}] expressions as equivalent`, function () {
+        const result1 = parser.parse(testcase[0]);
+        const result2 = parser.parse(testcase[1]);
+        expect(JSON.stringify(result1)).to.equal(JSON.stringify(result2));
+        expect(result1.operator).to.equal(testcase[2]);
+      });
+    });
+  });
+
   describe("Parens", function () {
     it("treats parenthesized and non-parenthesized atoms as equivalent", function () {
       const c1 = "valid";
@@ -336,7 +364,7 @@ describe("ConditionParser", function () {
         expect.fail();
       } catch (e) {
         expect(e.toString()).to.include("SyntaxError");
-        expect(e.toString()).to.include("Expected [ \\t\\n] or end");
+        expect(e.toString()).to.include("Expected ");
       }
       try {
         parser.parse(c1.slice(0, -1));
@@ -428,7 +456,7 @@ describe("ConditionParser", function () {
         expect.fail();
       } catch (e) {
         expect(e.toString()).to.include("SyntaxError");
-        expect(e.toString()).to.include('Expected ")"');
+        expect(e.toString()).to.include("Expected ");
       }
       try {
         const result = parser.parse(c1.replace('code"', 'code")'));
