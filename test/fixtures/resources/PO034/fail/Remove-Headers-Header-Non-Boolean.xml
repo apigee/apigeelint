@@ -1,0 +1,7 @@
+<AssignMessage name="Remove-Headers-Header-Non-Boolean">
+  <Remove>
+    <Headers>
+      <Header name='foo'>non-bool-value</Header>
+    </Headers>
+  </Remove>
+</AssignMessage>
