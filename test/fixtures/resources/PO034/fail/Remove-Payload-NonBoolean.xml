@@ -1,0 +1,5 @@
+<AssignMessage name="Remove-Payload-NonBoolean">
+  <Remove>
+    <Payload>non-boolean-value</Payload>
+  </Remove>
+</AssignMessage>

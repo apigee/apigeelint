@@ -1,0 +1,7 @@
+<AssignMessage name="Remove-Headers-Header-False">
+  <Remove>
+    <Headers>
+      <Header name='foo'>false</Header>
+    </Headers>
+  </Remove>
+</AssignMessage>
