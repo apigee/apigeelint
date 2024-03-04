@@ -1,0 +1,5 @@
+<AssignMessage name="Remove-Payload-False">
+  <Remove>
+    <Payload>false</Payload>
+  </Remove>
+</AssignMessage>

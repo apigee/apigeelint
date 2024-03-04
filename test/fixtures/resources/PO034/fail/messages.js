@@ -47,5 +47,11 @@ module.exports = {
   ],
   "Copy-with-multiple-attrs.xml": [
     "incorrect attribute (extraneous) on element <Copy>."
+  ],
+  "Remove-Payload-NonBoolean.xml": [
+    "if there is a text element under <Remove>/<Payload>, it should be a boolean."
+  ],
+  "Remove-Headers-Header-Non-Boolean.xml": [
+    "if there is a text element under <Remove>/<Headers>/<Header>, it should be a boolean."
   ]
 };
