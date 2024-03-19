@@ -72,7 +72,7 @@ apigeelint -s sampleProxy/apiproxy -f table.js
 
 Where `-s` points to the apiProxy source directory and `-f` is the output formatter desired.
 
-Possible formatters are: "json.js" (the default), "stylish.js", "compact.js", "codeframe.js", "html.js", "table.js", "unix.js", "visualstudio.js", "checkstyle.js", "jslint-xml.js", "junit.js" and "tap.js".
+Possible formatters are: "json.js" (the default), "stylish.js", "compact.js", "codeframe.js", "codeclimate.js", "html.js", "table.js", "unix.js", "visualstudio.js", "checkstyle.js", "jslint-xml.js", "junit.js" and "tap.js".
 
 ### More Examples
 
@@ -162,6 +162,29 @@ The selection of a profile affects other checks, too. For example, [the Google
 Authentication feature](https://cloud.google.com/apigee/docs/api-platform/security/google-auth/overview)
 is available only in X/hybrid.
 
+#### Pipeline lint job integration
+
+##### GitLab CI/CD
+
+On GitLab CI/CD, on your `.gitlab-ci.yml` you can use codequality report artifact to get
+a report supported by GitLab. Once the CI/CD has been completed, a new tab appears in your
+Pipeline named "[Code Quality](https://docs.gitlab.com/ee/ci/testing/code_quality.html)".
+This new tab lets you easily view the information from the apigeelint job, with the associated
+severity level and lines affected. A widget with the same information appears during merge requests.
+
+```yml
+apigeelint:
+  stage: lint
+  image: node:12-alpine
+  before_script:
+    - npm install -g apigeelint
+  script:
+    - apigeelint -f codeclimate.js > apigeelint-results.json
+  artifacts:
+    reports:
+      codequality:
+        - "${CI_PROJECT_DIR}/apigeelint-results.json"
+```
 
 ## Does this tool just lint or does it also check style?
 
