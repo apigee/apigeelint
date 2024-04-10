@@ -1,0 +1,12 @@
+<OASValidation name="OAS-Basic">
+   <OASResource>oas://example1.yaml</OASResource>
+   <Options>
+      <ValidateMessageBody>true</ValidateMessageBody>
+      <AllowUnspecifiedParameters>
+         <Header>false</Header>
+         <Query>false</Query>
+         <Cookie>false</Cookie>
+      </AllowUnspecifiedParameters>
+   </Options>
+   <Source>request</Source>
+</OASValidation>

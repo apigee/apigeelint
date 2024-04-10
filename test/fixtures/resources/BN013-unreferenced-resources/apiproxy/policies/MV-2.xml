@@ -1,0 +1,5 @@
+<MessageValidation name="MV-2">
+   <Source>message</Source> <!-- must be message type -->
+   <ResourceURL>wsdl://example1.wsdl</ResourceURL>
+   <SOAPMessage version='1.1'/> <!-- optional -->
+</MessageValidation>

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2023 Google LLC
+  Copyright 2019-2024 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
 
 const assert = require("assert"),
   path = require("path"),
-  debug = require("debug")("apigeelint:BN001-test"),
+  debug = require("debug")("apigeelint:BN001"),
   bl = require("../../lib/package/bundleLinter.js");
 
 describe(`BN001 - bundle with incorrect resource`, () => {
@@ -50,19 +50,29 @@ describe(`BN001 - bundle with incorrect resource`, () => {
       //console.log("**actualErrors: "+ JSON.stringify(actualErrors));
       debug(JSON.stringify(actualErrors, null, 1));
 
-      assert.equal(actualErrors.length, 1);
-      assert.ok(actualErrors[0].messages.length);
-      assert.equal(actualErrors[0].messages.length, 1);
-      assert.ok(actualErrors[0].messages[0].message);
+      const bn001Items = actualErrors.filter((e) =>
+        e.messages.find((m) => m.ruleId == "BN001")
+      );
+
+      assert.equal(bn001Items.length, 1);
+      assert.ok(bn001Items[0].messages.length);
+
+      // disregard all warnings or errors except those from this plugin
+      bn001Items[0].messages = bn001Items[0].messages.filter(
+        (m) => m.ruleId == "BN001"
+      );
+
+      assert.equal(bn001Items[0].messages.length, 1);
+      assert.ok(bn001Items[0].messages[0].message);
       assert.ok(
-        actualErrors[0].messages[0].message.startsWith(
+        bn001Items[0].messages[0].message.startsWith(
           "Unexpected extension found with file"
         ),
-        actualErrors[0].messages[0].message
+        bn001Items[0].messages[0].message
       );
       assert.ok(
-        actualErrors[0].messages[0].message.indexOf("invalid_file.js") > 0,
-        actualErrors[0].messages[0].message
+        bn001Items[0].messages[0].message.indexOf("invalid_file.js") > 0,
+        bn001Items[0].messages[0].message
       );
     });
   });

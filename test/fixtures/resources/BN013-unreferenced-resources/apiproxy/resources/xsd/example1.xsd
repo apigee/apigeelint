@@ -1,0 +1,44 @@
+<xsd:schema elementFormDefault="qualified"
+            targetNamespace="http://www.aix.com/integrationservice/schema/ICS/ProductService/v1/"
+            version="1.0"
+            xmlns:domain="http://www.aix.com/schema/ICS/DomainData/v1/"
+            xmlns:global="http://www.aix.com/schema/ICS/GlobalData/v1/"
+            xmlns:ps="http://www.aix.com/integrationservice/schema/ICS/ProductService/v1/"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import
+      namespace="http://www.aix.com/schema/ICS/DomainData/v1/"
+      schemaLocation="DomainData.xsd"/>
+  <xsd:import
+      namespace="http://www.aix.com/schema/ICS/GlobalData/v1/"
+      schemaLocation="GlobalData.xsd"/>
+  <xsd:complexType name="GetProductInfoRespType">
+    <xsd:complexContent>
+      <xsd:extension base="global:AbstractRespType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="10" minOccurs="0" name="productInfo" type="domain:ProductInfoType"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="GetProductInfoParametersType">
+    <xsd:choice>
+      <xsd:sequence>
+        <xsd:element form="qualified" name="marketCD" type="xsd:string"/>
+        <xsd:element form="qualified" name="productCD" type="xsd:string"/>
+        <xsd:element form="qualified" minOccurs="0" name="featureBundleCD" type="xsd:string"/>
+      </xsd:sequence>
+      <xsd:sequence>
+        <xsd:element form="qualified" name="cardNO" type="domain:CardNOType"/>
+      </xsd:sequence>
+    </xsd:choice>
+  </xsd:complexType>
+  <xsd:complexType name="GetProductInfoReqType">
+    <xsd:complexContent>
+      <xsd:extension base="global:AbstractReqType">
+        <xsd:sequence>
+          <xsd:element maxOccurs="10" name="getProductInfoParameters" type="ps:GetProductInfoParametersType"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

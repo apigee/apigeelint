@@ -1,0 +1,24 @@
+<RaiseFault name='RF-Unknown-Request'>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <FaultResponse>
+    <AssignVariable>
+      <!--
+          Why anyone would want to set the contents of a python script into a
+          variable, I do not know. but it is possible.
+      -->
+      <Name>pyContents</Name>
+      <ResourceURL>py://setHeader2.py</ResourceURL>
+    </AssignVariable>
+    <Set>
+      <Payload contentType='application/json'>{
+  "error" : {
+    "code" : 404.01,
+    "message" : "that request was unknown; try a different request."
+  }
+}
+</Payload>
+      <StatusCode>404</StatusCode>
+      <ReasonPhrase>Not Found</ReasonPhrase>
+    </Set>
+  </FaultResponse>
+</RaiseFault>

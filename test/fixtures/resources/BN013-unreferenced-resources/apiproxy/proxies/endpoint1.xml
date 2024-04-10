@@ -1,0 +1,92 @@
+<ProxyEndpoint name="endpoint1">
+
+  <HTTPProxyConnection>
+    <BasePath>/unreferenced-resources</BasePath>
+    <Properties/>
+    <VirtualHost>secure</VirtualHost>
+  </HTTPProxyConnection>
+
+  <FaultRules/>
+  <DefaultFaultRule name="default-fault-rule">
+    <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+    </Step>
+    <AlwaysEnforce>true</AlwaysEnforce>
+  </DefaultFaultRule>
+
+  <PreFlow name="PreFlow">
+    <Request>
+      <Step>
+        <Name>AM-Assign-Variable-ResourceURL</Name>
+      </Step>
+      <Step>
+        <Name>MV-1</Name>
+      </Step>
+      <Step>
+        <Name>MV-2</Name>
+      </Step>
+      <Step>
+        <Name>OAS-Basic</Name>
+      </Step>
+      <Step>
+        <Name>PS-Set-Header</Name>
+      </Step>
+      <Step>
+        <Name>JS-testme</Name>
+      </Step>
+      <Step>
+        <Name>XSL-Basic</Name>
+      </Step>
+    </Request>
+    <Response/>
+  </PreFlow>
+
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response>
+      <Step>
+        <Name>AM-Inject-Proxy-Revision-Header</Name>
+      </Step>
+    </Response>
+  </PostFlow>
+
+  <PostClientFlow name="PostClientFlow">
+    <Request/>
+    <Response>
+    </Response>
+  </PostClientFlow>
+
+  <Flows>
+    <Flow name="t1">
+      <Request>
+      </Request>
+      <Response>
+      </Response>
+      <Condition>proxy.pathsuffix MatchesPath "/t1" and request.verb = "GET"</Condition>
+    </Flow>
+
+    <Flow name="t2">
+      <Request>
+      </Request>
+      <Response>
+      </Response>
+      <Condition>proxy.pathsuffix MatchesPath "/t2" and request.verb = "POST"</Condition>
+    </Flow>
+
+    <Flow name="unknown request">
+      <Request>
+        <Step>
+          <Name>RF-Unknown-Request</Name>
+        </Step>
+      </Request>
+      <Response>
+      </Response>
+    </Flow>
+
+  </Flows>
+
+  <RouteRule name="default">
+    <TargetEndpoint>target-1</TargetEndpoint>
+  </RouteRule>
+
+</ProxyEndpoint>
