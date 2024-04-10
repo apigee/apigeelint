@@ -4,15 +4,15 @@
 ProxyEndpoint
 =============
 
-The ProxyEndpoint configuration defines the inbound (client-facing) interface for an API proxy. 
+The ProxyEndpoint configuration defines the inbound (client-facing) interface for an API proxy.
 When you configure a ProxyEndpoint, you are setting up a network configuration that defines how client applications ('apps') should invoke the proxied API.
 While you can configure multiple ProxyEndpoints in a single API proxy, it is antipattern and should be avoided as it makes the proxy difficult to read and troubleshoot.
 
 ProxyEndpoint Pipeline can be summarized in the below graph:
 
 Front-End App ===> apigee (PreFlow  (Request)  ==> Flows (Request)  ==> Target-Endpoint(Request))  ==> Backend APIs
-              <=== apigee (PostFlow (Response) <== Flows (Response) <== Target-Endpoint(Response)) <==   
-              
+              <=== apigee (PostFlow (Response) <== Flows (Response) <== Target-Endpoint(Response)) <==
+
 ProxyEndpoint has the following elements to be configured:
     - PreFlow: Defines the policies in the PreFlow flow of a request or response.
     - Flows: Defines the policies in the conditional flows of a request or response.
@@ -20,9 +20,9 @@ ProxyEndpoint has the following elements to be configured:
     - DefaultFaultRule: Handles all errors raised by apigee or backend
     - HTTPProxyConnection: Defines the network address and URI path associated with the API proxy
         - BasePath: A required string that uniquely identifies the URI path used by Apigee Edge to route incoming messages to the proper API proxy.
-        - VirtualHost: defines which apigee virtual host would be used for this proxy. 
-    - RouteRule: Defines the destination of inbound request messages after processing by the ProxyEndpoint request pipeline. 
-    
+        - VirtualHost: defines which apigee virtual host would be used for this proxy.
+    - RouteRule: Defines the destination of inbound request messages after processing by the ProxyEndpoint request pipeline.
+
 -->
 <ProxyEndpoint name="default">
     <PreFlow name="PreFlow">
@@ -77,7 +77,7 @@ ProxyEndpoint has the following elements to be configured:
                     <Name>JS-ValidateAndSanitizeRequest</Name>
                 </Step>
                 <Step>
-                    <Name>AM-ModifyRequestRemoveApiKey</Name>
+                    <Name>AM-Modify-Request-Remove-ApiKey</Name>
                 </Step>
             </Request>
             <Response/>
@@ -109,6 +109,9 @@ ProxyEndpoint has the following elements to be configured:
         </Response>
     </PostFlow>
     <DefaultFaultRule name="default-fault">
+        <Step>
+            <Name>AM-Inject-Proxy-Revision-Header</Name>
+        </Step>
         <Step>
             <Name>AM-AddCORS</Name>
         </Step>
