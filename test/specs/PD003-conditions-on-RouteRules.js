@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2024 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,45 +16,50 @@
 
 /* global describe, it */
 
-const ruleId = 'PD003',
-      assert = require("assert"),
-      path = require("path"),
-      util = require("util"),
-      debug = require("debug")(`apigeelint:${ruleId}`),
-      bl = require("../../lib/package/bundleLinter.js");
+const ruleId = "PD003",
+  assert = require("assert"),
+  path = require("path"),
+  util = require("util"),
+  debug = require("debug")(`apigeelint:${ruleId}`),
+  bl = require("../../lib/package/bundleLinter.js");
 
 describe(`${ruleId} - bundle with unconditional routes`, () => {
-  it('should generate the expected errors', () => {
-    let configuration = {
-          debug: true,
-          source: {
-            type: "filesystem",
-            path: path.resolve(__dirname, '../fixtures/resources/PD003/apiproxy'),
-            bundleType: "apiproxy"
-          },
-          profile: 'apigeex',
-          excluded: {},
-          setExitCode: false,
-          output: () => {} // suppress output
-        };
+  it("should generate the expected errors", () => {
+    const configuration = {
+      debug: true,
+      source: {
+        type: "filesystem",
+        path: path.resolve(__dirname, "../fixtures/resources/PD003/apiproxy"),
+        bundleType: "apiproxy"
+      },
+      profile: "apigeex",
+      excluded: {},
+      setExitCode: false,
+      output: () => {} // suppress output
+    };
 
     bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
+      const items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
-      let actualErrors = items.filter(item => item.messages && item.messages.length);
+      const actualErrors = items.filter(
+        (item) => item.messages && item.messages.length
+      );
       assert.ok(actualErrors.length);
       debug(util.format(actualErrors));
 
-      let ep2 = actualErrors.find(e => e.filePath.endsWith('endpoint2.xml'));
+      const ep2 = actualErrors.find((e) =>
+        e.filePath.endsWith("endpoint2.xml")
+      );
       assert.ok(ep2);
       debug(util.format(ep2.messages));
-      let pd003Messages = ep2.messages.filter(m => m.ruleId == 'PD003');
+      const pd003Messages = ep2.messages.filter((m) => m.ruleId == "PD003");
       assert.equal(pd003Messages.length, 1);
       assert.ok(pd003Messages[0].message);
-      assert.equal(pd003Messages[0].message, 'Endpoint has an unconditional RouteRule that is not the final RouteRule. It will be ignored.');
-
+      assert.equal(
+        pd003Messages[0].message,
+        "Endpoint has an unconditional RouteRule that is not the final RouteRule."
+      );
     });
   });
-
 });
