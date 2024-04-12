@@ -249,6 +249,7 @@ This is the current list:
 | &nbsp; |:white_check_mark:| BN010 | Missing policies | Issue an error if a referenced policy is not present in the bundle. |
 | &nbsp; |:white_check_mark:| BN011 | Check each XML file for well-formedness.|
 | &nbsp; |:white_check_mark:| BN013 | Unreferenced resources. | Warn for resources that not referenced in any policy. Unreferenced resources are dead code. |
+| &nbsp; |:white_check_mark:| BN012 | unreferrenced Target Endpoints | Check that each TargetEndpoint can be reached. |
 | Proxy Definition | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| PD001 | RouteRules to Targets | RouteRules should map to defined Targets. |
 | &nbsp; |:white_check_mark:| PD002 | Unreachable Route Rules - defaults |  Only one RouteRule should be present without a condition. |
