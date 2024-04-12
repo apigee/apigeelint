@@ -1,0 +1,8 @@
+<Javascript name='JS-testme' timeLimit='1200' >
+  <Properties>
+    <!-- to retrieve properties in js code:   properties.prop1 -->
+    <Property name='prop1'>value-here</Property>
+  </Properties>
+  <IncludeURL>jsc://URI.js</IncludeURL>
+  <ResourceURL>jsc://sourceFile2.js</ResourceURL>
+</Javascript>
