@@ -18,13 +18,35 @@
 
 const program    = require("commander"),
       fs         = require("fs"),
+      path       = require("path"),
       bl         = require("./lib/package/bundleLinter.js"),
       pkj        = require('./package.json'),
       bundleType = require('./lib/package/BundleTypes.js');
 
+const findBundle = (p) => {
+        if (p.endsWith("/")) {
+          p = p.slice(0,-1);
+        }
+        const subdirnames = [bundleType.BundleType.SHAREDFLOW, bundleType.BundleType.APIPROXY];
+        if (subdirnames.find(n => p.endsWith(n)) && fs.statSync(p).isDirectory()) {
+          return p;
+        }
+        const subdirs = subdirnames.map(d => path.join(p, d));
+
+        for (let i = 0; i<subdirs.length; i++) {
+          if (fs.existsSync(subdirs[i]) && fs.statSync(subdirs[i]).isDirectory()) {
+            if (!fs.existsSync(subdirs[1 - i]) || !fs.statSync(subdirs[1 - i]).isDirectory()) {
+              return subdirs[i];
+            }
+            throw new Error("that path appears to contain both an apiproxy and a sharedflowbundle");
+          }
+        }
+        throw new Error("that path does not appear to contain an apiproxy or sharedflowbundle");
+      };
+
 program
   .version(pkj.version)
-  .option("-s, --path <path>", "Path of the proxies")
+  .option("-s, --path <path>", "Path of the exploded apiproxy or sharedflowbundle directory")
   .option("-f, --formatter [value]", "Specify formatters (default json.js)")
   .option("-w, --write [value]", "file path to write results")
   .option("-e, --excluded [value]", "The comma separated list of tests to exclude (default: none)")
@@ -39,7 +61,7 @@ program
   .option("--profile [value]", "Either apigee or apigeex (default: apigee)");
 
 program.on("--help", function() {
-  console.log("\nExample: apigeelint -s sampleProxy/ -f table.js");
+  console.log("\nExample: apigeelint -f table.js -s sampleProxy/apiproxy");
   console.log("");
 });
 
@@ -59,7 +81,9 @@ if ( ! program.path) {
   process.exit(1);
 }
 
-var configuration = {
+program.path = findBundle(program.path);
+
+const configuration = {
   debug: true,
   source: {
     type: "filesystem",
