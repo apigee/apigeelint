@@ -45,7 +45,7 @@ You can install apigeellint using npm. But, there is a minimum version of `npm` 
    npm install -g apigeelint
    ```
 
-## Usage
+## Basic Usage
 
 Help
 ```
@@ -63,6 +63,7 @@ Options:
   --list                                  do not execute, instead list the available plugins and formatters
   --maxWarnings [value]                   Number of warnings to trigger nonzero exit code (default: -1)
   --profile [value]                       Either apigee or apigeex (default: apigee)
+  --norc                                  do not search for and use the .apigeelintrc file for settings
   -h, --help                              output usage information
 ```
 Example:
@@ -74,9 +75,9 @@ Where `-s` points to the apiProxy source directory and `-f` is the output format
 
 Possible formatters are: "json.js" (the default), "stylish.js", "compact.js", "codeframe.js", "codeclimate.js", "html.js", "table.js", "unix.js", "visualstudio.js", "checkstyle.js", "jslint-xml.js", "junit.js" and "tap.js".
 
-### More Examples
+## Examples
 
-#### Using External Plugins:
+### Using External Plugins:
 ```
 apigeelint -x ./externalPlugins -s path/to/your/apiproxy -f table.js
 ```
@@ -93,7 +94,7 @@ apigeelint -x ./externalPlugins -e PO007 -s path/to/your/apiproxy -f table.js
 This would effectively override the built-in naming conventions that apigeelint checks.
 
 
-#### Excluding plugins
+### Excluding plugins
 
 You can, of course, exclude plugins without providing a replacement implementation:
 
@@ -106,7 +107,7 @@ also not check for conditions on an ExtractVariables with a JSONPayload
 (`ST003`), if for some reason you wanted to do that.
 
 
-#### Writing output to a file
+### Writing output to a file
 ```
 apigeelint -s sampleProxy/apiproxy -f table.js -w existing-outputdir --quiet
 ```
@@ -120,20 +121,7 @@ is written there.
 If you do not also specify `--quiet` the report will go to both stdout and to
 the specified filesystem destination.
 
-#### Listing plugins
-
-List plugins and formatters, with or without --externalPluginsDirectory.
-```sh
-apigeelint --list
-apigeelint --list -x ./externalPlugins
-
-# or
-
-apigeelint --list --externalPluginsDirectory ./externalPlugins
-
-```
-
-#### Selecting a profile
+### Selecting a profile
 
 Apigee X/hybrid is very similar to Apigee Edge, but there are differences in the
 supported policy types, and some of the supported configuration options. For
@@ -162,9 +150,50 @@ The selection of a profile affects other checks, too. For example, [the Google
 Authentication feature](https://cloud.google.com/apigee/docs/api-platform/security/google-auth/overview)
 is available only in X/hybrid.
 
-#### Pipeline lint job integration
+### Using the .apigeelintrc file
 
-##### GitLab CI/CD
+Starting with release v2.53.0, apigeelint will look for an .apigeelintrc file, with
+settings that you want apigeelint to always use, unless overridden on the
+command line. If you want to avoid this, use the `--norc` option.
+
+
+If you DO want apigeelint to use an `.apigeelintrc` file, format the file like this:
+
+```
+# settings for apigeelint
+# Comment lines begin with octothorpe.
+
+## specify a profile
+--profile apigeex
+
+## always exclude these plugins
+--excluded TD002,TD004
+
+## use this formatter unless overridden
+--formatter table.js
+
+```
+
+Each non-blank line should have a single "option" as supported by the command-line interface.
+
+apigeelint will look for an .apigeelintrc file in these locations, in order of precedence:
+* the parent directory of the apiproxy or sharedflowbundle directory specified in the "path" argument
+* the current working directory where apigeelint is running
+* the "home" directory for the current user
+
+apigeelint stops looking for an rc file as soon as it finds one. apigeelint does
+not combine rc files from these locations.
+
+These command-line options have no effect when they appear in the rc file:
+* --path
+* --list
+* --version
+* --help
+* --norc
+
+## Pipeline lint job integration
+
+### GitLab CI/CD
 
 On GitLab CI/CD, on your `.gitlab-ci.yml` you can use codequality report artifact to get
 a report supported by GitLab. Once the CI/CD has been completed, a new tab appears in your
@@ -191,7 +220,7 @@ apigeelint:
 This tool does both traditional linting (looking for problematic patterns) and
 style checking (enforcement of conventions). You can use it for both.
 
-## Tests
+## Tests to validate the installation
 
 The `test` directory includes scripts to exercise a subset of rules. Overall linting can be tested with:
 
@@ -217,14 +246,13 @@ Run the unit tests like this:
 npm run test
 ```
 
-or, run a subset of tests like this:
+or, run the tests just for one plugin, like this:
 
 ```
-./node_modules/mocha/bin/mocha --grep PO033
+./node_modules/mocha/bin/mocha --grep "^PO033"
 ```
 
-
-You can also contribute by reporting issues, asking for new features.
+You can also contribute by reporting issues, or requesting new features.
 
 ## Rules
 
