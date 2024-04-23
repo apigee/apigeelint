@@ -1,0 +1,9 @@
+<Quota name="MessageWeight-Explicit">
+  <DisplayName>Quota-1</DisplayName>
+  <Allow countRef="my-count"/>
+  <Interval>2</Interval>
+  <TimeUnit>minute</TimeUnit>
+  <Synchronous>true</Synchronous>
+  <Identifier>verifyapikey.Quota-1.app.name</Identifier>
+  <MessageWeight>2</MessageWeight>
+</Quota>

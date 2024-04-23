@@ -1,0 +1,10 @@
+<Quota async="false" continueOnError="false" enabled="true" name="Quota-1">
+  <DisplayName>Quota-1</DisplayName>
+  <Properties/>
+  <Allow countRef="verifyapikey.Verify-API-Key-1.counter"/>
+  <Interval>1</Interval>
+  <Distributed>true</Distributed>
+  <Synchronous>true</Synchronous>
+  <TimeUnit>minute</TimeUnit>
+  <Identifier>verifyapikey.Quota-1.app.name</Identifier>
+</Quota>

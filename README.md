@@ -330,6 +330,7 @@ This is the current list:
 | &nbsp; |:white_check_mark:| PO032 | CORS policy hygiene | In a CORS policy, wildcard origins should generate a warning. And other hygiene checks.|
 | &nbsp; |:white_check_mark:| PO033 | ExtractVariables policy hygiene | In an ExtractVariables policy, check variable types and other hygiene. |
 | &nbsp; |:white_check_mark:| PO034 | AssignMessage policy hygiene | In an AssignMessage policy, check element placement and other hygiene. |
+| &nbsp; |:white_check_mark:| PO035 | Quota policy hygiene | In a Quota policy, check element placement and other hygiene. |
 | FaultRules | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| FR001 | No Condition on FaultRule | Use Condition elements on FaultRules, unless it is the fallback rule. |
 | &nbsp; |:white_check_mark:| FR002 | DefaultFaultRule Structure | DefaultFaultRule should have only supported child elements, at most one AlwaysEnforce element, and at most one Condition element. |

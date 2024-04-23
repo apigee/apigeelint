@@ -1,0 +1,14 @@
+<Quota name="Quota-via-Classes">
+  <Allow>
+    <!-- the element should be Class, not Classes -->
+    <Classes ref="quota-class">
+      <Allow class='peak' count='1000'/>
+      <Allow class='off-peak' count='5000'/>
+    </Classes>
+  </Allow>
+  <Interval>1</Interval>
+  <Distributed>true</Distributed>
+  <Synchronous>true</Synchronous>
+  <TimeUnit>minute</TimeUnit>
+  <Identifier>verifyapikey.Quota-1.app.name</Identifier>
+</Quota>

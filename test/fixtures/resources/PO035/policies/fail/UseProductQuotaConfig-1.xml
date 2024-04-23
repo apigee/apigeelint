@@ -1,0 +1,15 @@
+<Quota name='UseProductQuotaConfig-1'>
+  <Identifier ref='client_id'/>
+  <!-- this is good! -->
+  <UseQuotaConfigInAPIProduct stepName="VerifyAPIKey">
+    <DefaultConfig>
+      <Allow>120</Allow>
+      <Interval>1</Interval>
+      <TimeUnit>minute</TimeUnit>
+      <!-- this is misplaced -->
+      <Foo>minute</Foo>
+    </DefaultConfig>
+  </UseQuotaConfigInAPIProduct>
+  <Distributed>true</Distributed>
+  <Synchronous>false</Synchronous>
+</Quota>

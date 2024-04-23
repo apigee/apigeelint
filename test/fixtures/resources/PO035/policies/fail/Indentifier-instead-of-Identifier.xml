@@ -1,0 +1,10 @@
+<Quota name="Indentifier-instead-of-Identifier">
+  <DisplayName>Quota-1</DisplayName>
+  <Properties/>
+  <Allow countRef="verifyapikey.Verify-API-Key-1.counter"/>
+  <Interval>1</Interval>
+  <Distributed>true</Distributed>
+  <Synchronous>true</Synchronous>
+  <TimeUnit>minute</TimeUnit>
+  <Indentifier>verifyapikey.Quota-1.app.name</Indentifier>
+</Quota>

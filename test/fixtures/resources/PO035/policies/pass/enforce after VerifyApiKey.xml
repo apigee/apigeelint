@@ -1,0 +1,12 @@
+<Quota name='##'>
+    <DisplayName>##</DisplayName>
+    <Identifier ref='request.queryparam.apikey' />
+    <!-- the count specified is used unless overridden by the variable referenced here -->
+    <Allow countRef='verifyapikey.VerifyAPIKey-1.apiproduct.developer.quota.limit' count='1000'/>
+    <!-- use the interval in the variable; if not present use the value specified here. -->
+    <Interval ref='verifyapikey.VerifyAPIKey-1.apiproduct.developer.quota.interval'>1</Interval>
+    <!-- use the timeunit provided in the variable; if not present use the value specified here. -->
+    <TimeUnit ref='verifyapikey.VerifyAPIKey-1.apiproduct.developer.quota.timeunit'>day</TimeUnit>
+    <Distributed>true</Distributed>
+    <Synchronous>false</Synchronous>
+</Quota>

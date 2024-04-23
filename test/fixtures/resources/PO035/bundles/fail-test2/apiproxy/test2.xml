@@ -1,0 +1,4 @@
+<APIProxy revision="1" name="test2">
+  <ConfigurationVersion minorVersion="0" majorVersion="4"/>
+  <DisplayName>test2</DisplayName>
+</APIProxy>
