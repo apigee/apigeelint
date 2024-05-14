@@ -1,0 +1,12 @@
+<Quota name="Asynch-too-many-elements">
+  <DisplayName>Quota-1</DisplayName>
+  <Allow countRef="my-count"/>
+  <Interval>2</Interval>
+  <TimeUnit>minute</TimeUnit>
+  <Synchronous>true</Synchronous>
+  <Identifier>verifyapikey.Quota-1.app.name</Identifier>
+  <AsynchronousConfiguration>
+    <SyncIntervalInSeconds>20</SyncIntervalInSeconds>
+    <SyncMessageCount>5</SyncMessageCount>
+  </AsynchronousConfiguration>
+</Quota>

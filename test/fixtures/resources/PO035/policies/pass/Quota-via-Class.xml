@@ -1,0 +1,13 @@
+<Quota name="Quota-via-Class">
+  <Allow>
+    <Class ref="quota-class">
+      <Allow class='peak' count='1000'/>
+      <Allow class='off-peak' count='5000'/>
+    </Class>
+  </Allow>
+  <Interval>1</Interval>
+  <Distributed>true</Distributed>
+  <Synchronous>true</Synchronous>
+  <TimeUnit>minute</TimeUnit>
+  <Identifier>verifyapikey.Quota-1.app.name</Identifier>
+</Quota>

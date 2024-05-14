@@ -1,0 +1,10 @@
+<Quota name="##" type='flexi'>
+  <!-- <Identifier ref='client_id' /> -->
+
+  <Allow count='3'/>
+  <Interval>1</Interval>
+  <TimeUnit>minute</TimeUnit>
+
+  <Distributed>true</Distributed>
+  <Synchronous>false</Synchronous>
+</Quota>

@@ -1,0 +1,7 @@
+<Quota name='Quota-1'>
+  <Identifier ref='client_id'/>
+  <!-- this is wrong: refers to a policy that does not exist -->
+  <UseQuotaConfigInAPIProduct stepName="VerifyAPIKey-1"/>
+  <Distributed>true</Distributed>
+  <Synchronous>false</Synchronous>
+</Quota>

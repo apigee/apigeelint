@@ -1,0 +1,10 @@
+<Quota name="CountOnly-in-apigee-profile">
+  <DisplayName>Quota-1</DisplayName>
+  <Allow countRef="my-count"/>
+  <Interval>2</Interval>
+  <TimeUnit>minute</TimeUnit>
+  <Synchronous>true</Synchronous>
+  <Identifier>verifyapikey.Quota-1.app.name</Identifier>
+  <CountOnly>true</CountOnly>
+  <SharedName>common-proxy</SharedName>
+</Quota>
