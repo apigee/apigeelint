@@ -1,0 +1,4 @@
+<APIProxy revision="1" name="failed-route">
+  <ConfigurationVersion minorVersion="0" majorVersion="4"/>
+  <DisplayName>failed-route</DisplayName>
+</APIProxy>
