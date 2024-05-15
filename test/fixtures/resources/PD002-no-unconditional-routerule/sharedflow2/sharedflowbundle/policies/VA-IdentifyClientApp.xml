@@ -1,0 +1,4 @@
+<VerifyAPIKey async="false" continueOnError="false" enabled="true" name="VA-IdentifyClientApp">
+    <DisplayName>VA-IdentifyClientApp</DisplayName>
+    <APIKey ref="jwt.JWT-VerifyIdPToken.claim.REPLACEWITHIDPCLIENTIDCLAIM"/>
+</VerifyAPIKey>

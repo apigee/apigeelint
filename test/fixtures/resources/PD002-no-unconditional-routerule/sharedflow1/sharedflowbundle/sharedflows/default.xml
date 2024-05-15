@@ -1,0 +1,8 @@
+<SharedFlow name="default">
+    <Step>
+        <Name>JWT-VerifyIdPToken</Name>
+    </Step>
+    <Step>
+        <Name>VA-IdentifyClientApp</Name>
+    </Step>
+</SharedFlow>

@@ -1,0 +1,15 @@
+<SharedFlow name="default">
+    <Step>
+        <Name>JWT-VerifyIdPToken</Name>
+    </Step>
+    <Step>
+        <Name>VA-IdentifyClientApp</Name>
+    </Step>
+
+    <!-- this does not belong here -->
+  <RouteRule name="BrokenRouteRule">
+    <TargetEndpoint>target-1</TargetEndpoint>
+    <Condition>proxy.pathsuffix = "/foobar"</Condition>
+  </RouteRule>
+
+</SharedFlow>
