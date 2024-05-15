@@ -1,0 +1,4 @@
+<APIProxy revision="1" name="no-route-rules">
+  <ConfigurationVersion minorVersion="0" majorVersion="4"/>
+  <DisplayName>no-route-rules</DisplayName>
+</APIProxy>
