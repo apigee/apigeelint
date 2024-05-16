@@ -1,4 +1,4 @@
-<Quota name="Asynch-too-many-elements">
+<Quota name="Asynch-both-elements">
   <DisplayName>Quota-1</DisplayName>
   <Allow countRef="my-count"/>
   <Interval>2</Interval>

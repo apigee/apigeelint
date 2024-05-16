@@ -19,8 +19,8 @@ module.exports = {
     "element <MessageWeight> must not have a text value.",
     "element <MessageWeight> must have a ref attribute."
   ],
-  "Asynch-too-many-elements.xml": [
-    "element <AsynchronousConfiguration> must have exactly one of {SyncIntervalInSeconds, SyncMessageCount} as a child."
+  "Asynch-neither-child-element.xml": [
+    "element <AsynchronousConfiguration> must have at least one of {SyncIntervalInSeconds, SyncMessageCount} as a child."
   ],
   "Asynch-non-integer-SyncIntervalInSeconds-element.xml": [
     "element <SyncIntervalInSeconds> must have a text value representing an integer."
