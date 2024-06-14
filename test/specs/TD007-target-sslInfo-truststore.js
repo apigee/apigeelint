@@ -16,7 +16,7 @@
 /* global describe, it, configuration */
 
 const assert = require("assert"),
-  testID = "TD004",
+  testID = "TD007",
   util = require("util"),
   debug = require("debug")("apigeelint:" + testID),
   Bundle = require("../../lib/package/Bundle.js"),
@@ -28,8 +28,6 @@ const assert = require("assert"),
     it(`case ${caseNum} ${desc}`, function () {
       const tDoc = new Dom().parseFromString(targetDef),
         target = new Endpoint(tDoc.documentElement, this, "");
-
-      plugin.onBundle({ profile });
 
       plugin.onTargetEndpoint(target, function (e, result) {
         assert.equal(e, undefined, e ? " error " : " no error");
@@ -77,7 +75,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["Missing SSLInfo configuration"]
+    []
   );
 
   test(
@@ -89,32 +87,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["SSLInfo configuration does not use Enabled=true"]
-  );
-  test(
-    21,
-    "empty SSLInfo with http url",
-    `<TargetEndpoint name="default">
-    <HTTPTargetConnection>
-      <SSLInfo/>
-      <URL>http://foo.com/apis/{api_name}/maskconfigs</URL>
-    </HTTPTargetConnection>
-  </TargetEndpoint>`,
-    ["SSLInfo should not be used with an insecure http url"]
-  );
-
-  test(
-    22,
-    "non-empty SSLInfo with http url",
-    `<TargetEndpoint name="default">
-    <HTTPTargetConnection>
-      <SSLInfo>
-        <Enabled>false</Enabled>
-      </SSLInfo>
-      <URL>http://foo.com/apis/{api_name}/maskconfigs</URL>
-    </HTTPTargetConnection>
-  </TargetEndpoint>`,
-    ["SSLInfo should not be used with an insecure http url"]
+    ["Missing TrustStore in SSLInfo"]
   );
 
   test(
@@ -130,7 +103,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
 
   test(
     30,
-    "SSLInfo Enabled = false",
+    "SSLInfo Enabled = false, no truststore",
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
       <SSLInfo>
@@ -139,7 +112,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["SSLInfo configuration does not use Enabled=true"]
+    ["Missing TrustStore in SSLInfo"]
   );
 
   test(
@@ -153,7 +126,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    []
+    ["Missing TrustStore in SSLInfo"]
   );
 
   test(
@@ -218,7 +191,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["SSLInfo configuration includes IgnoreValidationErrors = true"]
+    ["Missing TrustStore in SSLInfo"]
   );
 
   test(
@@ -234,10 +207,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    [
-      "SSLInfo configuration includes IgnoreValidationErrors = true",
-      "SSLInfo configuration does not use Enabled=true"
-    ]
+    []
   );
 
   test(
@@ -275,7 +245,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["When ClientAuthEnabled = true, use a KeyStore and KeyAlias"]
+    null
   );
 
   test(
@@ -295,7 +265,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["When ClientAuthEnabled = true, use a KeyStore and KeyAlias"]
+    null
   );
 
   test(
@@ -313,7 +283,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["When ClientAuthEnabled = false, do not use a KeyStore and KeyAlias"]
+    null
   );
 
   test(
@@ -331,7 +301,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["When ClientAuthEnabled = false, do not use a KeyStore and KeyAlias"]
+    null
   );
 
   test(
@@ -350,7 +320,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       </LoadBalancer>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["Using both URL and LoadBalancer in a proxy leads to undefined behavior"]
+    null
   );
 
   testApigeeX(
@@ -381,7 +351,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["SSLInfo configuration does not use Enforce=true"]
+    []
   );
 
   test(
@@ -397,7 +367,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["SSLInfo configuration must not use the Enforce element"]
+    []
   );
 });
 
