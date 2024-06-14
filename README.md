@@ -167,7 +167,7 @@ If you DO want apigeelint to use an `.apigeelintrc` file, format the file like t
 --profile apigeex
 
 ## always exclude these plugins
---excluded TD002,TD004
+--excluded TD002,TD007
 
 ## use this formatter unless overridden
 --formatter table.js
@@ -290,6 +290,8 @@ This is the current list:
 | &nbsp; |:white_check_mark:| TD003 | TargetEndpoint name | TargetEndpoint name should match basename of filename. |
 | &nbsp; |:white_check_mark:| TD004 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection should enable TLS/SSL. |
 | &nbsp; |:white_check_mark:| TD005 | TargetEndpoint SSLInfo references | TargetEndpoint SSLInfo should use references for KeyStore and TrustStore. |
+| &nbsp; |:white_check_mark:| TD006 | TargetEndpoint SSLInfo | When using a LoadBalancer, the SSLInfo should not be configured under HTTPTargetConnection. |
+| &nbsp; |:white_check_mark:| TD007 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection SSLInfo should use TrustStore. |
 | Flow | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| FL001 | Unconditional Flows |  Only one unconditional flow will get executed. Error if more than one was detected. |
 | Step | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
