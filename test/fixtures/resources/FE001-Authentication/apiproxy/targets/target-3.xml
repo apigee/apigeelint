@@ -24,6 +24,7 @@
 
    <!-- multiple token elements -->
    <Authentication>
+     <HeaderName>X-Serverless-Authorization</HeaderName>
      <GoogleAccessToken>
         <Scopes>
           <Scope>SCOPE</Scope>

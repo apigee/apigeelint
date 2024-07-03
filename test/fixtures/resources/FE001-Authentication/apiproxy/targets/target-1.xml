@@ -24,6 +24,7 @@
 
    <!-- tell Apigee to invoke this with a Google Access Token -->
     <Authentication>
+      <HeaderName>X-Serverless-Authorization</HeaderName>
       <GoogleAccessToken>
         <Scopes>
           <Scope>https://www.googleapis.com/auth/cloud-platform</Scope>
