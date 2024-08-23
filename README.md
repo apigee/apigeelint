@@ -64,6 +64,7 @@ Options:
   --maxWarnings [value]                   Number of warnings to trigger nonzero exit code (default: -1)
   --profile [value]                       Either apigee or apigeex (default: apigee)
   --norc                                  do not search for and use the .apigeelintrc file for settings
+  --ignoreDirectives                      ignore any directives within XML files that disable warnings
   -h, --help                              output usage information
 ```
 Example:
@@ -228,6 +229,8 @@ Example:
   </HTTPTargetConnection>
 </TargetEndpoint>
 ```
+
+You can tell apigeelint to ignore these directives with the command-line otion `--ignoreDirectives`.
 
 
 ## Pipeline lint job integration

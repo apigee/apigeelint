@@ -91,6 +91,10 @@ program
   .option(
     "--norc",
     "do not search for and use the .apigeelintrc file for settings"
+  )
+  .option(
+    "--ignoreDirectives",
+    "ignore any directives within XML files that disable warnings"
   );
 
 program.on("--help", function () {
@@ -158,6 +162,10 @@ if (program.formatter) {
 
 if (program.quiet) {
   configuration.output = "none";
+}
+
+if (program.ignoreDirectives) {
+  configuration.ignoreDirectives = true;
 }
 
 if (program.excluded && typeof program.excluded === "string") {
