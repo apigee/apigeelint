@@ -23,6 +23,7 @@ const program = require("commander"),
   rc = require("./lib/package/apigeelintrc.js"),
   pkj = require("./package.json"),
   bundleType = require("./lib/package/BundleTypes.js");
+const debug = require("debug");
 
 const findBundle = (p) => {
   if (p.endsWith("/")) {
@@ -129,7 +130,10 @@ if (!program.norc) {
   if (rcSettings) {
     Object.keys(rcSettings)
       .filter((key) => key != "path" && key != "list" && !program[key])
-      .forEach((key) => (program[key] = rcSettings[key]));
+      .forEach((key) => {
+        debug("apigeelint:rc")(`applying [${key}] = ${rcSettings[key]}`)        ;
+        program[key] = rcSettings[key];
+      });
   }
 }
 
