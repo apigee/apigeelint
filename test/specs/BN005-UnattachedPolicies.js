@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2021, 2024 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -15,58 +15,55 @@
 */
 /* global configuration, describe, it */
 const assert = require("assert"),
-      testID = 'BN005',
-      debug = require("debug")("apigeelint:" + testID),
-      Bundle = require("../../lib/package/Bundle.js"),
-      bl = require("../../lib/package/bundleLinter.js");
+  testID = "BN005",
+  debug = require("debug")("apigeelint:" + testID),
+  Bundle = require("../../lib/package/Bundle.js"),
+  bl = require("../../lib/package/bundleLinter.js");
+
+configuration.source.path =
+  "./test/fixtures/resources/sampleProxy/24Solver/apiproxy/";
 
 debug("test configuration: " + JSON.stringify(configuration));
-describe("BN005 - Check for unattached policies", function() {
+describe("BN005 - Check for unattached policies", function () {
   let bundle = new Bundle(configuration);
   debug(`looking in ${bundle.root}`);
   bl.executePlugin(testID, bundle);
   let report = bundle.getReport();
-
+  debug(report);
   var unattachedFiles = [
-        "ExtractVariables.xml",
-        "ExtractVariables_1.xml",
-        "ExtractVariables_unattached.xml",
-        "badServiceCallout.xml",
-        "jsCalculate.xml"
-      ];
+    "ExtractVariables.xml",
+    "ExtractVariables_1.xml",
+    "ExtractVariables_unattached.xml",
+    "badServiceCallout.xml",
+    "jsCalculate.xml"
+  ];
 
   var attachedFiles = [
-        "JSONThreatProtection",
-        "regExLookAround",
-        "AssignMessage.CopyRequest",
-        "ExtractParamVariables",
-        "ExtractPayloadVariables",
-        "publishPurchaseDetails",
-        "Lookup-Cache-1",
-        "publishPurchaseDetails"
-      ];
+    "JSONThreatProtection",
+    "regExLookAround",
+    "AssignMessage.CopyRequest",
+    "ExtractParamVariables",
+    "ExtractPayloadVariables",
+    "publishPurchaseDetails",
+    "Lookup-Cache-1",
+    "publishPurchaseDetails"
+  ];
 
-  function runTests(files, a) {
-    for (var j = 0; j < files.length; j++) {
-      let file = files[j],
-          description = `should ${(a? "": "not ")} mark ${file} as unattached in report`;
+  function runTests(filenames, expectFound) {
+    for (let j = 0; j < filenames.length; j++) {
+      const filename = filenames[j],
+        description = `should ${expectFound ? "" : "not "}mark ${filename} as unattached in report`;
 
-      it(description,
-         function() {
-           var found = false;
-           for (var i = 0; i < report.length && !found; i++) {
-             var reportObj = report[i];
-             if (reportObj.filePath.endsWith(file)) {
-               reportObj.messages.forEach(function(msg) {
-                 if (msg.ruleId === "BN005") {
-                   found = true;
-                 }
-               });
-             }
-           }
-           assert.equal(found, a);
-         }
-        );
+      it(description, function () {
+        let found = false;
+        for (let i = 0; i < report.length && !found; i++) {
+          const reportObj = report[i];
+          if (reportObj.filePath.endsWith(filename)) {
+            found = reportObj.messages.find((msg) => msg.ruleId === "BN005");
+          }
+        }
+        assert.equal(!!found, expectFound);
+      });
     }
   }
 

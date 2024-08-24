@@ -37,6 +37,8 @@ const loadPolicy = (sourceDir, shortFileName) => {
   return p;
 };
 
+const profileSpecRe = new RegExp("(apigee|apigeex)-profile");
+
 describe(`${testID} - policy passes hygiene evaluation`, function () {
   const sourceDir = path.join(rootDir, "pass");
   const testOne = (shortFileName) => {
@@ -44,6 +46,9 @@ describe(`${testID} - policy passes hygiene evaluation`, function () {
       policyType = policy.getType();
     it(`check ${shortFileName} passes`, () => {
       assert.notEqual(policyType, undefined, `${policyType} should be defined`);
+      const profileSpec = profileSpecRe.exec(shortFileName);
+      plugin.onBundle({ profile: profileSpec ? profileSpec[1] : "apigee" });
+
       plugin.onPolicy(policy, (e, foundIssues) => {
         assert.equal(e, undefined, "should be undefined");
         const messages = policy.getReport().messages;
@@ -78,6 +83,7 @@ describe(`${testID} - policy does not pass hygiene evaluation`, () => {
           undefined,
           `${policyType} should be defined`
         );
+        plugin.onBundle({ profile: "apigee" });
         plugin.onPolicy(policy, (e, foundIssues) => {
           assert.equal(undefined, e, "should be undefined");
           assert.equal(true, foundIssues, "should be issues");
