@@ -31,7 +31,6 @@
   "private": false,
   "dependencies": {
     "@xmldom/xmldom": "^0.8.10",
-    "apigeelint": "^2.55.4",
     "babel-code-frame": "latest",
     "chalk": "4.1.2",
     "commander": "^2.9.0",
