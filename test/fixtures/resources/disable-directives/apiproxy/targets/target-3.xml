@@ -1,0 +1,16 @@
+<TargetEndpoint name="target-3">
+  <!-- apigeelint disable=BN012 -->
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <IgnoreValidationErrors>false</IgnoreValidationErrors>
+    </SSLInfo>
+    <Properties>
+      <Property name="success.codes">1xx,2xx,3xx</Property>
+      <Property name="request.retain.headers">User-Agent,Referer,Accept-Language</Property>
+      <Property name="retain.queryparams">apikey</Property>
+    </Properties>
+
+    <URL>https://target-3.demo.altostrat.com</URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>

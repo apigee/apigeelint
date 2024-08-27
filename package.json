@@ -30,7 +30,7 @@
   },
   "private": false,
   "dependencies": {
-    "@xmldom/xmldom": "^0.8.4",
+    "@xmldom/xmldom": "^0.8.10",
     "babel-code-frame": "latest",
     "chalk": "4.1.2",
     "commander": "^2.9.0",
@@ -38,6 +38,7 @@
     "decompress": "latest",
     "eslint": "latest",
     "fast-xml-parser": "^4.3.1",
+    "get-installed-path": "^4.0.8",
     "js-yaml": "latest",
     "jshint": "^2.10.1",
     "jsonschema": "latest",

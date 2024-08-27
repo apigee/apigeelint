@@ -49,19 +49,23 @@ describe("BN012 - Check for unreferenced targets", function () {
         (item) => item.messages && item.messages.length
       );
       assert.ok(actualErrors.length);
-      debug(util.format(actualErrors));
+      debug("actualErrors: " + util.format(actualErrors));
 
       const bn012Items = actualErrors.filter((e) =>
         e.messages.find((m) => m.ruleId == "BN012")
       );
 
-      debug(util.format(bn012Items));
+      // target-3 is un-referenced
+      debug("bn012Items: " + util.format(bn012Items));
       assert.equal(bn012Items.length, 1);
       debug(util.format(bn012Items[0]));
       assert.ok(bn012Items[0].messages);
-      assert.equal(bn012Items[0].messages.length, 1);
+      const bn012Messages = bn012Items[0].messages.filter(
+        (m) => m.ruleId == "BN012"
+      );
+      assert.equal(bn012Messages.length, 1);
       assert.equal(
-        bn012Items[0].messages[0].message,
+        bn012Messages[0].message,
         "Unreferenced TargetEndpoint target-3. There are no RouteRules that reference this TargetEndpoint."
       );
     });

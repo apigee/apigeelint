@@ -24,7 +24,7 @@ const assert = require("assert"),
   Endpoint = require("../../lib/package/Endpoint.js"),
   plugin = require(bl.resolvePlugin(testID)),
   Dom = require("@xmldom/xmldom").DOMParser,
-  testBase = function (caseNum, profile, desc, targetDef, messages) {
+  testBase = function (caseNum, _profile, desc, targetDef, messages) {
     it(`case ${caseNum} ${desc}`, function () {
       const tDoc = new Dom().parseFromString(targetDef),
         target = new Endpoint(tDoc.documentElement, this, "");

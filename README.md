@@ -64,6 +64,7 @@ Options:
   --maxWarnings [value]                   Number of warnings to trigger nonzero exit code (default: -1)
   --profile [value]                       Either apigee or apigeex (default: apigee)
   --norc                                  do not search for and use the .apigeelintrc file for settings
+  --ignoreDirectives                      ignore any directives within XML files that disable warnings
   -h, --help                              output usage information
 ```
 Example:
@@ -190,6 +191,47 @@ These command-line options have no effect when they appear in the rc file:
 * --version
 * --help
 * --norc
+
+### Disabling rules within specific files
+
+Starting with release v2.55.5, apigeelint allows you to disable rules for
+specific locations in XML files, using a specially formatted comment. The
+comment should be like so:
+
+```xml
+   <!-- apigeelint disable=RULEID[,RULEID...] -->
+```
+
+The comment should appear on the line before the line indicated in the error or
+warning message. If the error or warning you wish to disable does not specify a
+line number, the comment should appear on the first line beneath the root
+element.
+
+Example:
+
+```
+<TargetEndpoint name="target-1">
+  <!-- apigeelint disable=TD004 -->
+  <HTTPTargetConnection>
+    <Authentication>
+      <GoogleIDToken>
+        <Audience>https://audience2.run.app</Audience>
+      </GoogleIDToken>
+    </Authentication>
+    <!-- apigeelint disable=TD007 -->
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <IgnoreValidationErrors>false</IgnoreValidationErrors>
+    </SSLInfo>
+    <Properties/>
+    <!-- apigeelint disable=TD002 -->
+    <URL>https://my-target-server.altostrat.com</URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>
+```
+
+You can tell apigeelint to ignore these directives with the command-line otion `--ignoreDirectives`.
+
 
 ## Pipeline lint job integration
 
@@ -376,7 +418,6 @@ exclude ST003, and so on.
 Starting with release v2.31.0, using apigeelint against Sharedflows will
 generate a correct report. Previously the report on a sharedflow was truncated
 and omitted some warnings and errors.
-
 
 
 ## Support
