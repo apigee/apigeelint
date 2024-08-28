@@ -1,0 +1,6 @@
+<AssignMessage name='AM-PreparedQuery-1'>
+  <AssignVariable>
+    <Name>bq_query</Name>
+    <Template>SELECT airline, code FROM [bigquery-samples.airline_ontime_data.airline_id_codes] WHERE airline != 'Description' group by airline, code order by airline limit 32</Template>
+  </AssignVariable>
+</AssignMessage>
