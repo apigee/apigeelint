@@ -34,17 +34,15 @@
     "babel-code-frame": "latest",
     "chalk": "4.1.2",
     "commander": "^2.9.0",
-    "debug": "latest",
+    "debug": "^4.3.6",
     "decompress": "latest",
     "eslint": "latest",
     "fast-xml-parser": "^4.3.1",
     "get-installed-path": "^4.0.8",
     "js-yaml": "latest",
     "jshint": "^2.10.1",
-    "jsonschema": "latest",
     "lodash": "^4.17.21",
     "minimatch": "^3.0.4",
-    "path": ">= 0.11.14",
     "pdfmake": "latest",
     "pluralize": "latest",
     "strip-ansi": "^6.0.1",
@@ -54,22 +52,22 @@
   },
   "devDependencies": {
     "chai": "^4.3.10",
-    "es6-template-strings": "^2.0.1",
+    "jsonschema": "latest",
     "mkdirp": "^3.0.1",
     "mocha": "^9.1.3",
     "mocha-badge-generator": "^0.10.6",
     "mocha-lcov-reporter": "^1.3.0",
-    "nyc": "^15.1.0",
+    "nyc": "^17.0.0",
     "peggy": "^3.0.2"
   },
   "overrides": {
     "badge-up": "https://registry.npmjs.org/@rpl/badge-up/-/badge-up-3.0.0.tgz",
     "nth-check": "^2.0.1",
-    "svgo": "^2.8.0",
+    "svgo": "^3.3.2",
     "uuid": "^7.0.3"
   },
   "engines": {
-    "node": ">= 14",
-    "npm": ">= 8.3.0"
+    "node": ">= 20",
+    "npm": ">= 10.5.0"
   }
 }
