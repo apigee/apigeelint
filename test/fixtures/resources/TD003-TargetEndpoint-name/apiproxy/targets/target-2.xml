@@ -1,0 +1,42 @@
+<TargetEndpoint name="wrongname">
+  <PreFlow name="PreFlow">
+    <Request>
+        <Step>
+          <Name>AM-Query</Name>
+        </Step>
+    </Request>
+    <Response>
+      <Step>
+        <Name>AM-Clean-Response-Headers</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response>
+    </Response>
+  </PostFlow>
+
+  <Flows/>
+
+  <HTTPTargetConnection>
+
+   <!-- tell Apigee to invoke this with a Google Access Token -->
+    <Authentication>
+      <GoogleAccessToken>
+        <Scopes>
+          <Scope>https://www.googleapis.com/auth/cloud-platform</Scope>
+        </Scopes>
+      </GoogleAccessToken>
+    </Authentication>
+
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <IgnoreValidationErrors>false</IgnoreValidationErrors>
+    </SSLInfo>
+    <Properties/>
+    <!-- assemble the target path -->
+    <URL>https://bigquery.googleapis.com/bigquery/v2/projects/infinite-chain-292422/queries</URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>

@@ -1,0 +1,20 @@
+<AssignMessage name='AM-Clean-Response-Headers'>
+  <Remove>
+    <Headers>
+      <Header name='X-Robots-Tag'/>
+      <Header name='Cache-Control'/>
+      <Header name='Pragma'/>
+      <Header name='Expires'/>
+      <Header name='P3P'/>
+      <Header name='Content-Security-Policy'/>
+      <Header name='X-Content-Type-Options'/>
+      <Header name='X-XSS-Protection'/>
+      <Header name='Server'/>
+      <Header name='Set-Cookie'/>
+      <Header name='Accept-Ranges'/>
+      <Header name='Vary'/>
+      <Header name='Content-Disposition'/>
+    </Headers>
+  </Remove>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+</AssignMessage>
