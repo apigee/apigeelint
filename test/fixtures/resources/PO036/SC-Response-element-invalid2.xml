@@ -1,0 +1,18 @@
+<ServiceCallout name='SC-Response-element-invalid2'>
+  <Request variable='simpleGetRequest'>
+    <Set>
+      <Verb>GET</Verb>
+    </Set>
+  </Request>
+  <Response/> <!-- missing text value -->
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <IgnoreValidationErrors>false</IgnoreValidationErrors>
+    </SSLInfo>
+    <Properties>
+      <Property name='success.codes'>2xx</Property>
+    </Properties>
+    <URL>https://www.googleapis.com/oauth2/v3/certs</URL>
+  </HTTPTargetConnection>
+</ServiceCallout>
