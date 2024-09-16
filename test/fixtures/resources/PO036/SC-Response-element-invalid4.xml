@@ -1,0 +1,19 @@
+<ServiceCallout name='SC-Response-element-invalid4'>
+  <Request variable='simpleGetRequest'>
+    <Set>
+      <Verb>GET</Verb>
+    </Set>
+  </Request>
+  <Response>value1</Response>
+  <Response>value2</Response> <!-- invalid to have more than one of these -->
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <IgnoreValidationErrors>false</IgnoreValidationErrors>
+    </SSLInfo>
+    <Properties>
+      <Property name='success.codes'>2xx</Property>
+    </Properties>
+    <URL>https://www.googleapis.com/oauth2/v3/certs</URL>
+  </HTTPTargetConnection>
+</ServiceCallout>
