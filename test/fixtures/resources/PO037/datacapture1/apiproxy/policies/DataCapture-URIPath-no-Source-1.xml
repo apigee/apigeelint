@@ -1,0 +1,25 @@
+<DataCapture name="DataCapture-URIPath-no-Source-1">
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <ThrowExceptionOnLimit>false</ThrowExceptionOnLimit>
+
+  <!-- Existing Variable -->
+  <Capture>
+    <DataCollector>dc_req_headers_length</DataCollector>
+    <Collect ref="computed-headers-length" default="0"/>
+  </Capture>
+
+  <!-- URIPath -->
+  <Capture>
+    <DataCollector>dc_path_segment</DataCollector>
+    <Collect default="none">
+      <!-- no source specified -->
+      <!--
+          <Source clearPayload="false">request</Source>
+      -->
+      <URIPath>
+        <Pattern ignoreCase="false">/t1/{$}</Pattern>
+        <Pattern ignoreCase="false">/t2/{$}</Pattern>
+      </URIPath>
+    </Collect>
+  </Capture>
+</DataCapture>

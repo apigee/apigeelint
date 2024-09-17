@@ -1,0 +1,124 @@
+<ProxyEndpoint name="endpoint1">
+  <Description>Proxy Endpoint 1</Description>
+  <HTTPProxyConnection>
+    <BasePath>/datacapture1</BasePath>
+  </HTTPProxyConnection>
+
+  <FaultRules/>
+  <DefaultFaultRule name="default-fault-rule">
+    <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+    </Step>
+    <AlwaysEnforce>true</AlwaysEnforce>
+  </DefaultFaultRule>
+
+  <PreFlow name="PreFlow">
+    <Request>
+      <Step>
+        <Name>JS-Compute-Header-Size</Name>
+      </Step>
+      <Step>
+        <Name>DataCapture-URIPath-with-request-Source-1</Name>
+      </Step>
+      <Step>
+        <Name>DataCapture-URIPath-with-response-Source-1</Name>
+      </Step>
+      <Step>
+        <Name>DataCapture-URIPath-with-message-Source-1</Name>
+      </Step>
+      <Step>
+        <Name>DataCapture-URIPath-no-Source-1</Name>
+      </Step>
+      <Step>
+        <Name>DataCapture-URIPath-empty-Source-1</Name>
+      </Step>
+    </Request>
+    <Response>
+      <Step>
+        <Name>AM-Clean-Request-Headers-From-Response</Name>
+      </Step>
+      <Step>
+        <Name>DataCapture-URIPath-with-request-Source-2</Name>
+      </Step>
+      <Step>
+        <Name>DataCapture-URIPath-with-response-Source-2</Name>
+      </Step>
+      <Step>
+        <Name>DataCapture-URIPath-with-message-Source-2</Name>
+      </Step>
+      <Step>
+        <Name>DataCapture-URIPath-no-Source-2</Name>
+      </Step>
+      <Step>
+        <Name>DataCapture-URIPath-empty-Source-2</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+
+  <PostFlow name="PostFlow">
+    <Request>
+    </Request>
+    <Response>
+      <Step>
+        <Name>AM-Inject-Proxy-Revision-Header</Name>
+      </Step>
+    </Response>
+  </PostFlow>
+
+  <PostClientFlow name="PostClientFlow">
+    <Request>
+    </Request>
+    <Response>
+    </Response>
+  </PostClientFlow>
+
+  <Flows>
+
+    <Flow name="flow1">
+      <Request>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AM-Response</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/t1/*") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow2">
+      <Request>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AM-Response</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/t2/*") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow3">
+      <Request>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AM-Response</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/t3/*") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="unknown request">
+      <Request>
+        <Step>
+          <Name>RF-Unknown-Request</Name>
+        </Step>
+      </Request>
+      <Response>
+      </Response>
+    </Flow>
+
+  </Flows>
+
+  <RouteRule name="NoRouteRule"/>
+
+</ProxyEndpoint>
