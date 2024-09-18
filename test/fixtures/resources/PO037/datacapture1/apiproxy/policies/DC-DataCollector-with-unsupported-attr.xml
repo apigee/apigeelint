@@ -1,0 +1,11 @@
+<DataCapture name="DC-DataCollector-with-unsupported-attr">
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <ThrowExceptionOnLimit>false</ThrowExceptionOnLimit>
+
+  <Capture>
+    <!-- unsupported attribute on DataCollector -->
+    <DataCollector scope='foo' other-attr='bar'>dc_req_headers_length</DataCollector>
+
+    <Collect ref="computed-headers-length" default='0'/>
+  </Capture>
+</DataCapture>

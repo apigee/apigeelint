@@ -1,7 +1,7 @@
-<ProxyEndpoint name="endpoint1">
-  <Description>Proxy Endpoint 1</Description>
+<ProxyEndpoint name="endpoint2">
+  <Description>Proxy Endpoint 2</Description>
   <HTTPProxyConnection>
-    <BasePath>/datacapture1/1</BasePath>
+    <BasePath>/datacapture1/2</BasePath>
   </HTTPProxyConnection>
 
   <FaultRules/>
@@ -18,19 +18,19 @@
         <Name>JS-Compute-Header-Size</Name>
       </Step>
       <Step>
-        <Name>DataCapture-URIPath-with-request-Source-1</Name>
+        <Name>DataCapture-QueryParam-with-request-Source-1</Name>
       </Step>
       <Step>
-        <Name>DataCapture-URIPath-with-response-Source-1</Name>
+        <Name>DataCapture-QueryParam-with-response-Source-1</Name>
       </Step>
       <Step>
-        <Name>DataCapture-URIPath-with-message-Source-1</Name>
+        <Name>DataCapture-QueryParam-with-message-Source-1</Name>
       </Step>
       <Step>
-        <Name>DataCapture-URIPath-no-Source-1</Name>
+        <Name>DataCapture-QueryParam-no-Source-1</Name>
       </Step>
       <Step>
-        <Name>DataCapture-URIPath-empty-Source-1</Name>
+        <Name>DataCapture-QueryParam-empty-Source-1</Name>
       </Step>
     </Request>
     <Response>
@@ -38,19 +38,19 @@
         <Name>AM-Clean-Request-Headers-From-Response</Name>
       </Step>
       <Step>
-        <Name>DataCapture-URIPath-with-request-Source-2</Name>
+        <Name>DataCapture-QueryParam-with-request-Source-2</Name>
       </Step>
       <Step>
-        <Name>DataCapture-URIPath-with-response-Source-2</Name>
+        <Name>DataCapture-QueryParam-with-response-Source-2</Name>
       </Step>
       <Step>
-        <Name>DataCapture-URIPath-with-message-Source-2</Name>
+        <Name>DataCapture-QueryParam-with-message-Source-2</Name>
       </Step>
       <Step>
-        <Name>DataCapture-URIPath-no-Source-2</Name>
+        <Name>DataCapture-QueryParam-no-Source-2</Name>
       </Step>
       <Step>
-        <Name>DataCapture-URIPath-empty-Source-2</Name>
+        <Name>DataCapture-QueryParam-empty-Source-2</Name>
       </Step>
     </Response>
   </PreFlow>

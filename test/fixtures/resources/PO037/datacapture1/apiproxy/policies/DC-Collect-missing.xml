@@ -1,0 +1,12 @@
+<DataCapture name="DC-Collect-missing">
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <ThrowExceptionOnLimit>false</ThrowExceptionOnLimit>
+
+  <Capture>
+    <DataCollector>dc_req_headers_length</DataCollector>
+    <!-- missing required Collect element -->
+    <!--
+        <Collect ref="computed-headers-length" default='0'/>
+    -->
+  </Capture>
+</DataCapture>

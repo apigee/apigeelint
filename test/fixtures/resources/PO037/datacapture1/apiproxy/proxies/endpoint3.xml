@@ -1,7 +1,7 @@
-<ProxyEndpoint name="endpoint1">
-  <Description>Proxy Endpoint 1</Description>
+<ProxyEndpoint name="endpoint3">
+  <Description>Proxy Endpoint 3</Description>
   <HTTPProxyConnection>
-    <BasePath>/datacapture1/1</BasePath>
+    <BasePath>/datacapture1/3</BasePath>
   </HTTPProxyConnection>
 
   <FaultRules/>
@@ -18,40 +18,43 @@
         <Name>JS-Compute-Header-Size</Name>
       </Step>
       <Step>
-        <Name>DataCapture-URIPath-with-request-Source-1</Name>
+        <Name>DC-Collect-ref-no-default</Name>
       </Step>
       <Step>
-        <Name>DataCapture-URIPath-with-response-Source-1</Name>
+        <Name>DC-Collect-ref-extra-attribute</Name>
       </Step>
       <Step>
-        <Name>DataCapture-URIPath-with-message-Source-1</Name>
+        <Name>DC-DataCollector-missing</Name>
       </Step>
       <Step>
-        <Name>DataCapture-URIPath-no-Source-1</Name>
+        <Name>DC-DataCollector-with-child-elements</Name>
       </Step>
       <Step>
-        <Name>DataCapture-URIPath-empty-Source-1</Name>
+        <Name>DC-DataCollector-with-unsupported-attr</Name>
+      </Step>
+      <Step>
+        <Name>DC-Collect-Source-with-child-elements</Name>
+      </Step>
+      <Step>
+        <Name>DC-Collect-missing</Name>
+      </Step>
+      <Step>
+        <Name>DC-Collect-Source-with-attrs</Name>
+      </Step>
+      <Step>
+        <Name>DC-multiple-DataCollector</Name>
+      </Step>
+      <Step>
+        <Name>DC-DataCollector-empty</Name>
+      </Step>
+      <Step>
+        <Name>DC-Capture-multiple-Collect</Name>
+      </Step>
+      <Step>
+        <Name>DC-Collect-multiple-Source</Name>
       </Step>
     </Request>
     <Response>
-      <Step>
-        <Name>AM-Clean-Request-Headers-From-Response</Name>
-      </Step>
-      <Step>
-        <Name>DataCapture-URIPath-with-request-Source-2</Name>
-      </Step>
-      <Step>
-        <Name>DataCapture-URIPath-with-response-Source-2</Name>
-      </Step>
-      <Step>
-        <Name>DataCapture-URIPath-with-message-Source-2</Name>
-      </Step>
-      <Step>
-        <Name>DataCapture-URIPath-no-Source-2</Name>
-      </Step>
-      <Step>
-        <Name>DataCapture-URIPath-empty-Source-2</Name>
-      </Step>
     </Response>
   </PreFlow>
 

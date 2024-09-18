@@ -44,9 +44,9 @@ const testOne = (testcase, _label) => {
           testcase.testname,
           "apiproxy"
         ),
-        bundleType: "apiproxy",
-        profile: testcase.profile
+        bundleType: "apiproxy"
       },
+      profile: testcase.profile,
       excluded: {},
       setExitCode: false,
       output: () => {} // suppress output
