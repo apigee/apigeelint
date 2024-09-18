@@ -376,6 +376,7 @@ This is the current list:
 | &nbsp; |:white_check_mark:| PO034 | AssignMessage policy hygiene | In an AssignMessage policy, check element placement and other hygiene. |
 | &nbsp; |:white_check_mark:| PO035 | Quota policy hygiene | In a Quota policy, check element placement and other hygiene. |
 | &nbsp; |:white_check_mark:| PO036 | ServiceCallout Response element usage | The Response element, when present, should specify a text value and no attributes. |
+| &nbsp; |:white_check_mark:| PO037 | DataCapture policy hygiene | Checks that a Capture should uses a Source of type request when the policy is attached to the Response flow, and other checks. |
 | FaultRules | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| FR001 | No Condition on FaultRule | Use Condition elements on FaultRules, unless it is the fallback rule. |
 | &nbsp; |:white_check_mark:| FR002 | DefaultFaultRule Structure | DefaultFaultRule should have only supported child elements, at most one AlwaysEnforce element, and at most one Condition element. |

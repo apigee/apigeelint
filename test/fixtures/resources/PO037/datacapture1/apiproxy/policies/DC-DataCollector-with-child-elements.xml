@@ -1,0 +1,17 @@
+<DataCapture name="DC-DataCollector-with-child-elements">
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <ThrowExceptionOnLimit>false</ThrowExceptionOnLimit>
+
+  <Capture>
+    <!-- unsupported child elements under DataCollector -->
+    <DataCollector>
+      <Scope>dc_req_headers_length</Scope>
+      <Source>foo</Source>
+      <URIPath>
+        <Pattern>/foo/bar/{$}</Pattern>
+      </URIPath>
+    </DataCollector>
+
+    <Collect ref="computed-headers-length" default='0'/>
+  </Capture>
+</DataCapture>

@@ -1,0 +1,11 @@
+<DataCapture name="DC-multiple-DataCollector">
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <ThrowExceptionOnLimit>false</ThrowExceptionOnLimit>
+
+  <Capture>
+    <!-- multiple DataCollector -->
+    <DataCollector>dc_req_headers_length</DataCollector>
+    <DataCollector>dc_req_headers_length2</DataCollector>
+    <Collect ref="computed-headers-length" default='0'/>
+  </Capture>
+</DataCapture>

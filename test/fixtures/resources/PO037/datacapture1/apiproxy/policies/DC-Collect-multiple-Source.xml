@@ -1,0 +1,16 @@
+<DataCapture name="DC-Collect-multiple-Source">
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <ThrowExceptionOnLimit>false</ThrowExceptionOnLimit>
+
+  <Capture>
+    <DataCollector>dc_req_headers_length</DataCollector>
+    <Collect ref="computed-auth-header" default='none'>
+      <!-- multiple Source -->
+      <Source>request</Source>
+      <Source>custom-request</Source>
+      <Header name="my_auth">
+        <Pattern ignoreCase="false">Bearer {$}</Pattern>
+      </Header>
+    </Collect>
+  </Capture>
+</DataCapture>

@@ -1,0 +1,10 @@
+<DataCapture name="DC-Collect-ref-no-default">
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <ThrowExceptionOnLimit>false</ThrowExceptionOnLimit>
+
+  <Capture>
+    <DataCollector>dc_req_headers_length</DataCollector>
+    <!-- no default value -->
+    <Collect ref="computed-headers-length" />
+  </Capture>
+</DataCapture>

@@ -1,0 +1,24 @@
+<DataCapture name="DataCapture-QueryParam-no-Source-1">
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <ThrowExceptionOnLimit>false</ThrowExceptionOnLimit>
+
+  <!-- Existing Variable -->
+  <Capture>
+    <DataCollector>dc_req_headers_length</DataCollector>
+    <Collect ref="computed-headers-length" default="0"/>
+  </Capture>
+
+  <!-- QueryParam -->
+  <Capture>
+    <DataCollector>dc_path_segment</DataCollector>
+    <Collect default="none">
+      <!-- no source specified -->
+      <!--
+          <Source clearPayload="false">request</Source>
+      -->
+      <QueryParam name='code'>
+        <Pattern ignoreCase="false">{$}</Pattern>
+      </QueryParam>
+    </Collect>
+  </Capture>
+</DataCapture>

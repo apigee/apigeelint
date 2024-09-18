@@ -1,0 +1,10 @@
+<DataCapture name="DC-Collect-ref-extra-attribute">
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <ThrowExceptionOnLimit>false</ThrowExceptionOnLimit>
+
+  <Capture>
+    <DataCollector>dc_req_headers_length</DataCollector>
+    <!-- unsupported attribute -->
+    <Collect ref="computed-headers-length" default="0" extra-attr='hello'/>
+  </Capture>
+</DataCapture>

@@ -1,0 +1,10 @@
+<DataCapture name="DC-DataCollector-empty">
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <ThrowExceptionOnLimit>false</ThrowExceptionOnLimit>
+
+  <Capture>
+    <!-- empty DataCollector -->
+    <DataCollector> </DataCollector>
+    <Collect ref="computed-headers-length" default='0'/>
+  </Capture>
+</DataCapture>
