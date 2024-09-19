@@ -59,6 +59,7 @@
   "TraceCapture" :{"indications":["tracecapture","tc","^tracecapture$","^tc$"], "profiles":["apigeex"] },
   "ValidateSAMLAssertion" :{"indications":["validatesaml","saml","sa"]},
   "VerifyAPIKey" :{"indications":["verifyapikey","apikey","va","verify","^verifyapikey$"]},
+  "VerifyIAM" :{"indications":["verifyiam","iam","viam","^verifyiam$"], "profiles":["apigeex"] },
   "VerifyJWS" :{"indications":["verifyjws","jws","vjws","^verifyjws$"]},
   "VerifyJWT" :{"indications":["verifyjwt","jwt","vjwt","^verifyjwt$"]},
   "XMLThreatProtection" :{"indications":["xmltp","xtp","tp","^xmltp$"]},
