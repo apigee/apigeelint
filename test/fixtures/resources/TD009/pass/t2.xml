@@ -1,0 +1,16 @@
+<TargetEndpoint name="t2">
+    <HTTPTargetConnection>
+
+      <!-- zero LoadBalancer elements will also pass the TD009 check -->
+
+      <SSLInfo>
+        <Enabled>true</Enabled>
+        <Enforce>true</Enforce>
+        <CommonName
+            wildcardMatch="false">echo.dchiesa.demo.altostrat.com</CommonName>
+        <TrustStore>ref://myTrustStoreRef</TrustStore>
+      </SSLInfo>
+
+      <URL>https://echo.dchiesa.demo.altostrat.com</URL>
+    </HTTPTargetConnection>
+</TargetEndpoint>

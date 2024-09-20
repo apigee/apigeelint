@@ -1,0 +1,11 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+    <!-- multiple LoadBalancer elements will fail the TD009 check -->
+      <LoadBalancer>
+         <Server name="server1"/>
+      </LoadBalancer>
+      <LoadBalancer>
+         <Server name="server2"/>
+      </LoadBalancer>
+    </HTTPTargetConnection>
+</TargetEndpoint>
