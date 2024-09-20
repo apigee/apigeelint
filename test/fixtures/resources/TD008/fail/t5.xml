@@ -1,0 +1,9 @@
+<TargetEndpoint name="default">
+    <HTTPTargetConnection>
+      <LoadBalancer>
+         <Server name="server1"/>
+         <Server />
+         <Server name="server3"/>
+      </LoadBalancer>
+    </HTTPTargetConnection>
+</TargetEndpoint>
