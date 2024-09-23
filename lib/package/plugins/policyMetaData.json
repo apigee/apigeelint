@@ -48,7 +48,7 @@
   "RegularExpressionProtection" :{"indications":["regex","regextp","re","tp"]},
   "ResetQuota" :{"indications":["resetquota","rq","^resetquota$"]},
   "ResponseCache" :{"indications":["responsecache","rc","cache","^responsecache$"]},
-  "RevokeOAuthV2" :{"indications":["oauthv2","oauthrevoke","oar","accesstoken"], "profiles":["apigeex"]},
+  "RevokeOAuthV2" :{"indications":["oauthv2","oauthrevoke","oar","accesstoken"]},
   "Script" :{"indications":["script","scr"]},
   "ServiceCallout" :{"indications":["callout","sc"]},
   "SetDialogflowResponse" :{"indications":["setdialogflowresponse","dialogflow","sdfr","^setdialogflowresponse$"], "profiles":["apigeex"] },
