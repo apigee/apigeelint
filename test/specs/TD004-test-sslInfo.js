@@ -124,25 +124,6 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
     null
   );
 
-  // test(
-  //   43,
-  //   "SSLInfo Enabled = true, with LoadBalancer",
-  //   `<TargetEndpoint name="default">
-  //   <HTTPTargetConnection>
-  //     <SSLInfo>
-  //       <Enabled>true</Enabled>
-  //       <IgnoreValidationErrors>false</IgnoreValidationErrors>
-  //       <TrustStore>truststore1</TrustStore>
-  //     </SSLInfo>
-  //     <LoadBalancer>
-  //        <Server name="server1"/>
-  //        <Server name="server2"/>
-  //     </LoadBalancer>
-  //   </HTTPTargetConnection>
-  // </TargetEndpoint>`,
-  //   []
-  // );
-
   testApigeeX(
     90,
     "SSLInfo with Enforce",
