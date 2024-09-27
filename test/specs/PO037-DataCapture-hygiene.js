@@ -146,7 +146,7 @@ describe(`PO037 - DataCapture Source usage`, () => {
 
     it(`should generate no errors other than PO037`, () => {
       const nonPO37Items = items.filter((item) =>
-        item.messages.some((m) => m.ruleId != "PO037")
+        item.messages.some((m) => m.ruleId != "PO037" && m.ruleId != "BN014")
       );
       debug(
         `nonPO37Items: ${util.format(nonPO37Items.map((i) => i.filePath))}`

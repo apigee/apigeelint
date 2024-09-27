@@ -1,0 +1,21 @@
+<AssignMessage name='AM-Response-2'>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <!--
+        A comment will not make it NOT a duplicate, as compared to AM-Response .
+        Nor will whitespace differences.
+
+        If the ordering of elements within the respective policies is different,
+        the plugin will judge the policies to be different.
+    -->
+    <Set>
+      <Payload contentType='application/json'>{
+    "status" : "ok"
+}
+</Payload>
+      <ReasonPhrase>OK</ReasonPhrase>
+      <StatusCode>200</StatusCode>
+    </Set>
+
+    <AssignTo>response</AssignTo>
+
+</AssignMessage>

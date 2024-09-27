@@ -1,0 +1,19 @@
+<AssignMessage name='AM-Response-3'>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+
+    <Set>
+      <Payload contentType='application/json'>{
+    "status" : "ok"
+}
+</Payload>
+    <!--
+        A different ReasonPhrase will make it not a duplicate, as compared to
+        AM-Response and AM-Response-2 .
+      -->
+      <ReasonPhrase>NOTOK</ReasonPhrase>
+      <StatusCode>200</StatusCode>
+    </Set>
+
+    <AssignTo>response</AssignTo>
+
+</AssignMessage>
