@@ -1,0 +1,9 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+    <LoadBalancer>
+      <!-- no TD010 problem here, these are not duplicates -->
+      <Server name="server1"/>
+      <Server name="server2"/>
+    </LoadBalancer>
+  </HTTPTargetConnection>
+</TargetEndpoint>

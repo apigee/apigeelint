@@ -1,0 +1,8 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+    <LoadBalancer>
+      <!-- no Server element at all -->
+      <Swerve/>
+    </LoadBalancer>
+  </HTTPTargetConnection>
+</TargetEndpoint>
