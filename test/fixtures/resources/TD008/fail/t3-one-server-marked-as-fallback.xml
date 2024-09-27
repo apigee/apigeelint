@@ -1,0 +1,9 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+    <LoadBalancer>
+      <Server name="server1">
+        <IsFallback>true</IsFallback>
+      </Server>
+    </LoadBalancer>
+  </HTTPTargetConnection>
+</TargetEndpoint>

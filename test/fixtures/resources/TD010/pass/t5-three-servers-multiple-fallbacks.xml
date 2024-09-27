@@ -1,0 +1,14 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+    <LoadBalancer>
+      <Server name="server1"/>
+      <!-- two servers marked fallback will fail the TD008 check, but pass the TD010 check -->
+      <Server name="server2">
+        <IsFallback>true</IsFallback>
+      </Server>
+      <Server name="server3">
+        <IsFallback>true</IsFallback>
+      </Server>
+    </LoadBalancer>
+  </HTTPTargetConnection>
+</TargetEndpoint>

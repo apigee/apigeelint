@@ -16,7 +16,7 @@
 
 /* global describe, it */
 
-const testID = "TD008",
+const testID = "TD010",
   assert = require("assert"),
   fs = require("fs"),
   util = require("util"),
@@ -25,7 +25,7 @@ const testID = "TD008",
   plugin = require(bl.resolvePlugin(testID)),
   Endpoint = require("../../lib/package/Endpoint.js"),
   Dom = require("@xmldom/xmldom").DOMParser,
-  rootDir = path.resolve(__dirname, "../fixtures/resources/TD008"),
+  rootDir = path.resolve(__dirname, "../fixtures/resources/TD010"),
   debug = require("debug")("apigeelint:" + testID);
 
 const loadEndpoint = (sourceDir, shortFileName) => {
@@ -37,7 +37,7 @@ const loadEndpoint = (sourceDir, shortFileName) => {
   return endpoint;
 };
 
-describe(`${testID} - endpoint passes multiple fallback server check`, function () {
+describe(`${testID} - endpoint passes duplicate server check`, function () {
   const sourceDir = path.join(rootDir, "pass");
   const testOne = (shortFileName) => {
     const endpoint = loadEndpoint(sourceDir, shortFileName);
@@ -65,7 +65,7 @@ describe(`${testID} - endpoint passes multiple fallback server check`, function 
   candidates.forEach(testOne);
 });
 
-describe(`${testID} - endpoint does not pass multiple fallback server check`, () => {
+describe(`${testID} - endpoint does not pass duplicate server check`, () => {
   const sourceDir = path.join(rootDir, "fail");
 
   const testOne = (shortFileName) => {

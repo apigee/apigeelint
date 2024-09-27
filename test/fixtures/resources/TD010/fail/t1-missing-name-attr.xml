@@ -1,0 +1,10 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+    <LoadBalancer>
+      <Server name="server1"/>
+      <!-- TD010 should flag the missing name attribute -->
+      <Server />
+      <Server name="server3"/>
+    </LoadBalancer>
+  </HTTPTargetConnection>
+</TargetEndpoint>
