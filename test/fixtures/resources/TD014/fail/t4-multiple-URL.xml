@@ -1,0 +1,12 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <IgnoreValidationErrors>false</IgnoreValidationErrors>
+      <TrustStore>truststore1</TrustStore>
+    </SSLInfo>
+
+    <URL>https://foo.bar</URL>
+    <URL>https://foo.bam</URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>
