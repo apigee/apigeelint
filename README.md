@@ -342,6 +342,7 @@ This is the current list:
 | &nbsp; |:white_check_mark:| TD012 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection should have exactly one SSLInfo. |
 | &nbsp; |:white_check_mark:| TD013 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection should correctly configure ClientAuthEnbled. |
 | &nbsp; |:white_check_mark:| TD014 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection should use exctly one of URL, LoadBalancer. |
+| &nbsp; |:white_check_mark:| TD015 | TargetEndpoint LoadBalancer | if TargetEndpoint HTTPTargetConnection uses a LoadBalancer, it should specify MaxFailures. |
 | Flow | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| FL001 | Unconditional Flows |  Only one unconditional flow will get executed. Error if more than one was detected. |
 | Step | &nbsp; | &nbsp; | &nbsp; | &nbsp; |

@@ -19,7 +19,7 @@
 const assert = require("assert"),
   path = require("path"),
   util = require("util"),
-  debug = require("debug")("apigeelint:EP002"),
+  debug = require("debug")("apigeelint:EP002-test"),
   bl = require("../../lib/package/bundleLinter.js");
 
 describe(`EP002 - apiproxy bundle with misplaced elements`, () => {

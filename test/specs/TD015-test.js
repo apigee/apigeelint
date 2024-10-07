@@ -16,7 +16,7 @@
 
 /* global describe, it */
 
-const testID = "TD012",
+const testID = "TD015",
   assert = require("assert"),
   fs = require("fs"),
   util = require("util"),
@@ -25,7 +25,7 @@ const testID = "TD012",
   plugin = require(bl.resolvePlugin(testID)),
   Endpoint = require("../../lib/package/Endpoint.js"),
   Dom = require("@xmldom/xmldom").DOMParser,
-  rootDir = path.resolve(__dirname, "../fixtures/resources/TD012"),
+  rootDir = path.resolve(__dirname, "../fixtures/resources/TD015"),
   debug = require("debug")(`apigeelint:${testID}-test`);
 
 const loadEndpoint = (sourceDir, shortFileName) => {
@@ -37,7 +37,7 @@ const loadEndpoint = (sourceDir, shortFileName) => {
   return endpoint;
 };
 
-describe(`${testID} - endpoint passes multiple SSLInfo  check`, function () {
+describe(`${testID} - endpoint passes exactly one URL or LoadBalancer check`, function () {
   const sourceDir = path.join(rootDir, "pass");
   const testOne = (shortFileName) => {
     const endpoint = loadEndpoint(sourceDir, shortFileName);
@@ -65,7 +65,7 @@ describe(`${testID} - endpoint passes multiple SSLInfo  check`, function () {
   candidates.forEach(testOne);
 });
 
-describe(`${testID} - endpoint does not pass multiple SSLInfo check`, () => {
+describe(`${testID} - endpoint does not pass exactly one URL or LoadBalancer check`, () => {
   const sourceDir = path.join(rootDir, "fail");
 
   const testOne = (shortFileName) => {

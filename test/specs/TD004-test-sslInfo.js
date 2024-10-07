@@ -18,7 +18,7 @@
 const assert = require("assert"),
   testID = "TD004",
   util = require("util"),
-  debug = require("debug")("apigeelint:" + testID),
+  debug = require("debug")(`apigeelint:${testID}-test`),
   Bundle = require("../../lib/package/Bundle.js"),
   bl = require("../../lib/package/bundleLinter.js"),
   Endpoint = require("../../lib/package/Endpoint.js"),
@@ -31,12 +31,12 @@ const assert = require("assert"),
 
       plugin.onBundle({ profile });
 
-      plugin.onTargetEndpoint(target, function (e, result) {
+      plugin.onTargetEndpoint(target, function (e, foundIssues) {
         assert.equal(e, undefined, e ? " error " : " no error");
-        debug(`result: ${result}`);
+        debug(`foundIssues: ${foundIssues}`);
         if (messages && messages.length) {
           debug(`messages: ${util.format(messages)}`);
-          assert.equal(result, true);
+          assert.equal(foundIssues, true);
           assert.equal(
             target.report.messages.length,
             messages.length,
@@ -50,7 +50,7 @@ const assert = require("assert"),
             );
           });
         } else {
-          assert.equal(result, false, util.format(target.report.messages));
+          assert.equal(foundIssues, false, util.format(target.report.messages));
           assert.equal(
             target.report.messages.length,
             0,
@@ -83,7 +83,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
 
   test(
     30,
-    "SSLInfo Enabled = false",
+    "SSLInfo/Enabled = false, scheme=https",
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
       <SSLInfo>
@@ -97,7 +97,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
 
   test(
     40,
-    "SSLInfo Enabled = true, no truststore",
+    "SSLInfo/Enabled=true, no truststore (flagged by TD007), profile=apigee",
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
       <SSLInfo>
@@ -111,7 +111,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
 
   test(
     41,
-    "SSLInfo Enabled = true, with TrustStore",
+    "SSLInfo/Enabled=true, with TrustStore, profile=apigee",
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
       <SSLInfo>
@@ -124,9 +124,23 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
     null
   );
 
+  test(
+    42,
+    "SSLInfo/Enabled=true, scheme=http, profile=apigee",
+    `<TargetEndpoint name="default">
+    <HTTPTargetConnection>
+      <SSLInfo>
+        <Enabled>true</Enabled>
+      </SSLInfo>
+      <URL>http://insecure.foo.com/apis/{api_name}/maskconfigs</URL>
+    </HTTPTargetConnection>
+  </TargetEndpoint>`,
+    ["SSLInfo configuration must not use the Enabled=true with insecure URL"]
+  );
+
   testApigeeX(
     90,
-    "SSLInfo with Enforce",
+    "SSLInfo/Enforce = true, scheme=https, profile=apigeex",
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
       <SSLInfo>
@@ -142,7 +156,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
 
   testApigeeX(
     91,
-    "SSLInfo with Enforce",
+    "SSLInfo/Enforce=false, scheme=https, profile=apigeex",
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
       <SSLInfo>
@@ -155,9 +169,24 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
     ["SSLInfo configuration does not use Enforce=true"]
   );
 
-  test(
+  testApigeeX(
     92,
-    "SSLInfo with Enforce - not ApigeeX",
+    "SSLInfo/Enforce=true, scheme=http, profile=apigeex",
+    `<TargetEndpoint name="default">
+    <HTTPTargetConnection>
+      <SSLInfo>
+        <Enforce>true</Enforce>
+        <TrustStore>truststore1</TrustStore>
+      </SSLInfo>
+      <URL>http://insecure.foo.com/apis/{api_name}/maskconfigs</URL>
+    </HTTPTargetConnection>
+  </TargetEndpoint>`,
+    ["SSLInfo configuration must not use the Enforce=true with insecure URL"]
+  );
+
+  test(
+    93,
+    "SSLInfo/Enforce=true, scheme=https, profile=apigee",
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
       <SSLInfo>
