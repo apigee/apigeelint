@@ -1,0 +1,16 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <IgnoreValidationErrors>false</IgnoreValidationErrors>
+      <TrustStore>truststore1</TrustStore>
+    </SSLInfo>
+
+    <LoadBalancer>
+      <Server name="server1"/>
+      <Server name="server2"/>
+      <MaxFailures>13</MaxFailures>
+    </LoadBalancer>
+
+  </HTTPTargetConnection>
+</TargetEndpoint>

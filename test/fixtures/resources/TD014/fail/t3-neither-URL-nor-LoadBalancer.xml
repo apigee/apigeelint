@@ -1,0 +1,10 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <Enforce>true</Enforce>
+      <TrustStore>truststore1</TrustStore>
+    </SSLInfo>
+    <!-- missing URL -->
+  </HTTPTargetConnection>
+</TargetEndpoint>

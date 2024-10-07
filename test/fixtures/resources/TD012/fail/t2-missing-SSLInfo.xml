@@ -1,0 +1,5 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+    <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>

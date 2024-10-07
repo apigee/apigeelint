@@ -26,7 +26,7 @@ const testID = "TD008",
   Endpoint = require("../../lib/package/Endpoint.js"),
   Dom = require("@xmldom/xmldom").DOMParser,
   rootDir = path.resolve(__dirname, "../fixtures/resources/TD008"),
-  debug = require("debug")("apigeelint:" + testID);
+  debug = require("debug")(`apigeelint:${testID}-test`);
 
 const loadEndpoint = (sourceDir, shortFileName) => {
   const fqPath = path.join(sourceDir, shortFileName),

@@ -1,0 +1,15 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <Enforce>true</Enforce>
+      <TrustStore>truststore1</TrustStore>
+    </SSLInfo>
+    <SSLInfo/>
+    <LoadBalancer>
+      <Server name="server1"/>
+      <Server name="server2"/>
+    </LoadBalancer>
+
+  </HTTPTargetConnection>
+</TargetEndpoint>

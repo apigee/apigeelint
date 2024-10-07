@@ -1,0 +1,12 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+    <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <Enforce>true</Enforce>
+      <TrustStore>truststore1</TrustStore>
+    </SSLInfo>
+    <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
+    <URL>https://bar.com/apis/{api_name}/maskconfigs</URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>

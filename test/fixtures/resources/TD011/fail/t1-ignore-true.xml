@@ -1,0 +1,9 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <IgnoreValidationErrors>true</IgnoreValidationErrors>
+    </SSLInfo>
+    <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>

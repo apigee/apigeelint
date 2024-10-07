@@ -1,0 +1,11 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <!-- should not cause a warning from TD011 -->
+      <Enabled>false</Enabled>
+      <IgnoreValidationErrors>true</IgnoreValidationErrors>
+      <TrustStore>truststore1</TrustStore>
+    </SSLInfo>
+    <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>
