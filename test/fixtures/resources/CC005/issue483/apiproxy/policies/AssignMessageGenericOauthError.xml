@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessageGenericOauthError">
+    <DisplayName>AssignMessageGenericOauthError</DisplayName>
+    <AssignVariable>
+        <Name>user.message</Name>
+        <Value>The user is not authorized to make this request</Value>
+    </AssignVariable>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>

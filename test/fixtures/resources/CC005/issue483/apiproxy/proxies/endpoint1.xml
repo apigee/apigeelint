@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ProxyEndpoint name="endpoint1">
+  <Description>Textbook Exchange API v1</Description>
+  <FaultRules>
+    <FaultRule name="Generic Fault">
+
+      <Step>
+        <Name>AssignMessageGenericFault</Name>
+      </Step>
+    </FaultRule>
+    <FaultRule name="Javascript Timeout">
+
+      <Step>
+        <Name>AssignMessageJSTimeoutFault</Name>
+      </Step>
+    </FaultRule>
+    <FaultRule name="ResourceNotFound">
+
+      <Step>
+        <Name>AssignMessageResourceNotFound</Name>
+      </Step>
+    </FaultRule>
+    <FaultRule name="API Key Fault">
+
+      <Step>
+        <Name>AssignMessageAPIKeyFault</Name>
+      </Step>
+    </FaultRule>
+    <FaultRule name="Spike Arrest Errors">
+
+      <Step>
+        <Name>AssignMessageSpikeArrestFault</Name>
+      </Step>
+    </FaultRule>
+    <FaultRule name="RegEx Errors">
+
+      <Step>
+        <Name>AssignMessageSQLInjectionFault</Name>
+      </Step>
+    </FaultRule>
+  </FaultRules>
+  <DefaultFaultRule name="default-rule">
+    <AlwaysEnforce>true</AlwaysEnforce>
+    <Step>
+      <Name>JavaScriptCatchJSErrors</Name>
+    </Step>
+    <Step>
+      <Name>AssignMessageGenerateFaultResponse</Name>
+
+    </Step>
+    <Step>
+      <Name>FlowCalloutLogging</Name>
+    </Step>
+    <Step>
+      <Name>AssignMessageAddCORS</Name>
+    </Step>
+  </DefaultFaultRule>
+  <PreFlow name="PreFlow">
+    <Request>
+      <Step>
+        <Name>VerifyAPIKey</Name>
+
+      </Step>
+      <Step>
+        <Name>JavaScriptValidateRequest</Name>
+
+      </Step>
+      <Step>
+        <Name>SpikeArrest</Name>
+
+      </Step>
+      <Step>
+        <Name>JSONThreatProtection</Name>
+
+      </Step>
+      <Step>
+        <Name>FlowCalloutLogging</Name>
+
+      </Step>
+      <Step>
+        <Name>AssignMessageRemoveSecurityHeaders</Name>
+
+      </Step>
+    </Request>
+    <Response/>
+  </PreFlow>
+  <Flows>
+    <Flow name="OptionsPreFlight">
+
+      <Request/>
+      <Response>
+        <Step>
+          <Name>AssignMessageAddCORS</Name>
+        </Step>
+      </Response>
+    </Flow>
+    <Flow name="POST /exchanges">
+
+      <Description>Start Textbook Exchange</Description>
+      <Request/>
+      <Response/>
+    </Flow>
+    <Flow name="GET /for-sale-textbooks">
+
+      <Description>List "For Sale" Textbooks</Description>
+      <Request/>
+      <Response/>
+    </Flow>
+    <Flow name="POST /exchanges/{exchange_id}/buyers">
+
+      <Description>Reserve "For Sale" Textbook</Description>
+      <Request/>
+      <Response/>
+    </Flow>
+    <Flow name="Unknown Resource">
+      <Request>
+        <Step>
+          <Name>RaiseFaultResourceNotFound</Name>
+        </Step>
+      </Request>
+      <Response/>
+
+    </Flow>
+  </Flows>
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response>
+      <Step>
+        <Name>FlowCalloutLogging</Name>
+
+      </Step>
+    </Response>
+  </PostFlow>
+  <HTTPProxyConnection>
+    <BasePath>/sales-management/textbook-exchange/v1</BasePath>
+    <VirtualHost>internal</VirtualHost>
+  </HTTPProxyConnection>
+  <RouteRule name="noRoute">
+
+  </RouteRule>
+  <RouteRule name="default">
+    <TargetEndpoint>default</TargetEndpoint>
+  </RouteRule>
+</ProxyEndpoint>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessageAddCORS">
+    <DisplayName>AssignMessageAddCORS</DisplayName>
+    <FaultRules>
+        <FaultRule name="serviceCalloutError">
+            <Step>
+                <Name>AssignServiceCalloutErrorResponse</Name>
+            </Step>
+            <Step>
+                <Name>InitializeResponseLog</Name>
+            </Step>
+            <Step>
+                <Name>FlowCalloutLogging</Name>
+            </Step>
+        </FaultRule>
+    </FaultRules>
+    <Properties />
+    <Set>
+        <Headers>
+            <Header name="Access-Control-Allow-Origin">*</Header>
+            <Header name="Access-Control-Allow-Headers">origin, x-requested-with, authorization,
+                accept, content-type, client_id, X-NW-Message-ID</Header>
+            <Header name="Access-Control-Max-Age">3628800</Header>
+            <Header name="Access-Control-Allow-Methods">GET, PUT, POST, OPTIONS</Header>
+        </Headers>
+    </Set>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="response" />
+</AssignMessage>

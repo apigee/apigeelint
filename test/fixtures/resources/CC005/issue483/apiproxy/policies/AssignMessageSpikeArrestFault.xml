@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessageSpikeArrestFault">
+    <DisplayName>AssignMessageSpikeArrestFault</DisplayName>
+    <Properties/>
+    <Set>
+        <StatusCode>429</StatusCode>
+        <ReasonPhrase>Spike Arrest Rate Limiting</ReasonPhrase>
+    </Set>
+    <AssignVariable>
+        <Name>user.message</Name>
+        <Value>Too many requests in a given amount of time</Value>
+    </AssignVariable>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessageResourceNotFound">
+    <DisplayName>AssignMessageResourceNotFound</DisplayName>
+    <Properties/>
+    <Set>
+        <!-- Note: the payload is the error.content, so it can be set in AssignVariable
+             or in <Set> <Payload> depending on how complex the value needs to be.  In
+             this example a combination of string literal with variable substitution was
+             desired, so the <Payload> approach was used. -->
+        <Payload>Resource name: {proxy.pathsuffix}, method: {request.verb}</Payload>
+    </Set>
+    <AssignVariable>
+        <Name>user.message</Name>
+        <Value>The resource requested was not found</Value>
+    </AssignVariable>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>
