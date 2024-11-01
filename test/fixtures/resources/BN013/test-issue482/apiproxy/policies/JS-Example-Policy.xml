@@ -1,0 +1,7 @@
+<Javascript name='JS-Example-Policy' timeLimit='1200' >
+  <Properties>
+    <!-- to retrieve properties in js code:   properties.prop1 -->
+    <Property name='prop1'>value-here</Property>
+  </Properties>
+  <ResourceURL>jsc://responses/example.js</ResourceURL>
+</Javascript>

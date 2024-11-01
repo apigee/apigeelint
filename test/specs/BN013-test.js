@@ -18,19 +18,19 @@ const assert = require("assert"),
   path = require("path"),
   util = require("util"),
   testID = "BN013",
-  debug = require("debug")("apigeelint:" + testID),
+  debug = require("debug")("apigeelint:${testID}-test"),
   //Bundle = require("../../lib/package/Bundle.js"),
   bl = require("../../lib/package/bundleLinter.js");
 
 describe("BN013 - Check for unreferenced resources", function () {
-  it("should flag unused resources in the test bundle", () => {
+  it("should flag unused resources in bundle1", () => {
     const configuration = {
       debug: true,
       source: {
         type: "filesystem",
         path: path.resolve(
           __dirname,
-          "../fixtures/resources/BN013-unreferenced-resources/apiproxy"
+          "../fixtures/resources/BN013/bundle1/apiproxy"
         ),
         bundleType: "apiproxy"
       },
@@ -87,4 +87,46 @@ describe("BN013 - Check for unreferenced resources", function () {
       }
     });
   });
+
+  it("should flag no issues in test-issue482", () => {
+    const configuration = {
+      debug: true,
+      source: {
+        type: "filesystem",
+        path: path.resolve(
+          __dirname,
+          "../fixtures/resources/BN013/test-issue482/apiproxy"
+        ),
+        bundleType: "apiproxy"
+      },
+      profile: "apigeex",
+      excluded: {},
+      setExitCode: false,
+      output: () => {} // suppress output
+    };
+
+    debug("test configuration: " + JSON.stringify(configuration));
+    bl.lint(configuration, (bundle) => {
+      const items = bundle.getReport();
+      assert.ok(items);
+      assert.ok(items.length);
+      const actualErrors = items.filter(
+        (item) => item.messages && item.messages.length
+      );
+      //assert.ok(actualErrors.length);
+      debug(util.format(actualErrors));
+      //debug("First error: " + util.format(actualErrors[0]));
+
+      const bn013Items = actualErrors.filter((e) =>
+        e.messages.find((m) => m.ruleId == "BN013")
+      );
+
+      debug("BN013 items: " + util.format(bn013Items));
+      assert.equal(bn013Items.length, 0);
+      //debug(util.format(bn013Items[0]));
+      //assert.ok(bn013Items[0].messages);
+    });
+  });
+
+
 });

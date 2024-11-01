@@ -1,0 +1,1 @@
+var thing = "goo";
