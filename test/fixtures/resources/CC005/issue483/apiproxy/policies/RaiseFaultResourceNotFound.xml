@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RaiseFault async="false" continueOnError="false" enabled="true" name="RaiseFaultResourceNotFound">
+    <DisplayName>RaiseFaultResourceNotFound</DisplayName>
+    <Properties/>
+    <FaultResponse>
+        <Set>
+            <!-- variablez?
+                context.setVariable('flow.error.userMessage', 'The resource requested was not found');
+                var _developerMsg = 'Resource Name: '+pathSuffix+', method : '+requestVerb; -->
+            <StatusCode>404</StatusCode>
+            <ReasonPhrase>Resource Not Found</ReasonPhrase>
+        </Set>
+    </FaultResponse>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessageSetTargetHost">
+    <DisplayName>AssignMessageSetTargetHost</DisplayName>
+    <Set>
+        <Headers>
+            <Header name="X-NW-Target-URL">{target-url}{proxy.pathsuffix}?{request.querystring}</Header>
+            <Header name="X-NW-Internal-FWD">false</Header>
+        </Headers>
+    </Set>
+    <AssignVariable>
+        <Name>target.copy.pathsuffix</Name>
+        <Value>false</Value>
+    </AssignVariable>
+    <AssignVariable>
+        <Name>target.copy.queryparams</Name>
+        <Value>false</Value>
+    </AssignVariable>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>

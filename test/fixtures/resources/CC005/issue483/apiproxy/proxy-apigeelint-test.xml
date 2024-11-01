@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<APIProxy revison="1" name="proxy-apigeelint-test">
+  <Basepaths>/sales-management/textbook-exchange/v1</Basepaths>
+  <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+  <CreatedAt>1730468446</CreatedAt>
+  <Description>Textbook Exchange is part of College Cafe and allows students to exchange their used textbooks with one another.  Students can start an Exchange when they have a used textbook to sell. "For Sale" Textbooks can be searched as well as returned based on a particular class or a student's textbook needs.  &lt;p&gt; When a "For Sale" textbook is found for purchase, the textbook is reserved by assigning another student as the Buyer. The Seller and Buyer then exchange the Textbook via a physical dropbox located at the bookstore using provided entry codes.
+</Description>
+  <DisplayName>Textbook Exchange API v1</DisplayName>
+  <ProxyEndpoints>
+    <ProxyEndpoint>default</ProxyEndpoint>
+  </ProxyEndpoints>
+  <TargetEndpoints>
+    <TargetEndpoint>default</TargetEndpoint>
+  </TargetEndpoints>
+</APIProxy>

@@ -2,11 +2,24 @@
   <Description>Proxy Endpoint 1</Description>
   <HTTPProxyConnection>
     <BasePath>/CC005-unterminated-string-in-conditional</BasePath>
-    <Properties/>
-    <VirtualHost>secure</VirtualHost>
   </HTTPProxyConnection>
 
-  <FaultRules/>
+  <FaultRules>
+    <FaultRule name="serviceCalloutError">
+      <!-- apigeelint disable=BN010 -->
+      <Step>
+        <Name>AM-This-Policy-Does-not-Exist</Name>
+      </Step>
+      <!-- apigeelint disable=CC003,CC004 -->
+      <Condition>servicecallout.GetAutoPolicyServiceCallout.failed == true ||
+      servicecallout.GetAllAutoVehiclesServiceCallout.failed == true ||
+      servicecallout.GetAllAutoCoveragesServiceCallout.failed == true ||
+      servicecallout.GetAllAutoDriversServiceCallout.failed == true ||
+      servicecallout.SubmitAutoPolicyChangeServiceCallout.failed == true ||
+      servicecallout.GetAnAutoVehicleServiceCallout.failed == true
+      </Condition>
+    </FaultRule>
+  </FaultRules>
 
   <PreFlow name="PreFlow">
       <Request>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Javascript timeLimit="120000" async="false" continueOnError="false" enabled="true" name="JavaScriptCatchJSErrors">
+    <DisplayName>JavaScriptCatchJSErrors</DisplayName>
+    <FaultRules/>
+    <Properties/>
+    <IncludeURL>jsc://common.js</IncludeURL>
+    <ResourceURL>jsc://catchJSErrors.js</ResourceURL>
+</Javascript>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AssignMessageGenericFault">
+    <DisplayName>AssignMessageGenericFault</DisplayName>
+    <AssignVariable>
+        <Name>user.message</Name>
+        <Value>Server error</Value>
+    </AssignVariable>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>
