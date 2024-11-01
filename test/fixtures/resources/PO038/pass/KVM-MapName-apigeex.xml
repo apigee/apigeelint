@@ -1,0 +1,10 @@
+<KeyValueMapOperations name="KVM-MapName-apigeex">
+  <MapName ref="OrganizationMapName"/>
+  <ExpiryTimeInSecs>300</ExpiryTimeInSecs>
+  <Get assignTo="JwkURI">
+    <Key>
+      <Parameter>jwk_uri</Parameter>
+    </Key>
+  </Get>
+  <Scope>organization</Scope>
+</KeyValueMapOperations>
