@@ -1,0 +1,8 @@
+<AssignMessage name='AM-Response-OK'>
+  <Set>
+    <Payload contentType='application/json'>{
+  "status": "OK"
+}
+</Payload>
+  </Set>
+</AssignMessage>
