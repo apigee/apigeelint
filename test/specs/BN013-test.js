@@ -113,18 +113,12 @@ describe("BN013 - Check for unreferenced resources", function () {
       const actualErrors = items.filter(
         (item) => item.messages && item.messages.length
       );
-      //assert.ok(actualErrors.length);
       debug(util.format(actualErrors));
-      //debug("First error: " + util.format(actualErrors[0]));
-
       const bn013Items = actualErrors.filter((e) =>
         e.messages.find((m) => m.ruleId == "BN013")
       );
-
       debug("BN013 items: " + util.format(bn013Items));
       assert.equal(bn013Items.length, 0);
-      //debug(util.format(bn013Items[0]));
-      //assert.ok(bn013Items[0].messages);
     });
   });
 
