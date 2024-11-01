@@ -1,0 +1,24 @@
+<AssignMessage name='AM-Response'>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <AssignVariable>
+    <Name>examplevalue</Name>
+    <Value>The Spanish letter ñ, also known as eñe</Value>
+  </AssignVariable>
+  <Set>
+    <Headers>
+      <!-- the following will not be encoded correctly -->
+      <Header name='test-header'>{examplevalue}</Header>
+      <!-- wrapping the non-ASCII in base64 works around the issue; the caller must decode -->
+      <Header name='encoded-header'>{encodeBase64(examplevalue)}</Header>
+    </Headers>
+    <!-- payload is always encoded correctly -->
+    <Payload contentType='application/json'>{
+  "status" : "ok",
+  "message" : "Spanish ñ is known as eñe"
+}
+</Payload>
+    <ReasonPhrase>OK</ReasonPhrase>
+    <StatusCode>200</StatusCode>
+  </Set>
+  <AssignTo>response</AssignTo>
+</AssignMessage>
