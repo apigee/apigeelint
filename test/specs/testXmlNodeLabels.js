@@ -14,18 +14,29 @@
   limitations under the License.
 */
 
-/* global describe, before, it, __dirname */
+/* global require, describe, before, after, it, __dirname */
 
 const assert = require("assert"),
   Dom = require("@xmldom/xmldom").DOMParser,
   lintUtil = require("../../lib/package/lintUtil.js"),
   util = require("node:util"),
   child_process = require("node:child_process"),
-  xpath = require("xpath"),
   debug = require("debug")("apigeelint:xmldom-test");
 
 describe("xmldom related tests", function () {
   describe("path resolution verification", function () {
+    const path = require("node:path"),
+      fs = require("node:fs"),
+      proxyDir = path.resolve(__dirname, "../fixtures/resources/issue481"),
+      node_modules = path.resolve(proxyDir, "node_modules");
+
+    before(function () {
+      fs.rmSync(node_modules, { force: true, recursive: true });
+    });
+    after(function () {
+      fs.rmSync(node_modules, { force: true, recursive: true });
+    });
+
     it("should resolve to a path", function (done) {
       try {
         const p = lintUtil.getNodeModulesPathFor("@xmldom/xmldom");
@@ -38,39 +49,34 @@ describe("xmldom related tests", function () {
 
     it("should find xmldom", function (done) {
       this.timeout(22000);
-      const path = require("node:path"),
-        fs = require("node:fs");
 
-      const proxyDir = path.resolve(
-          __dirname,
-          "../fixtures/resources/issue481",
-        ),
-        packageDir = path.resolve(__dirname, "../../lib/package"),
-        opts = {
-          cwd: proxyDir,
-          encoding: "utf8",
-        };
-      const node_modules = path.resolve(proxyDir, "node_modules");
-      fs.rmSync(node_modules, { force: true, recursive: true });
+      const opts = {
+        cwd: proxyDir,
+        encoding: "utf8",
+      };
 
-      const results1 = child_process.spawnSync("which", ["node"], opts);
-      debug(JSON.stringify(results1));
-      const nodePath = results1.stdout.trim();
+      if (debug.enabled) {
+        const r = child_process.spawnSync("which", ["node"], opts);
+        debug(`node: ` + JSON.stringify(r));
+      }
 
       child_process.exec("npm install", opts, (e, stdout, stderr) => {
         assert.equal(e, null);
         debug(stdout);
         // copy current implementation over, to allow testing of it.
-        const dest = path.resolve(node_modules, "apigeelint", "lib", "package");
-        fs.cpSync(packageDir, dest, { recursive: true });
+        const srcPackageDir = path.resolve(__dirname, "../../lib/package"),
+          destPackageDir = path.resolve(node_modules, "apigeelint/lib/package");
+        fs.cpSync(srcPackageDir, destPackageDir, { recursive: true });
 
         try {
+          // run apigeelint after npm install
           const proc = child_process.spawn(
-            nodePath,
+            "node",
             ["./node_modules/apigeelint/cli.js", "-s", "sample/apiproxy"],
             { ...opts, timeout: 20000 },
           );
-          let stdout = [], stderr = [];
+          let stdout = [],
+            stderr = [];
           proc.stdout.on("data", (data) => {
             stdout.push(data);
             debug(`stdout: ${data}`);
@@ -81,14 +87,13 @@ describe("xmldom related tests", function () {
           });
           proc.on("close", (code) => {
             debug(`child process exited with code ${code}`);
-            if (code != 0){
+            if (code != 0) {
               //console.log(`stdout: ${stdout.join('\n')}`);
-              console.log(`stderr: ${stderr.join('\n')}`);
+              console.log(`stderr: ${stderr.join("\n")}`);
             }
             assert.equal(code, 0);
             done();
           });
-
         } catch (ex1) {
           console.log(ex1.stack);
           assert.fail();
@@ -143,7 +148,5 @@ describe("xmldom related tests", function () {
       assert.equal(nodeTypeString, "ATTRIBUTE_NODE");
       done();
     });
-
-
   });
 });
