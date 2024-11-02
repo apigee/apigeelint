@@ -1,0 +1,8 @@
+<JSONThreatProtection name='JSONThreatProtection-1'>
+  <Source>request</Source>
+  <ArrayElementCount>3</ArrayElementCount>
+  <ContainerDepth>4</ContainerDepth>
+  <ObjectEntryCount>5</ObjectEntryCount>
+  <ObjectEntryNameLength>15</ObjectEntryNameLength>
+  <StringValueLength>128</StringValueLength>
+</JSONThreatProtection>

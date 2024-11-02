@@ -1,0 +1,9 @@
+<APIProxy revision='1' name='json-threat-ex1'>
+  <ConfigurationVersion minorVersion='0' majorVersion='4'/>
+  <CreatedAt>1432835315778</CreatedAt>
+  <CreatedBy>dino</CreatedBy>
+  <Description></Description>
+  <DisplayName>json-threat-ex1</DisplayName>
+  <LastModifiedAt>1432836208357</LastModifiedAt>
+  <LastModifiedBy>orgAdmin</LastModifiedBy>
+</APIProxy>

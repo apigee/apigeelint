@@ -67,7 +67,7 @@ Consider all of these fields to be mandatory.
 
 Notes:
 
-* *ruleId* can be inferred from the filename by calling a helper function: `require("../myUtil.js").getRuleId()`
+* *ruleId* can be inferred from the filename by calling a helper function: `require("../lintUtil.js").getRuleId()`
 
 * *severity* is an enum: 0 implies ignore the output of this rule; 1 is a warning; 2 is an error.
 

@@ -1,0 +1,13 @@
+<RaiseFault name='RF-Unknown-Request'>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <FaultResponse>
+    <Set>
+      <Payload contentType='application/json'>{
+  "error" : "that request was unknown",
+  "message" : "try a different request."
+}
+</Payload>
+      <StatusCode>404</StatusCode>
+    </Set>
+  </FaultResponse>
+</RaiseFault>
