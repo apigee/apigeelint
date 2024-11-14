@@ -1,0 +1,33 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <IgnoreValidationErrors>false</IgnoreValidationErrors>
+      <TrustStore>truststore1</TrustStore>
+    </SSLInfo>
+    <URL>https://example.com/foo</URL>
+
+    <HealthMonitor>
+      <IsEnabled>true</IsEnabled>
+      <IntervalInSec>5</IntervalInSec>
+      <HTTPMonitor>
+        <Request>
+          <UseTargetServerSSLInfo>true</UseTargetServerSSLInfo>
+          <ConnectTimeoutInSec>10</ConnectTimeoutInSec>
+          <SocketReadTimeoutInSec>30</SocketReadTimeoutInSec>
+          <Port>80</Port>
+          <Verb>GET</Verb>
+          <Path>/healthcheck</Path>
+          <Header name="Authorization">Basic 12e98yfw87etf</Header>
+          <IncludeHealthCheckIdHeader>true</IncludeHealthCheckIdHeader>
+        </Request>
+        <SuccessResponse>
+          <ResponseCode>200</ResponseCode>
+          <Header name="ImOK">YourOK</Header>
+        </SuccessResponse>
+      </HTTPMonitor>
+    </HealthMonitor>
+
+  </HTTPTargetConnection>
+
+</TargetEndpoint>

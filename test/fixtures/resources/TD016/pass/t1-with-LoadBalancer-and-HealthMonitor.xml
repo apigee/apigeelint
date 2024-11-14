@@ -1,0 +1,34 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+
+    <LoadBalancer>
+      <Server name="server1"/>
+      <Server name="server2"/>
+      <MaxFailures>3</MaxFailures>
+    </LoadBalancer>
+
+    <HealthMonitor>
+      <IsEnabled>true</IsEnabled>
+      <IntervalInSec>5</IntervalInSec>
+
+      <HTTPMonitor>
+        <Request>
+          <UseTargetServerSSLInfo>true</UseTargetServerSSLInfo>
+          <ConnectTimeoutInSec>10</ConnectTimeoutInSec>
+          <SocketReadTimeoutInSec>30</SocketReadTimeoutInSec>
+          <Port>80</Port>
+          <Verb>GET</Verb>
+          <Path>/healthcheck</Path>
+          <Header name="Authorization">Basic 12e98yfw87etf</Header>
+          <IncludeHealthCheckIdHeader>true</IncludeHealthCheckIdHeader>
+        </Request>
+        <SuccessResponse>
+          <ResponseCode>200</ResponseCode>
+          <Header name="ImOK">YoureOK</Header>
+        </SuccessResponse>
+      </HTTPMonitor>
+
+    </HealthMonitor>
+
+  </HTTPTargetConnection>
+</TargetEndpoint>

@@ -1,0 +1,11 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+
+    <LoadBalancer>
+      <Server name="server1"/>
+      <Server name="server2"/>
+      <MaxFailures>13</MaxFailures>
+    </LoadBalancer>
+
+  </HTTPTargetConnection>
+</TargetEndpoint>
