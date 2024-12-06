@@ -1,0 +1,30 @@
+<MessageLogging name='ML-test-valid2'>
+   <CloudLogging>
+        <LogName>projects/{organization.name}/logs/{proxylog}</LogName>
+        <Message contentType="application/json">{
+   "organization": "{organization.name}",
+   "environment": "{environment.name}",
+   "apiproxy": "{apiproxy.name}",
+   "revision": "{apiproxy.revision}",
+   "messageid": "{messageid}",
+   "url": "{proxy.url}"
+ }
+        </Message>
+        <!--
+        <Labels>
+            <Label>
+                <Key>key1</Key>
+                <Value>value1</Value>
+            </Label>
+            <Label>
+                <Key>key2</Key>
+                <Value>value2</Value>
+            </Label>
+        </Labels>
+        -->
+
+        <!--
+            <ResourceType>gce_instance</ResourceType>
+        -->
+    </CloudLogging>
+</MessageLogging>
