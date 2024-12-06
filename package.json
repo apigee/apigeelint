@@ -31,6 +31,7 @@
   "private": false,
   "dependencies": {
     "@xmldom/xmldom": "^0.8.10",
+    "adm-zip": "^0.5.16",
     "babel-code-frame": "latest",
     "chalk": "4.1.2",
     "commander": "^2.9.0",
@@ -47,6 +48,7 @@
     "strip-ansi": "^6.0.1",
     "table": "latest",
     "text-table": "latest",
+    "tmp": "^0.2.3",
     "xpath": "latest"
   },
   "devDependencies": {
