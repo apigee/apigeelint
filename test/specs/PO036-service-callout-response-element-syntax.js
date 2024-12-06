@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2024 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -30,14 +30,11 @@ const testID = "PO036",
 const test = (suffix, cb) => {
   const filename = `SC-Response-element-${suffix}.xml`;
   it(`should correctly process ${filename}`, () => {
-    const fqfname = path.resolve(
-        __dirname,
-        "../fixtures/resources/PO036",
-        filename
-      ),
+    const baseDir = path.resolve(__dirname, "../fixtures/resources/PO036"),
+      fqfname = path.resolve(baseDir, filename),
       policyXml = fs.readFileSync(fqfname, "utf-8"),
       doc = new Dom().parseFromString(policyXml),
-      p = new Policy(doc.documentElement, this);
+      p = new Policy(baseDir, filename, this, doc);
 
     p.getElement = () => doc.documentElement;
 
@@ -69,12 +66,12 @@ describe(`PO036 - ServiceCallout Response element`, () => {
     assert.ok(messages[0].message, "did not find message 0");
     assert.equal(
       messages[0].message,
-      "The Response element, when present, should specify a non-empty TEXT value."
+      "The Response element, when present, should specify a non-empty TEXT value.",
     );
     assert.ok(messages[1].message, "did not find message 1");
     assert.equal(
       messages[1].message,
-      "The Response element, when present, should not specify any attributes."
+      "The Response element, when present, should not specify any attributes.",
     );
   });
 
@@ -87,7 +84,7 @@ describe(`PO036 - ServiceCallout Response element`, () => {
     assert.ok(messages[0].message, "did not find message 0");
     assert.equal(
       messages[0].message,
-      "The Response element, when present, should specify a non-empty TEXT value."
+      "The Response element, when present, should specify a non-empty TEXT value.",
     );
   });
 
@@ -100,7 +97,7 @@ describe(`PO036 - ServiceCallout Response element`, () => {
     assert.ok(messages[0].message, "did not find message 0");
     assert.equal(
       messages[0].message,
-      "When the Response element is present, the TEXT value should have no spaces."
+      "When the Response element is present, the TEXT value should have no spaces.",
     );
   });
 
@@ -113,7 +110,7 @@ describe(`PO036 - ServiceCallout Response element`, () => {
     assert.ok(messages[0].message, "did not find message 0");
     assert.equal(
       messages[0].message,
-      "Policy has more than one Response element."
+      "Policy has more than one Response element.",
     );
   });
 
@@ -126,7 +123,7 @@ describe(`PO036 - ServiceCallout Response element`, () => {
     assert.ok(messages[0].message, "did not find message 0");
     assert.equal(
       messages[0].message,
-      "The Response element, when present, should specify a non-empty TEXT value."
+      "The Response element, when present, should specify a non-empty TEXT value.",
     );
   });
 
@@ -139,7 +136,7 @@ describe(`PO036 - ServiceCallout Response element`, () => {
     assert.ok(messages[0].message, "did not find message 0");
     assert.equal(
       messages[0].message,
-      "The Response element, when present, should not specify any attributes."
+      "The Response element, when present, should not specify any attributes.",
     );
   });
 });

@@ -31,7 +31,7 @@ const loadPolicy = (sourceDir, shortFileName) => {
     let fqPath = path.join(sourceDir, shortFileName),
         policyXml = fs.readFileSync(fqPath).toString('utf-8'),
         doc = new Dom().parseFromString(policyXml),
-        p = new Policy(doc.documentElement, this);
+        p = new Policy(rootDir, shortFileName, this, doc);
         p.getElement = () => doc.documentElement;
         p.fileName = shortFileName;
         return p;

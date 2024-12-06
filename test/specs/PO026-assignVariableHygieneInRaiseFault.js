@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2024 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -29,14 +29,14 @@ const testID = "PO026",
 const test = (suffix, cb) => {
   let filename = `RF-Example-TextPlain-${suffix}.xml`;
   it(`should correctly process ${filename}`, () => {
-    let fqfname = path.resolve(
+    let baseDir = path.resolve(
         __dirname,
         "../fixtures/resources/PO026-assignVariable-in-RaiseFault",
-        filename
       ),
+      fqfname = path.resolve(baseDir, filename),
       policyXml = fs.readFileSync(fqfname, "utf-8"),
       doc = new Dom().parseFromString(policyXml),
-      p = new Policy(doc.documentElement, this);
+      p = new Policy(baseDir, filename, this, doc);
 
     p.getElement = () => doc.documentElement;
 
@@ -56,7 +56,7 @@ describe(`PO026 - AssignVariable in RaiseFault`, () => {
     assert.equal(
       p.getReport().messages.length,
       0,
-      JSON.stringify(p.getReport().messages)
+      JSON.stringify(p.getReport().messages),
     );
   });
 
@@ -66,12 +66,12 @@ describe(`PO026 - AssignVariable in RaiseFault`, () => {
     assert.equal(
       p.getReport().messages.length,
       1,
-      "unexpected number of messages"
+      "unexpected number of messages",
     );
     assert.ok(p.getReport().messages[0].message, "did not find message member");
     assert.equal(
       p.getReport().messages[0].message,
-      "You should have at least one of: {Ref,Value,Template}"
+      "You should have at least one of: {Ref,Value,Template}",
     );
   });
 });

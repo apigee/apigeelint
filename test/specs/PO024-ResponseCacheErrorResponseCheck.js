@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2024 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,44 +16,40 @@
 /* global it, describe */
 
 const assert = require("assert"),
-      testID = "PO024",
-      debug = require("debug")("apigeelint:" + testID),
-      Bundle = require("../../lib/package/Bundle.js"),
-      bl = require("../../lib/package/bundleLinter.js"),
-      Policy = require("../../lib/package/Policy.js"),
-      plugin = require(bl.resolvePlugin(testID)),
-      Dom = require("@xmldom/xmldom").DOMParser,
-      test = function(caseNum, exp, assertion) {
-        it(`tests case ${caseNum}, expect(${assertion})`,
-           function() {
-             let doc = new Dom().parseFromString(exp),
-                 p = new Policy(doc, this);
+  testID = "PO024",
+  debug = require("debug")("apigeelint:" + testID),
+  Bundle = require("../../lib/package/Bundle.js"),
+  bl = require("../../lib/package/bundleLinter.js"),
+  Policy = require("../../lib/package/Policy.js"),
+  plugin = require(bl.resolvePlugin(testID)),
+  Dom = require("@xmldom/xmldom").DOMParser,
+  test = function (caseNum, exp, assertion) {
+    it(`tests case ${caseNum}, expect(${assertion})`, function () {
+      let doc = new Dom().parseFromString(exp),
+        p = new Policy("/", "fakename", this, doc);
 
-             p.addMessage = function(msg) {
-               debug(msg);
-             };
-             p.getElement = function() {
-               return doc;
-             };
-             plugin.onPolicy(p, function(err, result) {
-               assert.equal(err, undefined, err ? " err " : " no err");
-               assert.equal(
-                 result,
-                 assertion,
-                 result
-                   ? "warning/error was returned"
-                   : "warning/error was not returned"
-               );
-             });
-           }
-          );
+      p.addMessage = function (msg) {
+        debug(msg);
       };
+      p.getElement = function () {
+        return doc;
+      };
+      plugin.onPolicy(p, function (err, result) {
+        assert.equal(err, undefined, err ? " err " : " no err");
+        assert.equal(
+          result,
+          assertion,
+          result
+            ? "warning/error was returned"
+            : "warning/error was not returned",
+        );
+      });
+    });
+  };
 
 //now generate a full report and check the format of the report
 
-
-describe(`${testID} - ${plugin.plugin.name}`, function() {
-
+describe(`${testID} - ${plugin.plugin.name}`, function () {
   test(
     1,
     `<ResponseCache name="ResponseCache">
@@ -64,7 +60,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
           <TimeoutInSec>600</TimeoutInSec>
       </ExpirySettings>
   </ResponseCache>`,
-    true
+    true,
   );
   test(
     2,
@@ -77,7 +73,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
       </ExpirySettings>
       <ExcludeErrorResponse>false</ExcludeErrorResponse>
   </ResponseCache>`,
-    true
+    true,
   );
   test(
     3,
@@ -90,7 +86,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
       </ExpirySettings>
       <ExcludeErrorResponse/>
   </ResponseCache>`,
-    true
+    true,
   );
   test(
     4,
@@ -103,14 +99,13 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
       </ExpirySettings>
       <ExcludeErrorResponse>true</ExcludeErrorResponse>
   </ResponseCache>`,
-    false
+    false,
   );
   test(
     5,
     '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>(?/(@?[w_?w:*]+([[^]]+])*)?)+</Pattern></URIPath></RegularExpressionProtection>',
-    false
+    false,
   );
-
 
   debug("test configuration: " + JSON.stringify(configuration));
 
@@ -120,25 +115,21 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   //need a case where we are using ref for the key
   //also prefix
 
-  describe(`Print plugin results (${testID})`, function() {
+  describe(`Print plugin results (${testID})`, function () {
     let report = bundle.getReport(),
-        formatter = bl.getFormatter("json.js");
+      formatter = bl.getFormatter("json.js");
 
     if (!formatter) {
       assert.fail("formatter implementation not defined");
     }
 
-    it("should create a report object with valid schema", function() {
+    it("should create a report object with valid schema", function () {
       let schema = require("./../fixtures/reportSchema.js"),
-          Validator = require("jsonschema").Validator,
-          v = new Validator(),
-          jsonReport = JSON.parse(formatter(bundle.getReport())),
-          validationResult = v.validate(jsonReport, schema);
-      assert.equal(
-        validationResult.errors.length,
-        0,
-        validationResult.errors
-      );
+        Validator = require("jsonschema").Validator,
+        v = new Validator(),
+        jsonReport = JSON.parse(formatter(bundle.getReport())),
+        validationResult = v.validate(jsonReport, schema);
+      assert.equal(validationResult.errors.length, 0, validationResult.errors);
     });
   });
 
