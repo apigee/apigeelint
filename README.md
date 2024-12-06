@@ -354,6 +354,7 @@ This is the current list:
 | &nbsp; |:white_check_mark:| ST005 | Extract Variables Step with FormParam | A check for message content should be performed before policy execution. |
 | &nbsp; |:white_check_mark:| ST006 | JSON Threat Protection Step | A check for message content should be performed before policy execution. |
 | &nbsp; |:white_check_mark:| ST007 | XML Threat Protection Step | A check for message content should be performed before policy execution. |
+| &nbsp; |:white_check_mark:| ST008 | Unreachable policies | Policies should not be attached after RaiseFault policies. |
 | Policy | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| PO006 | Policy Name &amp; filename agreement |  Policy name attribute should coincide with the policy filename. |
 | &nbsp; |:white_check_mark:| PO007 | Policy Naming Conventions - type indication |  It is recommended that the policy name use a prefix or follow a pattern that indicates the policy type. |

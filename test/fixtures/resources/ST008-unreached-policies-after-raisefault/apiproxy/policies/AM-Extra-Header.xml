@@ -1,0 +1,7 @@
+<AssignMessage name="AM-Extra-Header">
+  <Set>
+    <Headers>
+      <Header name='extra'>{messageid}</Header>
+    </Headers>
+  </Set>
+</AssignMessage>

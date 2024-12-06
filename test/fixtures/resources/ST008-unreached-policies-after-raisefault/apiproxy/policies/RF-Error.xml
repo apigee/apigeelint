@@ -1,0 +1,9 @@
+<RaiseFault name="RF-Error">
+  <FaultResponse>
+    <Set>
+      <Payload contentType="text/plain">Error</Payload>
+      <StatusCode>500</StatusCode>
+    </Set>
+  </FaultResponse>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>
