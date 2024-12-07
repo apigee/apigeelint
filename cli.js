@@ -19,22 +19,43 @@
 const program = require("commander"),
   fs = require("fs"),
   path = require("path"),
+  tmp = require("tmp"),
+  AdmZip = require("adm-zip"),
   bl = require("./lib/package/bundleLinter.js"),
   rc = require("./lib/package/apigeelintrc.js"),
   pkj = require("./package.json"),
-  bundleType = require("./lib/package/BundleTypes.js");
-const debug = require("debug");
+  bundleType = require("./lib/package/BundleTypes.js"),
+  debug = require("debug");
 
+/**
+ * findBundle returns an array of three items:
+ * 0: the validated source path, useful for resolving .apigeelintrc
+ * 1: the actual directory, which may be a tmp dir if the source path is a zip
+ * 2: either 'zip' or 'filesystem'
+ **********************************************/
 const findBundle = (p) => {
+  // handle zipped bundles
+  if (p.endsWith(".zip") && fs.existsSync(p) && fs.statSync(p).isFile()) {
+    const tmpdir = tmp.dirSync({
+      prefix: `apigeelint-${path.basename(p)}-`,
+      keep: false,
+    });
+    //console.log(`tmpdir: ` + JSON.stringify(tmpdir));
+    const zip = new AdmZip(p);
+    zip.extractAllTo(tmpdir.name, false);
+    const found = findBundle(tmpdir.name);
+    return [p, found[1], "zip"];
+  }
+
   if (p.endsWith("/")) {
     p = p.slice(0, -1);
   }
   const subdirnames = [
     bundleType.BundleType.SHAREDFLOW,
-    bundleType.BundleType.APIPROXY
+    bundleType.BundleType.APIPROXY,
   ];
   if (subdirnames.find((n) => p.endsWith(n)) && fs.statSync(p).isDirectory()) {
-    return p;
+    return [p, p, "filesystem"];
   }
   const subdirs = subdirnames.map((d) => path.join(p, d));
 
@@ -44,15 +65,15 @@ const findBundle = (p) => {
         !fs.existsSync(subdirs[1 - i]) ||
         !fs.statSync(subdirs[1 - i]).isDirectory()
       ) {
-        return subdirs[i];
+        return [subdirs[i], subdirs[i], "filesystem"];
       }
       throw new Error(
-        "that path appears to contain both an apiproxy and a sharedflowbundle"
+        "that path appears to contain both an apiproxy and a sharedflowbundle",
       );
     }
   }
   throw new Error(
-    "that path does not appear to contain an apiproxy or sharedflowbundle"
+    "that path does not appear to resolve to an apiproxy or sharedflowbundle",
   );
 };
 
@@ -60,13 +81,13 @@ program
   .version(pkj.version)
   .option(
     "-s, --path <path>",
-    "Path of the exploded apiproxy or sharedflowbundle directory"
+    "Path of the exploded apiproxy or sharedflowbundle directory",
   )
   .option("-f, --formatter [value]", "Specify formatters (default: json.js)")
   .option("-w, --write [value]", "file path to write results")
   .option(
     "-e, --excluded [value]",
-    "The comma separated list of tests to exclude (default: none)"
+    "The comma separated list of tests to exclude (default: none)",
   )
   // .option("-M, --mgmtserver [value]", "Apigee management server")
   // .option("-u, --user [value]", "Apigee user account")
@@ -74,28 +95,28 @@ program
   // .option("-o, --organization [value]", "Apigee organization")
   .option(
     "-x, --externalPluginsDirectory [value]",
-    "Relative or full path to an external plugins directory"
+    "Relative or full path to an external plugins directory",
   )
   .option(
     "-q, --quiet",
-    "do not emit the report to stdout. (can use --write option to write to file)"
+    "do not emit the report to stdout. (can use --write option to write to file)",
   )
   .option(
     "--list",
-    "do not execute, instead list the available plugins and formatters"
+    "do not execute, instead list the available plugins and formatters",
   )
   .option(
     "--maxWarnings [value]",
-    "Number of warnings to trigger nonzero exit code (default: -1)"
+    "Number of warnings to trigger nonzero exit code (default: -1)",
   )
   .option("--profile [value]", "Either apigee or apigeex (default: apigee)")
   .option(
     "--norc",
-    "do not search for and use the .apigeelintrc file for settings"
+    "do not search for and use the .apigeelintrc file for settings",
   )
   .option(
     "--ignoreDirectives",
-    "ignore any directives within XML files that disable warnings"
+    "ignore any directives within XML files that disable warnings",
   );
 
 program.on("--help", function () {
@@ -113,7 +134,7 @@ if (program.list) {
       "\n" +
         "available external plugins: " +
         bl.listExternalRuleIds(program.externalPluginsDirectory).join(", ") +
-        "\n"
+        "\n",
     );
   }
   process.exit(0);
@@ -121,21 +142,21 @@ if (program.list) {
 
 if (!program.path) {
   console.log(
-    "you must specify the -s option, or the long form of that: --path "
+    "you must specify the -s option, or the long form of that: --path ",
   );
   process.exit(1);
 }
 
-program.path = findBundle(program.path);
+let [sourcePath, resolvedPath, sourceType] = findBundle(program.path);
 
 // apply RC file
 if (!program.norc) {
-  const rcSettings = rc.readRc([".apigeelintrc"], program.path);
+  const rcSettings = rc.readRc([".apigeelintrc"], sourcePath);
   if (rcSettings) {
     Object.keys(rcSettings)
       .filter((key) => key != "path" && key != "list" && !program[key])
       .forEach((key) => {
-        debug("apigeelint:rc")(`applying [${key}] = ${rcSettings[key]}`)        ;
+        debug("apigeelint:rc")(`applying [${key}] = ${rcSettings[key]}`);
         program[key] = rcSettings[key];
       });
   }
@@ -144,16 +165,17 @@ if (!program.norc) {
 const configuration = {
   debug: true,
   source: {
-    type: "filesystem",
-    path: program.path,
-    bundleType: program.path.includes(bundleType.BundleType.SHAREDFLOW)
+    type: sourceType,
+    path: resolvedPath,
+    sourcePath: sourcePath,
+    bundleType: resolvedPath.endsWith(bundleType.BundleType.SHAREDFLOW)
       ? bundleType.BundleType.SHAREDFLOW
-      : bundleType.BundleType.APIPROXY
+      : bundleType.BundleType.APIPROXY,
   },
   externalPluginsDirectory: program.externalPluginsDirectory,
   excluded: {},
   maxWarnings: -1,
-  profile: "apigee"
+  profile: "apigee",
 };
 
 if (!isNaN(program.maxWarnings)) {

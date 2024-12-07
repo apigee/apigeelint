@@ -32,7 +32,7 @@ const loadEndpoint = (sourceDir, shortFileName) => {
   const fqPath = path.join(sourceDir, shortFileName),
     xml = fs.readFileSync(fqPath).toString("utf-8"),
     doc = new Dom().parseFromString(xml),
-    endpoint = new Endpoint(doc.documentElement, null, "");
+    endpoint = new Endpoint(doc.documentElement, this, "");
   endpoint.getFileName = () => shortFileName;
   return endpoint;
 };

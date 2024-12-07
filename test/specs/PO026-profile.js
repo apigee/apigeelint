@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2022 Google LLC
+  Copyright 2019-2024 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -72,14 +72,14 @@ const testID = "PO026",
 
 const po026Test = (filename, profile, cb) => {
   it(`should correctly process ${filename} for profile ${profile}`, () => {
-    const fqfname = path.resolve(
+    const baseDir = path.resolve(
         __dirname,
         "../fixtures/resources/PO026-assignVariable-policies",
-        filename,
       ),
+      fqfname = path.resolve(baseDir, filename),
       policyXml = fs.readFileSync(fqfname, "utf-8"),
       doc = new Dom().parseFromString(policyXml),
-      p = new Policy(doc.documentElement, this);
+      p = new Policy(baseDir, filename, this, doc);
 
     p.getElement = () => doc.documentElement;
 

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2024 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,72 +16,58 @@
 /* global it, describe */
 
 const assert = require("assert"),
-      testID = "PO018",
-      debug = require("debug")("apigeelint:" + testID),
-      Bundle = require("../../lib/package/Bundle.js"),
-      Policy = require("../../lib/package/Policy.js"),
-      bl = require("../../lib/package/bundleLinter.js"),
-      plugin = require(bl.resolvePlugin(testID)),
-      Dom = require("@xmldom/xmldom").DOMParser,
-      test = function(caseNum, exp, assertion) {
-        it(`tests case ${caseNum}, expect to see ${assertion}`,
-           function() {
-             let doc = new Dom().parseFromString(exp),
-                 p = new Policy(doc, this);
+  testID = "PO018",
+  debug = require("debug")("apigeelint:" + testID),
+  Bundle = require("../../lib/package/Bundle.js"),
+  Policy = require("../../lib/package/Policy.js"),
+  bl = require("../../lib/package/bundleLinter.js"),
+  plugin = require(bl.resolvePlugin(testID)),
+  Dom = require("@xmldom/xmldom").DOMParser,
+  test = function (caseNum, exp, assertion) {
+    it(`tests case ${caseNum}, expect to see ${assertion}`, function () {
+      let doc = new Dom().parseFromString(exp),
+        p = new Policy("/", "fakename.xml", this, doc);
 
-             p.addMessage = function(msg) {
-               debug(msg);
-             };
-             p.getElement = function() {
-               return doc;
-             };
-             plugin.onPolicy(p, function(err, result) {
-               assert.equal(
-                 err,
-                 undefined,
-                 err ? " err " : " no err"
-               );
-               assert.equal(
-                 result,
-                 assertion,
-                 result ? " (? found " : "(? not found"
-               );
-             });
-           }
-          );
+      p.addMessage = function (msg) {
+        debug(msg);
       };
+      p.getElement = function () {
+        return doc;
+      };
+      plugin.onPolicy(p, function (err, result) {
+        assert.equal(err, undefined, err ? " err " : " no err");
+        assert.equal(result, assertion, result ? " (? found " : "(? not found");
+      });
+    });
+  };
 
-
-describe(`${testID} - ${plugin.plugin.name}`, function() {
-
+describe(`${testID} - ${plugin.plugin.name}`, function () {
   test(
     1,
     '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>.*Exception in thread.*</Pattern></URIPath></RegularExpressionProtection>',
-    false
+    false,
   );
 
   test(
     2,
     '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>(?/(@?[w_?w:*]+([[^]]+])*)?)+</Pattern></URIPath></RegularExpressionProtection>',
-    true
+    true,
   );
 
   test(
     3,
     '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>((?i)/(@?[w_?w:*]+([[^]]+])*)?)+</Pattern></URIPath></RegularExpressionProtection>',
-    false
+    false,
   );
 
   test(
     4,
     '<RegularExpressionProtection async="false" continueOnError="false" enabled="true" name="regExLookAround"><DisplayName>regExLookAround</DisplayName><Source>request</Source><IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables><URIPath><Pattern>(?i)(?/(@?[w_?w:*]+([[^]]+])*)?)+</Pattern></URIPath></RegularExpressionProtection>',
-    true
+    true,
   );
 });
 
-
-describe(`${testID} - ${plugin.plugin.name}`, function() {
-
+describe(`${testID} - ${plugin.plugin.name}`, function () {
   debug("test configuration: " + JSON.stringify(configuration));
 
   let bundle = new Bundle(configuration);
@@ -89,7 +75,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
 
   let report = bundle.getReport();
 
-  it("should create a report object with valid schema", function() {
+  it("should create a report object with valid schema", function () {
     let formatter = bl.getFormatter("json.js");
 
     if (!formatter) {
@@ -97,15 +83,10 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
     }
 
     let schema = require("./../fixtures/reportSchema.js"),
-        Validator = require("jsonschema").Validator,
-        v = new Validator(),
-        jsonReport = JSON.parse(formatter(bundle.getReport())),
-        validationResult = v.validate(jsonReport, schema);
-    assert.equal(
-      validationResult.errors.length,
-      0,
-      validationResult.errors
-    );
+      Validator = require("jsonschema").Validator,
+      v = new Validator(),
+      jsonReport = JSON.parse(formatter(bundle.getReport())),
+      validationResult = v.validate(jsonReport, schema);
+    assert.equal(validationResult.errors.length, 0, validationResult.errors);
   });
-
 });

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2023 Google LLC
+  Copyright 2019-2024 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -32,7 +32,8 @@ const loadPolicy = (sourceDir, shortFileName) => {
   const fqPath = path.join(sourceDir, shortFileName),
     policyXml = fs.readFileSync(fqPath).toString("utf-8"),
     doc = new Dom().parseFromString(policyXml),
-    p = new Policy(doc.documentElement, this);
+    p = new Policy(rootDir, shortFileName, this, doc);
+
   p.getElement = () => doc.documentElement;
   p.fileName = shortFileName;
   return p;
@@ -81,12 +82,12 @@ describe(`${testID} - policy does not pass ExtractVariables hygiene check`, () =
         const expected = expectedErrorMessages[policy.fileName];
         assert.ok(
           expected,
-          "test configuration failure: did not find an expected message"
+          "test configuration failure: did not find an expected message",
         );
         assert.equal(
           expected,
           messages[0].message,
-          "did not find expected message"
+          "did not find expected message",
         );
         debug(`message[0]: ${messages[0].message}`);
       });

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2024 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,43 +16,36 @@
 /* global it, describe */
 
 const assert = require("assert"),
-      testID = "PO022",
-      debug = require("debug")("apigeelint:" + testID),
-      Bundle = require("../../lib/package/Bundle.js"),
-      bl = require("../../lib/package/bundleLinter.js"),
-      Policy = require("../../lib/package/Policy.js"),
-      plugin = require(bl.resolvePlugin(testID)),
-      Dom = require("@xmldom/xmldom").DOMParser,
-      test = function(exp, caseNum, assertion) {
-        it(`tests ${caseNum}, expect(${assertion})`,
-           function() {
-             let doc = new Dom().parseFromString(exp),
-                 p = new Policy(doc, this);
+  testID = "PO022",
+  debug = require("debug")("apigeelint:" + testID),
+  Bundle = require("../../lib/package/Bundle.js"),
+  bl = require("../../lib/package/bundleLinter.js"),
+  Policy = require("../../lib/package/Policy.js"),
+  plugin = require(bl.resolvePlugin(testID)),
+  Dom = require("@xmldom/xmldom").DOMParser,
+  test = function (exp, caseNum, assertion) {
+    it(`tests ${caseNum}, expect(${assertion})`, function () {
+      let doc = new Dom().parseFromString(exp),
+        p = new Policy("/", "fakename.xml", this, doc);
 
-             p.addMessage = function(msg) {
-               debug(msg);
-             };
-             p.getElement = function() {
-               return doc;
-             };
-             plugin.onPolicy(p, function(e, result) {
-               assert.equal(
-                 e,
-                 undefined,
-                 e ? " error " : " no error"
-               );
-               assert.equal(
-                 result,
-                 assertion,
-                 result ? "  distirbuted is true " : "distirbuted is true not found"
-               );
-             });
-           }
-          );
+      p.addMessage = function (msg) {
+        debug(msg);
       };
+      p.getElement = function () {
+        return doc;
+      };
+      plugin.onPolicy(p, function (e, result) {
+        assert.equal(e, undefined, e ? " error " : " no error");
+        assert.equal(
+          result,
+          assertion,
+          result ? "  distirbuted is true " : "distirbuted is true not found",
+        );
+      });
+    });
+  };
 
-describe(`${testID} - ${plugin.plugin.name}`, function() {
-
+describe(`${testID} - ${plugin.plugin.name}`, function () {
   test(
     `<Quota name="CheckQuota">
   <Interval ref="verifyapikey.verify-api-key.apiproduct.developer.quota.interval">1</Interval>
@@ -60,7 +53,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   <Allow count="200" countRef="verifyapikey.verify-api-key.apiproduct.developer.quota.limit"/>
 </Quota>`,
     1,
-    true
+    true,
   );
 
   test(
@@ -71,7 +64,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   <Allow count="200" countRef="verifyapikey.verify-api-key.apiproduct.developer.quota.limit"/>
 </Quota>`,
     2,
-    true
+    true,
   );
 
   test(
@@ -82,7 +75,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   <Allow count="200" countRef="verifyapikey.verify-api-key.apiproduct.developer.quota.limit"/>
 </Quota>`,
     3,
-    false
+    false,
   );
 
   test(
@@ -95,32 +88,26 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
   </URIPath>
 </RegularExpressionProtection>`,
     4,
-    false
+    false,
   );
 });
 
-describe(`${testID} - Print plugin results`, function() {
+describe(`${testID} - Print plugin results`, function () {
   debug("test configuration: " + JSON.stringify(configuration));
   var bundle = new Bundle(configuration);
   bl.executePlugin(testID, bundle);
   let report = bundle.getReport();
 
-  it("should create a report object with valid schema", function() {
-
+  it("should create a report object with valid schema", function () {
     let formatter = bl.getFormatter("json.js");
     if (!formatter) {
       assert.fail("formatter implementation not defined");
     }
     let schema = require("./../fixtures/reportSchema.js"),
-        Validator = require("jsonschema").Validator,
-        v = new Validator(),
-        jsonReport = JSON.parse(formatter(report)),
-        validationResult = v.validate(jsonReport, schema);
-    assert.equal(
-      validationResult.errors.length,
-      0,
-      validationResult.errors
-    );
+      Validator = require("jsonschema").Validator,
+      v = new Validator(),
+      jsonReport = JSON.parse(formatter(report)),
+      validationResult = v.validate(jsonReport, schema);
+    assert.equal(validationResult.errors.length, 0, validationResult.errors);
   });
-
 });

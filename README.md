@@ -14,31 +14,25 @@ This utility is intended to capture the best practices knowledge from across Api
 
 ## Status
 
-At this point, we are focused on plugin execution and modelling the various lintable assets including Bundles, Proxies, SharedFlows, Targets, Flows, Steps, and Policies.
+This tool is mature and stable, works with proxy and sharedflow bundles, and
+continues to get enhancements.  There are a variety of plugins that test
+Bundles, Policies, ProxyEndpoints, and more.
 
-Plugins that test these abstractions are being developed concurrently.
-
-Reporters (the means to report out results), Ingesters (bundle loaders) are to be developed with Filesystem being the only supported means of loading a bundle and all reporting now going to console.
+The tool can report results out to the console, or to a file.  The tool can
+ingest from an exploded directory, or from a zipped bundle.
 
 ## Installation
 
 You can install apigeellint using npm. But, there is a minimum version of `npm` required.
 
-1. First verify the version of npm:
+1. First verify the version of node and npm:
    ```
    npm --version
+   node --version
    ```
 
-   If the version is 8.3.0 or later, then proceed to step 2.
-   If the version is less than `8.3.0`, then update:
-   ```
-   npm install npm@8.3.0 -g
-   ```
-
-   Alternatively, you may choose to get the latest npm:
-   ```
-   npm install npm@latest -g
-   ```
+   If the npm version is 10.5.0 or later, and node version is 20 or later, then proceed to step 2.
+   Otherwise, you need to update npm and/or node.
 
 2. Then install apigeelint:
    ```
@@ -54,7 +48,7 @@ Usage: apigeelint [options]
 
 Options:
   -V, --version                           output the version number
-  -s, --path <path>                       Path of the proxies
+  -s, --path <path>                       Path of the proxy to analyze
   -f, --formatter [value]                 Specify formatters (default: json.js)
   -w, --write [value]                     file path to write results
   -e, --excluded [value]                  The comma separated list of tests to exclude (default: none)
@@ -72,11 +66,49 @@ Example:
 apigeelint -s sampleProxy/apiproxy -f table.js
 ```
 
-Where `-s` points to the apiProxy source directory and `-f` is the output formatter desired.
+Where `-s` points to the apiProxy source directory or bundled zip file, and `-f` is the output
+formatter desired.
 
 Possible formatters are: "json.js" (the default), "stylish.js", "compact.js", "codeframe.js", "codeclimate.js", "html.js", "table.js", "unix.js", "visualstudio.js", "checkstyle.js", "jslint-xml.js", "junit.js" and "tap.js".
 
 ## Examples
+
+### Basic usage: ingest from a directory
+```
+apigeelint -f table.js -s path/to/your/apiproxy
+```
+
+The path here should be a directory name, probably ending in "apiproxy".  The
+contents of that directory should be like this:
+
+```
+apiproxy/
+apiproxy/proxies/
+apiproxy/proxies/endpoint1.xml
+apiproxy/servicecallout-async-test.xml
+apiproxy/resources/
+apiproxy/resources/jsc/
+apiproxy/resources/jsc/...
+apiproxy/policies/
+apiproxy/policies/RF-Unknown-Request.xml
+apiproxy/policies/AM-Response.xml
+apiproxy/policies/...
+...
+```
+
+
+### Basic usage: ingest from a zipped proxy bundle
+
+You can export API Proxy or Sharedflow bundles from Apigee, producing a zip
+archive. This tool also can read and analyze these zipped bundles:
+
+```
+apigeelint -f table.js -s path/to/your/apiproxy.zip
+```
+
+The tool will unzip the bundle  to a temporary directory, perform the analysis,
+and then remove the temporary directory.
+
 
 ### Using External Plugins:
 ```

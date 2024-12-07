@@ -80,7 +80,7 @@ const testOne =
   (testcase, ix, cb) => {
       let policyXml = testcase,
           doc = new Dom().parseFromString(policyXml),
-          p = new Policy(doc.documentElement, this);
+          p = new Policy("", `testcase-${ix}`, this, doc);
           p.getElement = () => doc.documentElement;
 
     let policyName = p.getName(),
