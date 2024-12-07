@@ -1,0 +1,98 @@
+<ProxyEndpoint name="endpoint1">
+  <HTTPProxyConnection>
+    <BasePath>/unreached-policies</BasePath>
+  </HTTPProxyConnection>
+
+  <DefaultFaultRule name="default-fault-rule">
+    <Step>
+      <Name>AM-InjectProxyVersionHeader</Name>
+    </Step>
+    <AlwaysEnforce>true</AlwaysEnforce>
+  </DefaultFaultRule>
+
+  <FaultRules>
+    <FaultRule name='rule1'>
+      <Step>
+        <Name>RF-Error</Name>
+      </Step>
+      <!-- error -->
+      <Step>
+        <Name>AM-CleanResponseHeaders</Name>
+      </Step>
+      <Step>
+        <Name>AM-Extra-Header</Name>
+      </Step>
+      <Condition>conditional_statement</Condition>
+    </FaultRule>
+  </FaultRules>
+
+
+  <PreFlow name="PreFlow">
+    <Request>
+    </Request>
+    <Response>
+      <Step>
+        <Name>AM-CleanResponseHeaders</Name>
+      </Step>
+      <Step>
+        <Name>JS-RemoveCopiedHeaders</Name>
+      </Step>
+      <Step>
+        <Name>AM-InjectProxyVersionHeader</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+
+  <Flows>
+    <Flow name="f1">
+      <Description>a contrived response</Description>
+      <Request>
+      </Request>
+      <Response>
+      </Response>
+      <Condition>proxy.pathsuffix MatchesPath "/f1"</Condition>
+    </Flow>
+
+    <Flow name="f2">
+      <Description>possibly a contrived response, possibly a fault</Description>
+      <Request>
+        <Step>
+          <Condition>request.header.accept = "*/*"</Condition>
+          <Name>RF-Invalid-Request</Name>
+        </Step>
+        <!-- not an error -->
+        <Step>
+          <Name>AM-Extra-Header</Name>
+        </Step>
+      </Request>
+      <Response/>
+      <Condition>proxy.pathsuffix MatchesPath "/f2"</Condition>
+    </Flow>
+
+    <Flow name="f3">
+      <Description>unknown request - raise a fault</Description>
+      <Request>
+        <Step>
+          <Name>RF-Invalid-Request</Name>
+        </Step>
+        <!-- error: unreachable -->
+        <Step>
+          <Name>AM-Extra-Header</Name>
+        </Step>
+      </Request>
+      <Response/>
+    </Flow>
+  </Flows>
+
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response>
+      <Step>
+        <Name>AM-Response</Name>
+        <Condition>request.verb != "OPTIONS"</Condition>
+      </Step>
+    </Response>
+  </PostFlow>
+
+  <RouteRule name="noroute"/>
+</ProxyEndpoint>

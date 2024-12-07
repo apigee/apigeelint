@@ -1,0 +1,13 @@
+<SharedFlow name="sf-default">
+
+  <Step>
+    <Name>AM-Header-1</Name>
+  </Step>
+  <Step>
+    <Name>RF-Unsupported</Name>
+  </Step>
+  <Step>
+    <Name>AM-Header-2</Name>
+  </Step>
+
+</SharedFlow>

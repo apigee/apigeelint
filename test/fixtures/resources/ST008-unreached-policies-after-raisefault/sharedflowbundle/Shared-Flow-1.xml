@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<SharedFlowBundle revision="1" name="Shared-Flow-1">
+    <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+    <CreatedAt>1486431487439</CreatedAt>
+    <CreatedBy>dchiesa@google.com</CreatedBy>
+    <Description></Description>
+    <DisplayName>Shared-Flow-1</DisplayName>
+    <LastModifiedAt>1486431673737</LastModifiedAt>
+    <LastModifiedBy>dchiesa@google.com</LastModifiedBy>
+    <Policies>
+        <Policy>JavaScript-1</Policy>
+    </Policies>
+    <Resources>
+        <Resource>jsc://JavaScript-1.js</Resource>
+    </Resources>
+    <Spec></Spec>
+    <subType>SharedFlow</subType>
+    <validate>false</validate>
+    <SharedFlows>
+        <SharedFlow>default</SharedFlow>
+    </SharedFlows>
+</SharedFlowBundle>
