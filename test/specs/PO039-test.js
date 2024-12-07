@@ -31,7 +31,7 @@ const test = (suffix, cb) => {
     const fqfname = path.join(rootDir, filename),
       policyXml = fs.readFileSync(fqfname, "utf-8"),
       doc = new Dom().parseFromString(policyXml),
-      p = new Policy(doc.documentElement, this);
+      p = new Policy(rootDir, filename, this, doc);
 
     p.getElement = () => doc.documentElement;
 
