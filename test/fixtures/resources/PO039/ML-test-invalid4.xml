@@ -1,0 +1,18 @@
+<MessageLogging name='ML-test-invalid4'>
+  <CloudLogging>
+     <LogName>projects/{organization.name}/logs/{proxylog}</LogName>
+     <Message contentType="application/json">{ "foo" : "bar"}</Message>
+  </CloudLogging>
+  <CloudLogging>
+     <LogName>projects/{organization.name}/logs/{proxylog}</LogName>
+     <Message contentType="application/json">{
+   "organization": "{organization.name}",
+   "environment": "{environment.name}",
+   "apiproxy": "{apiproxy.name}",
+   "revision": "{apiproxy.revision}",
+   "messageid": "{messageid}",
+   "url": "{proxy.url}"
+ }
+     </Message>
+  </CloudLogging>
+</MessageLogging>
