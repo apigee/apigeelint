@@ -49,7 +49,7 @@ describe("addMessage", function () {
     bundle.addMessage({ plugin, message });
 
     bundle.getReport((report) => {
-      console.log(JSON.stringify(report, null, 2));
+      //console.log(JSON.stringify(report, null, 2));
 
       let bundleResult = report.find(
         (element) => element.filePath === proxyPath,
