@@ -49,6 +49,7 @@ Usage: apigeelint [options]
 Options:
   -V, --version                           output the version number
   -s, --path <path>                       Path of the proxy to analyze
+  -d, --download [value]                  Download the API proxy or sharedflow to analyze. Exclusive of -s / --path. Example: org:ORG,API:proxyname or org:ORG,sf:SHAREDFLOWNAME
   -f, --formatter [value]                 Specify formatters (default: json.js)
   -w, --write [value]                     file path to write results
   -e, --excluded [value]                  The comma separated list of tests to exclude (default: none)
@@ -106,8 +107,46 @@ archive. This tool also can read and analyze these zipped bundles:
 apigeelint -f table.js -s path/to/your/apiproxy.zip
 ```
 
-The tool will unzip the bundle  to a temporary directory, perform the analysis,
+The tool will unzip the bundle into a temporary directory, perform the analysis,
 and then remove the temporary directory.
+
+
+### Basic usage: downloading a proxy bundle to analyze
+
+You can ask apigeelint to export an API Proxy or Sharedflow bundle from Apigee,
+and analyze the resulting zip archive. This connects to apigee.googleapis.com to
+perform the export, which means it will work only with Apigee X or hybrid.
+
+```
+# to download and then analyze a proxy bundle
+apigeelint -f table.js -d org:your-org-name,api:name-of-your-api-proxy
+
+# to download and then analyze a sharedflow bundle
+apigeelint -f table.js -d org:your-org-name,sf:name-of-your-shared-flow
+```
+
+With this invocation, the tool will:
+- obtain a token using the `gcloud auth print-access-token` command
+- use the token to inquire the latest revision of the proxy or sharedflow
+- use the token to download the bundle for the latest revision
+- unzip the bundle into a temporary directory
+- perform the lint analysis
+- render the result
+- and then remove the temporary directory
+
+If you do not have the [`gcloud` command line
+tool](https://cloud.google.com/sdk/gcloud) installed, and available on your
+path, this will fail.
+
+
+You can also specify a token you have obtained previously:
+
+```
+apigeelint -f table.js -d org:your-org-name,api:name-of-your-api-proxy,token:ACCESS_TOKEN_HERE
+```
+
+In this case, apigeelint does not try to use `gcloud` to obtain an access token.
+
 
 
 ### Using External Plugins:

@@ -24,6 +24,7 @@ const program = require("commander"),
   bl = require("./lib/package/bundleLinter.js"),
   rc = require("./lib/package/apigeelintrc.js"),
   pkj = require("./package.json"),
+  downloader = require("./lib/package/downloader.js"),
   bundleType = require("./lib/package/BundleTypes.js"),
   debug = require("debug");
 
@@ -77,136 +78,154 @@ const findBundle = (p) => {
   );
 };
 
-program
-  .version(pkj.version)
-  .option(
-    "-s, --path <path>",
-    "Path of the exploded apiproxy or sharedflowbundle directory",
-  )
-  .option("-f, --formatter [value]", "Specify formatters (default: json.js)")
-  .option("-w, --write [value]", "file path to write results")
-  .option(
-    "-e, --excluded [value]",
-    "The comma separated list of tests to exclude (default: none)",
-  )
-  // .option("-M, --mgmtserver [value]", "Apigee management server")
-  // .option("-u, --user [value]", "Apigee user account")
-  // .option("-p, --password [value]", "Apigee password")
-  // .option("-o, --organization [value]", "Apigee organization")
-  .option(
-    "-x, --externalPluginsDirectory [value]",
-    "Relative or full path to an external plugins directory",
-  )
-  .option(
-    "-q, --quiet",
-    "do not emit the report to stdout. (can use --write option to write to file)",
-  )
-  .option(
-    "--list",
-    "do not execute, instead list the available plugins and formatters",
-  )
-  .option(
-    "--maxWarnings [value]",
-    "Number of warnings to trigger nonzero exit code (default: -1)",
-  )
-  .option("--profile [value]", "Either apigee or apigeex (default: apigee)")
-  .option(
-    "--norc",
-    "do not search for and use the .apigeelintrc file for settings",
-  )
-  .option(
-    "--ignoreDirectives",
-    "ignore any directives within XML files that disable warnings",
-  );
-
-program.on("--help", function () {
-  console.log("\nExample: apigeelint -f table.js -s sampleProxy/apiproxy");
-  console.log("");
-});
-
-program.parse(process.argv);
-
-if (program.list) {
-  console.log("available plugins: " + bl.listRuleIds().join(", ") + "\n");
-  console.log("available formatters: " + bl.listFormatters().join(", "));
-  if (fs.existsSync(program.externalPluginsDirectory)) {
-    console.log(
-      "\n" +
-        "available external plugins: " +
-        bl.listExternalRuleIds(program.externalPluginsDirectory).join(", ") +
-        "\n",
+(async function main() {
+  program
+    .version(pkj.version)
+    .option(
+      "-s, --path <path>",
+      "Path of the exploded apiproxy or sharedflowbundle directory",
+    )
+    .option(
+      "-d, --download [value]",
+      "Download the API proxy or sharedflow to analyze. Exclusive of -s / --path. Example: org:ORG,API:proxyname or org:ORG,sf:SHAREDFLOWNAME",
+    )
+    .option("-f, --formatter [value]", "Specify formatters (default: json.js)")
+    .option("-w, --write [value]", "file path to write results")
+    .option(
+      "-e, --excluded [value]",
+      "The comma separated list of tests to exclude (default: none)",
+    )
+    .option(
+      "-x, --externalPluginsDirectory [value]",
+      "Relative or full path to an external plugins directory",
+    )
+    .option(
+      "-q, --quiet",
+      "do not emit the report to stdout. (can use --write option to write to file)",
+    )
+    .option(
+      "--list",
+      "do not scan, instead list the available plugins and formatters",
+    )
+    .option(
+      "--maxWarnings [value]",
+      "Number of warnings to trigger nonzero exit code (default: -1)",
+    )
+    .option("--profile [value]", "Either apigee or apigeex (default: apigee)")
+    .option(
+      "--norc",
+      "do not search for and use the .apigeelintrc file for settings",
+    )
+    .option(
+      "--ignoreDirectives",
+      "ignore any directives within XML files that disable warnings",
     );
+
+  program.on("--help", function () {
+    console.log("\nExamples:");
+    console.log("   apigeelint -f table.js -s sampleProxy/apiproxy\n");
+    console.log("   apigeelint -f table.js -s path/to/your/apiproxy.zip\n");
+    console.log(
+      "   apigeelint -f table.js --download org:my-org,api:my-proxy\n",
+    );
+    console.log("");
+  });
+
+  program.parse(process.argv);
+
+  if (program.list) {
+    console.log("available plugins: " + bl.listRuleIds().join(", ") + "\n");
+    console.log("available formatters: " + bl.listFormatters().join(", "));
+    if (fs.existsSync(program.externalPluginsDirectory)) {
+      console.log(
+        "\n" +
+          "available external plugins: " +
+          bl.listExternalRuleIds(program.externalPluginsDirectory).join(", ") +
+          "\n",
+      );
+    }
+    process.exit(0);
   }
-  process.exit(0);
-}
 
-if (!program.path) {
-  console.log(
-    "you must specify the -s option, or the long form of that: --path ",
-  );
-  process.exit(1);
-}
-
-let [sourcePath, resolvedPath, sourceType] = findBundle(program.path);
-
-// apply RC file
-if (!program.norc) {
-  const rcSettings = rc.readRc([".apigeelintrc"], sourcePath);
-  if (rcSettings) {
-    Object.keys(rcSettings)
-      .filter((key) => key != "path" && key != "list" && !program[key])
-      .forEach((key) => {
-        debug("apigeelint:rc")(`applying [${key}] = ${rcSettings[key]}`);
-        program[key] = rcSettings[key];
-      });
+  if (program.download) {
+    if (program.path) {
+      console.log(
+        "you must specify either the -s /--path option, or the -d /--download option. Not both.",
+      );
+      process.exit(1);
+    }
+    // This will work only with Apigee X/hybrid
+    program.path = await downloader.downloadBundle(program.download);
   }
-}
 
-const configuration = {
-  debug: true,
-  source: {
-    type: sourceType,
-    path: resolvedPath,
-    sourcePath: sourcePath,
-    bundleType: resolvedPath.endsWith(bundleType.BundleType.SHAREDFLOW)
-      ? bundleType.BundleType.SHAREDFLOW
-      : bundleType.BundleType.APIPROXY,
-  },
-  externalPluginsDirectory: program.externalPluginsDirectory,
-  excluded: {},
-  maxWarnings: -1,
-  profile: "apigee",
-};
+  if (!program.path) {
+    console.log(
+      "you must specify the -s option, or the long form of that: --path ",
+    );
+    process.exit(1);
+  }
 
-if (!isNaN(program.maxWarnings)) {
-  configuration.maxWarnings = Number.parseInt(program.maxWarnings);
-}
+  let [sourcePath, resolvedPath, sourceType] = findBundle(program.path);
 
-if (program.formatter) {
-  configuration.formatter = program.formatter || "json.js";
-}
+  // apply RC file
+  if (!program.norc) {
+    const rcSettings = rc.readRc([".apigeelintrc"], sourcePath);
+    if (rcSettings) {
+      Object.keys(rcSettings)
+        .filter((key) => key != "path" && key != "list" && !program[key])
+        .forEach((key) => {
+          debug("apigeelint:rc")(`applying [${key}] = ${rcSettings[key]}`);
+          program[key] = rcSettings[key];
+        });
+    }
+  }
 
-if (program.quiet) {
-  configuration.output = "none";
-}
+  const configuration = {
+    debug: true,
+    source: {
+      type: sourceType,
+      path: resolvedPath,
+      sourcePath: sourcePath,
+      bundleType: resolvedPath.endsWith(bundleType.BundleType.SHAREDFLOW)
+        ? bundleType.BundleType.SHAREDFLOW
+        : bundleType.BundleType.APIPROXY,
+    },
+    externalPluginsDirectory: program.externalPluginsDirectory,
+    excluded: {},
+    maxWarnings: -1,
+    profile: "apigee",
+  };
 
-if (program.ignoreDirectives) {
-  configuration.ignoreDirectives = true;
-}
+  if (!isNaN(program.maxWarnings)) {
+    configuration.maxWarnings = Number.parseInt(program.maxWarnings);
+  }
 
-if (program.excluded && typeof program.excluded === "string") {
-  configuration.excluded = program.excluded
-    .split(",")
-    .map((s) => s.trim())
-    .reduce((acc, item) => ((acc[item] = true), acc), {});
-}
+  if (program.formatter) {
+    configuration.formatter = program.formatter || "json.js";
+  }
 
-if (program.write) {
-  configuration.writePath = program.write;
-}
+  if (program.quiet) {
+    configuration.output = "none";
+  }
 
-if (program.profile) {
-  configuration.profile = program.profile;
-}
+  if (program.ignoreDirectives) {
+    configuration.ignoreDirectives = true;
+  }
 
-bl.lint(configuration);
+  if (program.excluded && typeof program.excluded === "string") {
+    configuration.excluded = program.excluded
+      .split(",")
+      .map((s) => s.trim())
+      .reduce((acc, item) => ((acc[item] = true), acc), {});
+  }
+
+  if (program.write) {
+    configuration.writePath = program.write;
+  }
+
+  if (program.profile) {
+    configuration.profile = program.profile;
+  }
+
+  bl.lint(configuration);
+})();
