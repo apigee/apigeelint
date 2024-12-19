@@ -95,10 +95,6 @@ const findBundle = (p) => {
       "-e, --excluded [value]",
       "The comma separated list of tests to exclude (default: none)",
     )
-    // .option("-M, --mgmtserver [value]", "Apigee management server")
-    // .option("-u, --user [value]", "Apigee user account")
-    // .option("-p, --password [value]", "Apigee password")
-    // .option("-o, --organization [value]", "Apigee organization")
     .option(
       "-x, --externalPluginsDirectory [value]",
       "Relative or full path to an external plugins directory",
