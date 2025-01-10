@@ -49,7 +49,7 @@ Usage: apigeelint [options]
 Options:
   -V, --version                           output the version number
   -s, --path <path>                       Path of the proxy to analyze
-  -d, --download [value]                  Download the API proxy or sharedflow to analyze. Exclusive of -s / --path. Example: org:ORG,API:proxyname or org:ORG,sf:SHAREDFLOWNAME
+  -d, --download [value]                  Download the API proxy or sharedflow to analyze. Exclusive of -s / --path. Example: org:ORG,api:PROXYNAME or org:ORG,sf:SHAREDFLOWNAME
   -f, --formatter [value]                 Specify formatters (default: json.js)
   -w, --write [value]                     file path to write results
   -e, --excluded [value]                  The comma separated list of tests to exclude (default: none)
