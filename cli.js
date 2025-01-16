@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /*
-  Copyright 2019-2024 Google LLC
+  Copyright 2019-2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -46,7 +46,6 @@ const findBundle = (p) => {
     process.on("exit", function () {
       tmpdir.removeCallback();
     });
-    //console.log(`tmpdir: ` + JSON.stringify(tmpdir));
     const zip = new AdmZip(p);
     zip.extractAllTo(tmpdir.name, false);
     const found = findBundle(tmpdir.name);

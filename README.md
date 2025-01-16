@@ -537,7 +537,7 @@ Apigee customers should use [formal support channels](https://cloud.google.com/a
 
 ## License and Copyright
 
-This material is [Copyright (c) 2018-2024 Google LLC](./NOTICE).
+This material is [Copyright (c) 2018-2025 Google LLC](./NOTICE).
 and is licensed under the [Apache 2.0 License](LICENSE).
 
 ## Disclaimer
