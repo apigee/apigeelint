@@ -38,8 +38,13 @@ const findBundle = (p) => {
   // handle zipped bundles
   if (p.endsWith(".zip") && fs.existsSync(p) && fs.statSync(p).isFile()) {
     const tmpdir = tmp.dirSync({
-      prefix: `apigeelint-${path.basename(p)}-`,
+      prefix: `apigeelint-${path.basename(p)}`,
       keep: false,
+      unsafeCleanup: true, // this does not seem to work in apigeelint
+    });
+    // make sure to cleanup when the process exits
+    process.on("exit", function () {
+      tmpdir.removeCallback();
     });
     //console.log(`tmpdir: ` + JSON.stringify(tmpdir));
     const zip = new AdmZip(p);
