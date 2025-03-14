@@ -149,21 +149,28 @@ In this case, apigeelint does not try to use `gcloud` to obtain an access token.
 
 
 
-### Using External Plugins:
-```
-apigeelint -x ./externalPlugins -s path/to/your/apiproxy -f table.js
-```
-Where `-x` points to the directory containing externally developed plugins.
+### Using External Plugins
+
+We package apigeelint with a broad set of plugins that we think
+will be generally valuable. For people that want to check for some
+case that is not covered by the bundled plugins, you can write your own plugin.
+Just follow the pattern as exhibited by the many plugins that are available.
+External Plugins must use a prefix of "EX".
 
 You could, for example, create your own plugin for naming conventions, and
 exclude the builtin plugin that enforces naming conventions (`PO007`) with the
 `-e` option:
 
+To use external plugins, specify the directory that contains them, on the
+command line. For example, this invocation might use your own plugin,
+and disable the built-in naming conventions that apigeelint checks:
+
 ```
 apigeelint -x ./externalPlugins -e PO007 -s path/to/your/apiproxy -f table.js
 ```
 
-This would effectively override the built-in naming conventions that apigeelint checks.
+In the above, `-x` points to the directory containing externally developed plugins.
+
 
 
 ### Excluding plugins
@@ -302,7 +309,6 @@ Example:
 ```
 
 You can tell apigeelint to ignore these directives with the command-line otion `--ignoreDirectives`.
-
 
 ## Pipeline lint job integration
 
