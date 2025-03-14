@@ -42,7 +42,8 @@ You can install apigeellint using npm. But, there is a minimum version of `npm` 
 ## Basic Usage
 
 Help
-```
+
+```sh
 apigeelint -h
 Usage: apigeelint [options]
 
@@ -62,8 +63,9 @@ Options:
   --ignoreDirectives                      ignore any directives within XML files that disable warnings
   -h, --help                              output usage information
 ```
+
 Example:
-```
+```sh
 apigeelint -s sampleProxy/apiproxy -f table.js
 ```
 
@@ -75,7 +77,7 @@ Possible formatters are: "json.js" (the default), "stylish.js", "compact.js", "c
 ## Examples
 
 ### Basic usage: ingest from a directory
-```
+```sh
 apigeelint -f table.js -s path/to/your/apiproxy
 ```
 
@@ -119,10 +121,10 @@ perform the export, which means it will work only with Apigee X or hybrid.
 
 ```
 # to download and then analyze a proxy bundle
-apigeelint -f table.js -d org:your-org-name,api:name-of-your-api-proxy
+apigeelint -f table.js -d org:ORG-NAME,api:name-of-your-api-proxy
 
 # to download and then analyze a sharedflow bundle
-apigeelint -f table.js -d org:your-org-name,sf:name-of-your-shared-flow
+apigeelint -f table.js -d org:ORG-NAME,sf:name-of-your-shared-flow
 ```
 
 With this invocation, the tool will:
@@ -139,13 +141,25 @@ tool](https://cloud.google.com/sdk/gcloud) installed, and available on your
 path, this will fail.
 
 
-You can also specify a token you have obtained previously:
+#### Variations
 
-```
-apigeelint -f table.js -d org:your-org-name,api:name-of-your-api-proxy,token:ACCESS_TOKEN_HERE
-```
+1. To tell apigeelint to skip invocation of `gcloud`, specify a token you have obtained previously:
+   ```sh
+   apigeelint -f table.js -d org:ORG-NAME,api:NAME-OF-APIPROXY,token:ACCESS_TOKEN_HERE
+   ```
 
-In this case, apigeelint does not try to use `gcloud` to obtain an access token.
+   In this case, apigeelint does not try to use `gcloud` to obtain an access token.
+
+2. To tell apigeelint to download a particular revision to scan, specify the `rev:` segment:
+   ```sh
+   apigeelint -f table.js -d org:ORG-NAME,api:NAME-OF-APIPROXY,rev:4
+   ```
+
+3. To tell apigeelint to download the latest revision that is deployed in a particular
+   environment, specify the `env:` segment:
+   ```sh
+   apigeelint -f table.js -d org:ORG-NAME,api:NAME-OF-APIPROXY,env:stg
+   ```
 
 
 
@@ -530,7 +544,7 @@ Apigee customers should use [formal support channels](https://cloud.google.com/a
 
 ## License and Copyright
 
-This material is [Copyright (c) 2018-2024 Google LLC](./NOTICE).
+This material is [Copyright (c) 2018-2025 Google LLC](./NOTICE).
 and is licensed under the [Apache 2.0 License](LICENSE).
 
 ## Disclaimer
