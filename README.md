@@ -42,6 +42,7 @@ You can install apigeellint using npm. But, there is a minimum version of `npm` 
 ## Basic Usage
 
 Help
+
 ```sh
 apigeelint -h
 Usage: apigeelint [options]
