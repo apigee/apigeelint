@@ -169,7 +169,14 @@ We package apigeelint with a broad set of plugins that we think
 will be generally valuable. For people that want to check for some
 case that is not covered by the bundled plugins, you can write your own plugin.
 Just follow the pattern as exhibited by the many plugins that are available.
-External Plugins must use a prefix of "EX".
+External Plugins must use a name that conforms to this pattern:
+- a prefix of "EX".
+- followed by a dash
+- followed by two uppercase alphabetic characters
+- followed by three decimal digits.
+
+Example:  EX-PO007
+
 
 You could, for example, create your own plugin for naming conventions, and
 exclude the builtin plugin that enforces naming conventions (`PO007`) with the
