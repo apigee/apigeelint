@@ -19,7 +19,7 @@ continues to get enhancements.  There are a variety of plugins that test
 Bundles, Policies, ProxyEndpoints, and more.
 
 The tool can report results out to the console, or to a file.  The tool can
-ingest from an exploded directory, or from a zipped bundle.
+ingest from a directory containing the proxy bundle, or from a zipped bundle.
 
 ## Installation
 
@@ -49,7 +49,7 @@ Usage: apigeelint [options]
 
 Options:
   -V, --version                           output the version number
-  -s, --path <path>                       Path of the proxy to analyze
+  -s, --path <path>                       Path of the proxy or sharedflow to analyze (directory or zipped bundle)
   -d, --download [value]                  Download the API proxy or sharedflow to analyze. Exclusive of -s / --path. Example: org:ORG,api:PROXYNAME or org:ORG,sf:SHAREDFLOWNAME
   -f, --formatter [value]                 Specify formatters (default: json.js)
   -w, --write [value]                     file path to write results

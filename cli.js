@@ -87,7 +87,7 @@ const findBundle = (p) => {
     .version(pkj.version)
     .option(
       "-s, --path <path>",
-      "Path of the exploded apiproxy or sharedflowbundle directory",
+      "Path of the proxy or sharedflow to analyze (directory or zipped bundle)",
     )
     .option(
       "-d, --download [value]",
