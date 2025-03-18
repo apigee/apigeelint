@@ -155,8 +155,15 @@ path, this will fail.
    apigeelint -f table.js -d org:ORG-NAME,api:NAME-OF-APIPROXY,rev:4
    ```
 
-3. To tell apigeelint to download the latest revision that is deployed in a particular
-   environment, specify the `env:` segment:
+3. To combine the prior two examples, specify a token and a revision:
+   ```sh
+   apigeelint -f table.js -d org:ORG-NAME,api:NAME-OF-APIPROXY,rev:4,token:ACCESS_TOKEN_HERE
+   ```
+
+4. To tell apigeelint to get a token via gcloud, then download the latest
+   revision that is deployed in a particular environment, specify the `env:`
+   segment:
+
    ```sh
    apigeelint -f table.js -d org:ORG-NAME,api:NAME-OF-APIPROXY,env:stg
    ```
