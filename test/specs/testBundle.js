@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2024 Google LLC
+  Copyright 2019-2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,8 +14,8 @@
   limitations under the License.
 */
 
-const assert = require("assert"),
-  path = require("path"),
+const assert = require("node:assert"),
+  path = require("node:path"),
   Bundle = require("../../lib/package/Bundle.js");
 
 describe("addMessage", function () {
@@ -49,13 +49,12 @@ describe("addMessage", function () {
     bundle.addMessage({ plugin, message });
 
     bundle.getReport((report) => {
-      //console.log(JSON.stringify(report, null, 2));
-
       let bundleResult = report.find(
-        (element) => element.filePath === proxyPath,
+        (element) =>
+          path.normalize(element.filePath) === path.normalize(proxyPath),
       );
 
-      assert.notEqual(bundleResult, null);
+      assert.ok(bundleResult);
       assert.equal(bundleResult.warningCount, 1);
       let m = bundleResult.messages.find(
         (element) => element.message === message,

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2022 Google LLC
+  Copyright 2019-2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -28,12 +28,12 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
     source: {
       type: "filesystem",
       path: path.resolve(__dirname, "../fixtures/resources/EP002/apiproxy"),
-      bundleType: "apiproxy"
+      bundleType: "apiproxy",
     },
     profile: "apigeex",
     excluded: {},
     setExitCode: false,
-    output: () => {} // suppress output
+    output: () => {}, // suppress output
   };
 
   bl.lint(configuration, (bundle) => {
@@ -42,7 +42,7 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
       (item) =>
         item.messages &&
         item.messages.length &&
-        item.messages.find((m) => m.ruleId == "EP002")
+        item.messages.find((m) => m.ruleId == "EP002"),
     );
 
     it("should generate the expected errors", () => {
@@ -52,9 +52,12 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
     });
 
     it("should generate the correct messages for proxy endpoint 1", () => {
-      let proxyEp1Errors = ep002Errors.filter((item) =>
-        item.filePath.endsWith("/apiproxy/proxies/proxy-endpoint-1.xml")
+      let proxyEp1Errors = ep002Errors.filter((item, ix) =>
+        item.filePath.endsWith(
+          path.normalize("/apiproxy/proxies/proxy-endpoint-1.xml"),
+        ),
       );
+
       assert.ok(proxyEp1Errors);
       assert.equal(proxyEp1Errors.length, 1);
       let expectedErrors = [
@@ -62,12 +65,12 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
         "Invalid Framjo element",
         "Misplaced DefaultFaultRule element child of Framjo",
         "Misplaced Step element child of PostClientFlow",
-        "Invalid Flow element"
+        "Invalid Flow element",
       ];
       assert.equal(
         proxyEp1Errors[0].messages.length,
         expectedErrors.length,
-        "number of errors"
+        "number of errors",
       );
       proxyEp1Errors[0].messages.forEach((msg) => {
         assert.ok(msg.message);
@@ -80,7 +83,7 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
 
     it("should generate the correct messages for proxy endpoint 2", () => {
       let proxyEp2Errors = ep002Errors.filter((item) =>
-        item.filePath.endsWith("/apiproxy/proxies/proxy-endpoint-2.xml")
+        item.filePath.endsWith("/apiproxy/proxies/proxy-endpoint-2.xml"),
       );
       assert.ok(proxyEp2Errors);
       assert.equal(proxyEp2Errors.length, 0);
@@ -96,7 +99,7 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
 
     it("should generate the correct messages for the target endpoint", () => {
       let targetErrors = ep002Errors.filter((item) =>
-        item.filePath.endsWith("/apiproxy/targets/http-1.xml")
+        item.filePath.endsWith(path.normalize("/apiproxy/targets/http-1.xml")),
       );
       assert.ok(targetErrors);
       assert.equal(targetErrors.length, 1);
@@ -112,16 +115,16 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
         "Misplaced 'ConnectTimeoutInMin' element child of Request",
         "Misplaced 'Status' element child of SuccessResponse",
         "Redundant HealthMonitor element",
-        "TCPMonitor element conflicts with HTTPMonitor on line 47"
+        "TCPMonitor element conflicts with HTTPMonitor on line 47",
       ];
       debug(targetErrors[0].messages);
       const ep002Messages = targetErrors[0].messages.filter(
-        (m) => m.ruleId == "EP002"
+        (m) => m.ruleId == "EP002",
       );
       assert.equal(
         ep002Messages.length,
         expectedErrors.length,
-        "number of errors"
+        "number of errors",
       );
       ep002Messages.forEach((msg) => {
         assert.ok(msg.message);
@@ -133,7 +136,7 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
 
     it("should generate the correct messages for the target endpoint with URL", () => {
       let targetErrors = ep002Errors.filter((item) =>
-        item.filePath.endsWith("/apiproxy/targets/http-2.xml")
+        item.filePath.endsWith("/apiproxy/targets/http-2.xml"),
       );
       assert.ok(targetErrors);
       assert.equal(targetErrors.length, 0);
@@ -148,14 +151,14 @@ describe(`EP002 - sharedflowbundle with no misplaced elements`, () => {
       type: "filesystem",
       path: path.resolve(
         __dirname,
-        "../fixtures/resources/ExtractVariables-Attachment/sharedflowbundle"
+        "../fixtures/resources/ExtractVariables-Attachment/sharedflowbundle",
       ),
-      bundleType: "sharedflowbundle"
+      bundleType: "sharedflowbundle",
     },
     profile: "apigeex",
     excluded: {},
     setExitCode: false,
-    output: () => {} // suppress output
+    output: () => {}, // suppress output
   };
 
   bl.lint(configuration, (bundle) => {
@@ -165,7 +168,7 @@ describe(`EP002 - sharedflowbundle with no misplaced elements`, () => {
       assert.ok(items);
       assert.ok(items.length);
       const itemsWithErrors = items.filter(
-        (item) => item.messages && item.messages.length
+        (item) => item.messages && item.messages.length,
       );
       assert.equal(itemsWithErrors.length, 1);
     });
@@ -175,7 +178,7 @@ describe(`EP002 - sharedflowbundle with no misplaced elements`, () => {
         (item) =>
           item.messages &&
           item.messages.length &&
-          item.messages.find((m) => m.ruleId == "EP002")
+          item.messages.find((m) => m.ruleId == "EP002"),
       );
 
       assert.equal(ep002Errors.length, 0);

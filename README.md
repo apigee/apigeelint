@@ -19,7 +19,7 @@ continues to get enhancements.  There are a variety of plugins that test
 Bundles, Policies, ProxyEndpoints, and more.
 
 The tool can report results out to the console, or to a file.  The tool can
-ingest from an exploded directory, or from a zipped bundle.
+ingest from a directory containing the proxy bundle, or from a zipped bundle.
 
 ## Installation
 
@@ -49,7 +49,7 @@ Usage: apigeelint [options]
 
 Options:
   -V, --version                           output the version number
-  -s, --path <path>                       Path of the proxy to analyze
+  -s, --path <path>                       Path of the proxy or sharedflow to analyze (directory or zipped bundle)
   -d, --download [value]                  Download the API proxy or sharedflow to analyze. Exclusive of -s / --path. Example: org:ORG,api:PROXYNAME or org:ORG,sf:SHAREDFLOWNAME
   -f, --formatter [value]                 Specify formatters (default: json.js)
   -w, --write [value]                     file path to write results
@@ -155,8 +155,15 @@ path, this will fail.
    apigeelint -f table.js -d org:ORG-NAME,api:NAME-OF-APIPROXY,rev:4
    ```
 
-3. To tell apigeelint to download the latest revision that is deployed in a particular
-   environment, specify the `env:` segment:
+3. To combine the prior two examples, specify a token and a revision:
+   ```sh
+   apigeelint -f table.js -d org:ORG-NAME,api:NAME-OF-APIPROXY,rev:4,token:ACCESS_TOKEN_HERE
+   ```
+
+4. To tell apigeelint to get a token via gcloud, then download the latest
+   revision that is deployed in a particular environment, specify the `env:`
+   segment:
+
    ```sh
    apigeelint -f table.js -d org:ORG-NAME,api:NAME-OF-APIPROXY,env:stg
    ```
@@ -169,7 +176,14 @@ We package apigeelint with a broad set of plugins that we think
 will be generally valuable. For people that want to check for some
 case that is not covered by the bundled plugins, you can write your own plugin.
 Just follow the pattern as exhibited by the many plugins that are available.
-External Plugins must use a prefix of "EX".
+External Plugins must use a name that conforms to this pattern:
+- a prefix of "EX".
+- followed by a dash
+- followed by two uppercase alphabetic characters
+- followed by three decimal digits.
+
+Example:  EX-PO007
+
 
 You could, for example, create your own plugin for naming conventions, and
 exclude the builtin plugin that enforces naming conventions (`PO007`) with the
