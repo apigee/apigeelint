@@ -29,7 +29,6 @@
     "chalk": "4.1.2",
     "commander": "^2.9.0",
     "debug": "^4.3.6",
-    "decompress": "latest",
     "eslint": "latest",
     "fast-xml-parser": "^4.3.1",
     "js-yaml": "latest",
