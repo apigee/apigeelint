@@ -8,15 +8,23 @@
   },
   "scripts": {
     "badge": "mocha --reporter mocha-badge-generator",
-    "coverage": "npx nyc --reporter=text mocha",
     "build-condition-parser": "npx mkdirp build && npx peggy -o build/ConditionParser.js lib/peggy/Apigee-Condition.pegjs",
+    "coverage": "npx nyc --reporter=text mocha",
+    "depcheck" : "npx depcheck . --ignores=depcheck,mocha-lcov-reporter",
     "test": "mocha"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/apigee/apigeelint"
   },
-  "keywords": ["API", "bundle", "lint", "linter", "Apigee", "Edge"],
+  "keywords": [
+    "API",
+    "bundle",
+    "lint",
+    "linter",
+    "Apigee",
+    "Edge"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/apigee/apigeelint/issues"
@@ -45,6 +53,7 @@
   },
   "devDependencies": {
     "chai": "^4.3.10",
+    "depcheck": "^1.4.7",
     "jsonschema": "latest",
     "mkdirp": "^3.0.1",
     "mocha": "^11.1.0",
