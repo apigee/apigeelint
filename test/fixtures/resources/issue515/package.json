@@ -1,7 +1,7 @@
 {
-  "name": "apigeelint-xmldom-finding-test",
+  "name": "apigeelint-cli-bug515-test",
   "version": "1.0.0",
-  "description": "test bug 481 in apigeelint with resolving @xmldom/xmldom",
+  "description": "test warning in apigeelint with external plugins",
   "devDependencies": {
     "apigeelint": "2.x.x",
     "debug": "4.3.5"

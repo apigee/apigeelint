@@ -1,5 +1,5 @@
 /*
-  Copyright 2024 Google LLC
+  Copyright © 2024-2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -21,13 +21,13 @@ const assert = require("assert"),
   lintUtil = require("../../lib/package/lintUtil.js"),
   util = require("node:util"),
   child_process = require("node:child_process"),
-  debug = require("debug")("apigeelint:xmldom-test");
+  debug = require("debug")("apigeelint:issue515");
 
-describe("xmldom path resolution verification", function () {
+describe("cli external plugin warning verification", function () {
   this.slow(11000);
   const path = require("node:path"),
     fs = require("node:fs"),
-    proxyDir = path.resolve(__dirname, "../fixtures/resources/issue481"),
+    proxyDir = path.resolve(__dirname, "../fixtures/resources/issue515"),
     node_modules = path.resolve(proxyDir, "node_modules"),
     packageLock = path.resolve(proxyDir, "package-lock.json");
 
@@ -36,6 +36,7 @@ describe("xmldom path resolution verification", function () {
     fs.rmSync(packageLock, { force: true });
     done();
   };
+
   before(function (done) {
     // remove node_modules before the test runs. We want a clean install.
     cleanup(done);
@@ -49,17 +50,7 @@ describe("xmldom path resolution verification", function () {
     setTimeout(() => cleanup(done), 2000);
   });
 
-  it("should resolve to a path", function (done) {
-    try {
-      const p = lintUtil.getNodeModulesPathFor("@xmldom/xmldom");
-      assert.ok(p);
-    } catch (e) {
-      assert.fail();
-    }
-    done();
-  });
-
-  it("should find xmldom", function (done) {
+  it("should log a warning for stray files in the external plugins dir", function (done) {
     this.timeout(38000);
     const opts = {
       cwd: proxyDir,
@@ -85,28 +76,48 @@ describe("xmldom path resolution verification", function () {
         // run apigeelint after npm install
         const proc = child_process.spawn(
           "node",
-          ["./node_modules/apigeelint/cli.js", "-s", "sample/apiproxy"],
+          [
+            "./node_modules/apigeelint/cli.js",
+            "-s",
+            "sample/apiproxy",
+            "-x",
+            "external-plugins",
+          ],
           { ...opts, timeout: 20000 },
         );
         let stdoutBlobs = [],
           stderrBlobs = [];
         proc.stdout.on("data", (data) => {
           stdoutBlobs.push(data);
-          debug(`stdout: ${data}`);
+          debug(`stdout blob: ${data}`);
         });
         proc.stderr.on("data", (data) => {
           stderrBlobs.push(data);
-          debug(`stderr: ${data}`);
+          debug(`stderr blob: ${data}`);
         });
-        proc.on("exit", (exitCode) => debug(`exit: ${exitCode}`));
+        proc.on("exit", (exitCode) =>
+          setTimeout(() => debug(`exit: ${exitCode}`), 0),
+        );
         proc.on("error", (error) => console.error(`process error: ${error}`));
         proc.on("close", (code) => {
           debug(`child process exited with code ${code}`);
-          let aggregatedErrorMessages = stderrBlobs.join("");
+          let aggregatedErrorOutput = stderrBlobs.join("");
+          debug(`stderr: ${aggregatedErrorOutput}`);
           if (code != 0) {
-            console.log(`stderr: ${aggregatedErrorMessages}`);
+            console.log(`exit status: ${code}`);
           }
           assert.equal(code, 0, "return status code");
+          assert.ok(
+            aggregatedErrorOutput.startsWith(
+              "Unexpected .js file in external plugins directory:",
+            ),
+            "error messages",
+          );
+          assert.equal(
+            aggregatedErrorOutput.trim().split("\n").length,
+            1,
+            "error messages",
+          );
           done();
         });
       } catch (ex1) {
@@ -114,52 +125,5 @@ describe("xmldom path resolution verification", function () {
         assert.fail();
       }
     });
-  });
-});
-
-describe("xmldom element name tests", function () {
-  let xml;
-  const exampleXml = `<root attr1="hello"><!-- comment --><A><B/></A></root>`;
-  before(function () {
-    xml = new Dom().parseFromString(exampleXml);
-  });
-
-  it("should properly name the document node", function (done) {
-    assert.ok(xml);
-    const nodeTypeString = lintUtil.xmlNodeTypeAsString(xml.nodeType);
-    assert.ok(nodeTypeString);
-    assert.equal(nodeTypeString, "DOCUMENT_NODE");
-    done();
-  });
-
-  it("should properly name the root element node", function (done) {
-    assert.ok(xml.documentElement.nodeType);
-    const nodeTypeString = lintUtil.xmlNodeTypeAsString(
-      xml.documentElement.nodeType,
-    );
-    assert.ok(nodeTypeString);
-    assert.equal(nodeTypeString, "ELEMENT_NODE");
-    done();
-  });
-
-  it("should properly name the comment node", function (done) {
-    const fc = xml.documentElement.firstChild;
-    assert.ok(fc);
-    const nodeTypeString = lintUtil.xmlNodeTypeAsString(fc.nodeType);
-    assert.ok(nodeTypeString);
-    assert.equal(nodeTypeString, "COMMENT_NODE");
-    done();
-  });
-
-  it("should properly name the attribute node", function (done) {
-    const attr = xml.documentElement.getAttributeNode("attr1");
-    debug(`attrs(${attr})`);
-    debug(`attrs(${util.format(attr)})`);
-    assert.ok(attr);
-    let nodeTypeString = lintUtil.xmlNodeTypeAsString(attr.nodeType);
-    debug(`nodeTypeString(${nodeTypeString})`);
-    assert.ok(nodeTypeString);
-    assert.equal(nodeTypeString, "ATTRIBUTE_NODE");
-    done();
   });
 });

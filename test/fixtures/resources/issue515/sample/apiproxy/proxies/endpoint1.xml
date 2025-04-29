@@ -1,0 +1,65 @@
+<ProxyEndpoint name="endpoint1">
+  <Description>Endpoint to show off JSON Threat Protection policy</Description>
+  <HTTPProxyConnection>
+    <BasePath>/json-threat-ex1</BasePath>
+  </HTTPProxyConnection>
+
+  <FaultRules/>
+  <DefaultFaultRule>
+    <AlwaysEnforce>true</AlwaysEnforce>
+    <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+    </Step>
+  </DefaultFaultRule>
+
+  <PreFlow name="PreFlow">
+    <Request/>
+    <Response>
+      <Step>
+        <Name>AM-Clean-Request-Headers-From-Response</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response>
+      <Step>
+        <Name>AM-Inject-Proxy-Revision-Header</Name>
+      </Step>
+    </Response>
+  </PostFlow>
+
+  <Flows>
+    <Flow name="t1">
+      <Description>test json threat protection</Description>
+      <Request>
+        <Step>
+          <Name>RF-Unsupported-Media-Type</Name>
+          <Condition>request.header.content-type != "application/json"</Condition>
+        </Step>
+        <Step>
+          <Name>JSONThreatProtection-1</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AM-Response-OK</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/t1") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="unknown request">
+      <Request>
+        <Step>
+          <Name>RF-Unknown-Request</Name>
+        </Step>
+      </Request>
+      <Response/>
+    </Flow>
+
+  </Flows>
+
+  <RouteRule name="NoRouteRule"/>
+
+</ProxyEndpoint>
