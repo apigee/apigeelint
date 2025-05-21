@@ -1,0 +1,9 @@
+<Javascript continueOnError="false" enabled="true" timeLimit="200" name="JS-Parse-Events">
+  <DisplayName>JS-Parse-Events</DisplayName>
+  <Properties/>
+  <Source>
+    var event = JSON.parse(context.getVariable("response.event.current.content"));
+    event.modelVersion = null;
+    context.setVariable("response.event.current.content",JSON.stringify(event));
+  </Source>
+</Javascript>

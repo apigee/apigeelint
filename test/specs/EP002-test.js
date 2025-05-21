@@ -185,3 +185,42 @@ describe(`EP002 - sharedflowbundle with no misplaced elements`, () => {
     });
   });
 });
+
+describe(`EP002 - EventFlow with no misplaced elements`, () => {
+  let configuration = {
+    debug: true,
+    source: {
+      type: "filesystem",
+      path: path.resolve(__dirname, "../fixtures/resources/EP002-eventflow/apiproxy"),
+      bundleType: "apiproxy",
+    },
+    profile: "apigeex",
+    excluded: {},
+    setExitCode: false,
+    output: () => {}, // suppress output
+  };
+
+  bl.lint(configuration, (bundle) => {
+    const items = bundle.getReport();
+    console.log("** items: "+ JSON.stringify(items));
+    it("should generate some errors", () => {
+      assert.ok(items);
+      assert.ok(items.length);
+      const itemsWithErrors = items.filter(
+        (item) => item.messages && item.messages.length,
+      );
+      assert.equal(itemsWithErrors.length, 1);
+    });
+
+    it("should generate no EP002 errors", () => {
+      const ep002Errors = items.filter(
+        (item) =>
+          item.messages &&
+          item.messages.length &&
+          item.messages.find((m) => m.ruleId == "EP002"),
+      );
+
+      assert.equal(ep002Errors.length, 0);
+    });
+  });
+});
