@@ -1,0 +1,12 @@
+<APIProxy revision="18" name="EP002-eventflow">
+    <CreatedAt>1621009025657</CreatedAt>
+    <LastModifiedAt>1621009262854</LastModifiedAt>
+    <BasePaths>/EP002-eventflow</BasePaths>
+    <Policies/>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources></Resources>
+    <TargetServers></TargetServers>
+    <TargetEndpoints></TargetEndpoints>
+</APIProxy>

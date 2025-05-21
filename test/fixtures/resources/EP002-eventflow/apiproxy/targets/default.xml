@@ -1,0 +1,31 @@
+<TargetEndpoint name="default">
+  <Description/>
+  <FaultRules/>
+  <PreFlow name="PreFlow">
+    <Request/>
+    <Response/>
+  </PreFlow>
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response/>
+  </PostFlow>
+  <Flows/>
+  <EventFlow name="EventFlow" content-type="text/event-stream">
+    <Response>
+      <Step>
+        <Name>JS-Parse-Events</Name>
+      </Step>
+    </Response>
+  </EventFlow>
+  <HTTPTargetConnection>
+    <Authentication>
+      <GoogleAccessToken>
+        <Scopes>
+          <Scope>https://www.googleapis.com/auth/cloud-platform</Scope>
+        </Scopes>
+      </GoogleAccessToken>
+    </Authentication>
+    <Properties/>
+    <URL>https://{region}-aiplatform.googleapis.com</URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>
