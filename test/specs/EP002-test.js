@@ -202,7 +202,6 @@ describe(`EP002 - EventFlow with no misplaced elements`, () => {
 
   bl.lint(configuration, (bundle) => {
     const items = bundle.getReport();
-    console.log("** items: "+ JSON.stringify(items));
     it("should generate some errors", () => {
       assert.ok(items);
       assert.ok(items.length);
