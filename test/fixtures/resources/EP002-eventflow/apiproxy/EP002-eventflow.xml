@@ -4,7 +4,7 @@
     <BasePaths>/EP002-eventflow</BasePaths>
     <Policies/>
     <ProxyEndpoints>
-        <ProxyEndpoint>endpoint1</ProxyEndpoint>
+        <ProxyEndpoint>default</ProxyEndpoint>
     </ProxyEndpoints>
     <Resources></Resources>
     <TargetServers></TargetServers>
