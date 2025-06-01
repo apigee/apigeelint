@@ -1,0 +1,3 @@
+<VerifyAPIKey name='VerifyAPIKey'>
+  <APIKey ref='request.header.X-Apikey'/>
+</VerifyAPIKey>
