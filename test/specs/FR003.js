@@ -35,25 +35,43 @@ describe(`${testID} - check for single FaultRule`, function () {
     setExitCode: false,
     output: () => {}, // suppress output
   };
+  let items = null,
+    itemsWithFR003Errors = null;
 
-  debug("test configuration: " + JSON.stringify(configuration));
+  /*
+   * Tests must not run the linter outside of the scope of an it() ,
+   * because then the mocha --grep does not do what you want.
+   * This method insures we run the lint once, but only within
+   * the scope of it().
+   **/
+  const insure = (cb) => {
+    if (items == null) {
+      debug("test configuration: " + JSON.stringify(configuration));
+      bl.lint(configuration, (bundle) => {
+        items = bundle.getReport();
+        itemsWithFR003Errors = items.filter(
+          (item) =>
+            item.messages &&
+            item.messages.length &&
+            item.messages.find((m) => m.ruleId == testID),
+        );
+        cb();
+      });
+    } else {
+      cb();
+    }
+  };
 
-  bl.lint(configuration, (bundle) => {
-    let items = bundle.getReport();
-    let itemsWithFR003Errors = items.filter(
-      (item) =>
-        item.messages &&
-        item.messages.length &&
-        item.messages.find((m) => m.ruleId == testID),
-    );
-
-    it("should generate the expected warnings", () => {
+  it("should generate the expected warnings", () => {
+    insure(() => {
       assert.ok(items);
       assert.ok(items.length);
       assert.equal(itemsWithFR003Errors.length, 2);
     });
+  });
 
-    it("should generate a warning for proxy endpoint1", () => {
+  it("should generate a warning for proxy endpoint1", () => {
+    insure(() => {
       let proxyEp1Error = itemsWithFR003Errors.find((item) =>
         item.filePath.endsWith(
           path.normalize("/apiproxy/proxies/endpoint1.xml"),
@@ -72,8 +90,10 @@ describe(`${testID} - check for single FaultRule`, function () {
       );
       assert.equal(messages[0].severity, 1);
     });
+  });
 
-    it("should generate an error for proxy endpoint2", () => {
+  it("should generate an error for proxy endpoint2", () => {
+    insure(() => {
       let proxyEp2Error = itemsWithFR003Errors.find((item) =>
         item.filePath.endsWith(
           path.normalize("/apiproxy/proxies/endpoint2.xml"),
@@ -84,8 +104,10 @@ describe(`${testID} - check for single FaultRule`, function () {
         proxyEp2Error.messages.filter((msg) => msg.ruleId == testID);
       assert.ok(!proxyEp2Error || messages.length == 0);
     });
+  });
 
-    it("should generate no error for proxy endpoint3", () => {
+  it("should generate no error for proxy endpoint3", () => {
+    insure(() => {
       let proxyEp3Error = itemsWithFR003Errors.find((item) =>
         item.filePath.endsWith(
           path.normalize("/apiproxy/proxies/endpoint3.xml"),
@@ -93,8 +115,10 @@ describe(`${testID} - check for single FaultRule`, function () {
       );
       assert.ok(!proxyEp3Error);
     });
+  });
 
-    it("should generate no error for target1", () => {
+  it("should generate no error for target1", () => {
+    insure(() => {
       let targetEp1Error = itemsWithFR003Errors.find((item) =>
         item.filePath.endsWith(path.normalize("/apiproxy/targets/target1.xml")),
       );
@@ -103,8 +127,10 @@ describe(`${testID} - check for single FaultRule`, function () {
         targetEp1Error.messages.filter((msg) => msg.ruleId == testID);
       assert.ok(!targetEp1Error || messages.length == 0);
     });
+  });
 
-    it("should generate no error for target2", () => {
+  it("should generate no error for target2", () => {
+    insure(() => {
       let targetEp2Error = itemsWithFR003Errors.find((item) =>
         item.filePath.endsWith(path.normalize("/apiproxy/targets/target2.xml")),
       );
@@ -113,8 +139,10 @@ describe(`${testID} - check for single FaultRule`, function () {
         targetEp2Error.messages.filter((msg) => msg.ruleId == testID);
       assert.ok(!targetEp2Error || messages.length == 0);
     });
+  });
 
-    it("should generate a warning for target3", () => {
+  it("should generate a warning for target3", () => {
+    insure(() => {
       let targetEp3Error = itemsWithFR003Errors.find((item) =>
         item.filePath.endsWith(path.normalize("/apiproxy/targets/target3.xml")),
       );
@@ -132,9 +160,11 @@ describe(`${testID} - check for single FaultRule`, function () {
         0,
       );
     });
+  });
 
-    // generate a full report and check the format of the report
-    it("should create a report object with valid schema", function () {
+  // generate a full report and check the format of the report
+  it("should create a report object with valid schema", function () {
+    insure(() => {
       let formatter = bl.getFormatter("json.js");
 
       if (!formatter) {

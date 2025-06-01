@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2022 Google LLC
+  Copyright 2019-2022,2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,46 +16,48 @@
 /* global describe, it, configuration */
 
 const assert = require("assert"),
-      testID = "TD005",
-      util = require("util"),
-      debug = require("debug")("apigeelint:" + testID),
-      Bundle = require("../../lib/package/Bundle.js"),
-      bl = require("../../lib/package/bundleLinter.js"),
-      Endpoint = require("../../lib/package/Endpoint.js"),
-      plugin = require(bl.resolvePlugin(testID)),
-      Dom = require("@xmldom/xmldom").DOMParser,
-      test = function(caseNum, desc, targetDef, messages) {
-        it(`case ${caseNum} ${desc}`,
-           function() {
-             let tDoc = new Dom().parseFromString(targetDef),
-                 target = new Endpoint(tDoc.documentElement, this, "");
+  testID = "TD005",
+  util = require("util"),
+  debug = require("debug")("apigeelint:" + testID),
+  Bundle = require("../../lib/package/Bundle.js"),
+  bl = require("../../lib/package/bundleLinter.js"),
+  Endpoint = require("../../lib/package/Endpoint.js"),
+  plugin = require(bl.resolvePlugin(testID)),
+  Dom = require("@xmldom/xmldom").DOMParser,
+  test = function (caseNum, desc, targetDef, messages) {
+    it(`case ${caseNum} ${desc}`, function () {
+      let tDoc = new Dom().parseFromString(targetDef),
+        target = new Endpoint(tDoc.documentElement, this, "");
 
-             plugin.onTargetEndpoint(target, function(e, result) {
-               assert.equal(e, undefined, e ? " error " : " no error");
-               debug(`result: ${result}`);
-               if (messages && messages.length) {
-                 assert.equal(result, true);
-                 assert.equal(messages.length,target.report.messages.length, util.format(target.report.messages));
-                 messages.forEach( (msg, ix) => {
-                   debug(`check msg ${ix}: ${msg}`);
-                   assert.ok(
-                     target.report.messages.find(m => m.message == msg),
-                     `index ${ix} ${util.format(target.report.messages)}`);
-                 });
-               }
-               else {
-                 assert.equal(result, false);
-                 assert.equal(target.report.messages.length, 0);
-               }
-             });
-           } );
-      };
+      plugin.onTargetEndpoint(target, function (e, result) {
+        assert.equal(e, undefined, e ? " error " : " no error");
+        debug(`result: ${result}`);
+        if (messages && messages.length) {
+          assert.equal(result, true);
+          assert.equal(
+            messages.length,
+            target.report.messages.length,
+            util.format(target.report.messages),
+          );
+          messages.forEach((msg, ix) => {
+            debug(`check msg ${ix}: ${msg}`);
+            assert.ok(
+              target.report.messages.find((m) => m.message == msg),
+              `index ${ix} ${util.format(target.report.messages)}`,
+            );
+          });
+        } else {
+          assert.equal(result, false);
+          assert.equal(target.report.messages.length, 0);
+        }
+      });
+    });
+  };
 
-describe(`${testID} - ${plugin.plugin.name}`, function() {
-
+describe(`${testID} - ${plugin.plugin.name}`, function () {
   test(
     10,
-    'SSLInfo Truststore no ref',
+    "SSLInfo Truststore no ref",
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
       <SSLInfo>
@@ -66,12 +68,12 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
       <Properties/>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ['When using a TrustStore, use a reference']
+    ["When using a TrustStore, use a reference"],
   );
 
   test(
     11,
-    'SSLInfo TrustStore ref',
+    "SSLInfo TrustStore ref",
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
       <SSLInfo>
@@ -82,12 +84,12 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
       <Properties/>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    null
+    null,
   );
 
   test(
     20,
-    'SSLInfo KeyStore no ref',
+    "SSLInfo KeyStore no ref",
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
       <SSLInfo>
@@ -101,12 +103,12 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
       <Properties/>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ['When using a KeyStore, use a reference']
+    ["When using a KeyStore, use a reference"],
   );
 
   test(
     21,
-    'SSLInfo KeyStore ref',
+    "SSLInfo KeyStore ref",
     `<TargetEndpoint name="default">
     <HTTPTargetConnection>
       <SSLInfo>
@@ -120,32 +122,26 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
       <Properties/>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    null
+    null,
   );
 });
 
-describe(`${testID} - Print plugin results`, function() {
-  debug("test configuration: " + JSON.stringify(configuration));
-  var bundle = new Bundle(configuration);
-  bl.executePlugin(testID, bundle);
-  let report = bundle.getReport();
-
-  it("should create a report object with valid schema", function() {
+describe(`${testID} - Print plugin results`, function () {
+  it("should create a report object with valid schema", function () {
+    debug("test configuration: " + JSON.stringify(configuration));
+    var bundle = new Bundle(configuration);
+    bl.executePlugin(testID, bundle);
+    let report = bundle.getReport();
+    assert.ok(report);
 
     let formatter = bl.getFormatter("json.js");
-    if (!formatter) {
-      assert.fail("formatter implementation not defined");
-    }
-    let schema = require("./../fixtures/reportSchema.js"),
-        Validator = require("jsonschema").Validator,
-        v = new Validator(),
-        jsonReport = JSON.parse(formatter(report)),
-        validationResult = v.validate(jsonReport, schema);
-    assert.equal(
-      validationResult.errors.length,
-      0,
-      validationResult.errors
-    );
-  });
+    assert.ok(formatter);
 
+    let schema = require("./../fixtures/reportSchema.js"),
+      Validator = require("jsonschema").Validator,
+      v = new Validator(),
+      jsonReport = JSON.parse(formatter(report)),
+      validationResult = v.validate(jsonReport, schema);
+    assert.equal(validationResult.errors.length, 0, validationResult.errors);
+  });
 });

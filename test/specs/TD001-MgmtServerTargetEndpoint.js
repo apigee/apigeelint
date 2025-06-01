@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2021,2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,42 +16,38 @@
 /* global describe, it */
 
 const assert = require("assert"),
-      testID = "TD001",
-      debug = require("debug")("apigeelint:" + testID),
-      Bundle = require("../../lib/package/Bundle.js"),
-      bl = require("../../lib/package/bundleLinter.js"),
-      Endpoint = require("../../lib/package/Endpoint.js"),
-      plugin = require(bl.resolvePlugin(testID)),
-      Dom = require("@xmldom/xmldom").DOMParser,
-      test = function(caseNum, targetDef, assertion) {
-        it(`tests case ${caseNum}, expect(${assertion}`,
-           function() {
-             let tDoc = new Dom().parseFromString(targetDef),
-                 target = new Endpoint(tDoc, this, "");
+  testID = "TD001",
+  debug = require("debug")("apigeelint:" + testID),
+  Bundle = require("../../lib/package/Bundle.js"),
+  bl = require("../../lib/package/bundleLinter.js"),
+  Endpoint = require("../../lib/package/Endpoint.js"),
+  plugin = require(bl.resolvePlugin(testID)),
+  Dom = require("@xmldom/xmldom").DOMParser,
+  test = function (caseNum, targetDef, assertion) {
+    it(`tests case ${caseNum}, expect(${assertion}`, function () {
+      let tDoc = new Dom().parseFromString(targetDef),
+        target = new Endpoint(tDoc, this, "");
 
-             target.addMessage = function(msg) {
-               debug(msg);
-             };
-
-             plugin.onTargetEndpoint(target, function(err, result) {
-               assert.equal(err, undefined, err ? " err " : " no err");
-               assert.equal(
-                 result,
-                 assertion,
-                 result
-                   ? "warning/error was returned"
-                   : "warning/error was not returned"
-               );
-             });
-           }
-          );
+      target.addMessage = function (msg) {
+        debug(msg);
       };
+
+      plugin.onTargetEndpoint(target, function (err, result) {
+        assert.equal(err, undefined, err ? " err " : " no err");
+        assert.equal(
+          result,
+          assertion,
+          result
+            ? "warning/error was returned"
+            : "warning/error was not returned",
+        );
+      });
+    });
+  };
 
 //now generate a full report and check the format of the report
 
-
-describe(`${testID} - ${plugin.plugin.name}`, function() {
-
+describe(`${testID} - ${plugin.plugin.name}`, function () {
   test(
     1,
     `<TargetEndpoint name="default">
@@ -64,7 +60,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
       </Properties>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    false
+    false,
   );
 
   test(
@@ -79,32 +75,26 @@ describe(`${testID} - ${plugin.plugin.name}`, function() {
       </Properties>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    true
+    true,
   );
 });
 
-describe(`${testID} - Print plugin results`, function() {
-  debug("test configuration: " + JSON.stringify(configuration));
-  var bundle = new Bundle(configuration);
-  bl.executePlugin(testID, bundle);
-  let report = bundle.getReport();
-
-  it("should create a report object with valid schema", function() {
+describe(`${testID} - Print plugin results`, function () {
+  it("should create a report object with valid schema", function () {
+    debug("test configuration: " + JSON.stringify(configuration));
+    var bundle = new Bundle(configuration);
+    bl.executePlugin(testID, bundle);
+    let report = bundle.getReport();
 
     let formatter = bl.getFormatter("json.js");
     if (!formatter) {
       assert.fail("formatter implementation not defined");
     }
     let schema = require("./../fixtures/reportSchema.js"),
-        Validator = require("jsonschema").Validator,
-        v = new Validator(),
-        jsonReport = JSON.parse(formatter(report)),
-        validationResult = v.validate(jsonReport, schema);
-    assert.equal(
-      validationResult.errors.length,
-      0,
-      validationResult.errors
-    );
+      Validator = require("jsonschema").Validator,
+      v = new Validator(),
+      jsonReport = JSON.parse(formatter(report)),
+      validationResult = v.validate(jsonReport, schema);
+    assert.equal(validationResult.errors.length, 0, validationResult.errors);
   });
-
 });

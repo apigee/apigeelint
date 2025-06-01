@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2024 Google LLC
+  Copyright 2019-2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -107,33 +107,32 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
     false,
   );
 
-  debug("test configuration: " + JSON.stringify(configuration));
-
-  var bundle = new Bundle(configuration);
-  bl.executePlugin(testID, bundle);
-
-  //need a case where we are using ref for the key
-  //also prefix
-
   describe(`Print plugin results (${testID})`, function () {
-    let report = bundle.getReport(),
-      formatter = bl.getFormatter("json.js");
-
-    if (!formatter) {
-      assert.fail("formatter implementation not defined");
-    }
-
     it("should create a report object with valid schema", function () {
+      debug("test configuration: " + JSON.stringify(configuration));
+
+      var bundle = new Bundle(configuration);
+      bl.executePlugin(testID, bundle);
+
+      //need a case where we are using ref for the key
+      //also prefix
+      let report = bundle.getReport();
+      assert.ok(report);
+      let formatter = bl.getFormatter("json.js");
+      assert.ok(formatter);
+
       let schema = require("./../fixtures/reportSchema.js"),
         Validator = require("jsonschema").Validator,
         v = new Validator(),
         jsonReport = JSON.parse(formatter(bundle.getReport())),
         validationResult = v.validate(jsonReport, schema);
       assert.equal(validationResult.errors.length, 0, validationResult.errors);
+
+      let stylimpl = bl.getFormatter("unix.js");
+      assert.ok(stylimpl);
+      let stylReport = stylimpl(bundle.getReport());
+      assert.ok(stylReport);
+      debug("unix formatted report: \n" + stylReport);
     });
   });
-
-  var stylimpl = bl.getFormatter("unix.js");
-  var stylReport = stylimpl(bundle.getReport());
-  debug("unix formatted report: \n" + stylReport);
 });

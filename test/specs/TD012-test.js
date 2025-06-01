@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2024 Google LLC
+  Copyright 2019-2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -40,9 +40,8 @@ const loadEndpoint = (sourceDir, shortFileName) => {
 describe(`${testID} - endpoint passes multiple SSLInfo  check`, function () {
   const sourceDir = path.join(rootDir, "pass");
   const testOne = (shortFileName) => {
-    const endpoint = loadEndpoint(sourceDir, shortFileName);
-
     it(`check ${shortFileName} passes`, () => {
+      const endpoint = loadEndpoint(sourceDir, shortFileName);
       plugin.onTargetEndpoint(endpoint, (e, foundIssues) => {
         assert.equal(e, undefined, "should be undefined");
         const messages = endpoint.getReport().messages;
@@ -69,8 +68,8 @@ describe(`${testID} - endpoint does not pass multiple SSLInfo check`, () => {
   const sourceDir = path.join(rootDir, "fail");
 
   const testOne = (shortFileName) => {
-    const policy = loadEndpoint(sourceDir, shortFileName);
     it(`check ${shortFileName} throws error`, () => {
+      const policy = loadEndpoint(sourceDir, shortFileName);
       plugin.onTargetEndpoint(policy, (e, foundIssues) => {
         assert.equal(undefined, e, "should be undefined");
         assert.equal(true, foundIssues, "should be issues");
@@ -81,13 +80,15 @@ describe(`${testID} - endpoint does not pass multiple SSLInfo check`, () => {
     });
   };
 
-  const candidates = fs
-    .readdirSync(sourceDir)
-    .filter((shortFileName) => shortFileName.endsWith(".xml"));
-
   it(`checks that there are tests`, () => {
+    const candidates = fs
+      .readdirSync(sourceDir)
+      .filter((shortFileName) => shortFileName.endsWith(".xml"));
+
     assert.ok(candidates.length > 0, "tests should exist");
   });
 
-  candidates.forEach(testOne);
+  fs.readdirSync(sourceDir)
+    .filter((shortFileName) => shortFileName.endsWith(".xml"))
+    .forEach(testOne);
 });

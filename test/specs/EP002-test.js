@@ -36,22 +36,41 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
     output: () => {}, // suppress output
   };
 
-  bl.lint(configuration, (bundle) => {
-    let items = bundle.getReport();
-    let ep002Errors = items.filter(
-      (item) =>
-        item.messages &&
-        item.messages.length &&
-        item.messages.find((m) => m.ruleId == "EP002"),
-    );
+  /*
+   * Tests must not run the linter outside of the scope of an it() ,
+   * because then the mocha --grep does not do what you want.
+   * This method insures we run the lint once, but only within
+   * the scope of it().
+   **/
+  let items = null,
+    ep002Errors;
+  const insure = (cb) => {
+    if (items == null) {
+      bl.lint(configuration, (bundle) => {
+        items = bundle.getReport();
+        ep002Errors = items.filter(
+          (item) =>
+            item.messages &&
+            item.messages.length &&
+            item.messages.find((m) => m.ruleId == "EP002"),
+        );
+        cb();
+      });
+    } else {
+      cb();
+    }
+  };
 
-    it("should generate the expected errors", () => {
+  it("should generate the expected errors", () => {
+    insure(() => {
       assert.ok(items);
       assert.ok(items.length);
       assert.equal(ep002Errors.length, 2);
     });
+  });
 
-    it("should generate the correct messages for proxy endpoint 1", () => {
+  it("should generate the correct messages for proxy endpoint 1", () => {
+    insure(() => {
       let proxyEp1Errors = ep002Errors.filter((item, ix) =>
         item.filePath.endsWith(
           path.normalize("/apiproxy/proxies/proxy-endpoint-1.xml"),
@@ -80,8 +99,10 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
       });
       assert.equal(expectedErrors.length, 0);
     });
+  });
 
-    it("should generate the correct messages for proxy endpoint 2", () => {
+  it("should generate the correct messages for proxy endpoint 2", () => {
+    insure(() => {
       let proxyEp2Errors = ep002Errors.filter((item) =>
         item.filePath.endsWith("/apiproxy/proxies/proxy-endpoint-2.xml"),
       );
@@ -96,8 +117,10 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
       // });
       // assert.equal(expectedErrors.length, 0);
     });
+  });
 
-    it("should generate the correct messages for the target endpoint", () => {
+  it("should generate the correct messages for the target endpoint", () => {
+    insure(() => {
       let targetErrors = ep002Errors.filter((item) =>
         item.filePath.endsWith(path.normalize("/apiproxy/targets/http-1.xml")),
       );
@@ -133,8 +156,10 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
         expectedErrors = expectedErrors.filter((item) => item != msg.message);
       });
     });
+  });
 
-    it("should generate the correct messages for the target endpoint with URL", () => {
+  it("should generate the correct messages for the target endpoint with URL", () => {
+    insure(() => {
       let targetErrors = ep002Errors.filter((item) =>
         item.filePath.endsWith("/apiproxy/targets/http-2.xml"),
       );
@@ -161,10 +186,20 @@ describe(`EP002 - sharedflowbundle with no misplaced elements`, () => {
     output: () => {}, // suppress output
   };
 
-  bl.lint(configuration, (bundle) => {
-    const items = bundle.getReport();
+  let items = null;
+  const insure = (cb) => {
+    if (items == null) {
+      bl.lint(configuration, (bundle) => {
+        items = bundle.getReport();
+        cb();
+      });
+    } else {
+      cb();
+    }
+  };
 
-    it("should generate some errors", () => {
+  it("should generate some errors", () => {
+    insure(() => {
       assert.ok(items);
       assert.ok(items.length);
       const itemsWithErrors = items.filter(
@@ -172,8 +207,10 @@ describe(`EP002 - sharedflowbundle with no misplaced elements`, () => {
       );
       assert.equal(itemsWithErrors.length, 1);
     });
+  });
 
-    it("should generate no EP002 errors", () => {
+  it("should generate no EP002 errors", () => {
+    insure(() => {
       const ep002Errors = items.filter(
         (item) =>
           item.messages &&
@@ -191,7 +228,10 @@ describe(`EP002 - EventFlow with no misplaced elements`, () => {
     debug: true,
     source: {
       type: "filesystem",
-      path: path.resolve(__dirname, "../fixtures/resources/EP002-eventflow/apiproxy"),
+      path: path.resolve(
+        __dirname,
+        "../fixtures/resources/EP002-eventflow/apiproxy",
+      ),
       bundleType: "apiproxy",
     },
     profile: "apigeex",
@@ -200,9 +240,20 @@ describe(`EP002 - EventFlow with no misplaced elements`, () => {
     output: () => {}, // suppress output
   };
 
-  bl.lint(configuration, (bundle) => {
-    const items = bundle.getReport();
-    it("should generate some errors", () => {
+  let items = null;
+  const insure = (cb) => {
+    if (items == null) {
+      bl.lint(configuration, (bundle) => {
+        items = bundle.getReport();
+        cb();
+      });
+    } else {
+      cb();
+    }
+  };
+
+  it("should generate some errors", () => {
+    insure(() => {
       assert.ok(items);
       assert.ok(items.length);
       const itemsWithErrors = items.filter(
@@ -210,8 +261,10 @@ describe(`EP002 - EventFlow with no misplaced elements`, () => {
       );
       assert.equal(itemsWithErrors.length, 1);
     });
+  });
 
-    it("should generate no EP002 errors", () => {
+  it("should generate no EP002 errors", () => {
+    insure(() => {
       const ep002Errors = items.filter(
         (item) =>
           item.messages &&

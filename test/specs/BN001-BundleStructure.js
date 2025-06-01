@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2021,2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,36 +16,44 @@
 /* global describe, it, configuration */
 
 const assert = require("assert"),
-      testID = "BN001",
-      debug = require("debug")("apigeelint:" + testID),
-      Bundle = require("../../lib/package/Bundle.js"),
-      Validator = require("jsonschema").Validator,
-      bl = require("../../lib/package/bundleLinter.js"),
-      schema = require("./../fixtures/reportSchema.js");
+  testID = "BN001",
+  debug = require("debug")("apigeelint:" + testID),
+  Bundle = require("../../lib/package/Bundle.js"),
+  Validator = require("jsonschema").Validator,
+  bl = require("../../lib/package/bundleLinter.js"),
+  schema = require("./../fixtures/reportSchema.js");
 
-debug("test configuration: " + JSON.stringify(configuration));
-
-describe("BN001 - report results", function()  {
-  let bundle = new Bundle(configuration);
-  bl.executePlugin(testID, bundle);
-  let report = bundle.getReport();
-
-  it('should generate a unix-formatted report', () => {
-    let formatterImpl = bl.getFormatter("unix.js");
-    if (!formatterImpl) {
-      assert.fail("formatter implementation not defined");
+describe("BN001 - report results", function () {
+  let bundle = null;
+  const insure = () => {
+    if (bundle == null) {
+      debug("test configuration: " + JSON.stringify(configuration));
+      bundle = new Bundle(configuration);
+      bl.executePlugin(testID, bundle);
     }
-    report = formatterImpl(report);
-    debug("unix formatted report: \n" + report);
+  };
+
+  it("should generate a unix-formatted report", () => {
+    insure();
+    let report = bundle.getReport();
     assert.ok(report);
+    let formatterImpl = bl.getFormatter("unix.js");
+    assert.ok(formatterImpl);
+
+    let outputReport = formatterImpl(report);
+    debug("unix formatted report: \n" + outputReport);
+    assert.ok(outputReport);
   });
 
-  it("should create a json-formatted report object with valid schema", function() {
-    let formatter = bl.getFormatter("json.js"),
-        v = new Validator(),
-        jsonReport = JSON.parse(formatter(bundle.getReport())),
-        validationResult = v.validate(jsonReport, schema);
+  it("should create a json-formatted report object with valid schema", function () {
+    insure();
+    let report = bundle.getReport();
+    assert.ok(report);
+    let formatter = bl.getFormatter("json.js");
+    assert.ok(formatter);
+    let v = new Validator(),
+      jsonReport = JSON.parse(formatter(report)),
+      validationResult = v.validate(jsonReport, schema);
     assert.equal(validationResult.errors.length, 0, validationResult.errors);
   });
-
 });

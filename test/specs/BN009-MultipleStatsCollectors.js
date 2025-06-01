@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021,2023 Google LLC
+  Copyright 2019-2021,2023,2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -32,14 +32,14 @@ const testOneProxy = (proxyName, expected) => {
       type: "filesystem",
       path: path.resolve(
         __dirname,
-        `../fixtures/resources/statistics_collector/${proxyName}/apiproxy`
+        `../fixtures/resources/statistics_collector/${proxyName}/apiproxy`,
       ),
-      bundleType: "apiproxy"
+      bundleType: "apiproxy",
     },
     profile: "apigee",
     excluded: {},
     setExitCode: false,
-    output: () => {} // suppress output
+    output: () => {}, // suppress output
   };
 
   bl.lint(configuration, (bundle) => {
@@ -48,7 +48,7 @@ const testOneProxy = (proxyName, expected) => {
     assert.ok(items.length);
 
     const bn009Errors = items.filter((item) =>
-      item.messages.find((m) => m.ruleId == "BN009")
+      item.messages.find((m) => m.ruleId == "BN009"),
     );
     debug(`bn009: ${JSON.stringify(bn009Errors, null, 2)}`);
 
@@ -58,11 +58,11 @@ const testOneProxy = (proxyName, expected) => {
       assert.equal(
         policyItems.length,
         1,
-        `No errors found for policy ${policyName}`
+        `No errors found for policy ${policyName}`,
       );
 
       const bn009Messages = policyItems[0].messages.filter(
-        (m) => m.ruleId == testID
+        (m) => m.ruleId == testID,
       );
       assert.equal(bn009Messages.length, expected[policyName].length);
 
@@ -70,14 +70,14 @@ const testOneProxy = (proxyName, expected) => {
 
       expected[policyName].forEach((expectedItem, ix) => {
         const matched = bn009Messages.find(
-          (item) => item.message == expectedItem.message
+          (item) => item.message == expectedItem.message,
         );
         assert.ok(matched, `did not find message like ${expectedItem.message}`);
         Object.keys(expectedItem).find((key) => {
           assert.ok(
             matched[key],
             expectedItem[key],
-            `case(${px},${ix}) key(${key})`
+            `case(${px},${ix}) key(${key})`,
           );
         });
       });
@@ -85,12 +85,12 @@ const testOneProxy = (proxyName, expected) => {
     });
 
     const allFilesWithBn009Errors = bn009Errors.map((item) =>
-      item.filePath.split(path.sep).pop()
+      item.filePath.split(path.sep).pop(),
     );
 
     debug(`allFilesWithBN009: ${allFilesWithBn009Errors}`);
     const notProcessed = allFilesWithBn009Errors.filter(
-      (x) => !processed.includes(x)
+      (x) => !processed.includes(x),
     );
     debug(`notProcessed: ${notProcessed}`);
     assert.equal(notProcessed.length, 0);
@@ -103,33 +103,33 @@ describe(`${testID} - MultipleStatsCollectors`, () => {
       "Stats-Address-1.xml": [
         {
           message:
-            "The following StatisticsCollector policies are duplicates: Stats-Address-1a"
+            "The following StatisticsCollector policies are duplicates: Stats-Address-1a",
         },
         {
           message:
-            "Stats-Address-1 is attached to a step without a Condition. If you have more than two StatisticsCollector policies, only the last one in the flow will execute. Include a Condition to make sure the correct one executes."
-        }
+            "Stats-Address-1 is attached to a step without a Condition. If you have more than two StatisticsCollector policies, only the last one in the flow will execute. Include a Condition to make sure the correct one executes.",
+        },
       ],
       "Stats-Username-1.xml": [
         {
           message:
-            "The following StatisticsCollector policies are duplicates: Stats-Username-1a"
+            "The following StatisticsCollector policies are duplicates: Stats-Username-1a",
         },
         {
           message:
-            "Stats-Username-1 is attached to a step without a Condition. If you have more than two StatisticsCollector policies, only the last one in the flow will execute. Include a Condition to make sure the correct one executes."
-        }
+            "Stats-Username-1 is attached to a step without a Condition. If you have more than two StatisticsCollector policies, only the last one in the flow will execute. Include a Condition to make sure the correct one executes.",
+        },
       ],
       "Stats-Username-1a.xml": [
         {
           message:
-            "Stats-Username-1a is attached to multiple steps, but all the steps don't have a condition. This may result in unexpected behaviour."
+            "Stats-Username-1a is attached to multiple steps, but all the steps don't have a condition. This may result in unexpected behaviour.",
         },
         {
           message:
-            "Stats-Username-1a is attached to a step without a Condition. If you have more than two StatisticsCollector policies, only the last one in the flow will execute. Include a Condition to make sure the correct one executes."
-        }
-      ]
+            "Stats-Username-1a is attached to a step without a Condition. If you have more than two StatisticsCollector policies, only the last one in the flow will execute. Include a Condition to make sure the correct one executes.",
+        },
+      ],
     };
 
     testOneProxy("duplicates", expected);
@@ -146,9 +146,9 @@ describe(`${testID} - MultipleStatsCollectors`, () => {
       "Stats-1.xml": [
         {
           message:
-            "Stats-1 is attached to multiple steps, but all the steps don't have a condition. This may result in unexpected behaviour."
-        }
-      ]
+            "Stats-1 is attached to multiple steps, but all the steps don't have a condition. This may result in unexpected behaviour.",
+        },
+      ],
     };
 
     testOneProxy("twosteps_one_condition", expected);
@@ -159,27 +159,27 @@ describe(`${testID} - MultipleStatsCollectors`, () => {
       "Stats-1.xml": [
         {
           message:
-            "Stats-1 is attached to a step without a Condition. If you have more than two StatisticsCollector policies, only the last one in the flow will execute. Include a Condition to make sure the correct one executes."
-        }
+            "Stats-1 is attached to a step without a Condition. If you have more than two StatisticsCollector policies, only the last one in the flow will execute. Include a Condition to make sure the correct one executes.",
+        },
       ],
       "Stats-2.xml": [
         {
           message:
-            "Stats-2 is attached to a step without a Condition. If you have more than two StatisticsCollector policies, only the last one in the flow will execute. Include a Condition to make sure the correct one executes."
-        }
+            "Stats-2 is attached to a step without a Condition. If you have more than two StatisticsCollector policies, only the last one in the flow will execute. Include a Condition to make sure the correct one executes.",
+        },
       ],
       "Stats-3.xml": [
         {
           message:
-            "Stats-3 is attached to a step without a Condition. If you have more than two StatisticsCollector policies, only the last one in the flow will execute. Include a Condition to make sure the correct one executes."
-        }
+            "Stats-3 is attached to a step without a Condition. If you have more than two StatisticsCollector policies, only the last one in the flow will execute. Include a Condition to make sure the correct one executes.",
+        },
       ],
       "Stats-4.xml": [
         {
           message:
-            "Stats-4 is attached to a step without a Condition. If you have more than two StatisticsCollector policies, only the last one in the flow will execute. Include a Condition to make sure the correct one executes."
-        }
-      ]
+            "Stats-4 is attached to a step without a Condition. If you have more than two StatisticsCollector policies, only the last one in the flow will execute. Include a Condition to make sure the correct one executes.",
+        },
+      ],
     };
 
     testOneProxy("multiple_missing_conditions", expected);
@@ -187,16 +187,15 @@ describe(`${testID} - MultipleStatsCollectors`, () => {
 });
 
 describe(`${testID} - print plugin results for ${plugin.plugin.name}`, function () {
-  debug("test configuration: " + JSON.stringify(configuration));
-  const bundle = new Bundle(configuration);
-  bl.executePlugin(testID, bundle);
-  const report = bundle.getReport();
-
   it("should create a report object with valid schema", function () {
+    debug("test configuration: " + JSON.stringify(configuration));
+    const bundle = new Bundle(configuration);
+    bl.executePlugin(testID, bundle);
+    const report = bundle.getReport();
+    assert.ok(report);
     const formatter = bl.getFormatter("json.js");
-    if (!formatter) {
-      assert.fail("formatter implementation not defined");
-    }
+    assert.ok(formatter);
+
     const schema = require("./../fixtures/reportSchema.js"),
       Validator = require("jsonschema").Validator,
       v = new Validator(),

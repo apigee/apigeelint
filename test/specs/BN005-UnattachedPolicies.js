@@ -21,52 +21,67 @@ const assert = require("assert"),
   bl = require("../../lib/package/bundleLinter.js");
 
 configuration.source.path =
-  "./test/fixtures/resources/sampleProxy/24Solver/apiproxy/";
+  describe("BN005 - Check for unattached policies", function () {
+    let report = null;
+    const insure = () => {
+      if (report == null) {
+        let c = { ...configuration };
+        c.source.path =
+          "./test/fixtures/resources/sampleProxy/24Solver/apiproxy/";
+        debug("test configuration: " + JSON.stringify(c));
+        let bundle = new Bundle(c);
+        debug(`looking in ${bundle.root}`);
+        bl.executePlugin(testID, bundle);
+        report = bundle.getReport();
+        debug(report);
+      }
+    };
 
-debug("test configuration: " + JSON.stringify(configuration));
-describe("BN005 - Check for unattached policies", function () {
-  let bundle = new Bundle(configuration);
-  debug(`looking in ${bundle.root}`);
-  bl.executePlugin(testID, bundle);
-  let report = bundle.getReport();
-  debug(report);
-  var unattachedFiles = [
-    "ExtractVariables.xml",
-    "ExtractVariables_1.xml",
-    "ExtractVariables_unattached.xml",
-    "badServiceCallout.xml",
-    "jsCalculate.xml"
-  ];
-
-  var attachedFiles = [
-    "JSONThreatProtection",
-    "regExLookAround",
-    "AssignMessage.CopyRequest",
-    "ExtractParamVariables",
-    "ExtractPayloadVariables",
-    "publishPurchaseDetails",
-    "Lookup-Cache-1",
-    "publishPurchaseDetails"
-  ];
-
-  function runTests(filenames, expectFound) {
-    for (let j = 0; j < filenames.length; j++) {
-      const filename = filenames[j],
-        description = `should ${expectFound ? "" : "not "}mark ${filename} as unattached in report`;
-
+    const test = (expectFound) => (filename) => {
+      const description = `should ${expectFound ? "" : "not "}mark ${filename} as unattached in report`;
       it(description, function () {
-        let found = false;
-        for (let i = 0; i < report.length && !found; i++) {
+        insure();
+        let fileWasFound = false;
+        let foundIssue = false;
+        for (let i = 0; i < report.length && !foundIssue; i++) {
           const reportObj = report[i];
+          debug(`lookingat filePath: ${reportObj.filePath}`);
           if (reportObj.filePath.endsWith(filename)) {
-            found = reportObj.messages.find((msg) => msg.ruleId === "BN005");
+            fileWasFound = true;
+            foundIssue = reportObj.messages.find(
+              (msg) => msg.ruleId === "BN005",
+            );
           }
         }
-        assert.equal(!!found, expectFound);
+        assert.ok(fileWasFound);
+        assert.equal(!!foundIssue, expectFound);
       });
-    }
-  }
+    };
 
-  runTests(unattachedFiles, true);
-  runTests(attachedFiles, false);
-});
+    const positiveCase = test(true);
+    const unattachedFiles = [
+      "ExtractVariables.xml",
+      "ExtractVariables_1.xml",
+      "ExtractVariables_unattached.xml",
+      "badServiceCallout.xml",
+      "jsCalculate.xml",
+    ];
+    for (let i = 0; i < unattachedFiles.length; i++) {
+      positiveCase(unattachedFiles[i]);
+    }
+
+    const negativeCase = test(false);
+    const attachedFiles = [
+      "JSONThreatProtection.xml",
+      "regExLookAround.xml",
+      "AssignMessagebadDisplayName.xml",
+      "ExtractParamVariables.xml",
+      "ExtractPayloadVariables.xml",
+      "statColl.xml",
+      "lookup.xml",
+    ];
+
+    for (let i = 0; i < attachedFiles.length; i++) {
+      negativeCase(attachedFiles[i]);
+    }
+  });

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2024 Google LLC
+  Copyright 2019-2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -40,13 +40,13 @@ const assert = require("assert"),
           assert.equal(
             target.report.messages.length,
             messages.length,
-            util.format(target.report.messages)
+            util.format(target.report.messages),
           );
           messages.forEach((msg, ix) => {
             debug(`check msg ${ix}: ${msg}`);
             assert.ok(
               target.report.messages.find((m) => m.message == msg),
-              `index ${ix} ${util.format(target.report.messages)}`
+              `index ${ix} ${util.format(target.report.messages)}`,
             );
           });
         } else {
@@ -54,7 +54,7 @@ const assert = require("assert"),
           assert.equal(
             target.report.messages.length,
             0,
-            util.format(target.report.messages)
+            util.format(target.report.messages),
           );
         }
       });
@@ -78,7 +78,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["SSLInfo configuration does not use Enabled=true"]
+    ["SSLInfo configuration does not use Enabled=true"],
   );
 
   test(
@@ -92,7 +92,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["SSLInfo configuration does not use Enabled=true"]
+    ["SSLInfo configuration does not use Enabled=true"],
   );
 
   test(
@@ -106,7 +106,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    []
+    [],
   );
 
   test(
@@ -121,7 +121,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    null
+    null,
   );
 
   test(
@@ -135,7 +135,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>http://insecure.foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["SSLInfo configuration must not use the Enabled=true with insecure URL"]
+    ["SSLInfo configuration must not use the Enabled=true with insecure URL"],
   );
 
   testApigeeX(
@@ -151,7 +151,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    null
+    null,
   );
 
   testApigeeX(
@@ -166,7 +166,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["SSLInfo configuration does not use Enforce=true"]
+    ["SSLInfo configuration does not use Enforce=true"],
   );
 
   testApigeeX(
@@ -181,7 +181,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>http://insecure.foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["SSLInfo configuration must not use the Enforce=true with insecure URL"]
+    ["SSLInfo configuration must not use the Enforce=true with insecure URL"],
   );
 
   test(
@@ -197,21 +197,20 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["SSLInfo configuration must not use the Enforce element"]
+    ["SSLInfo configuration must not use the Enforce element"],
   );
 });
 
 describe(`${testID} - Print plugin results`, function () {
-  debug("test configuration: " + JSON.stringify(configuration));
-  var bundle = new Bundle(configuration);
-  bl.executePlugin(testID, bundle);
-  let report = bundle.getReport();
-
   it("should create a report object with valid schema", function () {
+    debug("test configuration: " + JSON.stringify(configuration));
+    const bundle = new Bundle(configuration);
+    bl.executePlugin(testID, bundle);
+    let report = bundle.getReport();
+    assert.ok(report);
     let formatter = bl.getFormatter("json.js");
-    if (!formatter) {
-      assert.fail("formatter implementation not defined");
-    }
+    assert.ok(formatter);
+
     let schema = require("./../fixtures/reportSchema.js"),
       Validator = require("jsonschema").Validator,
       v = new Validator(),

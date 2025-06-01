@@ -84,12 +84,12 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
 });
 
 describe(`${testID} - Print plugin results`, function () {
-  debug("test configuration: " + JSON.stringify(configuration));
-  var bundle = new Bundle(configuration);
-  bl.executePlugin(testID, bundle);
-  let report = bundle.getReport();
-
   it("should create a report object with valid schema", function () {
+    debug("test configuration: " + JSON.stringify(configuration));
+    var bundle = new Bundle(configuration);
+    bl.executePlugin(testID, bundle);
+    let report = bundle.getReport();
+
     let formatter = bl.getFormatter("json.js");
     if (!formatter) {
       assert.fail("formatter implementation not defined");
