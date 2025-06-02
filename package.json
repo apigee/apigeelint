@@ -17,14 +17,7 @@
     "type": "git",
     "url": "https://github.com/apigee/apigeelint"
   },
-  "keywords": [
-    "API",
-    "bundle",
-    "lint",
-    "linter",
-    "Apigee",
-    "Edge"
-  ],
+  "keywords": ["API", "bundle", "lint", "linter", "Apigee", "Edge"],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/apigee/apigeelint/issues"
@@ -41,6 +34,7 @@
     "fast-xml-parser": "^4.3.1",
     "js-yaml": "latest",
     "jshint": "^2.10.1",
+    "jsonpath": "^1.1.1",
     "lodash": "^4.17.21",
     "minimatch": "^3.0.4",
     "pdfmake": "^0.2.17",
@@ -54,7 +48,6 @@
   "devDependencies": {
     "chai": "^4.3.10",
     "depcheck": "^1.4.7",
-    "jsonpath": "^1.1.1",
     "jsonschema": "latest",
     "mkdirp": "^3.0.1",
     "mocha": "^11.1.0",

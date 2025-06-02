@@ -495,6 +495,7 @@ This is the current list:
 | &nbsp; |:white_check_mark:| PO037 | DataCapture policy hygiene | Checks that a Capture should uses a Source of type request when the policy is attached to the Response flow, and other checks. |
 | &nbsp; |:white_check_mark:| PO038 | KeyValueMapOperations policy hygiene | Checks that MapName or mapIdentifier is specified, and not both.|
 | &nbsp; |:white_check_mark:| PO039 | MessageLogging policy hygiene | Checks that ResourceType is not used, or is "api".|
+| &nbsp; |:white_check_mark:| PO040 | Check JSONPath within ExtractVariables policy | Checks that JSONPath compiles and is valid. |
 | FaultRules | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| FR001 | No Condition on FaultRule | Use Condition elements on FaultRules, unless it is the fallback rule. |
 | &nbsp; |:white_check_mark:| FR002 | DefaultFaultRule Structure | DefaultFaultRule should have only supported child elements, at most one AlwaysEnforce element, and at most one Condition element. |
