@@ -1,0 +1,84 @@
+<AssignMessage name='AM-Example-Payload-Jsonpath'>
+  <AssignVariable>
+    <Name>json_payload_1</Name>
+    <Value>{
+  "fieldA": "DateTime",
+  "fieldB": "DateTime",
+  "productType": [
+    {
+      "fieldC": "DateTime",
+      "fieldD": "DateTime",
+      "extensions": [
+        { "key": "Key1", "value": "Value1" },
+        { "key": "Key2", "value": "Value2" },
+        { "key": "Key3", "value": "Value3" }
+      ],
+      "productInstances": [
+        { "code": "code1", "url": "https://url/1" },
+        { "code": "code2", "url": "https://url/2" }
+      ]
+    }
+  ]
+}</Value>
+  </AssignVariable>
+
+  <!--
+      This is static, but it could just as easily have been obtained from
+      something dynamic, like a queryparam or header or custom attribute.
+  -->
+  <AssignVariable>
+    <Name>desired-key</Name>
+    <Value>Key2</Value>
+  </AssignVariable>
+
+  <!--
+      There's a bug (pending fix): The Apigee Message Template does not
+      correctly resolve constants like "true" and "false" when those terms are
+      used as arguments to functions.  Assigning false to a variable, and then
+      referencing the variable in the jsonPath expression, works around that
+      problem.
+  -->
+  <AssignVariable>
+    <Name>do-not-want-array</Name>
+    <Value>false</Value>
+  </AssignVariable>
+
+  <!--
+      Build the jsonpath query, with the desired key.
+  -->
+  <AssignVariable>
+    <Name>jsonpath-query</Name>
+    <Template>$.productType[*].extensions[?(@.key == '{desired-key}')].value</Template>
+  </AssignVariable>
+
+  <!--
+      Build the jsonPath function string, with the full argument list for the
+      jsonPath function.
+      We could have combined the prior step with this one.
+  -->
+  <AssignVariable>
+    <Name>jsonpath-fn-expression</Name>
+    <Template>jsonPath({jsonpath-query},json_payload_1,do-not-want-array)</Template>
+  </AssignVariable>
+
+  <!--
+      Create the message template.
+      The "inner curlies" will resolve the inscribed variable. The resulting
+      string will be wrapped in single curlies, which denotes a Message Template.
+  -->
+  <AssignVariable>
+    <Name>message-template</Name>
+    <Template>{{jsonpath-fn-expression}}</Template>
+  </AssignVariable>
+
+  <!--
+      This references the message template via a variable.
+      The content of that variable will be surrounded by single curly brackets, so will be interpreted as
+      a Message Template. It contains a single jsonpath expression.
+  -->
+  <AssignVariable>
+    <Name>resolved-value</Name>
+    <Template ref='message-template'/>
+  </AssignVariable>
+
+</AssignMessage>
