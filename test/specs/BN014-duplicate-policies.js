@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2024 Google LLC
+  Copyright 2019-2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -25,11 +25,11 @@ const assert = require("assert"),
 
 const expectedErrors = {
   "CORS-A.xml": [
-    "Policy CORS-A is a duplicate of Policy CORS-1. Eliminate duplicates and attach a single policy in multiple places."
+    "Policy CORS-A is a duplicate of Policy CORS-1. Eliminate duplicates and attach a single policy in multiple places.",
   ],
   "AM-Response-2.xml": [
-    "Policy AM-Response-2 is a duplicate of Policy AM-Response. Eliminate duplicates and attach a single policy in multiple places."
-  ]
+    "Policy AM-Response-2 is a duplicate of Policy AM-Response. Eliminate duplicates and attach a single policy in multiple places.",
+  ],
 };
 
 describe(`BN014 - Duplicate policies`, () => {
@@ -40,42 +40,55 @@ describe(`BN014 - Duplicate policies`, () => {
       path: path.resolve(
         __dirname,
         "../fixtures/resources/BN014/cors-test",
-        "apiproxy"
+        "apiproxy",
       ),
       bundleType: "apiproxy",
-      profile: "apigeex"
+      profile: "apigeex",
     },
     excluded: {},
     setExitCode: false,
-    output: () => {} // suppress output
+    output: () => {}, // suppress output
   };
 
-  debug(`BN014 configuration: ${util.format(configuration)}`);
-  bl.lint(configuration, (bundle) => {
-    const items = bundle.getReport();
-    assert.ok(items);
-    assert.ok(items.length);
-    const bn014Items = items.filter((item) =>
-      item.messages.some((m) => m.ruleId == "BN014")
-    );
-    it(`should generate the expected number of errors`, () => {
-      debug(`bn014Items: ${util.format(bn014Items.map((i) => i.filePath))}`);
+  let items = null,
+    bn014Items;
+  const insure = (cb) => {
+    if (items == null) {
+      debug(`BN014 configuration: ${util.format(configuration)}`);
+      bl.lint(configuration, (bundle) => {
+        items = bundle.getReport();
+        assert.ok(items);
+        assert.ok(items.length);
+        bn014Items = items.filter((item) =>
+          item.messages.some((m) => m.ruleId == "BN014"),
+        );
+        cb();
+      });
+    } else {
+      cb();
+    }
+  };
 
+  it(`should generate the expected number of errors`, () => {
+    insure(() => {
+      debug(`bn014Items: ${util.format(bn014Items.map((i) => i.filePath))}`);
       assert.equal(bn014Items.length, Object.keys(expectedErrors).length);
     });
+  });
 
-    Object.keys(expectedErrors).forEach((policyName, caseNum) => {
-      it(`should generate the expected errors for ${policyName}`, () => {
+  Object.keys(expectedErrors).forEach((policyName, caseNum) => {
+    it(`should generate the expected errors for ${policyName}`, () => {
+      insure(() => {
         debug(`policyName: ${policyName}`);
         const expected = expectedErrors[policyName];
         const policyItems = bn014Items.filter((item) =>
-          item.filePath.endsWith(policyName)
+          item.filePath.endsWith(policyName),
         );
         debug(`policyItems: ${util.format(policyItems)}`);
 
         assert.equal(policyItems.length, 1);
         const bn014Messages = policyItems[0].messages.filter(
-          (m) => m.ruleId == "BN014"
+          (m) => m.ruleId == "BN014",
         );
         debug(`po035Messages: ${util.format(bn014Messages)}`);
         assert.equal(bn014Messages.length, expected.length);
@@ -84,7 +97,7 @@ describe(`BN014 - Duplicate policies`, () => {
         assert.equal(
           bn014Messages[0].message,
           expected[0],
-          `${policyName} case(${caseNum})`
+          `${policyName} case(${caseNum})`,
         );
       });
     });

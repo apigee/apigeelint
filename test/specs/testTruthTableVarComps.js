@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2021,2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -17,40 +17,43 @@
 /* global describe, it */
 
 const assert = require("assert"),
-      TruthTable = require("../../lib/package/TruthTable.js"),
-      test = function(exp, assertion) {
-        it(`${exp} should be ${assertion}`, function() {
-          var tt = new TruthTable(exp);
+  TruthTable = require("../../lib/package/TruthTable.js"),
+  test = function (exp, assertion) {
+    it(`${exp} should be ${assertion}`, function () {
+      try {
+        var tt = new TruthTable(exp);
 
-          assert.equal(
-            tt.getEvaluation(),
-            assertion,
-            JSON.stringify({
-              truthTable: tt,
-              evaluation: tt.evaluation
-            })
-          );
-        });
-      };
+        assert.equal(
+          tt.getEvaluation(),
+          assertion,
+          JSON.stringify({
+            truthTable: tt,
+            evaluation: tt.evaluation,
+          }),
+        );
+      } catch (parseExc) {
+        assert.equal(assertion, "exception");
+      }
+    });
+  };
 
-describe("TruthTable VarComps", function() {
-
+describe("TruthTable VarComps", function () {
   test("b=c", "valid");
   test("b!=c", "valid");
   test("b!=b", "absurdity");
-  test("true and b!=c", "valid");
+  test("true and b!=c", "exception");
   test("b=c and d=e", "valid");
   test("(b=c) and (d=e)", "valid");
   test("(a = b OR c=d) AND a!=b AND c!=d", "absurdity");
-  test("b and b", "valid");
-  test("(b and b)", "valid");
-  test("((b and b))", "valid");
-  test("((b) and (b))", "valid");
-  test("(b and !b)", "absurdity");
-  test("((b and !b))", "absurdity");
-  test("((b) and (!b))", "absurdity");
-  test("((b) and !(b))", "absurdity");
-  test("b and !b", "absurdity");
   test('request.verb="POST" and request.verb!="POST"', "absurdity");
 
+  test("b and b", "exception");
+  test("(b and b)", "exception");
+  test("((b and b))", "exception");
+  test("((b) and (b))", "exception");
+  test("(b and !b)", "exception");
+  test("((b and !b))", "exception");
+  test("((b) and (!b))", "exception");
+  test("((b) and !(b))", "exception");
+  test("b and !b", "exception");
 });

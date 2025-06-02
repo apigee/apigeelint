@@ -62,7 +62,7 @@
       </Request>
       <Response>
       </Response>
-      <Condition>proxy.pathsuffix MatchesPath "/t1" and request.verb = "GET"</Condition>
+      <Condition>proxy.pathsuffix MatchesPath "/BN013-t1" and request.verb = "GET"</Condition>
     </Flow>
 
     <Flow name="t2">
@@ -70,7 +70,7 @@
       </Request>
       <Response>
       </Response>
-      <Condition>proxy.pathsuffix MatchesPath "/t2" and request.verb = "POST"</Condition>
+      <Condition>proxy.pathsuffix MatchesPath "/BN013-t2" and request.verb = "POST"</Condition>
     </Flow>
 
     <Flow name="unknown request">

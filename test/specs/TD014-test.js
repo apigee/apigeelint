@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2024 Google LLC
+  Copyright 2019-2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -40,9 +40,9 @@ const loadEndpoint = (sourceDir, shortFileName) => {
 describe(`${testID} - endpoint passes exactly one URL or LoadBalancer check`, function () {
   const sourceDir = path.join(rootDir, "pass");
   const testOne = (shortFileName) => {
-    const endpoint = loadEndpoint(sourceDir, shortFileName);
-
     it(`check ${shortFileName} passes`, () => {
+      const endpoint = loadEndpoint(sourceDir, shortFileName);
+
       plugin.onTargetEndpoint(endpoint, (e, foundIssues) => {
         assert.equal(e, undefined, "should be undefined");
         const messages = endpoint.getReport().messages;
@@ -69,8 +69,8 @@ describe(`${testID} - endpoint does not pass exactly one URL or LoadBalancer che
   const sourceDir = path.join(rootDir, "fail");
 
   const testOne = (shortFileName) => {
-    const policy = loadEndpoint(sourceDir, shortFileName);
     it(`check ${shortFileName} throws error`, () => {
+      const policy = loadEndpoint(sourceDir, shortFileName);
       plugin.onTargetEndpoint(policy, (e, foundIssues) => {
         assert.equal(undefined, e, "should be undefined");
         assert.equal(true, foundIssues, "should be issues");

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2021,2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,35 +16,29 @@
 /* global describe, it, configuration */
 
 const assert = require("assert"),
-      testID = "CC006",
-      Bundle = require("../../lib/package/Bundle.js"),
-      bl = require("../../lib/package/bundleLinter.js"),
-      plugin = require(bl.resolvePlugin( testID)),
-      debug = require("debug")("apigeelint:" + testID);
+  testID = "CC006",
+  Bundle = require("../../lib/package/Bundle.js"),
+  bl = require("../../lib/package/bundleLinter.js"),
+  plugin = require(bl.resolvePlugin(testID)),
+  debug = require("debug")("apigeelint:" + testID);
 
 // generate a full report and check the format of the report
-describe(`${testID} - ${plugin.plugin.name}`, function() {
-  debug("test configuration: " + JSON.stringify(configuration));
-  let bundle = new Bundle(configuration);
-  bl.executePlugin(testID, bundle);
-  let report = bundle.getReport();
+describe(`${testID} - ${plugin.plugin.name}`, function () {
+  it("should create a report object with valid schema", function () {
+    debug("test configuration: " + JSON.stringify(configuration));
+    let bundle = new Bundle(configuration);
+    bl.executePlugin(testID, bundle);
+    let report = bundle.getReport();
+    assert.ok(report);
 
-  it("should create a report object with valid schema", function() {
     let formatter = bl.getFormatter("json.js");
-
-    if (!formatter) {
-      assert.fail("formatter implementation not defined");
-    }
+    assert.ok(formatter);
 
     let schema = require("./../fixtures/reportSchema.js"),
-        Validator = require("jsonschema").Validator,
-        v = new Validator(),
-        jsonReport = JSON.parse(formatter(bundle.getReport())),
-        validationResult = v.validate(jsonReport, schema);
-    assert.equal(
-      validationResult.errors.length,
-      0,
-      validationResult.errors
-    );
+      Validator = require("jsonschema").Validator,
+      v = new Validator(),
+      jsonReport = JSON.parse(formatter(bundle.getReport())),
+      validationResult = v.validate(jsonReport, schema);
+    assert.equal(validationResult.errors.length, 0, validationResult.errors);
   });
 });

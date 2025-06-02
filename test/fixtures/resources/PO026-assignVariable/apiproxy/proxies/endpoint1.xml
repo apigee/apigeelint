@@ -52,7 +52,7 @@
           <Name>AM-Response</Name>
         </Step>
       </Response>
-      <Condition>(proxy.pathsuffix MatchesPath "/t1") and (request.verb = "GET")</Condition>
+      <Condition>(proxy.pathsuffix MatchesPath "/PO026-t1") and (request.verb = "GET")</Condition>
     </Flow>
 
     <Flow name="unknown request">

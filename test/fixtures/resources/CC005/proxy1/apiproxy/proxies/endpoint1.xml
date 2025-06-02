@@ -44,7 +44,7 @@
         </Step>
       </Response>
       <!-- error, unterminated string within parens -->
-      <Condition>(proxy.pathsuffix MatchesPath "/t1) and (request.verb = "GET")</Condition>
+      <Condition>(proxy.pathsuffix MatchesPath "/CC005-t1) and (request.verb = "GET")</Condition>
     </Flow>
 
     <Flow name="flow2">
@@ -56,7 +56,7 @@
         </Step>
       </Response>
       <!-- error, unterminated string in compound statement -->
-      <Condition>proxy.pathsuffix MatchesPath "/t2 and request.verb = "GET"</Condition>
+      <Condition>proxy.pathsuffix MatchesPath "/CC005-t2 and request.verb = "GET"</Condition>
     </Flow>
 
     <Flow name="unknown request">

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2021,2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,44 +16,42 @@
 /* global describe, it */
 
 const assert = require("assert"),
-      TruthTable = require("../../lib/package/TruthTable.js"),
-      test = function(exp, assertion) {
-        it(`${exp} should be ${assertion}`, function() {
-          var tt = new TruthTable(exp);
+  TruthTable = require("../../lib/package/TruthTable.js"),
+  test = function (exp, assertion) {
+    it(`${exp} should be ${assertion}`, function () {
+      var tt = new TruthTable(exp);
 
-          assert.equal(
-            tt.getEvaluation(),
-            assertion,
-            JSON.stringify({
-              truthTable: tt,
-              evaluation: tt.getEvaluation()
-            })
-          );
-        });
-      };
+      assert.equal(
+        tt.getEvaluation(),
+        assertion,
+        JSON.stringify({
+          truthTable: tt,
+          evaluation: tt.getEvaluation(),
+        }),
+      );
+    });
+  };
 
-describe("TruthTable MatchesPath", function() {
-
+describe("TruthTable MatchesPath", function () {
   test('!(a MatchesPath "c")', "valid");
   test('(a MatchesPath "a") and !(a MatchesPath "c")', "valid");
   test(
     '(a MatchesPath "a"or a MatchesPath "b") and !(a MatchesPath "c")',
-    "valid"
+    "valid",
   );
   test(
     '(a MatchesPath "a"or a MatchesPath "b") and !(a MatchesPath "c")',
-    "valid"
+    "valid",
   );
   test(
-    '(proxy.pathsuffix MatchesPath "/{version}/products/**"or proxy.pathsuffix MatchesPath "/{version}/profile/{profile.id}/products**") and !(proxy.pathsuffix MatchesPath "/{version}/profile/{profile.id}/products/categories/**"',
-    "valid"
+    '(proxy.pathsuffix MatchesPath "/{version}/products/**" or proxy.pathsuffix MatchesPath "/{version}/profile/{profile.id}/products**") and !(proxy.pathsuffix MatchesPath "/{version}/profile/{profile.id}/products/categories/**")',
+    "valid",
   );
   test(
-    '(proxy.pathsuffix MatchesPath "/{version}/products/**" or proxy.pathsuffix MatchesPath "/{version}/profile/{profile.id}/products**") and !(proxy.pathsuffix MatchesPath "/{version}/profile/{profile.id}/products/categories/**"',
-    "valid"
+    '(proxy.pathsuffix MatchesPath "/{version}/products/**" or proxy.pathsuffix MatchesPath "/{version}/profile/{profile.id}/products**") and !(proxy.pathsuffix MatchesPath "/{version}/profile/{profile.id}/products/categories/**")',
+    "valid",
   );
   test('(a MatchesPath "a") and !(a MatchesPath "a")', "absurdity");
-
 
   // REVIEW AssertionError
   // test('proxy.pathsuffix MatchesPath "/{version}/profile/{profile.id}/paymentmethods/**" and proxy.pathsuffix !MatchesPath "**/initialize" and proxy.pathsuffix !MatchesPath "**/finalize" and request.verb = "GET"',"valid");

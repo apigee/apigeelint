@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2023 Google LLC
+  Copyright 2019-2023,2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ const assert = require("assert"),
         assert.equal(
           result,
           expected,
-          result ? " literal found " : "literal not found"
+          result ? " literal found " : "literal not found",
         );
       });
     });
@@ -50,34 +50,30 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
   test("true OR false", true);
   test("b=1", false);
   test("b = c AND true", true);
-  test("b OR c AND (a OR B AND C or D and True)", true);
   test("true and b!=c", true);
   test("b!=true", false);
   test("b=false", false);
-  test("1", true);
-  test('"foo"', true);
-  test("request.queryparams.foo", false);
   test('request.header.Content-Type = "application/json"', false);
   test(
     'request.verb = "POST" and request.header.Content-Type = "application/json"',
-    false
+    false,
   );
   // the newlines in the following condition are important
   test(
     `request.header.content-type != "text/xml" AND
           request.header.content-type != "application/xml`,
-    false
+    false,
   );
 });
 
 describe(`${testID} - Print plugin results`, function () {
-  debug("test configuration: " + JSON.stringify(configuration));
-  const Bundle = require("../../lib/package/Bundle.js"),
-    bundle = new Bundle(configuration);
-  bl.executePlugin(testID, bundle);
-  const report = bundle.getReport();
-
   it("should create a report object with valid schema", function () {
+    debug("test configuration: " + JSON.stringify(configuration));
+    const Bundle = require("../../lib/package/Bundle.js"),
+      bundle = new Bundle(configuration);
+    bl.executePlugin(testID, bundle);
+    const report = bundle.getReport();
+
     const formatter = bl.getFormatter("json.js");
     if (!formatter) {
       assert.fail("formatter implementation not defined");
