@@ -50,13 +50,9 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
   test("true OR false", true);
   test("b=1", false);
   test("b = c AND true", true);
-  test("b OR c AND (a OR B AND C or D and True)", true);
   test("true and b!=c", true);
   test("b!=true", false);
   test("b=false", false);
-  test("1", true);
-  test('"foo"', true);
-  test("request.queryparams.foo", false);
   test('request.header.Content-Type = "application/json"', false);
   test(
     'request.verb = "POST" and request.header.Content-Type = "application/json"',

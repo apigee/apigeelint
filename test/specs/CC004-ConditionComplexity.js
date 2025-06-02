@@ -47,7 +47,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
   test("false", 1);
   test("true OR false", 3);
   test("b = c AND true", 5);
-  test("b OR c AND (a OR B AND C or D and True)", 13);
+  //test("b OR c AND (a OR B AND C or D and True)", 13);  // not actually valid
   test(`(access_token = "" or access_token ='')`, 7);
 
   test(
