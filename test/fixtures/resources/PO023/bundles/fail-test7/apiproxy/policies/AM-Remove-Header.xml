@@ -1,0 +1,7 @@
+<AssignMessage name='AM-Remove-Header'>
+  <Remove>
+    <Headers>
+      <Header name='Header-to-remove'/>
+    </Headers>
+  </Remove>
+</AssignMessage>
