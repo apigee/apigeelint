@@ -24,22 +24,23 @@ const assert = require("assert"),
           evaluation = tt.getEvaluation();
 
         debug(`evaluation: ${evaluation}`);
-
-        assert.equal(
-          expected,
-          evaluation,
-          JSON.stringify({
-            truthTable: tt,
-            evaluation,
-          }),
-        );
       } catch (parseExc) {
         debug(`expected: ${expected}`);
         assert.notEqual("ERR_ASSERTION", parseExc.code);
         debug(`parse Exception: ${JSON.stringify(parseExc)}`);
         debug(`parse Exception: ${parseExc.stack}`);
         assert.equal("exception", expected);
+        return;
       }
+
+      assert.equal(
+        expected,
+        evaluation,
+        JSON.stringify({
+          truthTable: tt,
+          evaluation,
+        }),
+      );
     });
   };
 
@@ -71,6 +72,16 @@ describe("TruthTable", function () {
   // It is not valid to place strings on LHS of expressions.
   // test('"bar" Matches "foo"', "absurdity");
   test('(fault.name Matches "InvalidApiKey")', "valid");
+
+  test("geocodeResponse.content != null", "valid");
+  test("geocodeResponse.content = null", "valid");
+  test("(geocodeResponse.content = null)", "valid");
+  test(
+    "(geocodeResponse.content = null) AND (geocodeResponse.content != null)",
+    "absurdity",
+  );
+  test('geocodeResponse.content != "foo"', "valid");
+  test('geocodeResponse.content = "foo"', "valid");
 
   test("false", "absurdity");
   test("true", "valid");
