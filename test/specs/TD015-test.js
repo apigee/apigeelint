@@ -37,7 +37,7 @@ const loadEndpoint = (sourceDir, shortFileName) => {
   return endpoint;
 };
 
-describe(`${testID} - endpoint passes exactly one URL or LoadBalancer check`, function () {
+describe(`${testID} - endpoint passes LoadBalancer MaxFailures check`, function () {
   const sourceDir = path.join(rootDir, "pass");
   const testOne = (shortFileName) => {
     const endpoint = loadEndpoint(sourceDir, shortFileName);
@@ -65,7 +65,7 @@ describe(`${testID} - endpoint passes exactly one URL or LoadBalancer check`, fu
   candidates.forEach(testOne);
 });
 
-describe(`${testID} - endpoint does not pass exactly one URL or LoadBalancer check`, () => {
+describe(`${testID} - endpoint does not pass LoadBalancer MaxFailures check`, () => {
   const sourceDir = path.join(rootDir, "fail");
 
   const testOne = (shortFileName) => {

@@ -438,17 +438,18 @@ This is the current list:
 | &nbsp; |:white_check_mark:| TD003 | TargetEndpoint name | TargetEndpoint name should match basename of filename. |
 | &nbsp; |:white_check_mark:| TD004 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection should enable and Enforce TLS/SSL. |
 | &nbsp; |:white_check_mark:| TD005 | TargetEndpoint SSLInfo references | TargetEndpoint SSLInfo should use references for KeyStore and TrustStore. |
-| &nbsp; |:white_check_mark:| TD006 | TargetEndpoint SSLInfo | When using a LoadBalancer, the SSLInfo should not be configured under HTTPTargetConnection. |
+| &nbsp; |:white_check_mark:| TD006 | TargetEndpoint SSLInfo | When using a LoadBalancer, configure SSLInfo in the TargetServer, even if SSLInfo is also present under HTTPTargetConnection. |
 | &nbsp; |:white_check_mark:| TD007 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection SSLInfo should use TrustStore. |
 | &nbsp; |:white_check_mark:| TD008 | TargetEndpoint LoadBalancer Servers | LoadBalancer should not have multiple IsFallback Server entries. |
 | &nbsp; |:white_check_mark:| TD009 | TargetEndpoint LoadBalancer | TargetEndpoint HTTPTargetConnection should have at most one LoadBalancer. |
 | &nbsp; |:white_check_mark:| TD010 | TargetEndpoint LoadBalancer Servers | LoadBalancer should have at least one Server entry, and no duplicate Server entries. |
 | &nbsp; |:white_check_mark:| TD011 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection SSLInfo should not Ignore validation errors. |
-| &nbsp; |:white_check_mark:| TD012 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection should have exactly one SSLInfo. |
+| &nbsp; |:white_check_mark:| TD012 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection should have exactly one SSLInfo when using URL, and zero or one SSLInfo when using LoadBalancer. |
 | &nbsp; |:white_check_mark:| TD013 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection should correctly configure ClientAuthEnbled. |
 | &nbsp; |:white_check_mark:| TD014 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection should use exctly one of URL, LoadBalancer. |
-| &nbsp; |:white_check_mark:| TD015 | TargetEndpoint LoadBalancer | if TargetEndpoint HTTPTargetConnection uses a LoadBalancer, it should specify MaxFailures. |
+| &nbsp; |:white_check_mark:| TD015 | TargetEndpoint LoadBalancer | If TargetEndpoint HTTPTargetConnection uses a LoadBalancer with more than one Server, it should specify a non-zero MaxFailures. |
 | &nbsp; |:white_check_mark:| TD016 | TargetEndpoint HealthMonitor | TargetEndpoint HTTPTargetConnection must use a HealthMonitor only with a LoadBalancer. |
+| &nbsp; |:white_check_mark:| TD017 | TargetEndpoint URL | When TargetEndpoint HTTPTargetConnection URL is present, it should be non-empty. |
 | Flow | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| FL001 | Unconditional Flows |  Only one unconditional flow will get executed. Error if more than one was detected. |
 | Step | &nbsp; | &nbsp; | &nbsp; | &nbsp; |

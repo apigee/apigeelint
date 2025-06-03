@@ -1,0 +1,12 @@
+<TargetEndpoint name="default">
+  <HTTPTargetConnection>
+
+    <!-- no HealthMon is acceptable when MaxFailures = 0 -->
+
+    <LoadBalancer>
+      <Server name="server1"/>
+      <MaxFailures>0</MaxFailures>
+    </LoadBalancer>
+
+  </HTTPTargetConnection>
+</TargetEndpoint>

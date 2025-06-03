@@ -1,0 +1,21 @@
+<TargetEndpoint name="http-empty-URL">
+
+  <FaultRules/>
+
+  <PreFlow name="PreFlow">
+  </PreFlow>
+
+  <PostFlow name="PostFlow">
+  </PostFlow>
+  <Flows/>
+
+  <HTTPTargetConnection>
+    <Properties/>
+    <!-- apigeelint disable=TD007 -->
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <Enforce>true</Enforce>
+    </SSLInfo>
+    <URL></URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>
