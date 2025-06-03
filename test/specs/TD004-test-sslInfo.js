@@ -166,7 +166,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["SSLInfo configuration does not use Enforce=true"],
+    ["SSLInfo configuration should use Enforce=true on profile=apigeex"],
   );
 
   testApigeeX(
@@ -197,7 +197,9 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
     </HTTPTargetConnection>
   </TargetEndpoint>`,
-    ["SSLInfo configuration must not use the Enforce element"],
+    [
+      "SSLInfo configuration must not use the Enforce element on profile=apigee",
+    ],
   );
 });
 
