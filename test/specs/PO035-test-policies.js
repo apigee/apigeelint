@@ -26,7 +26,7 @@ const testID = "PO035",
   Policy = require("../../lib/package/Policy.js"),
   Dom = require("@xmldom/xmldom").DOMParser,
   rootDir = path.resolve(__dirname, "../fixtures/resources/PO035/policies"),
-  debug = require("debug")("apigeelint:" + testID);
+  debug = require("debug")(`apigeelint:${testID}-test`);
 
 const loadPolicy = (sourceDir, shortFileName) => {
   const fqPath = path.join(sourceDir, shortFileName),
@@ -81,34 +81,40 @@ describe(`${testID} - policy does not pass hygiene evaluation`, () => {
         assert.notEqual(
           policyType,
           undefined,
-          `${policyType} should be defined`
+          `${policyType} should be defined`,
         );
-        plugin.onBundle({ profile: "apigee" });
+
+        const moreBundleProps = {
+          getPolicies: () => [policy],
+          profile: "apigee",
+        };
+        policy.parent = { ...policy.parent, ...moreBundleProps };
+        plugin.onBundle(policy.parent);
         plugin.onPolicy(policy, (e, foundIssues) => {
           assert.equal(undefined, e, "should be undefined");
           assert.equal(true, foundIssues, "should be issues");
           const messages = policy.getReport().messages;
           assert.ok(messages, "messages for issues should exist");
-          const expected = expectedErrorMessages[policy.fileName];
+          let expected = expectedErrorMessages[policy.fileName];
           assert.ok(
             expected,
-            "test configuration failure: did not find an expected message"
+            "test configuration failure: did not find an expected message",
           );
-          debug(util.format(messages));
+          if (!Array.isArray(expected)) {
+            expected = [expected];
+          }
+          debug(`actual messages: ${util.format(messages)}`);
           assert.equal(
             expected.length,
             messages.length,
-            "unexpected number of messages"
+            "unexpected number of messages",
           );
-          for (let i = 0; i < expected.length; i++) {
-            assert.ok(messages[i].message, "did not find message member");
-            assert.equal(
-              expected[i],
-              messages[i].message,
-              `did not find expected message #${i}`
-            );
-            debug(`message[${i}]: ${messages[i].message}`);
-          }
+          expected.forEach((msg) =>
+            assert.ok(
+              messages.find((m) => m.message == msg),
+              `did not find expected(${msg}) in actual(${messages.map((m) => m.message).toString()})`,
+            ),
+          );
         });
       });
     };
