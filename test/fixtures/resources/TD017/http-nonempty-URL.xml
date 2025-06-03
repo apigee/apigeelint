@@ -1,0 +1,17 @@
+<TargetEndpoint name="http-nonempty-URL">
+
+  <FaultRules/>
+  <PreFlow name="PreFlow"/>
+  <PostFlow name="PostFlow"/>
+  <Flows/>
+
+  <HTTPTargetConnection>
+    <Properties/>
+    <!-- apigeelint disable=TD007 -->
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <Enforce>true</Enforce>
+    </SSLInfo>
+    <URL>https://url.points.to/somewhere</URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>

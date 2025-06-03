@@ -37,7 +37,7 @@ const loadEndpoint = (sourceDir, shortFileName) => {
   return endpoint;
 };
 
-describe(`${testID} - endpoint passes multiple SSLInfo  check`, function () {
+describe(`${testID} - endpoint passes multiple SSLInfo check`, function () {
   const sourceDir = path.join(rootDir, "pass");
   const testOne = (shortFileName) => {
     it(`check ${shortFileName} passes`, () => {

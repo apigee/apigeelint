@@ -8,7 +8,7 @@
 
     <LoadBalancer>
       <Server name="server1"/>
-      <Server name="server2"/>
+      <!-- no MaxFailures - OK -->
     </LoadBalancer>
 
   </HTTPTargetConnection>
