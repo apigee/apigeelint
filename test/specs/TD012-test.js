@@ -66,7 +66,7 @@ describe(`${testID} - endpoint passes multiple SSLInfo check`, function () {
 
 describe(`${testID} - endpoint does not pass multiple SSLInfo check`, () => {
   const sourceDir = path.join(rootDir, "fail");
-
+  const expectedErrorMessages = require(path.join(sourceDir, "messages.js"));
   const testOne = (shortFileName) => {
     it(`check ${shortFileName} throws error`, () => {
       const policy = loadEndpoint(sourceDir, shortFileName);
@@ -75,7 +75,26 @@ describe(`${testID} - endpoint does not pass multiple SSLInfo check`, () => {
         assert.equal(true, foundIssues, "should be issues");
         const messages = policy.getReport().messages;
         assert.ok(messages, "messages for issues should exist");
+        let expected = expectedErrorMessages[shortFileName];
+        assert.ok(
+          expected,
+          "test configuration failure: did not find configuration in messages.js",
+        );
+        if (!Array.isArray(expected)) {
+          expected = [expected];
+        }
         debug(util.format(messages));
+        assert.equal(
+          expected.length,
+          messages.length,
+          "mismatch in number of messages",
+        );
+        expected.forEach((msg) =>
+          assert.ok(
+            messages.find((m) => m.message == msg),
+            `Did not find expected(${msg}) in actual(${messages.map((i) => i.message).toString()})`,
+          ),
+        );
       });
     });
   };
