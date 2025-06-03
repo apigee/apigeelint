@@ -1,0 +1,9 @@
+<ExtractVariables name="EV-JSONPayload-terminating-dot">
+    <JSONPayload>
+        <Variable name="full_payload" type="String">
+            <JSONPath>$.</JSONPath>
+            <JSONPath>$..</JSONPath>
+        </Variable>
+    </JSONPayload>
+    <Source clearPayload="false">response</Source>
+</ExtractVariables>
