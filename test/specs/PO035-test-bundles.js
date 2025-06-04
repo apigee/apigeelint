@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2024 Google LLC
+  Copyright 2019-2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -42,14 +42,14 @@ const testOne = (testcase, _label) => {
           __dirname,
           "../fixtures/resources/PO035/bundles",
           testcase.testname,
-          "apiproxy"
+          "apiproxy",
         ),
-        bundleType: "apiproxy"
+        bundleType: "apiproxy",
       },
       profile: testcase.profile,
       excluded: {},
       setExitCode: false,
-      output: () => {} // suppress output
+      output: () => {}, // suppress output
     };
 
     debug(`PO035 configuration: ${util.format(configuration)}`);
@@ -58,7 +58,7 @@ const testOne = (testcase, _label) => {
       assert.ok(items);
       assert.ok(items.length);
       const po035Items = items.filter((item) =>
-        item.messages.some((m) => m.ruleId == "PO035")
+        item.messages.some((m) => m.ruleId == "PO035"),
       );
       debug(`po035Items: ${util.format(po035Items.map((i) => i.filePath))}`);
 
@@ -70,18 +70,18 @@ const testOne = (testcase, _label) => {
         Object.keys(testcase.expected).forEach((policyName, caseNum) => {
           debug(`policyName: ${policyName}`);
           const policyItems = po035Items.filter((item) =>
-            item.filePath.endsWith(policyName)
+            item.filePath.endsWith(policyName),
           );
           debug(`policyItems: ${util.format(policyItems)}`);
 
           assert.equal(policyItems.length, 1);
           const po035Messages = policyItems[0].messages.filter(
-            (m) => m.ruleId == "PO035"
+            (m) => m.ruleId == "PO035",
           );
           debug(`po035Messages: ${util.format(po035Messages)}`);
           assert.equal(
             po035Messages.length,
-            testcase.expected[policyName].length
+            testcase.expected[policyName].length,
           );
           //po035Messages.forEach((m, _ix) => assert.equal(m.severity, 1));
 
@@ -89,7 +89,7 @@ const testOne = (testcase, _label) => {
             assert.equal(
               po035Messages[ix].message,
               item,
-              `${policyName} case(${caseNum}) message(${ix})`
+              `${policyName} case(${caseNum}) message(${ix})`,
             );
           });
         });
@@ -105,9 +105,9 @@ const testCases = [
     expectErrors: true,
     expected: {
       "Quota-1.xml": [
-        "the stepName attribute refers to a policy that does not exist."
-      ]
-    }
+        "The stepName attribute refers to a policy (VerifyAPIKey-1) that does not exist.",
+      ],
+    },
   },
   {
     testname: "fail-test2",
@@ -115,9 +115,9 @@ const testCases = [
     expectErrors: true,
     expected: {
       "Quota-1.xml": [
-        "the stepName attribute refers to the Quota policy itself."
-      ]
-    }
+        "The stepName attribute refers to the Quota policy itself.",
+      ],
+    },
   },
   {
     testname: "fail-test3",
@@ -125,16 +125,16 @@ const testCases = [
     expectErrors: true,
     expected: {
       "Quota-1.xml": [
-        "the stepName attribute refers to a policy of the wrong type."
-      ]
-    }
+        "The stepName attribute refers to a policy of the wrong type.",
+      ],
+    },
   },
   {
     testname: "pass-test1",
     profile: "apigeex",
     expectErrors: false,
-    expected: null
-  }
+    expected: null,
+  },
 ];
 
 describe(`PO035 - Quota hygiene`, () => {
