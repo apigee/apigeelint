@@ -444,7 +444,7 @@ This is the current list:
 | &nbsp; |:white_check_mark:| TD009 | TargetEndpoint LoadBalancer | TargetEndpoint HTTPTargetConnection should have at most one LoadBalancer. |
 | &nbsp; |:white_check_mark:| TD010 | TargetEndpoint LoadBalancer Servers | LoadBalancer should have at least one Server entry, and no duplicate Server entries. |
 | &nbsp; |:white_check_mark:| TD011 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection SSLInfo should not Ignore validation errors. |
-| &nbsp; |:white_check_mark:| TD012 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection should have exactly one SSLInfo when using URL, and zero or one SSLInfo when using LoadBalancer. |
+| &nbsp; |:white_check_mark:| TD012 | TargetEndpoint SSLInfo | Will flag missing SSLInfo in TargetEndpoint HTTPTargetConnection when using URL; will flag multiple SSLInfo when using LoadBalancer. |
 | &nbsp; |:white_check_mark:| TD013 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection should correctly configure ClientAuthEnbled. |
 | &nbsp; |:white_check_mark:| TD014 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection should use exctly one of URL, LoadBalancer. |
 | &nbsp; |:white_check_mark:| TD015 | TargetEndpoint LoadBalancer | If TargetEndpoint HTTPTargetConnection uses a LoadBalancer with more than one Server, it should specify a non-zero MaxFailures. |
