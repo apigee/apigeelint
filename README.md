@@ -436,7 +436,7 @@ This is the current list:
 | &nbsp; |:white_check_mark:| TD001 | Mgmt Server as Target |  Discourage calls to the Management Server from a Proxy via target. |
 | &nbsp; |:white_check_mark:| TD002 | Use Target Servers |  Encourage the use of target servers. |
 | &nbsp; |:white_check_mark:| TD003 | TargetEndpoint name | TargetEndpoint name should match basename of filename. |
-| &nbsp; |:white_check_mark:| TD004 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection should enable and Enforce TLS/SSL. |
+| &nbsp; |:white_check_mark:| TD004 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection use Enable in SSLInfo. On ApigeeX should also use Enforce. |
 | &nbsp; |:white_check_mark:| TD005 | TargetEndpoint SSLInfo references | TargetEndpoint SSLInfo should use references for KeyStore and TrustStore. |
 | &nbsp; |:white_check_mark:| TD006 | TargetEndpoint SSLInfo | When using a LoadBalancer, configure SSLInfo in the TargetServer, even if SSLInfo is also present under HTTPTargetConnection. |
 | &nbsp; |:white_check_mark:| TD007 | TargetEndpoint SSLInfo | TargetEndpoint HTTPTargetConnection SSLInfo should use TrustStore. |
