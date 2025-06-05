@@ -1,0 +1,9 @@
+<JavaCallout name='Java-WSSEC-Encrypt-1'>
+  <Properties>
+    <Property name='source'>message.content</Property>
+    <Property name='output-variable'>output</Property>
+    <Property name='certificate'>{my_certificate}</Property>
+  </Properties>
+  <ClassName>com.google.apigee.callouts.wsseccrypto.Encrypt</ClassName>
+  <ResourceURL>java://apigee-wssec-xmlenc-20250604.jar</ResourceURL>
+</JavaCallout>

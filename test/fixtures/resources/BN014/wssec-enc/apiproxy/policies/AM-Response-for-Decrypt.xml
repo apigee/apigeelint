@@ -1,0 +1,13 @@
+<AssignMessage name='AM-Response-for-Decrypt'>
+  <Remove>
+    <Headers/>
+  </Remove>
+  <Set>
+    <Payload contentType='application/xml'>
+{wssec_output}
+</Payload>
+    <StatusCode>200</StatusCode>
+    <ReasonPhrase>OK</ReasonPhrase>
+  </Set>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>
