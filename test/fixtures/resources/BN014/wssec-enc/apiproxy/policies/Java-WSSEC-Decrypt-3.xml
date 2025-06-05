@@ -1,0 +1,10 @@
+<JavaCallout name='Java-WSSEC-Decrypt-3'>
+  <Properties>
+    <Property name='source'>message.content</Property>
+    <Property name='private-key'>{my_private_key}</Property>
+    <!-- require OAEP on the inbound -->
+    <Property name='rsa-algorithm'>OAEP</Property>
+  </Properties>
+  <ClassName>com.google.apigee.callouts.wsseccrypto.Decrypt</ClassName>
+  <ResourceURL>java://apigee-wssec-xmlenc-20250604.jar</ResourceURL>
+</JavaCallout>

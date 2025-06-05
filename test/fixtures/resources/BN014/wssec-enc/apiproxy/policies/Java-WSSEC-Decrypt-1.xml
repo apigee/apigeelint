@@ -1,0 +1,8 @@
+<JavaCallout name='Java-WSSEC-Decrypt-1'>
+  <Properties>
+    <Property name='source'>message.content</Property>
+    <Property name='private-key'>{my_private_key}</Property>
+  </Properties>
+  <ClassName>com.google.apigee.callouts.wsseccrypto.Decrypt</ClassName>
+  <ResourceURL>java://apigee-wssec-xmlenc-20250604.jar</ResourceURL>
+</JavaCallout>

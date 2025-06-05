@@ -1,0 +1,12 @@
+<AssignMessage name='AM-Response-for-Encrypt'>
+  <Remove>
+    <Headers/>
+  </Remove>
+  <Set>
+    <Payload contentType='application/xml'>
+{output}</Payload>
+    <StatusCode>200</StatusCode>
+    <ReasonPhrase>OK</ReasonPhrase>
+  </Set>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>
