@@ -1,7 +1,7 @@
-<ProxyEndpoint> <!-- missing name -->
+<ProxyEndpoint name="endpoint4">
 
   <HTTPProxyConnection>
-    <BasePath>/flightdata2</BasePath>
+    <BasePath/> <!-- a different kind of empty -->
     <Properties/>
     <VirtualHost>secure</VirtualHost>
   </HTTPProxyConnection>
