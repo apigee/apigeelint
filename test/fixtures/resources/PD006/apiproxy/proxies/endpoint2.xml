@@ -1,0 +1,109 @@
+<ProxyEndpoint name="endpoint2">
+
+  <HTTPProxyConnection>
+    <BasePath></BasePath> <!-- empty -->
+  </HTTPProxyConnection>
+
+  <FaultRules/>
+  <DefaultFaultRule name="default-fault-rule">
+    <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+    </Step>
+    <AlwaysEnforce>true</AlwaysEnforce>
+  </DefaultFaultRule>
+
+  <PreFlow name="PreFlow">
+    <Request>
+    </Request>
+    <Response/>
+  </PreFlow>
+
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response>
+      <Step>
+        <Name>JS-Convert-Response</Name>
+      </Step>
+      <Step>
+        <Name>AM-Inject-Proxy-Revision-Header</Name>
+      </Step>
+    </Response>
+  </PostFlow>
+
+  <PostClientFlow name="PostFlow">
+    <Request/>
+    <Response>
+    </Response>
+  </PostClientFlow>
+
+  <Flows>
+
+    <Flow name="airlines32">
+      <Request>
+        <Step>
+          <Name>AM-PreparedQuery-1</Name>
+        </Step>
+      </Request>
+      <Response>
+      </Response>
+      <Condition>proxy.pathsuffix MatchesPath "/airlines32" and request.verb = "GET"</Condition>
+    </Flow>
+
+
+    <Flow name="airlines100">
+      <Request>
+        <Step>
+          <Name>AM-PreparedQuery-2</Name>
+        </Step>
+      </Request>
+      <Response>
+      </Response>
+      <Condition>proxy.pathsuffix MatchesPath "/airlines100" and request.verb = "GET"</Condition>
+    </Flow>
+
+
+    <Flow name="airlines500">
+      <Request>
+        <Step>
+          <Name>AM-PreparedQuery-3</Name>
+        </Step>
+      </Request>
+      <Response>
+      </Response>
+      <Condition>proxy.pathsuffix MatchesPath "/airlines500" and request.verb = "GET"</Condition>
+    </Flow>
+
+
+    <Flow name="airport-counts">
+      <Request>
+        <Step>
+          <Name>EV-PathParams-4</Name>
+        </Step>
+
+        <Step>
+          <Name>AM-PreparedQuery-4</Name>
+        </Step>
+      </Request>
+      <Response>
+      </Response>
+      <Condition>proxy.pathsuffix MatchesPath "/airports/*/counts/*" and request.verb = "GET"</Condition>
+    </Flow>
+
+
+    <Flow name="unknown request">
+      <Request>
+        <Step>
+          <Name>RF-Unknown-Request</Name>
+        </Step>
+      </Request>
+      <Response>
+      </Response>
+    </Flow>
+
+  </Flows>
+
+  <RouteRule name="default">
+    <TargetEndpoint>target-1</TargetEndpoint>
+  </RouteRule>
+
+</ProxyEndpoint>
