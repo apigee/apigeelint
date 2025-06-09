@@ -1,0 +1,243 @@
+<ProxyEndpoint name="endpoint1">
+  <Description>Proxy for Java callout for WS-Security encryption</Description>
+  <HTTPProxyConnection>
+    <BasePath>/wssec-enc</BasePath>
+    <VirtualHost>secure</VirtualHost>
+  </HTTPProxyConnection>
+
+  <FaultRules/>
+
+  <DefaultFaultRule>
+    <AlwaysEnforce>true</AlwaysEnforce>
+    <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+    </Step>
+  </DefaultFaultRule>
+
+  <PreFlow name="PreFlow">
+    <Request>
+      <Step>
+        <Name>AM-Key-And-Cert</Name>
+      </Step>
+    </Request>
+    <Response>
+      <Step>
+        <Name>AM-Clean-Request-Headers-From-Response</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response>
+      <Step>
+        <Name>AM-Inject-Proxy-Revision-Header</Name>
+      </Step>
+    </Response>
+  </PostFlow>
+
+  <Flows>
+    <Flow name="encrypt1">
+      <Request>
+        <Step>
+          <Condition>NOT((request.header.content-type =| "text/xml") OR (request.header.content-type =| "application/xml" ))</Condition>
+          <Name>RF-Invalid-Request</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>Java-WSSEC-Encrypt-1</Name>
+        </Step>
+        <Step>
+          <Name>AM-Response-for-Encrypt</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix ~ "/encrypt1") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="encrypt2">
+      <Request>
+        <Step>
+          <Condition>NOT((request.header.content-type =| "text/xml") OR (request.header.content-type =| "application/xml" ))</Condition>
+          <Name>RF-Invalid-Request</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>Java-WSSEC-Encrypt-2</Name>
+        </Step>
+        <Step>
+          <Name>AM-Response-for-Encrypt</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix ~ "/encrypt2") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="encrypt3">
+      <Request>
+        <Step>
+          <Condition>NOT((request.header.content-type =| "text/xml") OR (request.header.content-type =| "application/xml" ))</Condition>
+          <Name>RF-Invalid-Request</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>Java-WSSEC-Encrypt-3</Name>
+        </Step>
+        <Step>
+          <Name>AM-Response-for-Encrypt</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix ~ "/encrypt3") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="encrypt4">
+      <Request>
+        <Step>
+          <Condition>NOT((request.header.content-type =| "text/xml") OR (request.header.content-type =| "application/xml" ))</Condition>
+          <Name>RF-Invalid-Request</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>Java-WSSEC-Encrypt-4</Name>
+        </Step>
+        <Step>
+          <Name>AM-Response-for-Encrypt</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix ~ "/encrypt4") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="encrypt5">
+      <Request>
+        <Step>
+          <Condition>NOT((request.header.content-type =| "text/xml") OR (request.header.content-type =| "application/xml" ))</Condition>
+          <Name>RF-Invalid-Request</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>Java-WSSEC-Encrypt-5</Name>
+        </Step>
+        <Step>
+          <Name>AM-Response-for-Encrypt</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix ~ "/encrypt5") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="encrypt6">
+      <Request>
+        <Step>
+          <Condition>NOT((request.header.content-type =| "text/xml") OR (request.header.content-type =| "application/xml" ))</Condition>
+          <Name>RF-Invalid-Request</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>Java-WSSEC-Encrypt-6</Name>
+        </Step>
+        <Step>
+          <Name>AM-Response-for-Encrypt</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix ~ "/encrypt6") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="encrypt7">
+      <Request>
+        <Step>
+          <Condition>NOT((request.header.content-type =| "text/xml") OR (request.header.content-type =| "application/xml" ))</Condition>
+          <Name>RF-Invalid-Request</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>Java-WSSEC-Encrypt-7</Name>
+        </Step>
+        <Step>
+          <Name>AM-Response-for-Encrypt</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix ~ "/encrypt7") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="decrypt1">
+      <Request>
+        <Step>
+          <Condition>NOT((request.header.content-type =| "text/xml") OR (request.header.content-type =| "application/xml" ))</Condition>
+          <Name>RF-Invalid-Request</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>Java-WSSEC-Decrypt-1</Name>
+        </Step>
+        <Step>
+          <Name>AM-Response-for-Decrypt</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix ~ "/decrypt1") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="decrypt2">
+      <Request>
+        <Step>
+          <Condition>NOT((request.header.content-type =| "text/xml") OR (request.header.content-type =| "application/xml" ))</Condition>
+          <Name>RF-Invalid-Request</Name>
+        </Step>
+        <Step>
+          <Condition>request.queryparam.thumbprint = null</Condition>
+          <Name>RF-Missing-Thumbprint</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>Java-WSSEC-Decrypt-2</Name>
+        </Step>
+        <Step>
+          <Name>AM-Response-for-Decrypt</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix ~ "/decrypt2") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="decrypt3">
+      <Request>
+        <Step>
+          <Condition>NOT((request.header.content-type =| "text/xml") OR (request.header.content-type =| "application/xml" ))</Condition>
+          <Name>RF-Invalid-Request</Name>
+        </Step>
+        <Step>
+          <Condition>request.queryparam.thumbprint = null</Condition>
+          <Name>RF-Missing-Thumbprint</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>Java-WSSEC-Decrypt-3</Name>
+        </Step>
+        <Step>
+          <Name>AM-Response-for-Decrypt</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix ~ "/decrypt3") and (request.verb = "POST")</Condition>
+    </Flow>
+
+    <Flow name="unknown">
+      <Description>Unknown request</Description>
+      <Request>
+        <Step>
+          <Name>RF-Unknown-Request</Name>
+        </Step>
+      </Request>
+      <Response/>
+    </Flow>
+
+  </Flows>
+
+  <RouteRule name="LoopbackRoute">
+  </RouteRule>
+
+</ProxyEndpoint>

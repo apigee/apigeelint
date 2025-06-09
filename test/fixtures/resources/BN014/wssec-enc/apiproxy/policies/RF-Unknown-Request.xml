@@ -1,0 +1,15 @@
+<RaiseFault name='RF-Unknown-Request'>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <FaultResponse>
+    <Set>
+      <Payload contentType='application/xml'>
+<error>
+  <code>404.01</code>
+  <message>Not found</message>
+</error>
+</Payload>
+      <StatusCode>404</StatusCode>
+      <ReasonPhrase>Not Found</ReasonPhrase>
+    </Set>
+  </FaultResponse>
+</RaiseFault>

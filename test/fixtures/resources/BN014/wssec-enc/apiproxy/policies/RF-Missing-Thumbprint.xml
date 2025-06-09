@@ -1,0 +1,15 @@
+<RaiseFault name='RF-Missing-Thumbprint'>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <FaultResponse>
+    <Set>
+      <Payload contentType='application/xml'>
+<error>
+  <code>400.02</code>
+  <message>missing queryparam: thumbprint</message>
+</error>
+</Payload>
+      <StatusCode>400</StatusCode>
+      <ReasonPhrase>Bad Request</ReasonPhrase>
+    </Set>
+  </FaultResponse>
+</RaiseFault>
