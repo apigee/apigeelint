@@ -1,0 +1,41 @@
+<AssignMessage name="AM-JsonPath-1">
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <AssignVariable>
+    <Name>jsondata</Name>
+    <Value><![CDATA[{
+  "quota": [
+    {
+      "appname": "A",
+      "operation": "ManageOrder",
+      "value": "900",
+      "a": ["1", "2"]
+    },
+    {
+      "appname": "B",
+      "operation": "ManageOrder",
+      "value": "1000",
+      "a": ["3", "4"]
+    },
+    {
+      "appname": "B",
+      "operation": "SubmitOrder",
+      "value": "800",
+      "a": ["5", "3"]
+    }
+  ]
+}
+]]></Value>
+  </AssignVariable>
+
+  <AssignVariable>
+    <Name>selected_value</Name>
+    <!-- quoted jsonpath -->
+    <Template>{jsonPath('$.quota.[*].appname',jsondata)}</Template>
+  </AssignVariable>
+
+  <AssignVariable>
+    <Name>expected_value</Name>
+    <Value>A</Value>
+  </AssignVariable>
+
+</AssignMessage>

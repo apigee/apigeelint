@@ -46,6 +46,9 @@
 
     <Flow name="flow1">
       <Request>
+        <Step>
+          <Name>AM-JsonPath-1</Name>
+        </Step>
       </Request>
       <Response>
         <Step>

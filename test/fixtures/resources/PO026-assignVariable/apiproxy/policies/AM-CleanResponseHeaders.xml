@@ -1,5 +1,4 @@
 <AssignMessage name='AM-CleanResponseHeaders'>
-  <AssignTo createNew='false' transport='http' type='response'/>
   <Remove>
     <Headers/>
   </Remove>

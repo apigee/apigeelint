@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2023 Google LLC
+  Copyright 2019-2023,2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -62,6 +62,8 @@ describe("TemplateCheck", function () {
     ["{notARealfunction()}", "unsupported function name (notARealfunction)"],
     ["{createUuid[]}", "unexpected character at position 11: ["],
     ["{ createUuid() }", undefined], // but ineffective
+    ["{jsonPath('$.quota.[*].appname',jsondata)}", undefined],
+    ["{jsonPath('$.quota.[*].appname,jsondata)}", "unterminated open quote"],
   ];
 
   testCases.forEach((item, _ix) => {
