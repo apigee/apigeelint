@@ -1,0 +1,9 @@
+<KeyValueMapOperations name="KVM-Scope-apigee" mapIdentifier='foobar'>
+  <ExpiryTimeInSecs>300</ExpiryTimeInSecs>
+  <Get assignTo="JwkURI">
+    <Key>
+      <Parameter>jwk_uri</Parameter>
+    </Key>
+  </Get>
+  <Scope>organization</Scope>
+</KeyValueMapOperations>

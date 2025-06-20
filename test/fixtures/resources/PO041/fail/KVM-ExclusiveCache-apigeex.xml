@@ -1,0 +1,16 @@
+<KeyValueMapOperations name="KVM-ExclusiveCache-apigeex">
+
+  <MapName ref="OrganizationMapName"/>
+
+  <ExpiryTimeInSecs>300</ExpiryTimeInSecs>
+  <Get assignTo="JwkURI">
+    <Key>
+      <Parameter>jwk_uri</Parameter>
+    </Key>
+  </Get>
+  <ExclusiveCache>true</ExclusiveCache>
+
+<!--
+  <Scope>organization</Scope>
+-->
+</KeyValueMapOperations>
