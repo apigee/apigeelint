@@ -138,6 +138,20 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
     ["SSLInfo configuration must not use the Enabled=true with insecure URL"],
   );
 
+  test(
+    81,
+    "SSLInfo/Enabled=true, scheme=variable, profile=apigee",
+    `<TargetEndpoint name="default">
+    <HTTPTargetConnection>
+      <SSLInfo>
+        <Enabled>true</Enabled>
+      </SSLInfo>
+      <URL>{variable-goes-here}</URL>
+    </HTTPTargetConnection>
+  </TargetEndpoint>`,
+    null,
+  );
+
   testApigeeX(
     90,
     "SSLInfo/Enforce = true, scheme=https, profile=apigeex",
