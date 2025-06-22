@@ -1,0 +1,3 @@
+<APIProxy name="cloudrun-authenticated-sample">
+  <Description>A sample API proxy to demonstrate authenticated invocation of Cloud Run from Apigee</Description>
+</APIProxy>

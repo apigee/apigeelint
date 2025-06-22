@@ -1,0 +1,16 @@
+<RaiseFault name='RF-Invalid-Request'>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <FaultResponse>
+    <Set>
+      <Payload contentType='application/json'>{
+  "error" : {
+    "code" : 400.01,
+    "message" : "bad request. Pass auth-type header."
+  }
+}
+</Payload>
+      <StatusCode>400</StatusCode>
+      <ReasonPhrase>Bad Request</ReasonPhrase>
+    </Set>
+  </FaultResponse>
+</RaiseFault>

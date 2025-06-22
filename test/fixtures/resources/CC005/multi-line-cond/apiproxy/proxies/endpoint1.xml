@@ -1,0 +1,47 @@
+<ProxyEndpoint name="endpoint1">
+
+  <HTTPProxyConnection>
+    <BasePath>/v1/samples/cloudrun-authenticated-sample</BasePath>
+  </HTTPProxyConnection>
+
+  <DefaultFaultRule>
+    <AlwaysEnforce>true</AlwaysEnforce>
+    <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+    </Step>
+  </DefaultFaultRule>
+
+  <PreFlow name="PreFlow">
+    <Request>
+      <Step>
+        <Condition>NOT(request.header.auth-type = "passthrough") AND
+        NOT (request.header.auth-type = "impersonated") AND
+        NOT(request.header.auth-type = "platform") AND
+        NOT
+        (request.header.auth-type = "indirect")</Condition>
+        <Name>RF-Invalid-Request</Name>
+      </Step>
+    </Request>
+    <Response>
+      <Step>
+        <Name>AM-Clean-Request-Headers-From-Response</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+
+  <Flows/>
+
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response>
+      <Step>
+        <Name>AM-Inject-Proxy-Revision-Header</Name>
+      </Step>
+    </Response>
+  </PostFlow>
+
+  <RouteRule name="r4">
+    <TargetEndpoint>passthrough-authentication</TargetEndpoint>
+  </RouteRule>
+
+</ProxyEndpoint>
