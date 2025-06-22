@@ -133,7 +133,7 @@ describe(`${testID} - malformed Conditions`, () => {
         type: "filesystem",
         path: path.resolve(
           __dirname,
-          "../fixtures/resources/CC005/multi-line-cond/apiproxy",
+          "../fixtures/resources/CC005/leading-not/apiproxy",
         ),
         bundleType: "apiproxy",
       },
