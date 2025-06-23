@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright 2019-2021,2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ const testID = "CC005",
   bl = require("../../lib/package/bundleLinter.js"),
   debug = require("debug")(`apigeelint:${testID}-test`);
 
-describe(`${testID} - Unterminated Strings in Condition`, () => {
+describe(`${testID} - malformed Conditions`, () => {
   it("should generate the expected errors", () => {
     let configuration = {
       debug: true,
@@ -96,6 +96,44 @@ describe(`${testID} - Unterminated Strings in Condition`, () => {
         path: path.resolve(
           __dirname,
           "../fixtures/resources/CC005/issue483/apiproxy",
+        ),
+        bundleType: "apiproxy",
+      },
+      profile: "apigeex",
+      excluded: {},
+      setExitCode: false,
+      output: () => {}, // suppress output
+    };
+
+    bl.lint(configuration, (bundle) => {
+      let items = bundle.getReport();
+      assert.ok(items);
+      assert.ok(items.length);
+      let proxyEndpointItems = items.filter((m) =>
+        m.filePath.endsWith("endpoint1.xml"),
+      );
+      assert.equal(proxyEndpointItems.length, 1);
+      let cc005Messages = proxyEndpointItems[0].messages.filter(
+        (m) => m.ruleId == "CC005",
+      );
+      assert.equal(cc005Messages.length, 0);
+
+      let otherMessages = proxyEndpointItems[0].messages.filter(
+        (m) => m.ruleId != "CC005",
+      );
+      debug(`other messages: ` + JSON.stringify(otherMessages, null, 2));
+      assert.notEqual(otherMessages.length, 0);
+    });
+  });
+
+  it("should correctly parse leading NOT with and without spaces", () => {
+    let configuration = {
+      debug: true,
+      source: {
+        type: "filesystem",
+        path: path.resolve(
+          __dirname,
+          "../fixtures/resources/CC005/leading-not/apiproxy",
         ),
         bundleType: "apiproxy",
       },

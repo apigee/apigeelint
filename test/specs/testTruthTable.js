@@ -145,9 +145,16 @@ describe("TruthTable", function () {
     'walletAdjustment.action != "grant" AND walletAdjustment.action != "revoke"',
     "valid",
   );
-
   test(
     'NOT((request.header.content-type =| "text/xml") OR (request.header.content-type =| "application/xml" ))',
+    "valid",
+  );
+  test(
+    `NOT(request.header.auth-type = "passthrough") AND
+        NOT (request.header.auth-type = "impersonated") AND
+        NOT(request.header.auth-type = "platform") AND
+        NOT
+        (request.header.auth-type = "indirect")`,
     "valid",
   );
 });
