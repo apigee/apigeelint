@@ -16,6 +16,7 @@
 /* global describe, it */
 
 const assert = require("assert"),
+  expect = require("chai").expect,
   jsonpath = require("jsonpath"),
   debug = require("debug")("apigeelint:TruthTableTest"),
   TruthTable = require("../../lib/package/TruthTable.js"),
@@ -127,5 +128,53 @@ describe("TruthTable AST", function () {
     "$.args[1].args[0].args[0].type": "variable",
     "$.args[1].args[0].args[0].value": "error.status.code",
     "$.args[1].args[1].args[0].value": 399,
+  });
+
+  const testAst = function (exp, expected) {
+    it(`${exp} should parse correctly`, function () {
+      try {
+        var tt = new TruthTable(exp),
+          ast = tt.getAST();
+
+        debug(`ast: ${ast}`);
+      } catch (parseExc) {
+        debug(`expected: ${expected}`);
+        assert.notEqual("ERR_ASSERTION", parseExc.code);
+        debug(`parse Exception: ${JSON.stringify(parseExc)}`);
+        debug(`parse Exception: ${parseExc.stack}`);
+        assert.equal("exception", expected);
+        return;
+      }
+
+      expect(expected).to.deep.equal(ast);
+    });
+  };
+
+  testAst("validJson == true", {
+    action: "equivalence",
+    args: [
+      {
+        action: "substitution",
+        args: [{ type: "variable", value: "validJson" }],
+      },
+      {
+        action: "substitution",
+        args: [{ type: "constant", value: true, varName: "validJson" }],
+      },
+    ],
+  });
+
+  testAst("notValidJson == true", {
+    action: "equivalence",
+    args: [
+      {
+        action: "substitution",
+        args: [{ type: "variable", value: "notValidJson" }],
+      },
+      {
+        action: "substitution",
+        args: [{ type: "constant", value: true, varName: "notValidJson" }],
+      },
+    ],
   });
 });

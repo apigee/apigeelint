@@ -44,7 +44,9 @@ const assert = require("assert"),
     });
   };
 
-describe("TruthTable", function () {
+describe("TruthTable evaluation", function () {
+  test("notValidJson == true", "valid");
+
   // It is not valid to place strings on LHS of expressions.
   // test('"/x/a/b/feed/" Matches "/*/a/*/feed/"', "valid");
   //test('"/Be/ER" Matches "/*/ER" ', "valid");
@@ -151,10 +153,10 @@ describe("TruthTable", function () {
   );
   test(
     `NOT(request.header.auth-type = "passthrough") AND
-        NOT (request.header.auth-type = "impersonated") AND
-        NOT(request.header.auth-type = "platform") AND
-        NOT
-        (request.header.auth-type = "indirect")`,
+          NOT (request.header.auth-type = "impersonated") AND
+          NOT(request.header.auth-type = "platform") AND
+          NOT
+          (request.header.auth-type = "indirect")`,
     "valid",
   );
 });
