@@ -10,7 +10,7 @@
     "badge": "mocha --reporter mocha-badge-generator",
     "build-condition-parser": "npx mkdirp build && npx peggy -o build/ConditionParser.js lib/peggy/Apigee-Condition.pegjs",
     "coverage": "npx nyc --reporter=text mocha",
-    "depcheck": "npx depcheck . --ignores=depcheck,mocha-lcov-reporter",
+    "depcheck": "npx depcheck . --ignores=depcheck,mocha-lcov-reporter,apigee-jsc-debug",
     "test": "mocha"
   },
   "repository": {
