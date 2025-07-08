@@ -72,7 +72,7 @@ describe(`${testID} - MessageLogging RessourceType element`, () => {
     assert.ok(messages[0].message, "did not find message 0");
     assert.equal(
       messages[0].message,
-      "The value 'gce_instance' should not be used here. ResourceType should be 'api'",
+      "The value 'gce_instance' should not be used here. ResourceType should be 'global'",
     );
   });
 
@@ -85,7 +85,7 @@ describe(`${testID} - MessageLogging RessourceType element`, () => {
     assert.ok(messages[0].message, "did not find message 0");
     assert.equal(
       messages[0].message,
-      "The value 'apigee.googleapis.com/Environment' should not be used here. ResourceType should be 'api'",
+      "The value 'apigee.googleapis.com/Environment' should not be used here. ResourceType should be 'global'",
     );
   });
 

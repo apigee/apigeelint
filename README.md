@@ -496,7 +496,7 @@ This is the current list:
 | &nbsp; |:white_check_mark:| PO036 | ServiceCallout Response element usage | The Response element, when present, should specify a text value and no attributes. |
 | &nbsp; |:white_check_mark:| PO037 | DataCapture policy hygiene | Checks that a Capture should uses a Source of type request when the policy is attached to the Response flow, and other checks. |
 | &nbsp; |:white_check_mark:| PO038 | KeyValueMapOperations policy hygiene | Checks that MapName or mapIdentifier is specified, and not both.|
-| &nbsp; |:white_check_mark:| PO039 | MessageLogging policy hygiene | Checks that ResourceType is not used, or is "api".|
+| &nbsp; |:white_check_mark:| PO039 | MessageLogging policy hygiene | Checks that ResourceType is not used, or is "global".|
 | &nbsp; |:white_check_mark:| PO040 | Check JSONPath within ExtractVariables policy | Checks that JSONPath compiles and is valid. |
 | &nbsp; |:white_check_mark:| PO041 | KeyValueMapOperations policy and ExclusiveCache | Checks that KeyValueMapOperations policy does not use deprecated ExclusiveCache. |
 | FaultRules | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
