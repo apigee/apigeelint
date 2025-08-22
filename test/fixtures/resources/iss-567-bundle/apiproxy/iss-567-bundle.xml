@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="1" name="iss-567-bundle">
+    <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+    <CreatedBy>DChiesa@google.com</CreatedBy>
+    <DisplayName>iss-567-bundle</DisplayName>
+</APIProxy>

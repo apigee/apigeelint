@@ -1,0 +1,24 @@
+<ProxyEndpoint name="endpoint1">
+  <HTTPProxyConnection>
+    <BasePath>/iss-567-bundle</BasePath>
+  </HTTPProxyConnection>
+
+  <PreFlow name="PreFlow">
+    <Request />
+    <Response />
+  </PreFlow>
+  <PostFlow name="PostFlow">
+    <Request />
+    <Response />
+  </PostFlow>
+
+  <RouteRule name='rule1'>
+    <TargetEndpoint>target1</TargetEndpoint>
+    <Condition>request.verb = "HEAD"</Condition>
+  </RouteRule>
+
+  <RouteRule name='rule2'>
+    <TargetEndpoint>target2</TargetEndpoint>
+  </RouteRule>
+
+</ProxyEndpoint>
