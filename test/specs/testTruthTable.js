@@ -51,6 +51,22 @@ describe("TruthTable evaluation", function () {
   // test('"/x/a/b/feed/" Matches "/*/a/*/feed/"', "valid");
   //test('"/Be/ER" Matches "/*/ER" ', "valid");
 
+  test("(recaptcha-valid != true) and (recaptcha-score &lt;= 0.7)", "valid");
+  test("(recaptcha-valid != true) and (recaptcha-score &gt; 0.72928)", "valid");
+  test("(recaptcha-valid != true) and (recaptcha-score &lt;= 0.0)", "valid");
+  test(
+    "(recaptcha-valid != true) &amp;&amp; (recaptcha-score &lt;= 0)",
+    "valid",
+  );
+  test(
+    "(recaptcha-valid != true) &amp;&amp (recaptcha-score &lt;= 0)",
+    "exception",
+  );
+  test(
+    "(recaptcha-valid != true) and (recaptcha-score &lt;= 0.ahdjh)",
+    "exception",
+  );
+
   test(
     '((cacheFlag == "false") or (lookupcache.Cache.lookupServiceCalloutAEMGET.cachehit == "false")) and (request.header.channelid := "care")',
     "valid",
