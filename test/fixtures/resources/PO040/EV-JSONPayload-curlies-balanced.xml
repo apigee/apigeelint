@@ -1,0 +1,8 @@
+<ExtractVariables name="EV-JSONPayload-curlies-balanced">
+    <JSONPayload>
+        <Variable name="not_sure" type="String">
+            <JSONPath>$.{foo}</JSONPath> <!-- will get variable replacements -->
+        </Variable>
+    </JSONPayload>
+    <Source clearPayload="false">response</Source>
+</ExtractVariables>

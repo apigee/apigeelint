@@ -19,7 +19,6 @@
 const testID = "PO040",
   assert = require("assert"),
   fs = require("fs"),
-  util = require("util"),
   path = require("path"),
   bl = require("../../lib/package/bundleLinter.js"),
   plugin = require(bl.resolvePlugin(testID)),
@@ -79,7 +78,7 @@ describe(`${testID} - ExtractVariables/JSONPath returns correct results for poli
                 messages.find((item) =>
                   item.message.startsWith(expectedMessageStart),
                 ),
-                `did not find expected message (${expectedMessageStart}...)`,
+                `did not find expected message (${expectedMessageStart}... not in ${messages.map((m) => m.message).join(",")}`,
               );
             });
           } else {
