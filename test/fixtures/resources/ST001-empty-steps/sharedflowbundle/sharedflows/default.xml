@@ -1,0 +1,50 @@
+<SharedFlow name="default">
+  <Step>
+    <Name>Cache-Lookup-ABAC-Rules</Name>
+  </Step>
+
+  <Step>
+    <!-- error: missing step name -->
+    <Name></Name>
+  </Step>
+
+  <!-- error: missing Name child -->
+  <Step>
+  </Step>
+
+  <!-- get GCP token, maybe from cache -->
+  <Step>
+    <Name>FC-Get-GCP-Token</Name>
+    <Condition>abac_rules = null</Condition>
+  </Step>
+
+  <Step>
+    <!-- get the id of the sheet to read -->
+    <Name>KVM-Get-SheetId</Name>
+    <Condition>abac_rules = null</Condition>
+  </Step>
+
+  <Step>
+    <!-- set up the path for the outbound request -->
+    <Name>AM-Sheets-Path</Name>
+    <Condition>abac_rules = null</Condition>
+  </Step>
+
+  <Step>
+    <!-- get ABAC Rules from Sheet -->
+    <Name>SC-Get-ABAC-Rules</Name>
+    <Condition>abac_rules = null</Condition>
+  </Step>
+
+  <Step>
+    <!-- Use js to evaluate the rules. -->
+    <Name>JS-ExtractRules</Name>
+    <Condition>abac_rules = null</Condition>
+  </Step>
+
+  <Step>
+    <Name>Cache-Populate-ABAC-Rules</Name>
+    <Condition>abacResponse != null</Condition>
+  </Step>
+
+</SharedFlow>

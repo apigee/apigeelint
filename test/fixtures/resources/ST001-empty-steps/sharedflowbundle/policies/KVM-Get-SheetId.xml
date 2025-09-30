@@ -1,0 +1,9 @@
+<KeyValueMapOperations name='KVM-Get-SheetId' mapIdentifier='secrets'>
+  <Scope>environment</Scope>
+  <ExpiryTimeInSecs>300</ExpiryTimeInSecs>
+  <Get assignTo='private.sheetid'>
+    <Key>
+      <Parameter>sheets_abac_sheet_id</Parameter>
+    </Key>
+  </Get>
+</KeyValueMapOperations>

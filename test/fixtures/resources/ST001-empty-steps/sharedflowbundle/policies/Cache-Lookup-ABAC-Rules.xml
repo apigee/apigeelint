@@ -1,0 +1,11 @@
+<LookupCache name='Cache-Lookup-ABAC-Rules'>
+<!--
+  <CacheResource>cache1</CacheResource>
+-->
+  <Scope>Application</Scope>
+  <CacheKey>
+    <Prefix>abac-rules</Prefix>
+    <KeyFragment>rules</KeyFragment>
+  </CacheKey>
+  <AssignTo>abac_rules</AssignTo>
+</LookupCache>

@@ -1,0 +1,3 @@
+<FlowCallout name='FC-Get-GCP-Token'>
+  <SharedFlowBundle>get-gcp-token</SharedFlowBundle>
+</FlowCallout>

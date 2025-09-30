@@ -1,0 +1,15 @@
+<PopulateCache name='Cache-Populate-ABAC-Rules'>
+<!--
+  <CacheResource>cache1</CacheResource>
+-->
+  <Scope>Application</Scope>
+  <Source>abac_rules</Source>
+  <CacheKey>
+    <Prefix>abac-rules</Prefix>
+    <KeyFragment>rules</KeyFragment>
+  </CacheKey>
+  <ExpirySettings>
+    <!-- Re-read every 3 minutes -->
+    <TimeoutInSec>180</TimeoutInSec>
+  </ExpirySettings>
+</PopulateCache>
