@@ -1,0 +1,14 @@
+<SharedFlowBundle revision="1" name="get-abac-rules">
+    <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+    <CreatedAt>1486431487439</CreatedAt>
+    <CreatedBy>dchiesa@google.com</CreatedBy>
+    <Description></Description>
+    <DisplayName>get-abac-rules</DisplayName>
+    <LastModifiedAt>1486431673737</LastModifiedAt>
+    <LastModifiedBy>dchiesa@google.com</LastModifiedBy>
+    <subType>SharedFlow</subType>
+    <validate>false</validate>
+    <SharedFlows>
+        <SharedFlow>default</SharedFlow>
+    </SharedFlows>
+</SharedFlowBundle>

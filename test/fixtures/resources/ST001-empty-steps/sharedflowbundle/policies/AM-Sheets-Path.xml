@@ -1,0 +1,20 @@
+<AssignMessage name='AM-Sheets-Path'>
+
+  <!-- this sheet ID will be different for each deployment -->
+  <AssignVariable>
+    <Name>abac_sheet_id</Name>
+    <Ref>private.sheetid</Ref>
+  </AssignVariable>
+
+  <!-- make this generous enough to handle all the rules -->
+  <AssignVariable>
+    <Name>abac_range</Name>
+    <Value>A2:D102</Value>
+  </AssignVariable>
+
+  <AssignVariable>
+    <Name>abac_sc_urlPath</Name>
+    <Template>/v4/spreadsheets/{abac_sheet_id}/values/{abac_range}</Template>
+  </AssignVariable>
+
+</AssignMessage>

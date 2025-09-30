@@ -46,9 +46,14 @@
 
     <Flow name="flow1">
       <Request>
+        <Step>
+          <!-- No policy name; should be flagged by ST001, not part of this test. -->
+          <Name></Name>
+        </Step>
       </Request>
       <Response>
         <Step>
+          <!-- This policy is missing; expected to be flagged by BN010. -->
           <Name>AM-Response-1</Name>
         </Step>
       </Response>

@@ -1,0 +1,23 @@
+<ServiceCallout name='SC-Get-ABAC-Rules'>
+  <Request>
+    <Set>
+      <Headers>
+        <Header name='Accept'>application/json</Header>
+        <Header name='Authorization'>Bearer {gcp_bearer_token}</Header>
+      </Headers>
+      <Verb>GET</Verb>
+      <Path>{abac_sc_urlPath}</Path>
+    </Set>
+  </Request>
+  <Response>abacResponse</Response>
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <IgnoreValidationErrors>true</IgnoreValidationErrors>
+    </SSLInfo>
+    <Properties>
+      <Property name='success.codes'>2xx, 3xx</Property>
+    </Properties>
+    <URL>https://sheets.googleapis.com</URL>
+  </HTTPTargetConnection>
+</ServiceCallout>

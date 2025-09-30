@@ -1,0 +1,21 @@
+<Javascript name='JS-ExtractRules'>
+  <!--
+not working on hybrid
+
+  <Source>
+var r = JSON.parse(context.getVariable('abacResponse.content'));
+var values = r.values;
+
+// array of array
+// values:
+//   [ [ 'partner', '/v1/foo', 'GET', 'TRUE' ],
+//     [ 'employee', '/v1/foo', 'GET', 'TRUE' ],
+//     [ 'employee', '/v1/foo', 'POST', 'TRUE' ],
+//     [ 'employee', '/v1/foo', 'DELETE', 'FALSE' ],
+//     [ 'admin', '/v1/foo', 'DELETE', 'FALSE' ] ]
+
+context.setVariable('abac_rules', JSON.stringify(values));
+  </Source>
+  -->
+  <ResourceURL>jsc://extractRules.js</ResourceURL>
+</Javascript>
