@@ -26,7 +26,12 @@ const program = require("commander"),
   pkj = require("./package.json"),
   downloader = require("./lib/package/downloader.js"),
   bundleType = require("./lib/package/BundleTypes.js"),
-  debug = require("debug");
+  debug = require("debug"),
+  defaults = {
+    formatter: "json.js",
+    complexConditionTermCount: 12,
+    profile: "apigee",
+  };
 
 /**
  * findBundle returns an array of three items:
@@ -93,7 +98,10 @@ const findBundle = (p) => {
       "-d, --download [value]",
       "Download the API proxy or sharedflow to analyze. Exclusive of -s / --path. Example: org:ORG,API:proxyname or org:ORG,sf:SHAREDFLOWNAME",
     )
-    .option("-f, --formatter [value]", "Specify formatters (default: json.js)")
+    .option(
+      "-f, --formatter [value]",
+      `Specify formatters (default: ${defaults.formatter})`,
+    )
     .option("-w, --write [value]", "file path to write results")
     .option(
       "-e, --excluded [value]",
@@ -115,7 +123,14 @@ const findBundle = (p) => {
       "--maxWarnings [value]",
       "Number of warnings to trigger nonzero exit code (default: -1)",
     )
-    .option("--profile [value]", "Either apigee or apigeex (default: apigee)")
+    .option(
+      "--complexConditionTermCount [value]",
+      `Maximum number of terms in a condition before it is considered too complex (default: ${defaults.complexConditionTermCount})`,
+    )
+    .option(
+      "--profile [value]",
+      `Either apigee or apigeex (default: ${defaults.profile})`,
+    )
     .option(
       "--norc",
       "do not search for and use the .apigeelintrc file for settings",
@@ -194,10 +209,13 @@ const findBundle = (p) => {
         ? bundleType.BundleType.SHAREDFLOW
         : bundleType.BundleType.APIPROXY,
     },
+    complexConditionTermCount:
+      Number(program.complexConditionTermCount) ||
+      defaults.complexConditionTermCount,
     externalPluginsDirectory: program.externalPluginsDirectory,
     excluded: {},
     maxWarnings: -1,
-    profile: "apigee",
+    profile: defaults.profile,
   };
 
   if (!isNaN(program.maxWarnings)) {
@@ -205,7 +223,7 @@ const findBundle = (p) => {
   }
 
   if (program.formatter) {
-    configuration.formatter = program.formatter || "json.js";
+    configuration.formatter = program.formatter || defaults.formatter;
   }
 
   if (program.quiet) {
@@ -227,7 +245,7 @@ const findBundle = (p) => {
     configuration.writePath = program.write;
   }
 
-  if (program.profile) {
+  if (program.profile && ["apigee", "apigeex"].includes(program.profile)) {
     configuration.profile = program.profile;
   }
 
