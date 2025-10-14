@@ -223,7 +223,7 @@ describe(`EP002 - sharedflowbundle with no misplaced elements`, () => {
   });
 });
 
-describe(`EP002 - EventFlow with no misplaced elements`, () => {
+describe(`EP002 - EventFlow within API Proxy and Target Endpoints`, () => {
   let configuration = {
     debug: true,
     source: {
@@ -259,11 +259,11 @@ describe(`EP002 - EventFlow with no misplaced elements`, () => {
       const itemsWithErrors = items.filter(
         (item) => item.messages && item.messages.length,
       );
-      assert.equal(itemsWithErrors.length, 1);
+      assert.equal(itemsWithErrors.length, 2);
     });
   });
 
-  it("should generate no EP002 errors", () => {
+  it("should generate one EP002 error", () => {
     insure(() => {
       const ep002Errors = items.filter(
         (item) =>
@@ -272,7 +272,16 @@ describe(`EP002 - EventFlow with no misplaced elements`, () => {
           item.messages.find((m) => m.ruleId == "EP002"),
       );
 
-      assert.equal(ep002Errors.length, 0);
+      assert.equal(ep002Errors.length, 1);
+
+      const message = ep002Errors?.[0]?.messages?.[0];
+      assert.ok(message);
+      assert.equal(
+        message.message,
+        "Misplaced Request element child of EventFlow",
+      );
+      assert.equal(message.line, 17);
+      assert.equal(message.column, 5);
     });
   });
 });
