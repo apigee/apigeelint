@@ -13,6 +13,18 @@
     <Request/>
     <Response/>
   </PostFlow>
+  <EventFlow name="EventFlow" content-type="text/event-stream">
+    <Request>
+      <Step>
+        <Name>AM-Preserve-Header</Name>
+      </Step>
+    </Request>
+    <Response>
+      <Step>
+        <Name>JS-Parse-Events-inProxy</Name>
+      </Step>
+    </Response>
+  </EventFlow>
   <Flows/>
   <HTTPProxyConnection>
     <BasePath>/EP002-eventflow</BasePath>

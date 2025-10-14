@@ -1,0 +1,7 @@
+<AssignMessage name='AM-Preserve-Header'>
+  <AssignVariable>
+    <Name>saved-header</Name>
+    <Ref>request.header.authorization</Ref>
+    <Value>NotSet</Value>
+  </AssignVariable>
+</AssignMessage>
