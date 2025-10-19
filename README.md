@@ -397,7 +397,7 @@ npm run test
 or, run the tests just for one plugin, like this:
 
 ```
-./node_modules/mocha/bin/mocha --grep "^PO033"
+node ./node_modules/mocha/bin/mocha.js --grep "^PO033"
 ```
 
 You can also contribute by reporting issues, or requesting new features.
