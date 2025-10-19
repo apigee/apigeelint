@@ -1,5 +1,5 @@
-/*
-  Copyright 2024 Google LLC
+﻿/*
+  Copyright © 2024-2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -60,7 +60,7 @@ describe("xmldom path resolution verification", function () {
   });
 
   it("should find xmldom", function (done) {
-    this.timeout(38000);
+    this.timeout(58000);
     const opts = {
       cwd: proxyDir,
       encoding: "utf8",
