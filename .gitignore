@@ -56,3 +56,4 @@ test/fixtures/allBundles.json
 **/.tern-port
 
 apigeelint-report.pdf
+.aider*

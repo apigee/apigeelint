@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2024 Google LLC
+  Copyright 2019-2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -18,9 +18,58 @@
 
 const parser = require("../../build/ConditionParser.js");
 const expect = require("chai").expect;
-//const debug = require("debug")(`apigeelint:ConditionParser`);
 
 describe("ConditionParser", function () {
+  // Helper function for expecting successful parsing of a single expression
+  function expectParseSuccess(expression) {
+    try {
+      parser.parse(expression.trim());
+      expect(true); // Test passed if no error
+    } catch (e) {
+      expect.fail(
+        `Expected expression to be valid but got an error: ${e.message}`,
+      );
+    }
+  }
+
+  // Helper function for expecting parsing to throw a SyntaxError
+  function expectParseError(expression, additionalExpectedError) {
+    try {
+      parser.parse(expression.trim());
+      expect.fail("Expected a SyntaxError but none was thrown.");
+    } catch (e) {
+      // console.log(`e: ${e}`);
+      expect(e.toString()).to.include("SyntaxError: ");
+      expect(e.toString()).to.include.oneOf([
+        ": Expected",
+        ": expecting",
+        ": not expecting",
+      ]);
+
+      if (additionalExpectedError) {
+        expect(e.toString()).to.include(additionalExpectedError);
+      }
+    }
+  }
+
+  // Helper function for testing expressions expected to be invalid
+  function testInvalidExpressions(cases) {
+    cases.forEach((testcase) => {
+      it(`verifies that ${testcase} is rejected as invalid`, function () {
+        expectParseError(testcase);
+      });
+    });
+  }
+
+  // Helper function for testing expressions expected to be valid
+  function testValidExpressions(cases) {
+    cases.forEach((testcase) => {
+      it(`verifies that ${testcase} is accepted as valid`, function () {
+        expectParseSuccess(testcase);
+      });
+    });
+  }
+
   describe("Spacing", function () {
     const testcases = [
       [`request.verb="GET"`, `request.verb = "GET"`, "Equals"],
@@ -36,7 +85,7 @@ describe("ConditionParser", function () {
       [`A=|"seven"`, `A =| "seven"`, "StartsWith"],
       [`A~"seven"`, `A ~ "seven"`, "Matches"],
       [`A~~"^foo(a|b)$"`, `A ~~ "^foo(a|b)$"`, "JavaRegex"],
-      [`proxy.pathsuffix~/"/a/b"`, `proxy.pathsuffix ~/ "/a/b"`, "MatchesPath"]
+      [`proxy.pathsuffix~/"/a/b"`, `proxy.pathsuffix ~/ "/a/b"`, "MatchesPath"],
     ];
 
     testcases.forEach((testcase) => {
@@ -65,7 +114,7 @@ describe("ConditionParser", function () {
       const result2 = parser.parse(c2);
       expect(JSON.stringify(result1)).to.equal(JSON.stringify(result2));
       expect(JSON.stringify(result1)).to.equal(
-        '{"operator":"Equals","operands":["request.verb","\'POST\'"]}'
+        '{"operator":"Equals","operands":["request.verb","\'POST\'"]}',
       );
     });
   });
@@ -86,7 +135,7 @@ describe("ConditionParser", function () {
       const c1 = "!valid";
       const result1 = parser.parse(c1);
       expect(JSON.stringify(result1)).to.equal(
-        '{"operator":"NOT","operands":["valid"]}'
+        '{"operator":"NOT","operands":["valid"]}',
       );
     });
 
@@ -94,7 +143,7 @@ describe("ConditionParser", function () {
       const c1 = "!(valid)";
       const result1 = parser.parse(c1);
       expect(JSON.stringify(result1)).to.equal(
-        '{"operator":"NOT","operands":["valid"]}'
+        '{"operator":"NOT","operands":["valid"]}',
       );
     });
 
@@ -224,12 +273,7 @@ describe("ConditionParser", function () {
 
     it("rejects SeemsLike as an operator", function () {
       const c1 = `request.formparam.grant_type SeemsLike "authorization_code"`;
-      try {
-        parser.parse(c1);
-        expect.fail();
-      } catch (e) {
-        expect(e.toString()).to.include("SyntaxError");
-      }
+      expectParseError(c1);
     });
 
     const validOperators = ["equals", "notequals", "isnot", "is"];
@@ -237,23 +281,12 @@ describe("ConditionParser", function () {
       const expr = (op) =>
         `request.formparam.grant_type ${op} "authorization_code"`;
       it(`accepts ${goodOp} as an operator`, function () {
-        const c1 = expr(goodOp);
-        try {
-          parser.parse(c1);
-          expect(true);
-        } catch (_e) {
-          expect.fail();
-        }
+        expectParseSuccess(expr(goodOp));
       });
       const badOp = `${goodOp}a`;
       it(`rejects ${badOp} as an operator`, function () {
         const c1 = expr(badOp);
-        try {
-          parser.parse(c1);
-          expect.fail();
-        } catch (e) {
-          expect(e.toString()).to.include("SyntaxError");
-        }
+        expectParseError(c1);
       });
     });
   });
@@ -283,12 +316,12 @@ describe("ConditionParser", function () {
   describe("implicit parens", function () {
     it("successfully parses compound statements with no parens", function () {
       const c1 = 'proxy.pathsuffix ~ "/authorize" and request.verb = "POST"';
-      const result1 = parser.parse(c1);
+      expectParseSuccess(c1);
     });
 
     it("successfully parses implicit parens-2", function () {
       const c1 = '(proxy.pathsuffix ~ "/authorize") and request.verb = "POST"';
-      parser.parse(c1); // no exception
+      expectParseSuccess(c1); // no exception
       // TODO: add some expects here
     });
 
@@ -321,92 +354,36 @@ describe("ConditionParser", function () {
   describe("Invalid Syntax", function () {
     it("rejects curly braces in place of parens", function () {
       const c1 = '{seven = "5"} AND {valid = false}';
-      try {
-        parser.parse(c1);
-        expect.fail();
-      } catch (e) {
-        expect(e.toString()).to.include("SyntaxError");
-      }
+      expectParseError(c1);
     });
 
     it("rejects curly braces on RHS", function () {
       const c1 = "variable-name = {5}";
-      try {
-        parser.parse(c1);
-        expect.fail();
-      } catch (e) {
-        expect(e.toString()).to.include("SyntaxError");
-      }
+      expectParseError(c1);
     });
 
     it("rejects a missing double-quote", function () {
       const c1 = `request.formparam.grant_type = "authorization_code`;
-      try {
-        parser.parse(c1);
-        expect.fail();
-      } catch (e) {
-        expect(e.toString()).to.include("SyntaxError");
-        expect(e.toString()).to.include('Expected "\\""');
-      }
-      try {
-        parser.parse(c1 + '"');
-        // no error
-        expect(true);
-      } catch (_e) {
-        expect.fail();
-      }
+      expectParseError(c1, 'Expected "\\""');
+      expectParseSuccess(c1 + '"');
     });
 
     it("rejects too many double-quotes", function () {
       const c1 = `request.formparam.grant_type = "authorization_code""`;
-      try {
-        parser.parse(c1);
-        expect.fail();
-      } catch (e) {
-        expect(e.toString()).to.include("SyntaxError");
-        expect(e.toString()).to.include("Expected ");
-      }
-      try {
-        parser.parse(c1.slice(0, -1));
-        // no error
-        expect(true);
-      } catch (_e) {
-        expect.fail();
-      }
+      expectParseError(c1, "Expected ");
+      expectParseSuccess(c1.slice(0, -1));
     });
 
     it("rejects single-quotes", function () {
       const c1 = `request.formparam.grant_type = 'authorization_code'`;
-      try {
-        parser.parse(c1);
-        expect.fail();
-      } catch (e) {
-        expect(e.toString()).to.include("SyntaxError");
-      }
-      try {
-        parser.parse(c1.replaceAll("'", '"'));
-        // no error
-        expect(true);
-      } catch (_e) {
-        expect.fail();
-      }
+      expectParseError(c1);
+      expectParseSuccess(c1.replaceAll("'", '"'));
     });
 
     it("rejects a single single-quote", function () {
       const c1 = `request.formparam.grant_type = 'authorization_code`;
-      try {
-        parser.parse(c1);
-        expect.fail();
-      } catch (e) {
-        expect(e.toString()).to.include("SyntaxError");
-      }
-      try {
-        parser.parse(c1.replaceAll("'", '"') + '"');
-        // no error
-        expect(true);
-      } catch (_e) {
-        expect.fail();
-      }
+      expectParseError(c1);
+      expectParseSuccess(c1.replaceAll("'", '"') + '"');
     });
 
     const operators_accept_symbol = [
@@ -416,18 +393,12 @@ describe("ConditionParser", function () {
       "GreaterThan",
       "LesserThanOrEquals",
       "GreaterThanOrEquals",
-      "StartsWith"
+      "StartsWith",
     ];
     operators_accept_symbol.forEach((op) => {
       it(`allows variable on RHS of ${op}`, function () {
         const c1 = `request.formparam.grant_type ${op} symbol_name`;
-        try {
-          parser.parse(c1);
-          expect(true);
-        } catch (e) {
-          console.log(e);
-          expect.fail();
-        }
+        expectParseSuccess(c1);
       });
     });
 
@@ -435,122 +406,50 @@ describe("ConditionParser", function () {
       "EqualsCaseInsensitive",
       "JavaRegex",
       "Matches",
-      "MatchesPath"
+      "MatchesPath",
     ];
     operators_do_not_accept_symbol.forEach((op) => {
       it(`allows variable on RHS of ${op}`, function () {
         const c1 = `request.formparam.grant_type ${op} symbol_name`;
-        try {
-          parser.parse(c1);
-          expect.fail();
-        } catch (e) {
-          expect(e.toString()).to.include("SyntaxError");
-        }
+        expectParseError(c1);
       });
     });
 
     it("flags a missing close paren", function () {
       const c1 = `(request.formparam.grant_type = "authorization_code"`;
-      try {
-        parser.parse(c1);
-        expect.fail();
-      } catch (e) {
-        expect(e.toString()).to.include("SyntaxError");
-        expect(e.toString()).to.include("Expected ");
-      }
-      try {
-        const result = parser.parse(c1.replace('code"', 'code")'));
-        // no error
-        expect(result).to.not.be.null;
-      } catch (_e) {
-        expect.fail();
-      }
+      expectParseError(c1, "Expected ");
+      expectParseSuccess(c1.replace('code"', 'code")'));
     });
 
     it("flags a stray close paren", function () {
       const c1 = `request.formparam.grant_type = "authorization_code")`;
-      try {
-        parser.parse(c1);
-        expect.fail();
-      } catch (e) {
-        expect(e.toString()).to.include("SyntaxError");
-      }
-      try {
-        const result = parser.parse(c1.slice(0, -1));
-        // no error
-        expect(result).to.not.be.null;
-      } catch (_e) {
-        expect.fail();
-      }
+      expectParseError(c1);
+      expectParseSuccess(c1.slice(0, -1));
     });
 
     it("rejects a missing operand", function () {
       const c1 = `request.formparam.grant_type = `;
-      try {
-        parser.parse(c1);
-        expect.fail();
-      } catch (e) {
-        expect(e.toString()).to.include("SyntaxError");
-      }
-      try {
-        const result = parser.parse(c1 + '"foo"');
-        // no error
-        expect(result).to.not.be.null;
-      } catch (_e) {
-        expect.fail();
-      }
+      expectParseError(c1);
+      expectParseSuccess(c1 + '"foo"');
     });
 
     it("flags a missing clause after conjunction", function () {
       const c1 = `request.formparam.grant_type = "client_credentials" and `;
-      try {
-        parser.parse(c1);
-        expect.fail();
-      } catch (e) {
-        expect(e.toString()).to.include("SyntaxError");
-      }
-      try {
-        const result = parser.parse(c1 + "request.header.foo is null");
-        // no error
-        expect(result).to.not.be.null;
-      } catch (_e) {
-        expect.fail();
-      }
+      expectParseError(c1);
+      expectParseSuccess(c1 + "request.header.foo is null");
     });
 
     it("flags a doubled conjunction", function () {
       const c1 = `request.formparam.grant_type = "client_credentials" and
                   and request.header.foo is null`;
-      try {
-        parser.parse(c1);
-        expect.fail();
-      } catch (e) {
-        expect(e.toString()).to.include("SyntaxError");
-      }
-      try {
-        const result = parser.parse(c1.replace("and", ""));
-        // no error
-        expect(result).to.not.be.null;
-      } catch (_e) {
-        expect.fail();
-      }
+      expectParseError(c1);
+      expectParseSuccess(c1.replace("and", ""));
     });
 
     it("flags a quoted expression", function () {
       const c1 = `"request.formparam.grant_type is null"`;
-      try {
-        parser.parse(c1);
-        expect.fail();
-      } catch (e) {
-        expect(e.toString()).to.include("SyntaxError");
-      }
-      try {
-        const result = parser.parse(c1.replaceAll('"', ""));
-        // no error
-        expect(result).to.not.be.null;
-      } catch (_e) {
-        expect.fail();
-      }
+      expectParseError(c1);
+      expectParseSuccess(c1.replaceAll('"', ""));
     });
   });
 
@@ -558,7 +457,7 @@ describe("ConditionParser", function () {
     const cases = [
       {
         expression: 'A := "valid"',
-        longFormOperator: "EqualsCaseInsensitive"
+        longFormOperator: "EqualsCaseInsensitive",
       },
       { expression: 'A = "valid"', longFormOperator: "Equals" },
       { expression: 'A == "valid"', longFormOperator: "Equals" },
@@ -569,7 +468,7 @@ describe("ConditionParser", function () {
       { expression: "A >= 20", longFormOperator: "GreaterThanOrEquals" },
       { expression: "A > 20", longFormOperator: "GreaterThan" },
       { expression: "A <= 20", longFormOperator: "LesserThanOrEquals" },
-      { expression: "A < 20", longFormOperator: "LesserThan" }
+      { expression: "A < 20", longFormOperator: "LesserThan" },
     ];
     cases.forEach((testcase) => {
       it(`verifies that ${testcase.expression} is parsed as ${testcase.longFormOperator}`, function () {
@@ -599,7 +498,7 @@ describe("ConditionParser", function () {
       "A GreaterThanOrEquals 20",
       "A GreaterThan 20",
       "A LesserThanOrEquals 20",
-      "A LesserThan 20"
+      "A LesserThan 20",
     ];
 
     cases2.forEach((expression) => {
@@ -614,7 +513,7 @@ describe("ConditionParser", function () {
             const expression2 = [
               parts[0],
               randomizeCapitalization(parts[1]),
-              parts[2]
+              parts[2],
             ].join(" ");
             const result2 = parser.parse(expression2);
             expect(json1).to.equal(JSON.stringify(result2));
@@ -628,88 +527,89 @@ describe("ConditionParser", function () {
 
   describe("Mismatch between Operator and operand", function () {
     const cases = [
-      { expression: 'A > "valid"' },
-      { expression: "A ~~ 20" },
-      { expression: "A ~/ 42" },
-      { expression: "A =| 103" },
-      { expression: 'A >= "something"' },
-      { expression: 'A > "something"' },
-      { expression: 'A <= "something"' },
-      { expression: 'A < "something"' }
+      'A > "valid"',
+      "A ~~ 20",
+      "A ~/ 42",
+      "A =| 103",
+      'A >= "something"',
+      'A > "something"',
+      'A <= "something"',
+      'A < "something"',
     ];
-    cases.forEach((testcase) => {
-      it(`verifies that ${testcase.expression} is rejected as invalid`, function () {
-        try {
-          const _result = parser.parse(testcase.expression);
-          expect.fail();
-        } catch (e) {
-          expect(e.toString()).to.include("SyntaxError");
-        }
-      });
-    });
+    testInvalidExpressions(cases);
   });
 
   describe("Parsing valid numerics", function () {
     const cases = [
-      { expression: "A > 20" },
-      { expression: "A > 20.1" },
-      { expression: "A > 20.1392" },
-      { expression: "A > -20.1392" },
-      { expression: "A > -250" },
-      { expression: "A >= 120.1392" },
-      { expression: "A < 0.5" },
-      { expression: "A < -0.5" }
+      "A > 20",
+      "A > 20.1",
+      "A > 20.1392",
+      "A > -20.1392",
+      "A > -250",
+      "A >= 120.1392",
+      "A < 0.5",
+      "A < -0.5",
     ];
-    cases.forEach((testcase) => {
-      it(`verifies that ${testcase.expression} is accepted as valid`, function () {
-        try {
-          const _result = parser.parse(testcase.expression);
-          expect(true);
-        } catch (_e) {
-          console.log(_e);
-          expect.fail();
-        }
-      });
-    });
+    testValidExpressions(cases);
   });
 
   describe("Parsing invalid numerics", function () {
     const cases = [
-      { expression: "A > 20.20.20" },
-      { expression: "A > .20.1" },
-      { expression: "A > ..201392" },
-      { expression: "A > -20..1392" },
-      { expression: "A > 20..1392" }
+      "A > 20.20.20",
+      "A > .20.1",
+      "A > ..201392",
+      "A > -20..1392",
+      "A > 20..1392",
     ];
-    cases.forEach((testcase) => {
-      it(`verifies that ${testcase.expression} is rejected as invalid`, function () {
-        try {
-          const _result = parser.parse(testcase.expression);
-          expect.fail();
-        } catch (e) {
-          expect(e.toString()).to.include("SyntaxError");
-        }
-      });
-    });
+    testInvalidExpressions(cases);
   });
 
   describe("Non-variables on LHS", function () {
     const cases = [
-      { expression: '"seventy-two" > 20' },
-      { expression: '"a-string" = "another-string"' },
-      { expression: '20 = "another-string"' },
-      { expression: '20three = "another-string"' },
-      { expression: "20 = 42" }
+      '"seventy-two" > 20',
+      '"a-string" = "another-string"',
+      '20 = "another-string"',
+      '20three = "another-string"',
+      "20 = 42",
     ];
-    cases.forEach((testcase) => {
-      it(`verifies that ${testcase.expression} is rejected as invalid`, function () {
-        try {
-          const _result = parser.parse(testcase.expression);
-          expect.fail();
-        } catch (e) {
-          expect(e.toString()).to.include("SyntaxError");
-        }
-      });
-    });
+    testInvalidExpressions(cases);
+  });
+
+  describe("Newline around parens", function () {
+    const coreExpression =
+      'proxy.pathsuffix MatchesPath "**/health/*" or \n' +
+      '    proxy.pathsuffix MatchesPath "**/healthz/**" or\n' +
+      '    proxy.pathsuffix MatchesPath "**/v1/public/**"';
+
+    // Test expressions with newline directly after open paren, or directly
+    // before close paren.
+    //
+    // NB: Any expression with leading or trailing ws is not really relevant
+    // because the plugin CC007 always calls trim() on the expression before
+    // parsing. This test code also calls trim().
+    const cases = [
+      `\n${coreExpression}`,
+      `${coreExpression}`,
+      `(${coreExpression})`,
+      `(${coreExpression}\n)`,
+      `(${coreExpression})\n`,
+      `not (${coreExpression})`,
+      `\nnot (${coreExpression})`,
+      `not\n(${coreExpression})`,
+      `not (${coreExpression}\n)`,
+      `not (${coreExpression}\n)\n`,
+      `not (${coreExpression})\n`,
+    ];
+    testValidExpressions(cases);
+  });
+
+  describe("Non-standard spacing", function () {
+    const cases = [
+      '((a MatchesPath "/b/d") or (b MatchesPath "/c/d/e")) and (request.verb = "GET")',
+      '((a MatchesPath "/b/d") or (b MatchesPath "/c/d/e"))and (request.verb = "GET")',
+      '((a MatchesPath "/b/d") or (b MatchesPath "/c/d/e") )and (request.verb = "GET") ',
+      '( ( a MatchesPath "/b/d") or (b MatchesPath "/c/d/e") )and (request.verb = "GET")',
+    ];
+    testValidExpressions(cases);
   });
 });
