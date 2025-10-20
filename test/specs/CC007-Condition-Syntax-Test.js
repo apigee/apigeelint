@@ -1,5 +1,5 @@
-/*
-  Copyright 2019-2023 Google LLC
+﻿/*
+  Copyright © 2019-2023,2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -44,20 +44,20 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
     {
       expression: "true of false",
       expectError: true,
-      note: "misspelled operator"
+      note: "misspelled operator",
     },
     {
       expression: "proxy.pathsuffix MatchesLike false",
       expectError: true,
-      note: "unknown operator"
+      note: "unknown operator",
     },
     {
       expression: 'proxy.pathsuffix MatchesPath "/foo/bar"',
-      expectError: false
+      expectError: false,
     },
     {
       expression: 'proxy.pathsuffix ~/ "/foo/bar"',
-      expectError: false
+      expectError: false,
     },
     { expression: "A > 20", expectError: false },
     { expression: 'A = "c"', expectError: false },
@@ -65,94 +65,101 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
     {
       expression: 'A > "c"',
       expectError: true,
-      notes: "non-numeric on RHS of GT"
+      notes: "non-numeric on RHS of GT",
     },
     {
       expression: 'A >= "c"',
       expectError: true,
-      notes: "non-numeric on RHS of GTE"
+      notes: "non-numeric on RHS of GTE",
     },
     {
       expression: 'A <= "something"',
       expectError: true,
-      notes: "non-numeric on RHS of LTE"
+      notes: "non-numeric on RHS of LTE",
     },
     {
       expression: '"something" = "something"',
       expectError: true,
-      notes: "non-token on LHS of operator"
+      notes: "non-token on LHS of operator",
     },
     {
       expression: '20 = "another-string"',
       expectError: true,
-      notes: "non-token on LHS of operator"
+      notes: "non-token on LHS of operator",
     },
     {
       expression: "20 = 42",
       expectError: true,
-      notes: "non-token on LHS of operator"
+      notes: "non-token on LHS of operator",
     },
     {
       expression:
         'request.header.content-type = "application/json" AND request.verb = "GET"',
-      expectError: false
+      expectError: false,
     },
 
     {
       expression:
         'not(request.header.content-type = "application/json")AND(request.verb = "GET")',
-      expectError: false
+      expectError: false,
     },
     {
       expression: '(true)AND(request.verb = "GET")',
-      expectError: false
+      expectError: false,
     },
     {
       expression: '(true) AND(request.verb = "GET")',
-      expectError: false
+      expectError: false,
     },
     {
       expression: '( true ) AND( request.verb = "GET" )',
-      expectError: false
+      expectError: false,
     },
     {
       expression: '( true )AND( request.verb = "GET" )',
-      expectError: false
+      expectError: false,
     },
     {
       expression: '(true )AND(request.verb = "GET")',
-      expectError: false
+      expectError: false,
     },
     {
       expression: '(true ) AND(request.verb = "GET")',
-      expectError: false
+      expectError: false,
     },
     {
       expression: '(true ) AND( request.verb = "GET" )',
-      expectError: false
+      expectError: false,
     },
 
     /* The following four cases differ only in spacing */
     {
       expression:
         '((a MatchesPath "/b/d") or (b MatchesPath "/c/d/e")) and (request.verb = "GET")',
-      expectError: false
+      expectError: false,
     },
     {
       expression:
         '((a MatchesPath "/b/d") or (b MatchesPath "/c/d/e"))and (request.verb = "GET")',
-      expectError: false
+      expectError: false,
     },
     {
       expression:
         '((a MatchesPath "/b/d") or (b MatchesPath "/c/d/e") )and (request.verb = "GET") ',
-      expectError: false
+      expectError: false,
     },
     {
       expression:
         '( ( a MatchesPath "/b/d") or (b MatchesPath "/c/d/e") )and (request.verb = "GET")',
-      expectError: false
-    }
+      expectError: false,
+    },
+
+    // valid condition - negation will apply correctly
+    {
+      expression:
+        'request.verb IsNot "GET" and !proxy.pathsuffix MatchesPath "/path"',
+      expectError: false,
+    },
   ];
   cases.forEach((testcase, i) => {
     it(`case ${i}, [${testcase.expression}], expect(${
@@ -160,8 +167,8 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
     })`, function () {
       const rootElement = new Dom().parseFromString(
         `<Hello><Condition>${escapeXml(
-          testcase.expression
-        )}</Condition></Hello>`
+          testcase.expression,
+        )}</Condition></Hello>`,
       );
       const cond = xpath.select("/Hello/Condition", rootElement);
       const c = new Condition(cond[0], rootElement);
@@ -173,7 +180,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
         assert.equal(
           flagged,
           testcase.expectError,
-          flagged ? " warning created " : "no warning created"
+          flagged ? " warning created " : "no warning created",
         );
       });
     });

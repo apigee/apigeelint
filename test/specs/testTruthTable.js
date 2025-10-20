@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2020,2025 Google LLC
+  Copyright © 2019-2020,2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,10 +20,18 @@ const assert = require("assert"),
   test = function (exp, expected) {
     it(`${exp} should be ${expected}`, function () {
       try {
-        var tt = new TruthTable(exp),
+        const tt = new TruthTable(exp),
           evaluation = tt.getEvaluation();
 
         debug(`evaluation: ${evaluation}`);
+        assert.equal(
+          expected,
+          evaluation,
+          JSON.stringify({
+            truthTable: tt,
+            evaluation,
+          }),
+        );
       } catch (parseExc) {
         debug(`expected: ${expected}`);
         assert.notEqual("ERR_ASSERTION", parseExc.code);
@@ -32,19 +40,15 @@ const assert = require("assert"),
         assert.equal("exception", expected);
         return;
       }
-
-      assert.equal(
-        expected,
-        evaluation,
-        JSON.stringify({
-          truthTable: tt,
-          evaluation,
-        }),
-      );
     });
   };
 
 describe("TruthTable evaluation", function () {
+  test(
+    `request.verb IsNot "GET" and !proxy.pathsuffix MatchesPath "/path"`,
+    "valid",
+  );
+
   test("notValidJson == true", "valid");
 
   // It is not valid to place strings on LHS of expressions.
