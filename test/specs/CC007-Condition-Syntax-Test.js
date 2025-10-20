@@ -1,5 +1,5 @@
 ﻿/*
-  Copyright 2019-2023 Google LLC
+  Copyright © 2019-2023,2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -154,11 +154,11 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       expectError: false,
     },
 
-    // invalid condition - negating a variable
+    // valid condition - negation will apply correctly
     {
       expression:
-        '\n        request.verb IsNot "GET"\n        and !proxy.pathsuffix MatchesPath "/path"\n',
-      expectError: true,
+        'request.verb IsNot "GET" and !proxy.pathsuffix MatchesPath "/path"',
+      expectError: false,
     },
   ];
   cases.forEach((testcase, i) => {

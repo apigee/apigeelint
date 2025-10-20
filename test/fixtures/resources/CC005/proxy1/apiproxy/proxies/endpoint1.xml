@@ -63,7 +63,7 @@
       <Request>
       </Request>
       <Response/>
-      <!-- this is invalid, but is not an unterminated string -->
+      <!-- a valid Condition, not an unterminated string -->
       <Condition>
         request.verb IsNot "GET"
         and !proxy.pathsuffix MatchesPath "/path"

@@ -24,7 +24,7 @@ const testID = "CC005",
 
 describe(`${testID} - malformed Conditions`, () => {
   it("should generate the expected errors", () => {
-    let configuration = {
+    const configuration = {
       debug: true,
       source: {
         type: "filesystem",
@@ -40,18 +40,18 @@ describe(`${testID} - malformed Conditions`, () => {
     };
 
     bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
+      const items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
-      let proxyEndpointItems = items.filter((m) =>
+      const proxyEndpointItems = items.filter((m) =>
         m.filePath.endsWith("endpoint1.xml"),
       );
       assert.equal(proxyEndpointItems.length, 1);
-      let cc005Messages = proxyEndpointItems[0].messages.filter(
+      const cc005Messages = proxyEndpointItems[0].messages.filter(
         (m) => m.ruleId == "CC005",
       );
       debug(`messages: ${JSON.stringify(cc005Messages, null, 2)}`);
-      let expected = [
+      const expected = [
         {
           line: 29,
           column: 11,
@@ -67,15 +67,10 @@ describe(`${testID} - malformed Conditions`, () => {
           column: 7,
           message: "Invalid Condition - cannot parse",
         },
-        {
-          line: 67,
-          column: 7,
-          message: "Invalid Condition - cannot parse",
-        },
       ];
       assert.equal(cc005Messages.length, expected.length);
 
-      let otherMessages = proxyEndpointItems[0].messages.filter(
+      const otherMessages = proxyEndpointItems[0].messages.filter(
         (m) => m.ruleId != "CC005",
       );
       debug(`other messages: ` + JSON.stringify(otherMessages, null, 2));
@@ -94,7 +89,7 @@ describe(`${testID} - malformed Conditions`, () => {
   });
 
   it("should not hang", () => {
-    let configuration = {
+    const configuration = {
       debug: true,
       source: {
         type: "filesystem",
@@ -111,19 +106,19 @@ describe(`${testID} - malformed Conditions`, () => {
     };
 
     bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
+      const items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
-      let proxyEndpointItems = items.filter((m) =>
+      const proxyEndpointItems = items.filter((m) =>
         m.filePath.endsWith("endpoint1.xml"),
       );
       assert.equal(proxyEndpointItems.length, 1);
-      let cc005Messages = proxyEndpointItems[0].messages.filter(
+      const cc005Messages = proxyEndpointItems[0].messages.filter(
         (m) => m.ruleId == "CC005",
       );
       assert.equal(cc005Messages.length, 0);
 
-      let otherMessages = proxyEndpointItems[0].messages.filter(
+      const otherMessages = proxyEndpointItems[0].messages.filter(
         (m) => m.ruleId != "CC005",
       );
       debug(`other messages: ` + JSON.stringify(otherMessages, null, 2));
@@ -132,7 +127,7 @@ describe(`${testID} - malformed Conditions`, () => {
   });
 
   it("should correctly parse leading NOT with and without spaces", () => {
-    let configuration = {
+    const configuration = {
       debug: true,
       source: {
         type: "filesystem",
@@ -149,19 +144,19 @@ describe(`${testID} - malformed Conditions`, () => {
     };
 
     bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
+      const items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
-      let proxyEndpointItems = items.filter((m) =>
+      const proxyEndpointItems = items.filter((m) =>
         m.filePath.endsWith("endpoint1.xml"),
       );
       assert.equal(proxyEndpointItems.length, 1);
-      let cc005Messages = proxyEndpointItems[0].messages.filter(
+      const cc005Messages = proxyEndpointItems[0].messages.filter(
         (m) => m.ruleId == "CC005",
       );
       assert.equal(cc005Messages.length, 0);
 
-      let otherMessages = proxyEndpointItems[0].messages.filter(
+      const otherMessages = proxyEndpointItems[0].messages.filter(
         (m) => m.ruleId != "CC005",
       );
       debug(`other messages: ` + JSON.stringify(otherMessages, null, 2));

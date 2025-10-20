@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021,2025 Google LLC
+  Copyright © 2019-2021,2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -31,7 +31,10 @@ const assert = require("assert"),
         Object.keys(checks).forEach((key) => {
           const query = key;
           const expectedValue = checks[key];
-          assert.equal(expectedValue, jsonpath.query(actualAst, query));
+          assert.equal(
+            expectedValue,
+            jsonpath.query(actualAst, query).toString(),
+          );
         });
       } catch (parseExc) {
         debug(`exception in test: ${parseExc}`);
@@ -84,6 +87,21 @@ describe("TruthTable AST", function () {
     "$.args[0].args[0].type": "variable",
     "$.args[0].args[0].value": "request.headers.foo",
     "$.args[1].args[0].value": "myFoo",
+  });
+
+  test('!request.headers.foo = "myFoo"', {
+    "$.action": "negation",
+    "$.args.length": "1",
+    "$.args[0].action": "equivalence",
+    "$.args[0].args.length": "2",
+    "$.args[0].args[0].action": "substitution",
+    "$.args[0].args[0].args.length": "1",
+    "$.args[0].args[0].args[0].type": "variable",
+    "$.args[0].args[0].args[0].value": "request.headers.foo",
+    "$.args[0].args[0].action": "substitution",
+    "$.args[0].args[1].args.length": "1",
+    "$.args[0].args[1].args[0].type": "constant",
+    "$.args[0].args[1].args[0].value": "myFoo",
   });
 
   test("(error.status.code = 429) Or (error.status.code GreaterThan 399)", {
