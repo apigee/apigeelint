@@ -59,6 +59,17 @@
       <Condition>proxy.pathsuffix MatchesPath "/CC005-t2 and request.verb = "GET"</Condition>
     </Flow>
 
+    <Flow name="f3">
+      <Request>
+      </Request>
+      <Response/>
+      <!-- this is invalid, but is not an unterminated string -->
+      <Condition>
+        request.verb IsNot "GET"
+        and !proxy.pathsuffix MatchesPath "/path"
+      </Condition>
+    </Flow>
+
     <Flow name="unknown request">
       <Request>
         <Step>

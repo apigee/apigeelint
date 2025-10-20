@@ -1,5 +1,5 @@
-/*
-  Copyright 2019-2021,2025 Google LLC
+﻿/*
+  Copyright © 2019-2021,2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -64,6 +64,11 @@ describe(`${testID} - malformed Conditions`, () => {
         },
         {
           line: 59,
+          column: 7,
+          message: "Invalid Condition - cannot parse",
+        },
+        {
+          line: 67,
           column: 7,
           message: "Invalid Condition - cannot parse",
         },
