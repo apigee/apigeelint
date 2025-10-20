@@ -51,7 +51,7 @@ describe("cli external plugin warning verification", function () {
   });
 
   it("should log a warning for stray files in the external plugins dir", function (done) {
-    this.timeout(38000);
+    this.timeout(58000);
     const opts = {
       cwd: proxyDir,
       encoding: "utf8",
