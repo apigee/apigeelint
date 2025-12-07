@@ -1,4 +1,4 @@
-/*
+﻿/*
   Copyright 2019-2023,2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,16 +21,16 @@ const assert = require("assert"),
 
 describe("TemplateCheck", function () {
   const testCases = [
-    ["{}", "empty function name at position 1"],
+    ["{}", "empty template reference at position 1"],
     ["{a}", undefined],
-    ["{{a}", "unexpected character at position 1: {"],
-    ["{{a}}", "unexpected character at position 1: {"],
+    ["{{a}", "unterminated curly brace"],
+    ["{{a}}", undefined], // dbl curly just means ... curly
     ["{[]}", "unexpected character at position 1: ["],
     ["{a[]}", "unexpected character at position 2: ["],
     ["{a", "unterminated curly brace"],
-    ["}a", "unexpected close curly at position 0"],
-    ["{a}}", "unexpected close curly at position 3"],
-    ["}a{", "unexpected close curly at position 0"],
+    ["}a", undefined], // but useless and sloppy
+    ["{a}}", undefined], // but sloppy
+    ["}a{", undefined], // but weird
     ["{a}b", undefined],
     ["{a}{b}", undefined],
     ["{a}.{b}", undefined],
@@ -61,9 +61,12 @@ describe("TemplateCheck", function () {
     ["{timeFormatUTCMs()}", "empty arg string for function timeFormatUTCMs"],
     ["{notARealfunction()}", "unsupported function name (notARealfunction)"],
     ["{createUuid[]}", "unexpected character at position 11: ["],
-    ["{ createUuid() }", undefined], // but ineffective
+    ["{ createUuid() }", undefined], // but ineffective and misleading
     ["{jsonPath('$.quota.[*].appname',jsondata)}", undefined],
-    ["{jsonPath('$.quota.[*].appname,jsondata)}", "unterminated open quote"],
+    [
+      "{jsonPath('$.quota.[*].appname,jsondata)}",
+      "unterminated open ' at position 39",
+    ],
   ];
 
   testCases.forEach((item, _ix) => {
