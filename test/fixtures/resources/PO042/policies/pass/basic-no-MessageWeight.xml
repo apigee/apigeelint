@@ -1,0 +1,9 @@
+<SpikeArrest name='SA-2'>
+    <!-- Identifier: optional -->
+    <Identifier ref='request.header.some-header-name'/>
+    <!-- MessageWeight: optional
+         <MessageWeight ref='request.header.weight'/>
+    -->
+    <!-- Rate: required -->
+    <Rate ref='context-variable-here'>30ps</Rate>
+</SpikeArrest>
