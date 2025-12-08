@@ -1,5 +1,5 @@
-/*
-  Copyright 2019-2024 Google LLC
+﻿/*
+  Copyright 2019-2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -202,7 +202,9 @@ describe(`PO026 - AssignVariable with PropertySetRef`, () => {
       JSON.stringify(p.getReport().messages),
     );
   });
+});
 
+describe(`PO026 - AssignVariable with Template`, () => {
   po026Test(`Template-1.xml`, "apigeex", (p, foundIssues) => {
     assert.equal(foundIssues, false);
     assert.ok(p.getReport().messages, "messages undefined");
