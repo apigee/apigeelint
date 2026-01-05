@@ -1,5 +1,5 @@
 ﻿/*
-  Copyright © 2019-2023,2025 Google LLC
+  Copyright © 2019-2023,2025,2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -159,6 +159,52 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       expression:
         'request.verb IsNot "GET" and !proxy.pathsuffix MatchesPath "/path"',
       expectError: false,
+    },
+    // issue 585 - negation on operator works and is valid
+    {
+      expression: 'proxy.pathsuffix Not MatchesPath "/path"',
+      expectError: false,
+    },
+    {
+      expression: 'proxy.pathsuffix Not StartsWith "/path"',
+      expectError: false,
+    },
+    {
+      expression: 'proxy.pathsuffix Not Matches "/path"',
+      expectError: false,
+    },
+    {
+      expression: 'proxy.pathsuffix Not JavaRegex "/path"',
+      expectError: false,
+    },
+    {
+      expression: 'proxy.pathsuffix Not ~/ "/path"',
+      expectError: false,
+    },
+    {
+      expression: 'proxy.pathsuffix Not =| "/path"',
+      expectError: false,
+    },
+    {
+      expression: 'proxy.pathsuffix Not ~ "/path"',
+      expectError: false,
+    },
+    {
+      expression: 'proxy.pathsuffix Not ~~ "/path"',
+      expectError: false,
+    },
+    {
+      expression: "request.header.content-length Not Equals 0",
+      expectError: true,
+      notes: "Cannot use Not in front of Equals operator",
+    },
+    {
+      expression: "request.header.content-length Not GreaterThan 0",
+      expectError: true,
+    },
+    {
+      expression: 'proxy.pathsuffix Not EqualsCaseInsensitive "/path"',
+      expectError: true,
     },
   ];
   cases.forEach((testcase, i) => {
