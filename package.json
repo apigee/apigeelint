@@ -1,6 +1,6 @@
 {
   "name": "apigeelint",
-  "version": "2.75.0",
+  "version": "2.76.0",
   "description": "Node module and tool to lint a bundle for an Apigee API Proxy or sharedflow.",
   "main": "index.js",
   "bin": {
@@ -11,7 +11,9 @@
     "build-condition-parser": "npx mkdirp build && npx peggy -o build/ConditionParser.js lib/peggy/Apigee-Condition.pegjs",
     "coverage": "npx c8 --reporter=text mocha",
     "depcheck": "npx depcheck . --ignores=depcheck,mocha-lcov-reporter,apigee-jsc-debug",
-    "test": "mocha"
+    "test": "mocha",
+    "clean": "rm -rf node_modules package-lock.json",
+    "release": "npm install; npm run test; npm run badge"
   },
   "repository": {
     "type": "git",
@@ -33,7 +35,7 @@
     "eslint": "latest",
     "fast-xml-parser": "^4.3.1",
     "js-yaml": "latest",
-    "jshint": "^2.10.1",
+    "jshint": "^2.13.6",
     "jsonpath": "^1.1.1",
     "lodash": "^4.17.21",
     "minimatch": "^3.0.4",
