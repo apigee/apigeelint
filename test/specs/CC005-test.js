@@ -1,5 +1,5 @@
 ﻿/*
-  Copyright © 2019-2021,2025 Google LLC
+Copyright © 2019-2021,2025,2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -60,12 +60,12 @@ describe(`${testID} - malformed Conditions`, () => {
         {
           line: 47,
           column: 7,
-          message: "Invalid Condition - cannot parse",
+          message: `Invalid Condition - cannot parse (Unrecognized token 'GET"x29' at position 4. Expecting: LOGICAL_OPERATOR)`,
         },
         {
           line: 59,
           column: 7,
-          message: "Invalid Condition - cannot parse",
+          message: `Invalid Condition - cannot parse (Unrecognized token 'GET"' at position 3. Expecting: LOGICAL_OPERATOR)`,
         },
       ];
       assert.equal(cc005Messages.length, expected.length);

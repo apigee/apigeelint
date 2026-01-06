@@ -1,5 +1,5 @@
 /*
-  Copyright © 2019-2020,2025 Google LLC
+Copyright © 2019-2020,2025,2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -34,8 +34,9 @@ const assert = require("assert"),
         );
       } catch (parseExc) {
         debug(`expected: ${expected}`);
+        debug(`parse Exception: ${parseExc}`);
+        // console.log(parseExc);
         assert.notEqual("ERR_ASSERTION", parseExc.code);
-        debug(`parse Exception: ${JSON.stringify(parseExc)}`);
         debug(`parse Exception: ${parseExc.stack}`);
         assert.equal("exception", expected);
         return;
@@ -44,6 +45,56 @@ const assert = require("assert"),
   };
 
 describe("TruthTable evaluation", function () {
+  // ----- BEGIN ISSUE 585 -----
+  // The Not operator can precede SOME comparison operators.
+
+  // positive tests
+  test(`proxy.pathsuffix Not MatchesPath "/path"`, "valid");
+  test(`request.header.hello Not StartsWith "world"`, "valid");
+  test(`request.header.hello Not Matches "w*"`, "valid");
+  test(`request.header.hello Not JavaRegex "w*"`, "valid");
+
+  test(`proxy.pathsuffix ! MatchesPath "/path"`, "valid");
+  test(`request.header.hello ! StartsWith "world"`, "valid");
+  test(`request.header.hello ! Matches "w*"`, "valid");
+  test(`request.header.hello ! JavaRegex "w*"`, "valid");
+
+  test(`proxy.pathsuffix Not ~/ "/path"`, "valid");
+  test(`request.header.hello Not =| "world"`, "valid");
+  test(`request.header.hello Not ~ "w*"`, "valid");
+  test(`request.header.hello Not ~~ "w*"`, "valid");
+
+  test(`proxy.pathsuffix ! ~/ "/path"`, "valid");
+  test(`request.header.hello ! =| "world"`, "valid");
+  test(`request.header.hello ! ~ "w*"`, "valid");
+  test(`request.header.hello ! ~~ "w*"`, "valid");
+
+  // negative tests
+  test(`proxy.pathsuffix Not Equals "/path"`, "exception");
+  test(`proxy.pathsuffix Not EqualsCaseInsensitive "/path"`, "exception");
+  test(`request.header.content-length Not GreaterThan 7`, "exception");
+  test(`request.header.content-length Not LesserThan 2`, "exception");
+  test(`request.header.content-length Not GreaterThanOrEquals 7`, "exception");
+  test(`request.header.content-length Not LesserThanOrEquals 2`, "exception");
+  test(`proxy.pathsuffix Not NotEquals "/path"`, "exception"); // not a typo
+
+  test(`proxy.pathsuffix ! Equals "/path"`, "exception");
+  test(`proxy.pathsuffix ! EqualsCaseInsensitive "/path"`, "exception");
+  test(`request.header.content-length ! GreaterThan 7`, "exception");
+  test(`request.header.content-length ! LesserThan 2`, "exception");
+  test(`request.header.content-length ! GreaterThanOrEquals 7`, "exception");
+  test(`request.header.content-length ! LesserThanOrEquals 2`, "exception");
+  test(`proxy.pathsuffix ! NotEquals "/path"`, "exception"); // not a typo
+
+  test(`proxy.pathsuffix ! = "/path"`, "exception");
+  test(`request.header.content-length ! > 7`, "exception");
+  test(`request.header.content-length ! >= 2`, "exception");
+
+  // ----- END ISSUE 585 -----
+
+  test(`request.header.hello Not StartsWih "world"`, "exception"); // misspelling
+  test(`!proxy.pathsuffix MatchesPath "/path"`, "valid");
+
   test(
     `request.verb IsNot "GET" and !proxy.pathsuffix MatchesPath "/path"`,
     "valid",
