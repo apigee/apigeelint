@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+Copyright © 2019-2021,2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,28 +16,28 @@
 /* global it, describe */
 
 const assert = require("assert"),
-      debug = require("debug")("apigeelint:flowConditions"),
-      Endpoint = require("../../lib/package/Endpoint.js"),
-      Dom = require("@xmldom/xmldom").DOMParser,
-      test = function(exp, assertion) {
-        it("testing flow conditions ", function() {
-          var result = [],
-              doc = new Dom().parseFromString(exp),
-              ep = new Endpoint(doc, this,"/dummy/test/apiproxy/proxies/foo.xml"),
-              flows = ep.getFlows();
+  debug = require("debug")("apigeelint:flowConditions"),
+  Endpoint = require("../../lib/package/Endpoint.js"),
+  Dom = require("@xmldom/xmldom").DOMParser,
+  test = function (exp, assertion) {
+    it("testing flow conditions", function () {
+      var result = [],
+        doc = new Dom().parseFromString(exp),
+        ep = new Endpoint(doc, this, "/dummy/test/apiproxy/proxies/foo.xml"),
+        flows = ep.getFlows();
 
-          flows.forEach(function(f) {
-            result.push(f.getCondition().getExpression());
-          });
-          assert.deepEqual(
-            result,
-            assertion,
-            result ? "conditions did not match" : "conditions matched"
-          );
-        });
-      };
+      flows.forEach(function (f) {
+        result.push(f.getCondition().getExpression());
+      });
+      assert.deepEqual(
+        result,
+        assertion,
+        result ? "conditions did not match" : "conditions matched",
+      );
+    });
+  };
 
-describe("FlowConditions", function() {
+describe("FlowConditions", function () {
   test(
     `
   <ProxyEndpoint name="default">
@@ -67,6 +67,9 @@ describe("FlowConditions", function() {
     </Flows>
     </ProxyEndpoint>
   `,
-    [`(request.verb = "GET") and (proxy.pathsuffix MatchesPath "/condition1")`, `(request.verb = "GET") and (proxy.pathsuffix MatchesPath "/condition2")`]
+    [
+      `(request.verb = "GET") and (proxy.pathsuffix MatchesPath "/condition1")`,
+      `(request.verb = "GET") and (proxy.pathsuffix MatchesPath "/condition2")`,
+    ],
   );
 });
