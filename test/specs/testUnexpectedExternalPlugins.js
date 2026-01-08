@@ -109,7 +109,7 @@ describe("cli external plugin warning verification", function () {
           assert.equal(code, 0, "return status code");
           assert.ok(
             aggregatedErrorOutput.startsWith(
-              "Unexpected .js file in external plugins directory:",
+              "Unexpected .js/.cjs file in external plugins directory:",
             ),
             "error messages",
           );
