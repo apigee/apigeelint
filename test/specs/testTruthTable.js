@@ -93,6 +93,7 @@ describe("TruthTable evaluation", function () {
   // ----- END ISSUE 585 -----
 
   test(`request.header.hello Not StartsWih "world"`, "exception"); // misspelling
+  test(`request.header.hello = ""`, "valid");
   test(`!proxy.pathsuffix MatchesPath "/path"`, "valid");
 
   test(

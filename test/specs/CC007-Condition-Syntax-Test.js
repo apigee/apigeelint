@@ -59,6 +59,11 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       expression: 'proxy.pathsuffix ~/ "/foo/bar"',
       expectError: false,
     },
+    {
+      expression: 'request.header.hello = ""',
+      expectError: false,
+    },
+
     { expression: "A > 20", expectError: false },
     { expression: 'A = "c"', expectError: false },
     { expression: "A = 34", expectError: false },
