@@ -60,6 +60,7 @@
   },
   "overrides": {
     "badge-up": "https://registry.npmjs.org/@rpl/badge-up/-/badge-up-3.0.0.tgz",
+    "diff": "^8.0.3",
     "glob": "^10.5.0",
     "nth-check": "^2.0.1",
     "svgo": "^3.3.2",
