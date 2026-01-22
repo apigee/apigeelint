@@ -20,7 +20,7 @@
     "url": "https://github.com/apigee/apigeelint"
   },
   "keywords": ["API", "bundle", "lint", "linter", "Apigee", "Edge"],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/apigee/apigeelint/issues"
   },
