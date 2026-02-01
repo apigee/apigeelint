@@ -1,0 +1,9 @@
+<ExtractVariables name="EV-JSONPayload-6">
+  <Source>private.tokenexchangeResponse</Source>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <JSONPayload>
+    <Variable name="accesstoken">
+      <JSONPath>$.accesstoken</JSONPath>
+    </Variable>
+  </JSONPayload>
+</ExtractVariables>

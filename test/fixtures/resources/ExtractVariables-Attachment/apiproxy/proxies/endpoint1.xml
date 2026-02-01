@@ -155,6 +155,40 @@
       <Condition>(proxy.pathsuffix MatchesPath "/json-5") and (request.verb = "GET") and (response.content != null)</Condition>
     </Flow>
 
+    <Flow name="flow-json-6">
+      <!-- ST003: no error; a suitable check is present using a variable
+           containing dots (issue 594) -->
+      <!-- ST004: no error, EV does not extract from XMLPayload -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Response>
+        <Step>
+          <Condition>
+            private.tokenexchangeResponse.content != null
+          </Condition>
+          <Name>EV-JSONPayload-6</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/json-6") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow-json-6a">
+      <!-- ST003: ERROR; no suitable check is present using a variable
+           containing dots (issue 594) -->
+      <!-- ST004: no error, EV does not extract from XMLPayload -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Response>
+        <Step>
+          <!--
+          <Condition>
+            private.tokenexchangeResponse.content != null
+          </Condition>
+          -->
+          <Name>EV-JSONPayload-6</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/json-6a") and (request.verb = "GET")</Condition>
+    </Flow>
+
 
     <Flow name="flow-xml-1">
       <!-- ST003: no error, EV does not extract from JSONPayload -->
@@ -242,7 +276,33 @@
           <Name>EV-XMLPayload-scResponse</Name>
         </Step>
       </Response>
-      <Condition>(proxy.pathsuffix MatchesPath "/xml-6") and (request.verb = "GET")</Condition>
+      <Condition>(proxy.pathsuffix MatchesPath "/xml-7") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow-xml-8">
+      <!-- ST003: no error, EV does not extract from JSONPayload -->
+      <!-- ST004: no error, appropriate condition (issue 594) -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Response>
+        <Step>
+          <Condition>private.scResponse.content != null</Condition>
+          <Name>EV-XMLPayload-private-scResponse</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/xml-8") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="flow-xml-8a">
+      <!-- ST003: no error, EV does not extract from JSONPayload -->
+      <!-- ST004: ERROR, no appropriate condition (issue 594) -->
+      <!-- ST005: no error, EV does not extract from FormParam -->
+      <Response>
+        <Step>
+          <Condition>scResponse.content != null</Condition> <!-- wrong variable -->
+          <Name>EV-XMLPayload-private-scResponse</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/xml-8a") and (request.verb = "GET")</Condition>
     </Flow>
 
 
