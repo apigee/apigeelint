@@ -1,5 +1,5 @@
-/*
-  Copyright 2019-2025 Google LLC
+﻿/*
+  Copyright © 2019-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -23,31 +23,47 @@ const assert = require("assert"),
   bl = require("../../lib/package/bundleLinter.js");
 
 describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
-  let configuration = {
-    debug: true,
-    source: {
-      type: "filesystem",
-      path: path.resolve(__dirname, "../fixtures/resources/EP002/apiproxy"),
-      bundleType: "apiproxy",
-    },
-    profile: "apigeex",
-    excluded: {},
-    setExitCode: false,
-    output: () => {}, // suppress output
-  };
-
-  /*
-   * Tests must not run the linter outside of the scope of an it() ,
-   * because then the mocha --grep does not do what you want.
-   * This method insures we run the lint once, but only within
-   * the scope of it().
-   **/
   let items = null,
-    ep002Errors;
-  const insure = (cb) => {
-    if (items == null) {
+    ep002Errors,
+    lastRunProxy;
+
+  // sets ep002Errors as side-effect .
+  const insure = (proxydir, cb) => {
+    if (!cb) {
+      cb = proxydir;
+      proxydir = `EP002`;
+    }
+
+    /*
+     * Tests must not run the linter outside of the scope of an it() ,
+     * because then the mocha --grep does not do what you want.
+     * This method insures we run the lint once, but only within
+     * the scope of it().
+     **/
+
+    // avoid re-run if not necessary
+    if (items == null || lastRunProxy != proxydir) {
+      let configuration = {
+        debug: true,
+        source: {
+          type: "filesystem",
+          path: path.resolve(
+            __dirname,
+            `../fixtures/resources/${proxydir}/apiproxy`,
+          ),
+          bundleType: "apiproxy",
+        },
+        profile: "apigeex",
+        excluded: {},
+        setExitCode: false,
+        output: () => {}, // suppress output
+      };
+
+      debug(`running and caching for ${proxydir}`);
       bl.lint(configuration, (bundle) => {
+        lastRunProxy = proxydir;
         items = bundle.getReport();
+        debug(`#items ${items.length}`);
         ep002Errors = items.filter(
           (item) =>
             item.messages &&
@@ -57,6 +73,7 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
         cb();
       });
     } else {
+      debug(`returning cached results for ${proxydir}`);
       cb();
     }
   };
@@ -160,11 +177,32 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
 
   it("should generate the correct messages for the target endpoint with URL", () => {
     insure(() => {
-      let targetErrors = ep002Errors.filter((item) =>
-        item.filePath.endsWith("/apiproxy/targets/http-2.xml"),
-      );
+      let targetErrors = ep002Errors.filter((item) => {
+        const normalizedPath = item.filePath.split(path.sep).join("/");
+        return normalizedPath.endsWith("/apiproxy/targets/http-2.xml");
+      });
       assert.ok(targetErrors);
       assert.equal(targetErrors.length, 0);
+    });
+  });
+
+  it("should generate the correct messages for the SSLInfo element in the TargetEndpoint", () => {
+    insure("EP002-issue-437", () => {
+      debug(ep002Errors);
+      let errorsofInterest = ep002Errors.filter((item) => {
+        const normalizedPath = item.filePath.split(path.sep).join("/");
+        debug(`checking ${normalizedPath}`);
+        return normalizedPath.endsWith("/apiproxy/targets/target1.xml");
+      });
+      assert.ok(errorsofInterest);
+      assert.equal(errorsofInterest.length, 1);
+      const ep002Messages = errorsofInterest[0].messages.filter(
+        (m) => m.ruleId == "EP002",
+      );
+      assert.equal(ep002Messages.length, 2, "number of errors");
+      ep002Messages.forEach((msg) =>
+        assert.equal(msg.message, "Invalid IgnoreValidationError element"),
+      );
     });
   });
 });

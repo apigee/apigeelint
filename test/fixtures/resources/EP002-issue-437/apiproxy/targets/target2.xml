@@ -1,0 +1,5 @@
+<TargetEndpoint name="target2">
+  <HTTPTargetConnection>
+    <URL>http://echo.dchiesa.demo.altostrat.com</URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>

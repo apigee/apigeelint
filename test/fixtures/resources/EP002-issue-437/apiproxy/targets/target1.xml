@@ -1,0 +1,26 @@
+<TargetEndpoint name="target1">
+  <!-- The following is not valid. See issue 437. -->
+  <IgnoreValidationError>true</IgnoreValidationError>
+
+  <Description/>
+  <FaultRules/>
+  <PreFlow name="PreFlow">
+    <Request/>
+    <Response/>
+  </PreFlow>
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response/>
+  </PostFlow>
+  <Flows/>
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <Enforce>true</Enforce>
+      <TrustStore>ref://myTrustStoreRef</TrustStore>
+      <!-- The following is not valid. See issue 437. -->
+      <IgnoreValidationError>true</IgnoreValidationError>
+    </SSLInfo>
+    <URL>https://echo.dchiesa.demo.altostrat.com</URL>
+  </HTTPTargetConnection>
+</TargetEndpoint>

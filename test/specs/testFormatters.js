@@ -1,5 +1,5 @@
-/*
-  Copyright 2019-2021,2024 Google LLC
+﻿/*
+Copyright © 2019-2021,2024,2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ const formatters = [
   "tap.js",
   "unix.js",
   "visualstudio.js",
-  "pdf.js"
+  "pdf.js",
 ];
 
 function randomString(L) {
@@ -46,6 +46,7 @@ function randomString(L) {
 }
 
 describe("Formatters", function () {
+  this.slow(8000); // on older machines this can be slow
   let capturedOutput = null;
   configuration.source.path =
     "./test/fixtures/resources/sample-proxy-with-issues/response-shaping/apiproxy";
@@ -81,7 +82,7 @@ describe("Formatters", function () {
       assert.ok(e);
       assert.equal(
         e.message,
-        `There was a problem loading formatter: ./third_party/formatters/${nonExistingFormatterName}`
+        `There was a problem loading formatter: ./third_party/formatters/${nonExistingFormatterName}`,
       );
     }
   });

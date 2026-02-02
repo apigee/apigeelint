@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="1" name="issue-437">
+    <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+    <CreatedBy>DChiesa@google.com</CreatedBy>
+    <DisplayName>issue-437</DisplayName>
+</APIProxy>

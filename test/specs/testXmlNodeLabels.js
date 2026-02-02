@@ -1,5 +1,5 @@
 ﻿/*
-  Copyright © 2024-2025 Google LLC
+  Copyright © 2024-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ const assert = require("assert"),
   debug = require("debug")("apigeelint:xmldom-test");
 
 describe("xmldom path resolution verification", function () {
-  this.slow(11000);
+  this.slow(18000);
   const path = require("node:path"),
     fs = require("node:fs"),
     proxyDir = path.resolve(__dirname, "../fixtures/resources/issue481"),
