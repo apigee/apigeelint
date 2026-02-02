@@ -513,6 +513,7 @@ This is the current list:
 | &nbsp; |:white_check_mark:| CC005 | unterminated strings in Condition |  Strings within a Condition element must be properly wrapped by double quotes. |
 | &nbsp; |:white_check_mark:| CC006 | Detect logical absurdities |  Conditions should not have internal logic conflicts - warn when these are detected. |
 | &nbsp; |:white_check_mark:| CC007 | Check validity of expression syntax | Condition expressions should use valid syntax. No single quotes, no extraneous or unmatched parens, etc. |
+| &nbsp; |:white_check_mark:| CC008 | Condition Uniqueness | The conditions on Conditional flows, FaultRules, and RouteRules must be unique. |
 | Endpoints | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| EP001 | CORS Policy attachment | Check for multiple CORS policies, or attachment to Target Endpoint. |
 | &nbsp; |:white_check_mark:| EP002 | Misplaced Elements | Check for commonly misplaced configuration elements in Proxy and Target Endpoints. |

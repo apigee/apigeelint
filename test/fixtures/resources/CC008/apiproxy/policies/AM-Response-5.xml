@@ -1,0 +1,9 @@
+<AssignMessage name="AM-Response-5">
+  <Set>
+    <Payload contentType="text/plain">
+response 5
+</Payload>
+    <StatusCode>200</StatusCode>
+    <ReasonPhrase>OK</ReasonPhrase>
+  </Set>
+</AssignMessage>

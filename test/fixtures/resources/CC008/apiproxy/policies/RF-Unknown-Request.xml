@@ -1,0 +1,10 @@
+<RaiseFault name="RF-Unknown-Request">
+  <FaultResponse>
+    <Set>
+      <Payload contentType="text/plain">Not Found</Payload>
+      <StatusCode>404</StatusCode>
+      <ReasonPhrase>Not Found</ReasonPhrase>
+    </Set>
+  </FaultResponse>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>

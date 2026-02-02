@@ -1,0 +1,110 @@
+<ProxyEndpoint name="endpoint1">
+  <HTTPProxyConnection>
+    <BasePath>/CC008/endpoint1</BasePath>
+  </HTTPProxyConnection>
+
+  <DefaultFaultRule name="default-fault-rule">
+    <Step>
+      <Name>AM-Inject-Proxy-Version-Header</Name>
+    </Step>
+    <AlwaysEnforce>true</AlwaysEnforce>
+  </DefaultFaultRule>
+
+  <Flows>
+
+    <Flow name="f1">
+      <Response>
+        <Step>
+          <Name>AM-Response-1</Name>
+        </Step>
+      </Response>
+      <Condition>proxy.pathsuffix MatchesPath "/r1"</Condition>
+    </Flow>
+
+    <Flow name="f2">
+      <Response>
+        <Step>
+          <Name>AM-Response-2</Name>
+        </Step>
+      </Response>
+      <!-- exact same condition string as above; will never be reached. CC008 violation -->
+      <Condition>proxy.pathsuffix MatchesPath "/r1"</Condition>
+    </Flow>
+
+    <Flow name="f3">
+      <Response>
+        <Step>
+          <Name>AM-Response-3</Name>
+        </Step>
+      </Response>
+      <!-- equivalent condition as above; CC008 violation -->
+      <Condition>proxy.pathsuffix ~/ "/r1"</Condition>
+    </Flow>
+
+
+
+    <Flow name="f4">
+      <Response>
+        <Step>
+          <Name>AM-Response-4</Name>
+        </Step>
+      </Response>
+      <Condition>proxy.pathsuffix ~/ "/r2" and request.verb = "GET"</Condition>
+    </Flow>
+
+    <Flow name="f5">
+      <Response>
+        <Step>
+          <Name>AM-Response-5</Name>
+        </Step>
+      </Response>
+      <!-- CC008 - differs only in ordering, casing, parens, and spacing from the above  -->
+      <Condition>
+        (request.verb = "GET") AND (proxy.pathsuffix ~/ "/r2")
+      </Condition>
+    </Flow>
+
+
+    <Flow name="f6">
+      <Response>
+        <Step>
+          <Name>AM-Response-4</Name>
+        </Step>
+      </Response>
+      <Condition>proxy.pathsuffix ~/ "/r3" and request.verb = "GET"
+      and request.header.foo = "Bar"</Condition>
+    </Flow>
+
+    <Flow name="f7">
+      <Response>
+        <Step>
+          <Name>AM-Response-5</Name>
+        </Step>
+      </Response>
+      <!-- CC008 - differs only in ordering, casing, parens, and spacing from the above -->
+      <Condition>
+        (request.header.Foo = "Bar") AND
+        (request.verb = "GET") AND (proxy.pathsuffix ~/ "/r3")
+      </Condition>
+    </Flow>
+
+
+    <Flow name="default">
+      <!-- all other requests -->
+      <Request>
+        <Step>
+          <Name>RF-Unknown-Request</Name>
+        </Step>
+      </Request>
+      <Response/>
+    </Flow>
+  </Flows>
+
+  <RouteRule name="http-1">
+    <Condition>proxy.pathsuffix MatchesPath "/t1"</Condition>
+    <TargetEndpoint>http-1</TargetEndpoint>
+  </RouteRule>
+
+  <RouteRule name="noroute"/>
+
+</ProxyEndpoint>

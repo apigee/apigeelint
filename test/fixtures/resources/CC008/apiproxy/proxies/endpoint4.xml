@@ -1,0 +1,69 @@
+<ProxyEndpoint name="endpoint4">
+  <HTTPProxyConnection>
+    <BasePath>/CC008/endpoint4</BasePath>
+  </HTTPProxyConnection>
+
+  <DefaultFaultRule name="default-fault-rule">
+    <Step>
+      <Name>AM-Inject-Proxy-Version-Header</Name>
+    </Step>
+    <AlwaysEnforce>true</AlwaysEnforce>
+  </DefaultFaultRule>
+
+  <FaultRules>
+    <FaultRule name='rule1'>
+      <Step>
+        <Name>AM-Override-Message-1</Name>
+      </Step>
+      <Condition>fault.name = "foobar"</Condition>
+    </FaultRule>
+
+    <!-- same rule name as above. CC008 violation -->
+    <FaultRule name='rule1'>
+      <Step>
+        <Name>AM-Override-Message-2</Name>
+      </Step>
+      <Condition>fault.name = "something-else"</Condition>
+    </FaultRule>
+
+  </FaultRules>
+
+  <Flows>
+    <Flow name="f1">
+      <Response>
+        <Step>
+          <Name>AM-Response-1</Name>
+        </Step>
+      </Response>
+      <Condition>proxy.pathsuffix MatchesPath "/r1"</Condition>
+    </Flow>
+
+    <Flow name="f2">
+      <Response>
+        <Step>
+          <Name>AM-Response-2</Name>
+        </Step>
+      </Response>
+      <!-- different condition from above -->
+      <Condition>proxy.pathsuffix MatchesPath "/r2"</Condition>
+    </Flow>
+
+    <Flow name="default">
+      <!-- all other requests -->
+      <Request>
+        <Step>
+          <Name>RF-Unknown-Request</Name>
+        </Step>
+      </Request>
+      <Response/>
+    </Flow>
+  </Flows>
+
+  <RouteRule name="http-1">
+    <Condition>proxy.pathsuffix MatchesPath "/t1"</Condition>
+    <TargetEndpoint>http-1</TargetEndpoint>
+  </RouteRule>
+
+  <RouteRule name="noroute"/>
+
+</ProxyEndpoint>

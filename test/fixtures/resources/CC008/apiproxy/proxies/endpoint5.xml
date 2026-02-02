@@ -1,0 +1,57 @@
+<ProxyEndpoint name="endpoint5">
+  <HTTPProxyConnection>
+    <BasePath>/CC008/endpoint5</BasePath>
+  </HTTPProxyConnection>
+
+  <DefaultFaultRule name="default-fault-rule">
+    <Step>
+      <Name>AM-Inject-Proxy-Version-Header</Name>
+    </Step>
+    <AlwaysEnforce>true</AlwaysEnforce>
+  </DefaultFaultRule>
+
+  <Flows>
+    <Flow name="f1">
+      <Response>
+        <Step>
+          <Name>AM-Response-1</Name>
+        </Step>
+      </Response>
+      <Condition>proxy.pathsuffix MatchesPath "/r1"</Condition>
+    </Flow>
+
+    <Flow name="f2">
+      <Response>
+        <Step>
+          <Name>AM-Response-2</Name>
+        </Step>
+      </Response>
+      <!-- different condition from above -->
+      <Condition>proxy.pathsuffix MatchesPath "/r2"</Condition>
+    </Flow>
+
+    <Flow name="default">
+      <!-- all other requests -->
+      <Request>
+        <Step>
+          <Name>RF-Unknown-Request</Name>
+        </Step>
+      </Request>
+      <Response/>
+    </Flow>
+  </Flows>
+
+  <RouteRule name="http-1">
+    <Condition>proxy.pathsuffix MatchesPath "/t1"</Condition>
+    <TargetEndpoint>http-1</TargetEndpoint>
+  </RouteRule>
+
+  <RouteRule name="http-2">
+    <!-- CC008 - duplicate condition -->
+    <Condition>proxy.pathsuffix MatchesPath "/t1"</Condition>
+    <TargetEndpoint>http-2</TargetEndpoint>
+  </RouteRule>
+
+  <RouteRule name="noroute"/>
+
+</ProxyEndpoint>
