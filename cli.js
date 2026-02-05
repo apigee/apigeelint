@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /*
-  Copyright 2019-2025 Google LLC
+  Copyright © 2019-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,7 +16,8 @@
   limitations under the License.
 */
 
-const program = require("commander"),
+const { Command } = require("commander");
+const program = new Command(),
   fs = require("fs"),
   path = require("path"),
   tmp = require("tmp"),
@@ -140,54 +141,54 @@ const findBundle = (p) => {
       "ignore any directives within XML files that disable warnings",
     );
 
-  program.on("--help", function () {
-    console.log("\nExamples:");
-    console.log("   apigeelint -f table.js -s sampleProxy/apiproxy\n");
-    console.log("   apigeelint -f table.js -s path/to/your/apiproxy.zip\n");
-    console.log(
-      "   apigeelint -f table.js --download org:my-org,api:my-proxy\n",
-    );
-    console.log("");
-  });
+  program.addHelpText(
+    "after",
+    `
+    Examples:
+       apigeelint -f table.js -s sampleProxy/apiproxy
+       apigeelint -f table.js -s path/to/your/apiproxy.zip
+       apigeelint -f table.js --download org:my-org,api:my-proxy\n`,
+  );
 
   program.parse(process.argv);
+  const options = program.opts();
 
-  if (program.list) {
+  if (options.list) {
     console.log("available plugins: " + bl.listRuleIds().join(", ") + "\n");
     console.log("available formatters: " + bl.listFormatters().join(", "));
-    if (fs.existsSync(program.externalPluginsDirectory)) {
+    if (fs.existsSync(options.externalPluginsDirectory)) {
       console.log(
         "\n" +
           "available external plugins: " +
-          bl.listExternalRuleIds(program.externalPluginsDirectory).join(", ") +
+          bl.listExternalRuleIds(options.externalPluginsDirectory).join(", ") +
           "\n",
       );
     }
     process.exit(0);
   }
 
-  if (program.download) {
-    if (program.path) {
+  if (options.download) {
+    if (options.path) {
       console.log(
         "you must specify either the -s /--path option, or the -d /--download option. Not both.",
       );
       process.exit(1);
     }
     // This will work only with Apigee X/hybrid
-    program.path = await downloader.downloadBundle(program.download);
+    options.path = await downloader.downloadBundle(options.download);
   }
 
-  if (!program.path) {
+  if (!options.path) {
     console.log(
       "you must specify the -s option, or the long form of that: --path ",
     );
     process.exit(1);
   }
 
-  let [sourcePath, resolvedPath, sourceType] = findBundle(program.path);
+  let [sourcePath, resolvedPath, sourceType] = findBundle(options.path);
 
   // apply RC file
-  if (!program.norc) {
+  if (!options.norc) {
     const rcSettings = rc.readRc([".apigeelintrc"], sourcePath);
     if (rcSettings) {
       Object.keys(rcSettings)
@@ -210,43 +211,43 @@ const findBundle = (p) => {
         : bundleType.BundleType.APIPROXY,
     },
     complexConditionTermCount:
-      Number(program.complexConditionTermCount) ||
+      Number(options.complexConditionTermCount) ||
       defaults.complexConditionTermCount,
-    externalPluginsDirectory: program.externalPluginsDirectory,
+    externalPluginsDirectory: options.externalPluginsDirectory,
     excluded: {},
     maxWarnings: -1,
     profile: defaults.profile,
   };
 
-  if (!isNaN(program.maxWarnings)) {
-    configuration.maxWarnings = Number.parseInt(program.maxWarnings);
+  if (!isNaN(options.maxWarnings)) {
+    configuration.maxWarnings = Number.parseInt(options.maxWarnings);
   }
 
-  if (program.formatter) {
-    configuration.formatter = program.formatter || defaults.formatter;
+  if (options.formatter) {
+    configuration.formatter = options.formatter || defaults.formatter;
   }
 
-  if (program.quiet) {
+  if (options.quiet) {
     configuration.output = "none";
   }
 
-  if (program.ignoreDirectives) {
+  if (options.ignoreDirectives) {
     configuration.ignoreDirectives = true;
   }
 
-  if (program.excluded && typeof program.excluded === "string") {
-    configuration.excluded = program.excluded
+  if (options.excluded && typeof options.excluded === "string") {
+    configuration.excluded = options.excluded
       .split(",")
       .map((s) => s.trim())
       .reduce((acc, item) => ((acc[item] = true), acc), {});
   }
 
-  if (program.write) {
-    configuration.writePath = program.write;
+  if (options.write) {
+    configuration.writePath = options.write;
   }
 
-  if (program.profile && ["apigee", "apigeex"].includes(program.profile)) {
-    configuration.profile = program.profile;
+  if (options.profile && ["apigee", "apigeex"].includes(options.profile)) {
+    configuration.profile = options.profile;
   }
 
   bl.lint(configuration);
