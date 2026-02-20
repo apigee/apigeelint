@@ -38,7 +38,7 @@
     "jshint": "^2.13.6",
     "jsonpath": "^1.2.0",
     "lodash": "^4.17.21",
-    "minimatch": "^3.0.4",
+    "minimatch": "^10.2.1",
     "pdfmake": "^0.2.17",
     "pluralize": "latest",
     "strip-ansi": "^6.0.1",
