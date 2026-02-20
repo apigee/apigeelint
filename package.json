@@ -38,7 +38,7 @@
     "jshint": "^2.13.6",
     "jsonpath": "^1.2.0",
     "lodash": "^4.17.21",
-    "minimatch": "^3.0.4",
+    "minimatch": "^10.2.2",
     "pdfmake": "^0.2.17",
     "pluralize": "latest",
     "strip-ansi": "^6.0.1",
@@ -62,6 +62,7 @@
     "badge-up": "https://registry.npmjs.org/@rpl/badge-up/-/badge-up-3.0.0.tgz",
     "diff": "^8.0.3",
     "glob": "^10.5.0",
+    "jshint": { "minimatch": "^3.1.2" },
     "nth-check": "^2.0.1",
     "svgo": "^3.3.2",
     "uuid": "^7.0.3"

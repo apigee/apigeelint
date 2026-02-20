@@ -526,7 +526,48 @@ This is the current list:
 
 From an implementation perspective, the focus is on plugin support and flexibility over performance. Compute is cheap.
 
+
 ## Release Notes
+
+### Release v2.78.0
+
+#### On the minimatch module and CVE-2026-26996
+
+[CVE-2026-26996](https://www.cve.org/CVERecord?id=CVE-2026-26996) describes a
+problem with the npm [minimatch](https://www.npmjs.com/package/minimatch)
+module, through which it is susceptible to what is known as a ReDOS
+vulnerability. ReDOS = Regular Expression Denial of Service. It means you can
+provide a regular expression that could result in an exponential backtrack
+across all possible splits. The time complexity is O(4^N) where N is the number
+of `*` characters in the regex pattern.
+
+As of this release, apigeelint has a direct dependency on minimatch v10.2.2,
+which is not susceptible to the CVE-2026-26996 vulnerability.  But apigeelint
+has indirect dependencies on susceptible versions of minimatch. Notably
+apigeelint depends on the jshint module, which depends on minimatch v3.0.8,
+which at this time is vulnerable to this ReDOS problem.
+
+The effect of this is that in exceptional cases, you may run apigeelint with the
+jshint plugin, and it will take a very long time, or even _seem to_ never
+terminate.  It is not an infinite loop, but rather the exponential backtrack. So
+it takes a finite, not infinite, time.
+
+To trigger this problem will require both of these conditions:
+
+- that you have a .jshintignore file that includes a pattern with eight or more
+  asterisks, terminating in a sequence of one or more other characters. For
+  example, `********q.js`.
+
+- that you have a filename of sufficient length to cause the exponential
+  backtrack to be signficant. A JS filename of length 20 is not sufficient. If
+  your JS filename is of length 30 characters you may a delay of a minute. A
+  length of 40 characters could cause hours of delay. A length of 44 characters
+  could cause a single run of apigeelint to take years to complete.
+
+We think the likelihood of this occurring is vanishingly small. If you do see
+delays in running your jshint scans, remove or correct the ignore rules with
+numerous asterisks, or shorten your JS filenames, or both.
+
 
 ### Release v2.31.0
 
