@@ -1,0 +1,19 @@
+<ServiceCallout name='SC-SSLInfo-invalid'>
+  <Request variable='simpleGetRequest'>
+    <Set>
+      <Verb>GET</Verb>
+    </Set>
+  </Request>
+  <Response>jwksResponse</Response>
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <!-- PO043 will flag this -->
+      <IgnoreValidationError>false</IgnoreValidationError>
+    </SSLInfo>
+    <Properties>
+      <Property name='success.codes'>2xx</Property>
+    </Properties>
+    <URL>https://www.googleapis.com/oauth2/v3/certs</URL>
+  </HTTPTargetConnection>
+</ServiceCallout>

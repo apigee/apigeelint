@@ -501,6 +501,7 @@ This is the current list:
 | &nbsp; |:white_check_mark:| PO040 | Check JSONPath within ExtractVariables policy | Checks that JSONPath compiles and is valid. |
 | &nbsp; |:white_check_mark:| PO041 | KeyValueMapOperations policy and ExclusiveCache | Checks that KeyValueMapOperations policy does not use deprecated ExclusiveCache. |
 | &nbsp; |:white_check_mark:| PO042 | SpikeArrest policy hygiene | In a SpikeArrest policy, check element placement and other hygiene. |
+| &nbsp; |:white_check_mark:| PO043 | ServiceCallout SSLInfo | Check for misplaced or invalid elements beneath SSLInfo. |
 | FaultRules | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| FR001 | No Condition on FaultRule | Use Condition elements on FaultRules, unless it is the fallback rule. |
 | &nbsp; |:white_check_mark:| FR002 | DefaultFaultRule Structure | DefaultFaultRule should have only supported child elements, at most one AlwaysEnforce element, and at most one Condition element. |
@@ -554,9 +555,9 @@ service level agreement (SLA) for responses to these issues. Assume all
 responses are on an ad-hoc, volunteer basis.
 
 If you simply have questions, we recommend asking on the [Apigee
-forum](https://www.googlecloudcommunity.com/gc/Apigee/bd-p/cloud-apigee/) on
-[GoogleCloudCommunity.com](https://www.googlecloudcommunity.com/).  Apigee
-experts regularly check that forum.
+forum](https://discuss.google.dev/c/google-cloud/cloud-apigee/104) on
+[discuss.google.dev](https://discuss.google.dev/). There is no
+service level agreement (SLA) for responses to questions posed there either.
 
 
 Apigee customers should use [formal support channels](https://cloud.google.com/apigee/support) for Apigee product related concerns.
@@ -565,7 +566,7 @@ Apigee customers should use [formal support channels](https://cloud.google.com/a
 
 ## License and Copyright
 
-This material is [Copyright (c) 2018-2025 Google LLC](./NOTICE).
+This material is [Copyright (c) 2018-2026 Google LLC](./NOTICE).
 and is licensed under the [Apache 2.0 License](LICENSE).
 
 ## Disclaimer
