@@ -564,10 +564,17 @@ To trigger this problem will require both of these conditions:
   length of 40 characters could cause hours of delay. A length of 44 characters
   could cause a single run of apigeelint to take years to complete.
 
-We think the likelihood of this occurring is vanishingly small. If you do see
-delays in running your jshint scans, remove or correct the ignore rules with
-numerous asterisks, or shorten your JS filenames, or both.
+This is not a problem inherent in apigeelint, but in jshint, which apigeelint
+can run.  If you would like, you can avoid running jshint entirely - disable the
+PO013 plugin. But we think the likelihood of this problem occurring is
+vanishingly small. If you do see delays in running your jshint scans, remove or
+correct the ignore rules with numerous asterisks, or shorten your JS filenames,
+or both.
 
+apigeelint has other indirect dependencies on minimatch, but they are all
+"development dependencies" and could potentially affect you only if you were
+working on the apigeelint code as a developer. So they will be irrelevant to
+anyone who is simply _using_ apigeelint.
 
 ### Release v2.31.0
 
