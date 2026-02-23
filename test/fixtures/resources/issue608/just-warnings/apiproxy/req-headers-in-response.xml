@@ -1,0 +1,5 @@
+<APIProxy name="req-headers-in-response">
+  <ConfigurationVersion majorVersion="4" minorVersion="0"/>
+  <DisplayName>req-headers-in-response</DisplayName>
+  <validate>false</validate>
+</APIProxy>

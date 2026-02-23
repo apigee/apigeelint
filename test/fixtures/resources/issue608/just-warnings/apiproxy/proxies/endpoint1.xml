@@ -1,0 +1,73 @@
+<ProxyEndpoint name="endpoint1">
+
+  <HTTPProxyConnection>
+    <BasePath>/req-headers-in-response</BasePath>
+  </HTTPProxyConnection>
+
+  <FaultRules/>
+
+  <DefaultFaultRule name="default-fault-rule">
+    <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+    </Step>
+    <AlwaysEnforce>true</AlwaysEnforce>
+  </DefaultFaultRule>
+
+  <PreFlow name="PreFlow">
+    <Request/>
+    <Response/>
+  </PreFlow>
+
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response>
+      <Step>
+        <Name>AM-Inject-Proxy-Revision-Header</Name>
+      </Step>
+    </Response>
+  </PostFlow>
+
+  <PostClientFlow name="PostClientFlow">
+    <Response>
+    </Response>
+  </PostClientFlow>
+
+  <Flows>
+    <Flow name="t1">
+      <Request>
+      </Request>
+      <Response>
+      <Step>
+        <Name>AM-Copy-Request-Headers</Name>
+      </Step>
+      </Response>
+      <Condition>proxy.pathsuffix MatchesPath "/t1" and request.verb = "GET"</Condition>
+    </Flow>
+
+    <Flow name="t2">
+      <Request>
+      </Request>
+      <Response>
+      </Response>
+      <Condition>proxy.pathsuffix MatchesPath "/t2" and request.verb = "POST"</Condition>
+    </Flow>
+
+<!--
+    <Flow name="unknown request">
+      <Request>
+        <Step>
+          <Name>RF-Unknown-Request</Name>
+        </Step>
+      </Request>
+      <Response>
+      </Response>
+    </Flow>
+-->
+
+  </Flows>
+
+  <RouteRule name="default">
+    <TargetEndpoint>target-1</TargetEndpoint>
+  </RouteRule>
+
+</ProxyEndpoint>

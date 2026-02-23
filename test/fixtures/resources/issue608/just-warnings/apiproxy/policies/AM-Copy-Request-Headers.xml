@@ -1,0 +1,6 @@
+<AssignMessage name='AM-Copy-Request-Headers'>
+  <AssignTo>response</AssignTo>
+  <Copy source='request'>
+    <Headers/>
+  </Copy>
+</AssignMessage>

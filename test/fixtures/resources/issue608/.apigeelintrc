@@ -1,0 +1,7 @@
+## specify a profile
+--profile apigeex
+
+## always exclude these plugins
+--excluded TD002,TD007
+
+
