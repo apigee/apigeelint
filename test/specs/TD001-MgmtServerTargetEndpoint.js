@@ -15,7 +15,7 @@
 */
 /* global describe, it */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
   testID = "TD001",
   debug = require("debug")("apigeelint:" + testID),
   Bundle = require("../../lib/package/Bundle.js"),

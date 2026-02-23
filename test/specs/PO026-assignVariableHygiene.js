@@ -16,8 +16,8 @@
 
 /* global describe, it */
 
-const assert = require("assert"),
-  path = require("path"),
+const assert = require("node:assert"),
+  path = require("node:path"),
   bl = require("../../lib/package/bundleLinter.js");
 
 describe(`PO026 - AssignVariableHygiene`, () => {

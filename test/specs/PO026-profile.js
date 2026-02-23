@@ -15,8 +15,8 @@
 */
 /* global describe, it */
 
-const assert = require("assert"),
-  path = require("path"),
+const assert = require("node:assert"),
+  path = require("node:path"),
   debug = require("debug")("apigeelint:PO026-test"),
   bl = require("../../lib/package/bundleLinter.js");
 
@@ -67,7 +67,7 @@ describe(`PO026 - PropertySetRef with various profiles`, () => {
 const testID = "PO026",
   Policy = require("../../lib/package/Policy.js"),
   Dom = require("@xmldom/xmldom").DOMParser,
-  fs = require("fs"),
+  fs = require("node:fs"),
   plugin = require(bl.resolvePlugin(testID));
 
 const po026Test = (filename, profile, cb) => {

@@ -17,9 +17,9 @@ Copyright © 2019-2024,2026 Google LLC
 /* global describe, it */
 
 const ruleId = "CC008",
-  assert = require("assert"),
-  path = require("path"),
-  util = require("util"),
+  assert = require("node:assert"),
+  path = require("node:path"),
+  util = require("node:util"),
   debug = require("debug")(`apigeelint:${ruleId}`),
   bl = require("../../lib/package/bundleLinter.js");
 

@@ -16,11 +16,11 @@
 
 /* global describe, it */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
       ruleId = 'ST007',
-      path = require("path"),
+      path = require("node:path"),
       debug = require("debug")(`apigeelint:${ruleId}`),
-      util = require("util"),
+      util = require("node:util"),
       bl = require("../../lib/package/bundleLinter.js");
 
 const expectedMessageRe =

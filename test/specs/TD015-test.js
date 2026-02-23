@@ -17,10 +17,10 @@
 /* global describe, it */
 
 const testID = "TD015",
-  assert = require("assert"),
-  fs = require("fs"),
-  util = require("util"),
-  path = require("path"),
+  assert = require("node:assert"),
+  fs = require("node:fs"),
+  util = require("node:util"),
+  path = require("node:path"),
   bl = require("../../lib/package/bundleLinter.js"),
   plugin = require(bl.resolvePlugin(testID)),
   Endpoint = require("../../lib/package/Endpoint.js"),

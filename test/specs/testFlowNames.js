@@ -15,7 +15,7 @@
 */
 /* global it, describe */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
       //debug = require("debug")("apigeelint:flowNames"),
       Endpoint = require("../../lib/package/Endpoint.js"),
       Dom = require("@xmldom/xmldom").DOMParser,

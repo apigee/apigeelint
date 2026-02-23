@@ -14,9 +14,9 @@
   limitations under the License.
 */
 
-const assert = require("assert"),
-      fs = require("fs"),
-      path = require("path"),
+const assert = require("node:assert"),
+      fs = require("node:fs"),
+      path = require("node:path"),
       schema = require("./../fixtures/reportSchema.js"),
       Validator = require("jsonschema").Validator,
       findFolders = require(path.join(__dirname, "../../lib/package/findFolders.js")),

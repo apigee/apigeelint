@@ -17,7 +17,7 @@
 /* global describe, it */
 
 const testID = "PO007",
-  assert = require("assert"),
+  assert = require("node:assert"),
   bl = require("../../lib/package/bundleLinter.js"),
   plugin = require(bl.resolvePlugin(testID)),
   Policy = require("../../lib/package/Policy.js"),

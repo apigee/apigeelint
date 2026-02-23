@@ -15,7 +15,7 @@
 */
 /* global it, describe */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
   testID = "CC001",
   debug = require("debug")("apigeelint:" + testID),
   bl = require("../../lib/package/bundleLinter.js"),

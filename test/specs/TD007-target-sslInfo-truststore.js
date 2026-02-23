@@ -15,9 +15,9 @@
 */
 /* global describe, it, configuration */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
   testID = "TD007",
-  util = require("util"),
+  util = require("node:util"),
   debug = require("debug")("apigeelint:" + testID),
   Bundle = require("../../lib/package/Bundle.js"),
   bl = require("../../lib/package/bundleLinter.js"),

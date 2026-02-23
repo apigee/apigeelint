@@ -15,7 +15,7 @@
 */
 /* global describe, it */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
   expect = require("chai").expect,
   jsonpath = require("jsonpath"),
   debug = require("debug")("apigeelint:TruthTableTest"),

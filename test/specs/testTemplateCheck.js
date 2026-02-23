@@ -16,7 +16,7 @@
 /* global describe, it, configuration */
 /* jslint esversion:9 */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
   pu = require("../../lib/package/plugins/_pluginUtil.js");
 
 describe("TemplateCheck", function () {

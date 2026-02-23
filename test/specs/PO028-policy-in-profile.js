@@ -17,10 +17,10 @@
 /* global describe, it */
 
 const testID = "PO028",
-  assert = require("assert"),
-  fs = require("fs"),
-  path = require("path"),
-  util = require("util"),
+  assert = require("node:assert"),
+  fs = require("node:fs"),
+  path = require("node:path"),
+  util = require("node:util"),
   bl = require("../../lib/package/bundleLinter.js"),
   plugin = require(bl.resolvePlugin(testID)),
   Policy = require("../../lib/package/Policy.js"),

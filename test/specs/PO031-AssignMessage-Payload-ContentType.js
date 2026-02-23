@@ -17,9 +17,9 @@
 /* global describe, it */
 
 const testID = "PO031",
-  assert = require("assert"),
-  fs = require("fs"),
-  path = require("path"),
+  assert = require("node:assert"),
+  fs = require("node:fs"),
+  path = require("node:path"),
   //util = require('util'),
   bl = require("../../lib/package/bundleLinter.js"),
   plugin = require(bl.resolvePlugin(testID)),

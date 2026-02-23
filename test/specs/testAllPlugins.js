@@ -15,9 +15,9 @@
 */
 /* global describe, it */
 
-const assert = require("assert"),
-      path = require("path"),
-      fs = require("fs"),
+const assert = require("node:assert"),
+      path = require("node:path"),
+      fs = require("node:fs"),
       //debug = require("debug")("apigeelint:allplugins"),
       Bundle = require("../../lib/package/Bundle.js"),
       Validator = require("jsonschema").Validator,

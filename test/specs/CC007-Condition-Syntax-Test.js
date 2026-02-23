@@ -16,7 +16,7 @@
 /* global describe, it */
 
 const testID = "CC007",
-  assert = require("assert"),
+  assert = require("node:assert"),
   xpath = require("xpath"),
   bl = require("../../lib/package/bundleLinter.js"),
   plugin = require(bl.resolvePlugin(testID)),

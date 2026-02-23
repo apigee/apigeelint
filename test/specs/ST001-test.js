@@ -16,7 +16,7 @@
 /* global it, describe */
 
 const testID = "ST001",
-  assert = require("assert"),
+  assert = require("node:assert"),
   path = require("node:path"),
   util = require("node:util"),
   debug = require("debug")("apigeelint:" + testID),

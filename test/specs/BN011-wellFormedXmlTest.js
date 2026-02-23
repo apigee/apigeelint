@@ -17,9 +17,9 @@
 /* global describe, it */
 
 const ruleId = "BN011",
-  assert = require("assert"),
-  path = require("path"),
-  util = require("util"),
+  assert = require("node:assert"),
+  path = require("node:path"),
+  util = require("node:util"),
   debug = require("debug")(`apigeelint:${ruleId}`),
   bl = require("../../lib/package/bundleLinter.js");
 

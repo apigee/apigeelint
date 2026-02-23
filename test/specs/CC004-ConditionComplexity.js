@@ -15,7 +15,7 @@
 */
 /* global it, describe */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
   testID = "CC004",
   debug = require("debug")("apigeelint:" + testID),
   Condition = require("../../lib/package/Condition.js"),

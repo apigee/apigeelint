@@ -17,8 +17,8 @@ Copyright © 2019-2021,2025,2026 Google LLC
 /* global describe, it */
 
 const testID = "CC005",
-  assert = require("assert"),
-  path = require("path"),
+  assert = require("node:assert"),
+  path = require("node:path"),
   bl = require("../../lib/package/bundleLinter.js"),
   debug = require("debug")(`apigeelint:${testID}-test`);
 

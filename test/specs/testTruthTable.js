@@ -14,7 +14,7 @@ Copyright © 2019-2020,2025,2026 Google LLC
   limitations under the License.
 */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
   debug = require("debug")("apigeelint:TruthTableTest"),
   TruthTable = require("../../lib/package/TruthTable.js"),
   test = function (exp, expected) {

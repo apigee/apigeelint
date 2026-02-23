@@ -16,7 +16,7 @@ Copyright © 2019-2021,2024,2026 Google LLC
 /* global describe, it, configuration */
 /* jslint esversion:9 */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
   debug = require("debug")("apigeelint:Formatters"),
   bl = require("../../lib/package/bundleLinter.js");
 
