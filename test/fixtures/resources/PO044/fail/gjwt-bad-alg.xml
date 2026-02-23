@@ -1,0 +1,18 @@
+<GenerateJWT name='GenerateJWT-Signed-HS256-Simple'>
+  <!--  unsupported algorithm -->
+  <Algorithm>AS256</Algorithm>
+
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+
+  <SecretKey>
+    <Value ref='private.secretkey'/>
+    <Id>cb24a396-4414-4793-b4ce-90333b694bff</Id>
+  </SecretKey>
+  <Subject>subject-subject-subject</Subject>
+  <Audience>audience-here</Audience>
+  <ExpiresIn>8h</ExpiresIn>
+  <AdditionalClaims>
+    <Claim name='additional-claim-name'>additional-claim-value-goes-here</Claim>
+  </AdditionalClaims>
+  <OutputVariable>output_variable_name</OutputVariable>
+</GenerateJWT>

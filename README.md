@@ -502,6 +502,7 @@ This is the current list:
 | &nbsp; |:white_check_mark:| PO041 | KeyValueMapOperations policy and ExclusiveCache | Checks that KeyValueMapOperations policy does not use deprecated ExclusiveCache. |
 | &nbsp; |:white_check_mark:| PO042 | SpikeArrest policy hygiene | In a SpikeArrest policy, check element placement and other hygiene. |
 | &nbsp; |:white_check_mark:| PO043 | ServiceCallout SSLInfo | Check for misplaced or invalid elements beneath SSLInfo. |
+| &nbsp; |:white_check_mark:| PO044 | GenerateJWT hygiene | Check for misplaced or invalid elements in GenerateJWT. |
 | FaultRules | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
 | &nbsp; |:white_check_mark:| FR001 | No Condition on FaultRule | Use Condition elements on FaultRules, unless it is the fallback rule. |
 | &nbsp; |:white_check_mark:| FR002 | DefaultFaultRule Structure | DefaultFaultRule should have only supported child elements, at most one AlwaysEnforce element, and at most one Condition element. |

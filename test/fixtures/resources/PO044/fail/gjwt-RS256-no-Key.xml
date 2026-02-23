@@ -1,0 +1,13 @@
+<GenerateJWT name='GenerateJWT-Signed-RS256-missing-key'>
+  <Algorithm>RS256</Algorithm>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <!-- RS256 requires a PrivateKey -->
+
+  <Subject>subject-subject-subject</Subject>
+  <Audience>audience-here</Audience>
+  <ExpiresIn>8h</ExpiresIn>
+  <AdditionalClaims>
+    <Claim name='additional-claim-name'>additional-claim-value-goes-here</Claim>
+  </AdditionalClaims>
+  <OutputVariable>output_variable_name</OutputVariable>
+</GenerateJWT>
