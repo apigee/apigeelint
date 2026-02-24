@@ -150,6 +150,7 @@ const findBundle = (p) => {
        apigeelint -f table.js --download org:my-org,api:my-proxy\n`,
   );
 
+  program.exitOverride();
   program.parse(process.argv);
   const options = program.opts();
 
@@ -192,10 +193,10 @@ const findBundle = (p) => {
     const rcSettings = rc.readRc([".apigeelintrc"], sourcePath);
     if (rcSettings) {
       Object.keys(rcSettings)
-        .filter((key) => key != "path" && key != "list" && !program[key])
+        .filter((key) => key != "path" && key != "list" && !options[key])
         .forEach((key) => {
           debug("apigeelint:rc")(`applying [${key}] = ${rcSettings[key]}`);
-          program[key] = rcSettings[key];
+          options[key] = rcSettings[key];
         });
     }
   }
@@ -251,4 +252,5 @@ const findBundle = (p) => {
   }
 
   bl.lint(configuration);
+  process.exit(process.exitCode);
 })();
