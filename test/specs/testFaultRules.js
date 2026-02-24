@@ -16,10 +16,10 @@
 
 /* global describe, it */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
       debug = require("debug")("apigeelint:faultrules"),
       Bundle = require("../../lib/package/Bundle.js"),
-      util = require("util");
+      util = require("node:util");
 
 const configuration = {
   debug: false,

@@ -16,10 +16,8 @@
 
 /* global require, describe, before, after, it, __dirname */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
   Dom = require("@xmldom/xmldom").DOMParser,
-  lintUtil = require("../../lib/package/lintUtil.js"),
-  util = require("node:util"),
   child_process = require("node:child_process"),
   debug = require("debug")("apigeelint:issue515");
 

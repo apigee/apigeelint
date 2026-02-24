@@ -16,7 +16,7 @@
 
 /* global require, describe, before, after, it, __dirname */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
   Dom = require("@xmldom/xmldom").DOMParser,
   lintUtil = require("../../lib/package/lintUtil.js"),
   util = require("node:util"),

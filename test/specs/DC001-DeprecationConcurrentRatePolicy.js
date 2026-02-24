@@ -14,9 +14,9 @@
   limitations under the License.
 */
 /* global describe, it */
-const assert = require("assert"),
-      path = require("path"),
-      util = require("util"),
+const assert = require("node:assert"),
+      path = require("node:path"),
+      util = require("node:util"),
       bl = require("../../lib/package/bundleLinter.js");
 
 describe(`DC001 - ConcurrentRateLimit Policy is deprecated`, () => {

@@ -16,10 +16,10 @@
 
 /* global describe, it */
 
-const assert = require("assert"),
-  path = require("path"),
+const assert = require("node:assert"),
+  path = require("node:path"),
   debug = require("debug")("apigeelint:ST002"),
-  util = require("util"),
+  util = require("node:util"),
   bl = require("../../lib/package/bundleLinter.js");
 
 describe(`ST002 - StepHygiene - apiproxy`, () => {

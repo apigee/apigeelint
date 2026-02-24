@@ -16,8 +16,8 @@
 
 /* global describe, it */
 
-const assert = require("assert"),
-  path = require("path"),
+const assert = require("node:assert"),
+  path = require("node:path"),
   debug = require("debug")(`apigeelint:issue546`),
   bl = require("../../lib/package/bundleLinter.js");
 

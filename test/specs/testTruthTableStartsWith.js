@@ -16,7 +16,7 @@
 
 /* global describe, it */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
       TruthTable = require("../../lib/package/TruthTable.js"),
       test = function(exp, assertion) {
         it(`${exp} should be ${assertion}`, function() {

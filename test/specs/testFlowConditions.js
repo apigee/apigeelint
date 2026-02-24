@@ -15,7 +15,7 @@ Copyright © 2019-2021,2026 Google LLC
 */
 /* global it, describe */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
   debug = require("debug")("apigeelint:flowConditions"),
   Endpoint = require("../../lib/package/Endpoint.js"),
   Dom = require("@xmldom/xmldom").DOMParser,

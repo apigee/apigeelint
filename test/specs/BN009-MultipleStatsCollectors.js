@@ -16,9 +16,9 @@
 
 /* global describe, it, configuration */
 
-const assert = require("assert"),
-  path = require("path"),
-  util = require("util"),
+const assert = require("node:assert"),
+  path = require("node:path"),
+  util = require("node:util"),
   testID = "BN009",
   debug = require("debug")(`apigeelint:${testID}-test`),
   Bundle = require("../../lib/package/Bundle.js"),

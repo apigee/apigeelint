@@ -14,7 +14,7 @@
   limitations under the License.
 */
 /* global configuration, describe, it */
-const assert = require("assert"),
+const assert = require("node:assert"),
   testID = "BN005",
   debug = require("debug")("apigeelint:" + testID),
   Bundle = require("../../lib/package/Bundle.js"),

@@ -15,8 +15,8 @@ Copyright 2019-2022,2025 Google LLC
 */
 /* global describe, it */
 
-const assert = require("assert"),
-  path = require("path"),
+const assert = require("node:assert"),
+  path = require("node:path"),
   testID = "BN010",
   bl = require("../../lib/package/bundleLinter.js");
 

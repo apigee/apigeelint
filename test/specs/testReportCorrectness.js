@@ -122,7 +122,7 @@ var example = [
   }
 ];
 
-var assert = require("assert");
+var assert = require("node:assert");
 
 describe("report correctness", function() {
 

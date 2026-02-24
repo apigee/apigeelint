@@ -15,7 +15,7 @@
 */
 /* global describe, it, configuration */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
   testID = "CC006",
   Bundle = require("../../lib/package/Bundle.js"),
   bl = require("../../lib/package/bundleLinter.js"),

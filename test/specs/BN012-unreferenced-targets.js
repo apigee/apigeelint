@@ -14,9 +14,9 @@
   limitations under the License.
 */
 /* global configuration, describe, it */
-const assert = require("assert"),
-  path = require("path"),
-  util = require("util"),
+const assert = require("node:assert"),
+  path = require("node:path"),
+  util = require("node:util"),
   testID = "BN012",
   debug = require("debug")("apigeelint:" + testID),
   //Bundle = require("../../lib/package/Bundle.js"),

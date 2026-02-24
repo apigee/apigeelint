@@ -16,7 +16,7 @@
 
 /* global describe, it */
 
-const assert = require("assert"),
+const assert = require("node:assert"),
       Policy = require("../../lib/package/Policy.js"),
       Dom = require("@xmldom/xmldom").DOMParser;
 
