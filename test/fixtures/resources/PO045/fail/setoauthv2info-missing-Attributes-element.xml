@@ -1,0 +1,9 @@
+<SetOAuthV2Info name="setoauthv2info-missing-Attributes-element">
+  <AccessToken ref="someVariable" />
+<!--
+    missing Attributes element
+  <Attributes>
+    <Attribute name="foo" ref="anotherVariable" />
+  </Attributes>
+-->
+</SetOAuthV2Info>

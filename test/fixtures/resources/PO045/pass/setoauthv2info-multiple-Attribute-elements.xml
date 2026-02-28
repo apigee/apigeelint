@@ -1,0 +1,7 @@
+<SetOAuthV2Info name="setoauthv2info-multiple-Attribute-elements">
+  <AccessToken ref="someVariable" />
+  <Attributes>
+    <Attribute name="attrname1" ref="aVariable" />
+    <Attribute name="attrname2" ref="anotherVariable" />
+  </Attributes>
+</SetOAuthV2Info>
