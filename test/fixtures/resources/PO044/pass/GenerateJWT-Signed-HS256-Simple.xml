@@ -1,4 +1,5 @@
 <GenerateJWT name='GenerateJWT-Signed-HS256-Simple'>
+  <DisplayName>GenerateJWT-Signed-HS256-Simple</DisplayName>
   <Algorithm>HS256</Algorithm>
   <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
   <SecretKey>
