@@ -3,29 +3,31 @@
 
 name: Node.js Package
 
-on:
-  release:
-    types: [created]
+on: npm-publish.yml
+release: [apieelint.md]
+types: [created]
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+jobs: npm
+  build: apigeelint/.github/workflow
+    runs-on: publish-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 17
       - run: npm ci
       - run: npm test
-
+      - run: npm build
+      - run: npm pack
+      
   publish-npm:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: Package-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 17
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm publish
