@@ -19,57 +19,53 @@
 const assert = require("node:assert"),
   Dom = require("@xmldom/xmldom").DOMParser,
   child_process = require("node:child_process"),
+  tmp = require("tmp"),
   debug = require("debug")("apigeelint:issue515");
 
 describe("cli external plugin warning verification", function () {
   this.slow(11000);
   const path = require("node:path"),
     fs = require("node:fs"),
-    proxyDir = path.resolve(__dirname, "../fixtures/resources/issue515"),
-    node_modules = path.resolve(proxyDir, "node_modules"),
-    packageLock = path.resolve(proxyDir, "package-lock.json");
+    issue515Dir = path.resolve(__dirname, "../fixtures/resources/issue515"),
+    tmpdir = tmp.dirSync({
+      prefix: `apigeelint-cli-test`,
+      keep: false,
+      unsafeCleanup: true, // this does not seem to work in apigeelint
+    });
 
-  const cleanup = (done) => {
-    fs.rmSync(node_modules, { force: true, recursive: true });
-    fs.rmSync(packageLock, { force: true });
-    done();
-  };
-
-  before(function (done) {
-    // remove node_modules before the test runs. We want a clean install.
-    cleanup(done);
-  });
-
-  after(function (done) {
-    // tidy up after the test runs.
-    this.timeout(8000);
-    // Sometimes this gets hung and fails. It seems it's a race condition.
-    // Trying a timeout to avoid that.
-    setTimeout(() => cleanup(done), 2000);
+  // make sure to cleanup when the process exits
+  process.on("exit", function () {
+    tmpdir.removeCallback();
   });
 
   it("should log a warning for stray files in the external plugins dir", function (done) {
-    this.timeout(58000);
-    const opts = {
-      cwd: proxyDir,
+    this.timeout(128000);
+    const spawnOpts = {
+      cwd: tmpdir.name,
       encoding: "utf8",
     };
 
     if (debug.enabled) {
-      const r = child_process.spawnSync("which", ["node"], opts);
+      const r = child_process.spawnSync("which", ["node"], spawnOpts);
       debug(`node: ` + JSON.stringify(r));
     }
 
     //  npm install can take a very long time, sometimes.
-    child_process.exec("npm install", opts, (e, stdout, stderr) => {
+    fs.cpSync(
+      path.resolve(issue515Dir, "package.json"),
+      path.resolve(tmpdir.name, "package.json"),
+      { force: true },
+    );
+    child_process.exec("npm install", spawnOpts, (e, stdout, stderr) => {
       assert.equal(e, null);
       debug(stdout);
-      // copy current implementation over, to allow testing of it.
-      const srcPackageDir = path.resolve(__dirname, "../../lib/package"),
-        destPackageDir = path.resolve(node_modules, "apigeelint/lib/package");
-      // overwrite the installed apigeelint with the current (working) version
-      fs.cpSync(srcPackageDir, destPackageDir, { recursive: true });
 
+      // copy all of apigeelint source over, to allow testing of it.
+      fs.cpSync(
+        path.resolve(__dirname, "../../lib/package"),
+        path.resolve(tmpdir.name, "node_modules/apigeelint/lib/package"),
+        { recursive: true },
+      );
       try {
         // run apigeelint after npm install
         const proc = child_process.spawn(
@@ -77,11 +73,11 @@ describe("cli external plugin warning verification", function () {
           [
             "./node_modules/apigeelint/cli.js",
             "-s",
-            "sample/apiproxy",
+            path.resolve(issue515Dir, "sample/apiproxy"),
             "-x",
-            "external-plugins",
+            path.resolve(issue515Dir, "external-plugins"),
           ],
-          { ...opts, timeout: 20000 },
+          { ...spawnOpts, timeout: 20000 },
         );
         let stdoutBlobs = [],
           stderrBlobs = [];

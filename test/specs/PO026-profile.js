@@ -42,14 +42,19 @@ const propertySetRefTest = (profile) => () => {
     const items = bundle.getReport();
     assert.ok(items);
     assert.ok(items.length);
+    let itemsSeen = 0;
     items.forEach((item) => {
       if (
-        item.filePath.endsWith("/apiproxy/policies/AM-config-properties.xml")
+        item.filePath.endsWith(
+          path.normalize("/apiproxy/policies/AM-config-properties.xml"),
+        )
       ) {
+        itemsSeen++;
         debug(item);
         assert.equal(item.errorCount, expectedCount);
       }
     });
+    assert.equal(itemsSeen, 1);
   });
 };
 
