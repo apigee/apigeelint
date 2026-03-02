@@ -1,0 +1,7 @@
+<SetOAuthV2Info name="setoauthv2info-empty-name-attr-on-Attribute-elt">
+  <AccessToken ref="someVariable" />
+  <Attributes>
+    <!-- empty name on Attribute -->
+    <Attribute name="" ref="anotherVariable" />
+  </Attributes>
+</SetOAuthV2Info>

@@ -1,0 +1,7 @@
+<SetOAuthV2Info name="setoauthv2info-with-DisplayName">
+  <DisplayName>setoauthv2info-with-DisplayName</DisplayName>
+  <AccessToken ref="someVariable" />
+  <Attributes>
+    <Attribute name="attrname1" ref="anotherVariable" />
+  </Attributes>
+</SetOAuthV2Info>

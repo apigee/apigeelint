@@ -1,0 +1,7 @@
+<SetOAuthV2Info name="setoauthv2info-unsupported-attr-on-AccessToken-elt">
+  <!-- unsupported attr -->
+  <AccessToken ref="someVariable" someOtherAttr="bar" />
+  <Attributes>
+    <Attribute name="foo" ref="anotherVariable" />
+  </Attributes>
+</SetOAuthV2Info>

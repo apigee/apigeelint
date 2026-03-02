@@ -251,6 +251,9 @@ const findBundle = (p) => {
     configuration.profile = options.profile;
   }
 
-  bl.lint(configuration);
-  process.exit(process.exitCode);
+  bl.lint(configuration, (bundle) => {
+    debug("apigeelint:cli")(`exitCode ${bundle.lintExitCode}`);
+    //console.error(`exitCode ${bundle.lintExitCode}`);
+    process.exit(bundle.lintExitCode);
+  });
 })();
