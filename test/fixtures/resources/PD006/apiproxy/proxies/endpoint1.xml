@@ -31,7 +31,9 @@
   </PostFlow>
 
   <PostClientFlow name="PostFlow">
-    <Request/>
+    <!-- Request is not valid here, should be flagged. -->
+    <Request>
+    </Request>
     <Response>
     </Response>
   </PostClientFlow>

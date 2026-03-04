@@ -17,6 +17,7 @@
   </DefaultFaultRule>
 
   <PreFlow name="PreFlow">
+    <!-- Request is not valid here, should be flagged. -->
     <Request>
     </Request>
     <Response/>

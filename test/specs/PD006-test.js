@@ -61,10 +61,13 @@ describe(`${ruleId} - proxyEndpoint basepath and other hygiene`, () => {
   });
 
   const expectations = {
-    "endpoint1.xml": [],
+    "endpoint1.xml": ["Request is not supported here."],
     "endpoint2.xml": [],
     "endpoint3.xml": ["Missing required BasePath element."],
-    "endpoint4.xml": ["More than one BasePath element found."],
+    "endpoint4.xml": [
+      "More than one BasePath element found.",
+      "Request is not supported here.",
+    ],
   };
 
   Object.keys(expectations).forEach((key) => {
