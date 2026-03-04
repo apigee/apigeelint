@@ -1,5 +1,5 @@
 /*
-Copyright 2019-2022,2025 Google LLC
+Copyright © 2019-2022,2025-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -55,13 +55,12 @@ describe(`${testID} - bundle with reference to missing policy`, () => {
         (m) => m.ruleId == testID,
       );
 
-      assert.equal(bn010Messages.length, 1, diags);
+      assert.equal(bn010Messages.length, 2, diags);
       assert.ok(bn010Messages[0].message, diags);
-      assert.equal(
-        bn010Messages[0].message,
-        'Missing policy "AM-Response-1"',
-        bn010Messages[0].message,
-      );
+      ["AM-Response-1", "AM-Missing-Policy-2"].forEach((pname) => {
+        const expectedMsg = `Missing policy "${pname}"`;
+        assert.ok(bn010Messages.find((item) => item.message == expectedMsg));
+      });
     });
   });
 });

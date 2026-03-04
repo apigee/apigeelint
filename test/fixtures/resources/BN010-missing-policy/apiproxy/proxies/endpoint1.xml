@@ -36,9 +36,15 @@
     </Response>
   </PostFlow>
   <PostClientFlow name="PostClientFlow">
+    <!-- Request is not supported here.  Should be flagged by other plugin. Not
+         part of this test. -->
     <Request>
     </Request>
     <Response>
+      <Step>
+          <!-- This policy is missing; will be flagged by BN010. -->
+        <Name>AM-Missing-Policy-2</Name>
+      </Step>
     </Response>
   </PostClientFlow>
 
@@ -53,7 +59,7 @@
       </Request>
       <Response>
         <Step>
-          <!-- This policy is missing; expected to be flagged by BN010. -->
+          <!-- This policy is missing; will be flagged by BN010. -->
           <Name>AM-Response-1</Name>
         </Step>
       </Response>
