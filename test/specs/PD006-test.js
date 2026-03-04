@@ -61,12 +61,12 @@ describe(`${ruleId} - proxyEndpoint basepath and other hygiene`, () => {
   });
 
   const expectations = {
-    "endpoint1.xml": ["Request is not supported here."],
+    "endpoint1.xml": [["Request is not supported here.", 2]],
     "endpoint2.xml": [],
-    "endpoint3.xml": ["Missing required BasePath element."],
+    "endpoint3.xml": [["Missing required BasePath element.", 2]],
     "endpoint4.xml": [
-      "More than one BasePath element found.",
-      "Request is not supported here.",
+      ["More than one BasePath element found.", 2],
+      ["Request is not supported here.", 1],
     ],
   };
 
@@ -81,12 +81,14 @@ describe(`${ruleId} - proxyEndpoint basepath and other hygiene`, () => {
       let pd006Messages = epItems[0].messages.filter((m) => m.ruleId == ruleId);
       debug(util.format(pd006Messages));
       assert.equal(expectedMsgs.length, pd006Messages.length);
-      expectedMsgs.forEach((msg) =>
+      expectedMsgs.forEach((msgObject) => {
+        const found = pd006Messages.find((m) => m.message == msgObject[0]);
         assert.ok(
-          pd006Messages.find((m) => m.message == msg),
-          `Cannot find ${msg} in ${pd006Messages.map((e) => e.message).toString()}`,
-        ),
-      );
+          found,
+          `Cannot find ${msgObject[0]} in ${pd006Messages.map((e) => e.message).toString()}`,
+        );
+        assert.equal(found.severity, msgObject[1]);
+      });
     });
   });
 });

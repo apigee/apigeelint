@@ -31,8 +31,12 @@
   </PostFlow>
 
   <PostClientFlow name="PostFlow">
-    <!-- Request is not valid here, should be flagged. -->
+    <!-- Request is not valid here, should be flagged.
+         Because there is a Step, it is an error. -->
     <Request>
+      <Step>
+        <Name>AM-PreparedQuery-1</Name>
+      </Step>
     </Request>
     <Response>
     </Response>
