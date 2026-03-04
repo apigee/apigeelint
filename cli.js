@@ -150,7 +150,6 @@ const findBundle = (p) => {
        apigeelint -f table.js --download org:my-org,api:my-proxy\n`,
   );
 
-  program.exitOverride();
   program.parse(process.argv);
   const options = program.opts();
 
