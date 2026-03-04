@@ -1,0 +1,16 @@
+<ProxyEndpoint name="endpoint1">
+  <Description>Test</Description>
+  <HTTPProxyConnection>
+    <BasePath>/test</BasePath>
+  </HTTPProxyConnection>
+  <PreFlow name="PreFlow">
+    <Request>
+    </Request>
+    <Response>
+    </Response>
+  </PreFlow>
+  <Flows />>
+  <RouteRule name="default">
+    <URL>https://example.com</URL>
+  </RouteRule>
+</ProxyEndpoint>

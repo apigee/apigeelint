@@ -1,0 +1,15 @@
+{
+  "name": "apigeelint-cli-bug622-test",
+  "version": "1.0.0",
+  "description": "test that apigeelint --write option writes a file",
+  "devDependencies": {
+    "apigeelint": "^2.80.1",
+    "debug": "4.3.5"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10.5"
+  },
+  "overrides": {}
+}
