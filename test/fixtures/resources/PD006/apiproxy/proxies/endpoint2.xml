@@ -31,7 +31,6 @@
   </PostFlow>
 
   <PostClientFlow name="PostFlow">
-    <Request/>
     <Response>
     </Response>
   </PostClientFlow>

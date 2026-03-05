@@ -33,7 +33,6 @@
   </PostFlow>
 
   <PostClientFlow name="PostFlow">
-    <Request/>
     <Response>
     </Response>
   </PostClientFlow>
@@ -41,12 +40,12 @@
   <Flows>
 
     <!-- emit one flow for each item in the config -->
-    
+
 
     <Flow name="airlines32">
       <Request>
         <!-- if query is parameterized, extract the fields -->
-        
+
         <Step>
           <Name>AM-PreparedQuery-1</Name>
         </Step>
@@ -55,12 +54,12 @@
       </Response>
       <Condition>proxy.pathsuffix MatchesPath "/airlines32" and request.verb = "GET"</Condition>
     </Flow>
-    
+
 
     <Flow name="airlines100">
       <Request>
         <!-- if query is parameterized, extract the fields -->
-        
+
         <Step>
           <Name>AM-PreparedQuery-2</Name>
         </Step>
@@ -69,12 +68,12 @@
       </Response>
       <Condition>proxy.pathsuffix MatchesPath "/airlines100" and request.verb = "GET"</Condition>
     </Flow>
-    
+
 
     <Flow name="airlines500">
       <Request>
         <!-- if query is parameterized, extract the fields -->
-        
+
         <Step>
           <Name>AM-PreparedQuery-3</Name>
         </Step>
@@ -83,16 +82,16 @@
       </Response>
       <Condition>proxy.pathsuffix MatchesPath "/airlines500" and request.verb = "GET"</Condition>
     </Flow>
-    
+
 
     <Flow name="airport-counts">
       <Request>
         <!-- if query is parameterized, extract the fields -->
-        
+
         <Step>
           <Name>EV-PathParams-4</Name>
         </Step>
-        
+
         <Step>
           <Name>AM-PreparedQuery-4</Name>
         </Step>
@@ -101,7 +100,7 @@
       </Response>
       <Condition>proxy.pathsuffix MatchesPath "/airports/*/counts/*" and request.verb = "GET"</Condition>
     </Flow>
-    
+
 
     <Flow name="unknown request">
       <Request>
