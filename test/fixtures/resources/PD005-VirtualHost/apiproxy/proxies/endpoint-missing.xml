@@ -1,0 +1,5 @@
+<ProxyEndpoint name="endpoint-missing">
+  <RouteRule name="default">
+    <TargetEndpoint>target-1</TargetEndpoint>
+  </RouteRule>
+</ProxyEndpoint>

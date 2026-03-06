@@ -1,0 +1,11 @@
+<ProxyEndpoint name="endpoint-multiple">
+  <HTTPProxyConnection>
+    <BasePath>/v1</BasePath>
+  </HTTPProxyConnection>
+  <HTTPProxyConnection>
+    <BasePath>/v2</BasePath>
+  </HTTPProxyConnection>
+  <RouteRule name="default">
+    <TargetEndpoint>target-1</TargetEndpoint>
+  </RouteRule>
+</ProxyEndpoint>
