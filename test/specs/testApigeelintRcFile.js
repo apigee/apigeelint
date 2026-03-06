@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright © 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,121 +17,35 @@ Copyright © 2026 Google LLC
 /* global describe, it */
 
 const assert = require("node:assert"),
-  debug = require("debug")(`apigeelint:rc-test`),
-  tmp = require("tmp"),
-  child_process = require("node:child_process");
+  path = require("node:path"),
+  fs = require("node:fs"),
+  { runCliIntegrationTest } = require("../fixtures/cli-test-helper.js");
 
 describe("cli options handling", function () {
   this.slow(61000);
   this.timeout(8000);
-  const path = require("node:path"),
-    fs = require("node:fs"),
-    issue608Dir = path.resolve(__dirname, "../fixtures/resources/issue608"),
-    tmpdir = tmp.dirSync({
-      prefix: `apigeelint-cli-test`,
-      keep: false,
-      unsafeCleanup: true, // this does not seem to work in apigeelint
-    });
-
-  // make sure to cleanup when the process exits
-  process.on("exit", function () {
-    tmpdir.removeCallback();
-  });
-
-  const spawnOpts = {
-    cwd: tmpdir.name,
-    encoding: "utf8",
-    env: { ...process.env, DEBUG: "apigeelint:cli,apigeelint:rc" },
-  };
+  const issue608Dir = path.resolve(__dirname, "../fixtures/resources/issue608");
 
   const runOne = (cliOpts, checkCb) => {
-    fs.cpSync(
-      path.resolve(issue608Dir, "package.json"),
-      path.resolve(tmpdir.name, "package.json"),
-      { force: true },
+    runCliIntegrationTest(
+      {
+        testDir: issue608Dir,
+        cliArgs: cliOpts,
+        preExecHook: (tmpdirName) => {
+          fs.cpSync(
+            path.resolve(issue608Dir, ".apigeelintrc"),
+            path.resolve(tmpdirName, ".apigeelintrc"),
+            { force: true },
+          );
+        },
+        env: { DEBUG: "apigeelint:cli,apigeelint:rc" },
+      },
+      checkCb,
     );
-    fs.cpSync(
-      path.resolve(issue608Dir, ".apigeelintrc"),
-      path.resolve(tmpdir.name, ".apigeelintrc"),
-      { force: true },
-    );
-
-    // npm install can take a very long time, sometimes.
-    // NB: multiple tests result in re-install of apigeelint in the same directory.
-    child_process.exec("npm install", spawnOpts, (e, stdout, stderr) => {
-      assert.equal(e, null);
-      debug(stdout);
-      // get the current cli.js, to allow testing of it.
-      const srcCli = path.resolve(__dirname, "../../cli.js"),
-        destCli = path.resolve(tmpdir.name, "node_modules/apigeelint/cli.js");
-      fs.cpSync(srcCli, destCli, { force: true });
-      // and bundleLinter too
-      const srcBl = path.resolve(
-          __dirname,
-          "../../lib/package/bundleLinter.js",
-        ),
-        destBl = path.resolve(
-          tmpdir.name,
-          "node_modules/apigeelint/lib/package/bundleLinter.js",
-        );
-      fs.cpSync(srcBl, destBl, { force: true });
-      try {
-        const proc = child_process.spawn(
-          "node",
-          [
-            path.resolve(tmpdir.name, "node_modules/apigeelint/cli.js"),
-            ...cliOpts,
-          ],
-          { ...spawnOpts, timeout: 20000 },
-        );
-        let stdoutBlobs = [],
-          stderrBlobs = [];
-        proc.stdout.on("data", (data) => {
-          stdoutBlobs.push(data);
-          debug(`stdout: ${data}`);
-        });
-        proc.stderr.on("data", (data) => {
-          stderrBlobs.push(data);
-          debug(`stderr: ${data}`);
-        });
-        proc.on("exit", (exitCode) => debug(`exit: ${exitCode}`));
-        proc.on("error", (error) => console.error(`process error: ${error}`));
-        proc.on("close", (code) => {
-          let aggregatedStdout = stdoutBlobs.join("\n");
-          let aggregatedStderr = stderrBlobs.join("");
-          debug(`child process exited with code ${code}`);
-
-          if (code != 0) {
-            // Could examine this - with DEBUG=apigeelint:rc, you will see
-            // messages indicating parsing of the .apigeelintrc file.
-            debug(`agg stderr: ${aggregatedStderr}`);
-          }
-          debug(`agg stdout: ${aggregatedStdout}`);
-          // we should be able to parse stdout as json
-          let items = [];
-          try {
-            items = JSON.parse(aggregatedStdout);
-          } catch (eparse) {
-            console.log(`while parsing: ${aggregatedStdout}`);
-            console.log(eparse.stack);
-            assert.fail();
-          }
-          checkCb(code, items);
-        });
-      } catch (ex1) {
-        console.log(ex1.stack);
-        assert.fail();
-      }
-    });
   };
 
   it("should use the default configuration with --norc", function (done) {
     this.timeout(158000);
-    if (debug.enabled) {
-      const r = child_process.spawnSync("which", ["node"], spawnOpts);
-      debug(`node: ` + JSON.stringify(r));
-    }
-
     // run apigeelint after npm install with --norc, it should use
     // default profile and default formatter.
     runOne(
@@ -170,11 +84,6 @@ describe("cli options handling", function () {
 
   it("should ingest the right configuration with apigeelintrc", function (done) {
     this.timeout(58000);
-    if (debug.enabled) {
-      const r = child_process.spawnSync("which", ["node"], spawnOpts);
-      debug(`node: ` + JSON.stringify(r));
-    }
-
     // Run apigeelint after npm install; it should find and use the apigeelintrc file.
     runOne(
       ["-s", path.resolve(issue608Dir, "just-warnings/apiproxy")],
@@ -205,10 +114,6 @@ describe("cli options handling", function () {
 
   it("should exit with a non-zero exit code when it finds errors", function (done) {
     this.timeout(58000);
-    if (debug.enabled) {
-      const r = child_process.spawnSync("which", ["node"], spawnOpts);
-      debug(`node: ` + JSON.stringify(r));
-    }
     runOne(
       ["-s", path.resolve(issue608Dir, "some-errors/apiproxy")],
       (code, items) => {

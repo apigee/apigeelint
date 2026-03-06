@@ -1,4 +1,4 @@
-﻿/*
+/*
   Copyright © 2024-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,40 +14,19 @@
   limitations under the License.
 */
 
-/* global require, describe, before, after, it, __dirname */
+/* global require, describe, before, it, __dirname */
 
 const assert = require("node:assert"),
   Dom = require("@xmldom/xmldom").DOMParser,
   lintUtil = require("../../lib/package/lintUtil.js"),
   util = require("node:util"),
-  child_process = require("node:child_process"),
-  debug = require("debug")("apigeelint:xmldom-test");
+  path = require("node:path"),
+  debug = require("debug")("apigeelint:xmldom-test"),
+  { runCliIntegrationTest } = require("../fixtures/cli-test-helper.js");
 
 describe("xmldom path resolution verification", function () {
   this.slow(18000);
-  const path = require("node:path"),
-    fs = require("node:fs"),
-    proxyDir = path.resolve(__dirname, "../fixtures/resources/issue481"),
-    node_modules = path.resolve(proxyDir, "node_modules"),
-    packageLock = path.resolve(proxyDir, "package-lock.json");
-
-  const cleanup = (done) => {
-    fs.rmSync(node_modules, { force: true, recursive: true });
-    fs.rmSync(packageLock, { force: true });
-    done();
-  };
-  before(function (done) {
-    // remove node_modules before the test runs. We want a clean install.
-    cleanup(done);
-  });
-
-  after(function (done) {
-    // tidy up after the test runs.
-    this.timeout(8000);
-    // Sometimes this gets hung and fails. It seems it's a race condition.
-    // Trying a timeout to avoid that.
-    setTimeout(() => cleanup(done), 2000);
-  });
+  const proxyDir = path.resolve(__dirname, "../fixtures/resources/issue481");
 
   it("should resolve to a path", function (done) {
     try {
@@ -61,58 +40,17 @@ describe("xmldom path resolution verification", function () {
 
   it("should find xmldom", function (done) {
     this.timeout(58000);
-    const opts = {
-      cwd: proxyDir,
-      encoding: "utf8",
+    const options = {
+      testDir: proxyDir,
+      cliArgs: ["-s", path.join(proxyDir, "sample/apiproxy")]
     };
 
-    if (debug.enabled) {
-      const r = child_process.spawnSync("which", ["node"], opts);
-      debug(`node: ` + JSON.stringify(r));
-    }
-
-    //  npm install can take a very long time, sometimes.
-    child_process.exec("npm install", opts, (e, stdout, stderr) => {
-      assert.equal(e, null);
-      debug(stdout);
-      // copy current implementation over, to allow testing of it.
-      const srcPackageDir = path.resolve(__dirname, "../../lib/package"),
-        destPackageDir = path.resolve(node_modules, "apigeelint/lib/package");
-      // overwrite the installed apigeelint with the current (working) version
-      fs.cpSync(srcPackageDir, destPackageDir, { recursive: true });
-
-      try {
-        // run apigeelint after npm install
-        const proc = child_process.spawn(
-          "node",
-          ["./node_modules/apigeelint/cli.js", "-s", "sample/apiproxy"],
-          { ...opts, timeout: 20000 },
-        );
-        let stdoutBlobs = [],
-          stderrBlobs = [];
-        proc.stdout.on("data", (data) => {
-          stdoutBlobs.push(data);
-          debug(`stdout: ${data}`);
-        });
-        proc.stderr.on("data", (data) => {
-          stderrBlobs.push(data);
-          debug(`stderr: ${data}`);
-        });
-        proc.on("exit", (exitCode) => debug(`exit: ${exitCode}`));
-        proc.on("error", (error) => console.error(`process error: ${error}`));
-        proc.on("close", (code) => {
-          debug(`child process exited with code ${code}`);
-          let aggregatedErrorMessages = stderrBlobs.join("");
-          if (code != 0) {
-            console.log(`stderr: ${aggregatedErrorMessages}`);
-          }
-          assert.equal(code, 0, "return status code");
-          done();
-        });
-      } catch (ex1) {
-        console.log(ex1.stack);
-        assert.fail();
+    runCliIntegrationTest(options, (code, items, stderr) => {
+      if (code != 0) {
+        debug(`stderr: ${stderr}`);
       }
+      assert.equal(code, 0, "return status code");
+      done();
     });
   });
 });
