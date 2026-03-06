@@ -101,7 +101,7 @@ describe(`${testID} - esLint retry tests`, function () {
           bundleType: "apiproxy",
         },
         excluded: {},
-        eslintNoRetry: true, // Disabling retry
+        po025NoRetry: true, // Disabling retry
       };
       let bundle = new Bundle(config);
       bl.executePlugin(testID, bundle);
