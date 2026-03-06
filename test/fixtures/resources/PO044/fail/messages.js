@@ -15,4 +15,15 @@ module.exports = {
     "<SecretKey> is not allowed here; when the algorithm is RS256, there must be exactly one Key element, named <PrivateKey>.",
   ],
   "gjwt-bad-alg.xml": ["Unrecognized algorithm: AS256."],
+  "gjwt-no-Algorithm.xml": ["You must specify Algorithm or Algorithms."],
+  "gjwt-multiple-Algorithms.xml": [
+    "Inappropriate <Algorithms> element; You must specify exactly one of Algorithm or Algorithms.",
+  ],
+  "gjwt-extra-ExpiresIn.xml": ["extra <ExpiresIn> element."],
+  "gjwt-duplicate-PrivateKey.xml": ["extra <PrivateKey> element."],
+  "gjwt-duplicate-SecretKey.xml": ["extra <SecretKey> element."],
+  "gjwt-HS256-with-PrivateKey.xml": [
+    "<PrivateKey> is not allowed here; when the algorithm is HS256, there must be exactly one Key element, named <SecretKey>.",
+  ],
+  "gjwt-invalid-child-of-PrivateKey.xml": ["element <InvalidChild> is not allowed here."],
 };

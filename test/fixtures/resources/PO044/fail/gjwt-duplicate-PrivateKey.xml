@@ -1,0 +1,9 @@
+<GenerateJWT name="gjwt-duplicate-PrivateKey">
+  <Algorithm>RS256</Algorithm>
+  <PrivateKey>
+    <Value ref="privateKey1"/>
+  </PrivateKey>
+  <PrivateKey>
+    <Value ref="privateKey2"/>
+  </PrivateKey>
+</GenerateJWT>

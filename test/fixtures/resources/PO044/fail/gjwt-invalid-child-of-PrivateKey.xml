@@ -1,0 +1,7 @@
+<GenerateJWT name="gjwt-invalid-child-of-PrivateKey">
+  <Algorithm>RS256</Algorithm>
+  <PrivateKey>
+    <Value ref="privateKey"/>
+    <InvalidChild/>
+  </PrivateKey>
+</GenerateJWT>

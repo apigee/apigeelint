@@ -1,0 +1,9 @@
+<GenerateJWT name="gjwt-multiple-Algorithms">
+  <Algorithm>RS256</Algorithm>
+  <Algorithms>
+    <Key>someKey</Key>
+  </Algorithms>
+  <PrivateKey>
+    <Value ref="privateKey"/>
+  </PrivateKey>
+</GenerateJWT>

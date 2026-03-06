@@ -1,0 +1,5 @@
+<GenerateJWT name="gjwt-no-Algorithm">
+  <PrivateKey>
+    <Value ref="privateKey"/>
+  </PrivateKey>
+</GenerateJWT>
