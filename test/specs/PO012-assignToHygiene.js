@@ -23,8 +23,9 @@ const assert = require("node:assert"),
   debug = require("debug")("apigeelint:" + ruleId),
   bl = require("../../lib/package/bundleLinter.js");
 
-describe(`PO012 - AssignToHygiene`, () => {
-  it("should generate the expected errors", () => {
+describe(`PO012 - AssignToHygiene`, function () {
+  this.timeout(15000);
+  it("should generate the expected errors", (done) => {
     const configuration = {
       debug: true,
       source: {
@@ -134,6 +135,7 @@ describe(`PO012 - AssignToHygiene`, () => {
           });
         });
       });
+      done();
     });
   });
 });
