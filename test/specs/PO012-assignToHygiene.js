@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2024 Google LLC
+Copyright © 2019-2024,2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -31,13 +31,13 @@ describe(`PO012 - AssignToHygiene`, () => {
         type: "filesystem",
         path: path.resolve(
           __dirname,
-          "../fixtures/resources/PO012-assignToHygiene/apiproxy"
+          "../fixtures/resources/PO012-assignToHygiene/apiproxy",
         ),
-        bundleType: "apiproxy"
+        bundleType: "apiproxy",
       },
       excluded: {},
       setExitCode: false,
-      output: () => {} // suppress output
+      output: () => {}, // suppress output
     };
 
     debug(`PO012 configuration: ${util.format(configuration)}`);
@@ -51,57 +51,77 @@ describe(`PO012 - AssignToHygiene`, () => {
           {
             message: "unnecessary AssignTo with no named message",
             line: 7,
-            column: 3
-          }
+            column: 3,
+          },
         ],
         "AM-Modify-Request-Remove-ApiKey.xml": [
           {
             message: "unnecessary AssignTo with no named message",
             line: 19,
-            column: 5
-          }
+            column: 5,
+          },
         ],
         "AM-SetCorsSecurityHeaders.xml": [
           {
             message: "unnecessary AssignTo with no named message",
             line: 28,
-            column: 5
-          }
+            column: 5,
+          },
         ],
         "AM-AssignProxyFlowName.xml": [
           {
             message: "unnecessary AssignTo with no named message",
             line: 12,
-            column: 5
-          }
+            column: 5,
+          },
         ],
         "AM-AddCORS.xml": [
           {
             message: "unnecessary AssignTo with no named message",
             line: 16,
-            column: 5
-          }
-        ]
+            column: 5,
+          },
+        ],
+        "AM-MultipleAssignTo.xml": [
+          {
+            message: "extraneous AssignTo element",
+            line: 3,
+            column: 3,
+          },
+        ],
+        "AM-UnsupportedTransport.xml": [
+          {
+            message: "unsupported transport attribute in AssignTo element",
+            line: 2,
+            column: 3,
+          },
+        ],
+        "AM-UnrecognizedType.xml": [
+          {
+            message: "unrecognized type attribute in AssignTo",
+            line: 2,
+            column: 3,
+          },
+        ],
+        "AM-NoAssignTo.xml": [],
+        "AM-ValidAssignTo.xml": [],
       };
-
-      const po012Items = items.filter((item) =>
-        item.messages.some((m) => m.ruleId == "PO012")
-      );
-      debug(`po012Items: ${util.format(po012Items.map((i) => i.filePath))}`);
-      assert.equal(po012Items.length, Object.keys(expected).length);
 
       Object.keys(expected).forEach((policyName, caseNum) => {
         debug(`policyName: ${policyName}`);
-        const policyItems = po012Items.filter((item) =>
-          item.filePath.endsWith(policyName)
+        const policyItem = items.find((item) =>
+          item.filePath.endsWith(policyName),
         );
-        debug(`policyItems: ${util.format(policyItems)}`);
+        let po012Messages = policyItem
+          ? policyItem.messages.filter((m) => m.ruleId == "PO012")
+          : [];
 
-        assert.equal(policyItems.length, 1);
-        let po012Messages = policyItems[0].messages.filter(
-          (m) => m.ruleId == "PO012"
+        assert.equal(
+          po012Messages.length,
+          expected[policyName].length,
+          `Unexpected message count for ${policyName}`,
         );
-        assert.equal(po012Messages.length, expected[policyName].length);
+
         po012Messages.forEach((m, ix) => assert.equal(m.severity, 1));
 
         expected[policyName].forEach((item, ix) => {
@@ -109,7 +129,7 @@ describe(`PO012 - AssignToHygiene`, () => {
             assert.equal(
               po012Messages[ix][key],
               item[key],
-              `${policyName} case(${caseNum}) message(${ix}) key(${key})`
+              `${policyName} case(${caseNum}) message(${ix}) key(${key})`,
             );
           });
         });

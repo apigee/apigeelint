@@ -1,0 +1,4 @@
+<AssignMessage name="AM-MultipleAssignTo">
+  <AssignTo>dest1</AssignTo>
+  <AssignTo>dest2</AssignTo>
+</AssignMessage>

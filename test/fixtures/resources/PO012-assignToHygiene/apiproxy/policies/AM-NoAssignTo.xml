@@ -1,0 +1,6 @@
+<AssignMessage name="AM-NoAssignTo">
+  <AssignVariable>
+    <Name>foo</Name>
+    <Value>bar</Value>
+  </AssignVariable>
+</AssignMessage>
