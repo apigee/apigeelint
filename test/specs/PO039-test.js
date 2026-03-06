@@ -102,4 +102,71 @@ describe(`${testID} - MessageLogging RessourceType element`, () => {
       "Label is missing a required Element: Key.",
     );
   });
+
+  test("invalid4", (p, foundIssues) => {
+    assert.equal(foundIssues, true);
+    const messages = p.getReport().messages;
+    assert.equal(messages.length, 1);
+    assert.equal(
+      messages[0].message,
+      "Policy has more than one CloudLogging element.",
+    );
+  });
+
+  test("invalid5", (p, foundIssues) => {
+    assert.equal(foundIssues, true);
+    const messages = p.getReport().messages;
+    assert.equal(messages.length, 1);
+    assert.equal(
+      messages[0].message,
+      "Policy is missing a required Element: CloudLogging/Message element.",
+    );
+  });
+
+  test("invalid6", (p, foundIssues) => {
+    assert.equal(foundIssues, true);
+    const messages = p.getReport().messages;
+    assert.equal(messages.length, 1);
+    assert.equal(
+      messages[0].message,
+      "Found more than one CloudLogging/LogName element.",
+    );
+  });
+
+  test("invalid7", (p, foundIssues) => {
+    assert.equal(foundIssues, true);
+    const messages = p.getReport().messages;
+    assert.equal(messages.length, 1);
+    assert.equal(
+      messages[0].message,
+      "ResourceType element is present but empty. Remove it or specify 'global'.",
+    );
+  });
+
+  test("invalid8", (p, foundIssues) => {
+    assert.equal(foundIssues, true);
+    const messages = p.getReport().messages;
+    assert.equal(messages.length, 1);
+    assert.equal(messages[0].message, "Unsupported element 'NotLabel'");
+  });
+
+  test("invalid9", (p, foundIssues) => {
+    assert.equal(foundIssues, true);
+    const messages = p.getReport().messages;
+    assert.equal(messages.length, 1);
+    assert.equal(
+      messages[0].message,
+      "Found more than one CloudLogging/Key element.",
+    );
+  });
+
+  test("invalid10", (p, foundIssues) => {
+    assert.equal(foundIssues, true);
+    const messages = p.getReport().messages;
+    assert.equal(messages.length, 1);
+    assert.equal(
+      messages[0].message,
+      "Label is missing a required Element: Value.",
+    );
+  });
 });

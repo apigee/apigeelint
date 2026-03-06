@@ -1,0 +1,6 @@
+<MessageLogging name="ML-test-invalid5">
+    <CloudLogging>
+        <LogName>projects/my-project/logs/my-log</LogName>
+        <!-- missing Message -->
+    </CloudLogging>
+</MessageLogging>

@@ -1,0 +1,7 @@
+<MessageLogging name="ML-test-invalid6">
+    <CloudLogging>
+        <LogName>log1</LogName>
+        <LogName>log2</LogName>
+        <Message>my-message</Message>
+    </CloudLogging>
+</MessageLogging>
