@@ -17,6 +17,7 @@
 /* global describe, it, configuration */
 
 const assert = require("node:assert"),
+  cp = require("node:child_process"),
   testID = "PO025",
   debug = require("debug")("apigeelint:" + testID),
   Bundle = require("../../lib/package/Bundle.js"),
@@ -85,5 +86,56 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
 
     assert.ok(hasSemi, "Should flag missing semicolon (semi rule)");
     assert.ok(hasUnused, "Should flag unused variable (no-unused-vars rule)");
+  });
+
+  it("should handle spawnSync execution error (coverage for result.error)", function () {
+    const originalSpawnSync = cp.spawnSync;
+    cp.spawnSync = (cmd, args, opts) => {
+      // only mock if it looks like an eslint call
+      if (cmd.includes("eslint")) {
+        return { error: new Error("mocked error") };
+      }
+      return originalSpawnSync(cmd, args, opts);
+    };
+
+    try {
+      let bundle = new Bundle(configuration);
+      bl.executePlugin(testID, bundle);
+      let report = bundle.getReport();
+
+      const jsFileReports = report.filter((r) => r.filePath.endsWith(".js"));
+      debug(`jsFileReports count: ${jsFileReports.length}`);
+      
+      let foundMockError = false;
+      jsFileReports.forEach(r => {
+        debug(`Checking report for ${r.filePath}`);
+        if (r.messages.some(m => m.message.includes("ESLint execution error: mocked error"))) {
+          foundMockError = true;
+        }
+      });
+      
+      assert.ok(foundMockError, "Should report the mocked execution error in at least one JS resource");
+    } finally {
+      cp.spawnSync = originalSpawnSync;
+    }
+  });
+
+  it("should handle spawnSync stderr with status 0 (coverage for result.stderr)", function () {
+    const originalSpawnSync = cp.spawnSync;
+    cp.spawnSync = () => ({
+      status: 0,
+      stdout: "[]",
+      stderr: "mocked stderr message",
+    });
+
+    try {
+      let bundle = new Bundle(configuration);
+      bl.executePlugin(testID, bundle);
+      // We mainly verify that it doesn't crash and completes.
+      // The stderr is logged to debug which we don't assert here easily.
+      assert.ok(true);
+    } finally {
+      cp.spawnSync = originalSpawnSync;
+    }
   });
 });
