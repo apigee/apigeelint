@@ -1,0 +1,3 @@
+<AssignMessage name="AM-UnsupportedTransport">
+  <AssignTo transport="ftp">dest</AssignTo>
+</AssignMessage>

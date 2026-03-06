@@ -1,0 +1,3 @@
+<AssignMessage name="AM-UnrecognizedType">
+  <AssignTo type="something">dest</AssignTo>
+</AssignMessage>

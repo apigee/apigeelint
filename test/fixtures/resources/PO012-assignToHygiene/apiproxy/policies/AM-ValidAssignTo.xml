@@ -1,0 +1,3 @@
+<AssignMessage name="AM-ValidAssignTo">
+  <AssignTo createNew="true" type="request">my-new-message</AssignTo>
+</AssignMessage>
