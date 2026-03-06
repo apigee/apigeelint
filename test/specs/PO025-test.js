@@ -57,12 +57,12 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
     assert.ok(formattedReport);
   });
 
-  it("should flag a missing semicolon and unused variable in PO025-fail", function () {
+  it("should flag a missing semicolon and unused variable in PO025/fail", function () {
     const config = {
       debug: false,
       source: {
         type: "filesystem",
-        path: "./test/fixtures/resources/PO025-fail/apiproxy",
+        path: "./test/fixtures/resources/PO025/fail/apiproxy",
         bundleType: "apiproxy",
       },
       excluded: {},
@@ -105,16 +105,23 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
 
       const jsFileReports = report.filter((r) => r.filePath.endsWith(".js"));
       debug(`jsFileReports count: ${jsFileReports.length}`);
-      
+
       let foundMockError = false;
-      jsFileReports.forEach(r => {
+      jsFileReports.forEach((r) => {
         debug(`Checking report for ${r.filePath}`);
-        if (r.messages.some(m => m.message.includes("ESLint execution error: mocked error"))) {
+        if (
+          r.messages.some((m) =>
+            m.message.includes("ESLint execution error: mocked error"),
+          )
+        ) {
           foundMockError = true;
         }
       });
-      
-      assert.ok(foundMockError, "Should report the mocked execution error in at least one JS resource");
+
+      assert.ok(
+        foundMockError,
+        "Should report the mocked execution error in at least one JS resource",
+      );
     } finally {
       cp.spawnSync = originalSpawnSync;
     }

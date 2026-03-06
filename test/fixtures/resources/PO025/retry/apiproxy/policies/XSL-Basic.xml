@@ -1,0 +1,15 @@
+<XSL name='XSL-Basic'>
+  <Source>outboundMessageTemplate</Source>
+  <OutputVariable>transformedContent</OutputVariable>
+  <ResourceURL>xsl://sheet1.xsl</ResourceURL>
+  <!--
+      Parameters are optional. reference them in the XSL as:
+      <xsl:param name="pwd" select="'default-value-1'"/>
+      <xsl:param name="converted" select="'default-value-2'"/>
+  -->
+  <Parameters ignoreUnresolvedVariables='true'>
+    <!-- use ref or value. if you include both, you get an error at deploy time
+         in Apigee X. -->
+    <Parameter name='additional' ref='variable-containing-value' value='hardcoded-value'/>
+  </Parameters>
+</XSL>

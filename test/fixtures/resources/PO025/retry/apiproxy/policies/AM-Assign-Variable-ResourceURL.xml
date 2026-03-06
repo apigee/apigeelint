@@ -1,0 +1,15 @@
+<AssignMessage name='AM-Assign-Variable-ResourceURL'>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <AssignVariable>
+    <Name>xslContents</Name>
+    <ResourceURL>xsl://sheet3.xsl</ResourceURL>
+  </AssignVariable>
+  <AssignVariable>
+    <Name>jsContents</Name>
+    <ResourceURL>jsc://sourceFile1.js</ResourceURL>
+  </AssignVariable>
+  <AssignVariable>
+    <Name>wsdlContents</Name>
+    <ResourceURL>wsdl://example2.wsdl</ResourceURL>
+  </AssignVariable>
+</AssignMessage>
