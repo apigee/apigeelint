@@ -1,0 +1,7 @@
+<SetOAuthV2Info name="setoauthv2info-non-Attribute-in-Attributes">
+  <AccessToken ref="someVariable" />
+  <Attributes>
+    <Attribute name="foo" ref="anotherVariable" />
+    <Other />
+  </Attributes>
+</SetOAuthV2Info>
