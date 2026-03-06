@@ -107,6 +107,43 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
   );
 
   test(
+    30,
+    "Multiple TrustStore elements",
+    `<TargetEndpoint name="default">
+    <HTTPTargetConnection>
+      <SSLInfo>
+        <Enabled>true</Enabled>
+        <TrustStore>ref://truststore1</TrustStore>
+        <TrustStore>ref://truststore2</TrustStore>
+      </SSLInfo>
+      <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
+      <Properties/>
+    </HTTPTargetConnection>
+  </TargetEndpoint>`,
+    ["Incorrect multiple TrustStore elements"],
+  );
+
+  test(
+    40,
+    "Multiple KeyStore elements",
+    `<TargetEndpoint name="default">
+    <HTTPTargetConnection>
+      <SSLInfo>
+        <Enabled>true</Enabled>
+        <ClientAuthEnabled>true</ClientAuthEnabled>
+        <TrustStore>ref://truststore1</TrustStore>
+        <KeyStore>ref://keystore1</KeyStore>
+        <KeyStore>ref://keystore2</KeyStore>
+        <KeyAlias>key1</KeyAlias>
+      </SSLInfo>
+      <URL>https://foo.com/apis/{api_name}/maskconfigs</URL>
+      <Properties/>
+    </HTTPTargetConnection>
+  </TargetEndpoint>`,
+    ["Incorrect multiple KeyStore elements"],
+  );
+
+  test(
     21,
     "SSLInfo KeyStore ref",
     `<TargetEndpoint name="default">
