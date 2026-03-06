@@ -62,6 +62,7 @@ Options:
   --profile [value]                       Either apigee or apigeex (default: apigee)
   --norc                                  do not search for and use the .apigeelintrc file for settings
   --ignoreDirectives                      ignore any directives within XML files that disable warnings
+  --po025-no-retry                        disables the retry logic in PO025, when eslint finds no eslint.config.js
   -h, --help                              output usage information
 ```
 
@@ -384,7 +385,7 @@ node ./cli.js  -s ./test/fixtures/resources/sampleProxy/24Solver/apiproxy/
 
 ## Contributing
 
-We welcome pull requests for bug fixes and new features.
+We welcome pull requests for bug fixes, and issues for new features.
 In lieu of a formal style guide, take care to maintain the existing coding style.
 Add unit tests for any new or changed functionality. Lint and test your code.
 
@@ -464,14 +465,14 @@ This is the current list:
 | &nbsp; |:white_check_mark:| ST007 | XML Threat Protection Step | A check for message content should be performed before policy execution. |
 | &nbsp; |:white_check_mark:| ST008 | Unreachable policies | Policies should not be attached after RaiseFault policies. |
 | Policy | &nbsp; | &nbsp; | &nbsp; | &nbsp; |
-| &nbsp; |:white_check_mark:| PO006 | Policy Name &amp; filename agreement |  Policy name attribute should coincide with the policy filename. |
-| &nbsp; |:white_check_mark:| PO007 | Policy Naming Conventions - type indication |  It is recommended that the policy name use a prefix or follow a pattern that indicates the policy type. |
-| &nbsp; |:white_check_mark:| PO008 | Policy DisplayName &amp; DisplayName agreement |  Check that the policy filename matches the display name of the policy. |
-| &nbsp; |:white_medium_square:| PO009 | Service Callout Target - Mgmt Server |  Targeting management server may result in higher than expected latency; use with caution. |
-| &nbsp; |:white_medium_square:| PO010 | Service Callout Target - Target Server |  Encourage use of target servers. |
-| &nbsp; |:white_medium_square:| PO011 | Service Callout Target - Dynamic URLs |  Error on dynamic URLs in target server URL tag. |
+| &nbsp; |:white_check_mark:| PO006 | Policy Name &amp; filename agreement | Policy name attribute should coincide with the policy filename. |
+| &nbsp; |:white_check_mark:| PO007 | Policy Naming Conventions - type indication | It is recommended that the policy name use a prefix or follow a pattern that indicates the policy type. |
+| &nbsp; |:white_check_mark:| PO008 | Policy DisplayName &amp; DisplayName agreement | Check that the policy filename matches the display name of the policy. |
+| &nbsp; |:white_medium_square:| PO009 | Service Callout Target - Mgmt Server | Targeting management server may result in higher than expected latency; use with caution. |
+| &nbsp; |:white_medium_square:| PO010 | Service Callout Target - Target Server | Encourage use of target servers. |
+| &nbsp; |:white_medium_square:| PO011 | Service Callout Target - Dynamic URLs | Error on dynamic URLs in target server URL tag. |
 | &nbsp; |:white_check_mark:| PO012 | AssignMessage/AssignTo | Warn on unnecessary AssignTo in AssignMessage when createNew is false and no destination variable. |
-| &nbsp; |:white_check_mark:| PO013 | Resource Call Out - Javascript |  JSHint, ESLint. |
+| &nbsp; |:white_check_mark:| PO013 | JSHint | Runs JSHint on each JavaScript resource. |
 | &nbsp; |:white_medium_square:| PO014 | Resource Call Out - Java |  PMD, Checkstyle. |
 | &nbsp; |:white_medium_square:| PO015 | Resource Call Out - Python |  Pylint. |
 | &nbsp; |:white_medium_square:| PO016 | Statistics Collector - duplicate variables |  Warn on duplicate variables. |
@@ -479,11 +480,11 @@ This is the current list:
 | &nbsp; |:white_check_mark:| PO018 | Regex Lookahead/Lookbehind are Expensive - Threat Protection Policy |  Regular expressions that include lookahead or lookbehind perform slowly on large payloads and are typically not required.|
 | &nbsp; |:white_check_mark:| PO019 | Reserved words as variables - ServiceCallout Request |  Using "request" as the name of a Request may cause unexpected side effects.|
 | &nbsp; |:white_check_mark:| PO020 | Reserved words as variables - ServiceCallout Response |  Using "response" as the name of a Response may cause unexpected side effects.|
-| &nbsp; |:white_medium_square:| PO021 | Statistics Collector - reserved variables |  Warn on insertion of duplicate variables. |
+| &nbsp; |:white_medium_square:| PO021 | Statistics Collector - reserved variables | Warn on insertion of duplicate variables. |
 | &nbsp; |:white_check_mark:| PO022 | Nondistributed Quota | When using nondistributed quota the number of allowed calls is influenced by the number of Message Processors (MPs) deployed. This may lead to higher than expected transactions for a given quota as MPs now autoscale. |
 | &nbsp; |:white_check_mark:| PO023 | Quota Policy Reuse | When the same Quota policy is used more than once you must ensure that the conditions of execution are mutually exclusive or that you intend for a call to count more than once per message processed. |
 | &nbsp; |:white_check_mark:| PO024 | Cache Error Responses | By default the ResponseCache policy will cache non 200 responses. Either create a condition or use policy configuration options to exclude non 200 responses. |
-| &nbsp; |:white_check_mark:| PO025 | EsLint Errors | Runs EsLint on all policy resources. |
+| &nbsp; |:white_check_mark:| PO025 | ESLint Errors | Runs ESLint v10 on all JavaScript policy resources.  If ESLint cannot find a configuration file, apigeelint will supply a default set of eslint rules. |
 | &nbsp; |:white_check_mark:| PO026 | AssignVariable Usage | With AssignMessage/AssignVariable, check various usage issues. Example: The Name element must be present. The Ref element, if any, should not be surrounded in curlies. And so on. |
 | &nbsp; |:white_check_mark:| PO027 | HMAC Usage | With HMAC, check that the SecretKey is present and that a ref= attribute refers to a private variable. |
 | &nbsp; |:white_check_mark:| PO028 | Policy Availability in profile | Check for policies available in particular profiles. |
@@ -530,6 +531,80 @@ From an implementation perspective, the focus is on plugin support and flexibili
 
 
 ## Release Notes
+
+### Release v2.83.0
+
+The PO025 plugin is designed to run eslint checks on JavaScript resources in
+your API proxy. This will flag portions of your JavaScript code that does not
+comply with your style standards and rules.
+
+Prior to v2.83.0 of apigeelint, the dependency on eslint specified "latest" as
+the required version. This was risky; it implicitly assumed the eslint interface
+would not change.  eslint v10 was released officially in February 2026; and
+because apigeelint used "latest", any install of apigeelint after that began
+using eslint v10. Because eslint v10 introduced changes in the exported objects,
+the PO025 plugin stopped working; it stopped reporting eslint errors.
+
+With v2.83.0, the PO025 plugin for apigeelint will use eslint v10
+correctly. This may result in required changes on users of apigeelint.  eslint
+v10 assumes a local, explicit configuration for its rules; unlike prior versions
+of eslint, will not apply a "default" set of rules. Further, eslint for v10
+changes the configuration filename and format. If previously you used .eslintrc,
+that will no longer work. Which means PO025 will no longer check the rules you
+have configured in .eslintrc. This is an eslint change, not a change in
+apigeelint.
+
+The default configuration file for eslint is now eslint.config.js, and uses a
+different format from the prior .eslintrc.
+
+If you do not have the appropriate eslint.config.js file somewhere in your
+directory tree, by default, eslint will deliver this error:
+
+>  ESLint: 10.0.2
+>
+>  ESLint couldn't find an eslint.config.(js|mjs|cjs) file.
+>
+>  From ESLint v9.0.0, the default configuration file is now eslint.config.js.
+>  If you are using a .eslintrc.* file, please follow the migration guide
+>  to update your configuration file to the new format:
+>
+>  https://eslint.org/docs/latest/use/configure/migration-guide
+>
+>  If you still have problems after following the migration guide, please stop by
+>  https://eslint.org/chat/help to chat with the team.
+
+
+The PO025 plugin within apigeelint will now apply retry logic in this situation.
+Only when there is no eslint configuration, PO025 will re-run eslint
+using the following eslint configuration as a default:
+
+```js
+export default [
+  {
+    languageOptions: {
+      ecmaVersion: 5,
+      sourceType: 'script',
+      globals: {
+        print: 'readonly',
+        sync: 'readonly',
+      }
+    },
+    rules: {
+      "no-var": "off",
+      "prefer-arrow-callback": "off",
+      "object-shorthand": "off",
+      semi: "error",
+      quotes: ["error", "double"],
+      "quote-props": ["error", "as-needed"],
+      "strict": ["error", "function"]
+    }
+  }
+];
+```
+
+You can disable this retry with the command-line flag `--po025-no-retry`, in which
+case you will see a PO025 error when eslint cannot find a configuration file.
+
 
 ### Release v2.78.0
 
