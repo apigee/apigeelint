@@ -89,10 +89,11 @@ describe("HTTPTargetConnection", function () {
     const htc = new HTTPTargetConnection(doc.documentElement, null);
 
     const props = htc.getProperties();
-    // In HTTPTargetConnection.js, line 54 only checks if (prop.childNodes)
-    // <Property>ValueOnly</Property> -> has childNodes -> attempts to read attributes[0]
-    // Since it doesn't check attributes[0], this might throw if not careful.
-    // Let's see if the test reveals an implementation weakness.
+    // In HTTPTargetConnection.js, we now have safety checks.
+    // <Property>ValueOnly</Property> -> no attributes -> skipped
+    // <Property name="NameOnly"></Property> -> no child nodes -> skipped
+    // <Property name="Full">Value</Property> -> all present -> included
     assert.equal(props.Full, "Value");
+    assert.equal(Object.keys(props).length, 1);
   });
 });
