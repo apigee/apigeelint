@@ -1,0 +1,7 @@
+<SetOAuthV2Info name="setoauthv2info-unknown-element">
+  <AccessToken ref="someVariable" />
+  <Attributes>
+    <Attribute name="foo" ref="anotherVariable" />
+  </Attributes>
+  <Unknown />
+</SetOAuthV2Info>

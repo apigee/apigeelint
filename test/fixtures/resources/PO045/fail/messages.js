@@ -21,4 +21,15 @@ module.exports = {
   "setoauthv2info-unsupported-attr-on-AccessToken-elt.xml": [
     "Inappropriate someOtherAttr attribute; only ref is supported here.",
   ],
+  "setoauthv2info-unknown-element.xml": [
+    "element <Unknown> is not allowed here.",
+  ],
+  "setoauthv2info-duplicate-DisplayName.xml": ["extra <DisplayName> element."],
+  "setoauthv2info-duplicate-AccessToken.xml": ["extra <AccessToken> element."],
+  "setoauthv2info-non-Attribute-in-Attributes.xml": [
+    "Inappropriate <Other> element; only Attribute is supported here.",
+  ],
+  "setoauthv2info-nested-element-in-Attribute.xml": [
+    "Unsupported <Child> element.",
+  ],
 };

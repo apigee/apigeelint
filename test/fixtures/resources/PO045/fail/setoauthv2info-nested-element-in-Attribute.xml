@@ -1,0 +1,8 @@
+<SetOAuthV2Info name="setoauthv2info-nested-element-in-Attribute">
+  <AccessToken ref="someVariable" />
+  <Attributes>
+    <Attribute name="foo" ref="anotherVariable">
+      <Child />
+    </Attribute>
+  </Attributes>
+</SetOAuthV2Info>
