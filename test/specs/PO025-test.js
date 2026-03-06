@@ -55,4 +55,35 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
     debug("unix formatted report: \n" + formattedReport);
     assert.ok(formattedReport);
   });
+
+  it("should flag a missing semicolon and unused variable in PO025-fail", function () {
+    const config = {
+      debug: false,
+      source: {
+        type: "filesystem",
+        path: "./test/fixtures/resources/PO025-fail/apiproxy",
+        bundleType: "apiproxy",
+      },
+      excluded: {},
+    };
+    let bundle = new Bundle(config);
+    // The ESLint will find the eslint.config.js file in the apiproxy directory.
+    bl.executePlugin(testID, bundle);
+    let report = bundle.getReport();
+
+    // Find the report for the JS file
+    const jsFileReport = report.find((r) =>
+      r.filePath.endsWith("source-code.js"),
+    );
+    assert.ok(jsFileReport, "Should have a report for source-code.js");
+
+    const messages = jsFileReport.messages;
+    const hasSemi = messages.some((m) => m.message.includes("semi"));
+    const hasUnused = messages.some((m) =>
+      m.message.includes("no-unused-vars"),
+    );
+
+    assert.ok(hasSemi, "Should flag missing semicolon (semi rule)");
+    assert.ok(hasUnused, "Should flag unused variable (no-unused-vars rule)");
+  });
 });

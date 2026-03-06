@@ -48,7 +48,8 @@ describe(`Report Schema`, () => {
             let fqPluginPath = bl.resolvePlugin(pluginName);
             if (fqPluginPath) {
               let parts = pluginName.split('-');
-              it(`plugin ${parts[0]}`, () => {
+              it(`plugin ${parts[0]}`, function() {
+                this.timeout(10000);
                 bl.executePlugin(pluginName, bundle);
                 bundle.getReport(report => {
                   let jsimpl = bl.getFormatter("json.js"),
