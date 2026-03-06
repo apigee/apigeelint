@@ -1,0 +1,8 @@
+{
+  "reporter": ["text"],
+  "reporterOptions": {
+    "text": {
+      "maxCols": 340
+    }
+  }
+}
