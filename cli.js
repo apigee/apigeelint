@@ -139,6 +139,10 @@ const findBundle = (p) => {
     .option(
       "--ignoreDirectives",
       "ignore any directives within XML files that disable warnings",
+    )
+    .option(
+      "--po025-no-retry",
+      "disables the retry logic in PO025, when eslint finds no eslint.config.js",
     );
 
   program.addHelpText(
@@ -233,6 +237,10 @@ const findBundle = (p) => {
 
   if (options.ignoreDirectives) {
     configuration.ignoreDirectives = true;
+  }
+
+  if (options.po025NoRetry === true) {
+    configuration.po025NoRetry = true;
   }
 
   if (options.excluded && typeof options.excluded === "string") {

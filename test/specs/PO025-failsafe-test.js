@@ -28,7 +28,7 @@ describe(`${testID} - esLint Failsafe`, function () {
   it("should report an error message when the eslint binary is missing", function (done) {
     const fixtureDir = path.resolve(
       __dirname,
-      "../fixtures/resources/PO025-fail",
+      "../fixtures/resources/PO025/fail",
     );
 
     const options = {

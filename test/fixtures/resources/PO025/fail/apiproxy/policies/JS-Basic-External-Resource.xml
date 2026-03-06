@@ -1,0 +1,6 @@
+<Javascript name='JS-Basic-External-Resource' timeLimit='1200' >
+  <Properties>
+    <Property name='prop1'>value-here</Property>
+  </Properties>
+  <ResourceURL>jsc://source-code.js</ResourceURL>
+</Javascript>
