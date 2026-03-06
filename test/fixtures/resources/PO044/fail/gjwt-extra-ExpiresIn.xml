@@ -1,0 +1,8 @@
+<GenerateJWT name="gjwt-extra-ExpiresIn">
+  <Algorithm>HS256</Algorithm>
+  <SecretKey>
+    <Value ref="secretKey"/>
+  </SecretKey>
+  <ExpiresIn>3600</ExpiresIn>
+  <ExpiresIn>7200</ExpiresIn>
+</GenerateJWT>

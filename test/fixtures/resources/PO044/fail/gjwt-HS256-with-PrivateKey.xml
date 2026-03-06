@@ -1,0 +1,9 @@
+<GenerateJWT name="gjwt-HS256-with-PrivateKey">
+  <Algorithm>HS256</Algorithm>
+  <SecretKey>
+    <Value ref="secretKey"/>
+  </SecretKey>
+  <PrivateKey>
+    <Value ref="privateKey"/>
+  </PrivateKey>
+</GenerateJWT>
