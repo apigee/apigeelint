@@ -105,7 +105,6 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
 
       const jsFileReports = report.filter((r) => r.filePath.endsWith(".js"));
       debug(`jsFileReports count: ${jsFileReports.length}`);
-
       let foundMockError = false;
       jsFileReports.forEach((r) => {
         debug(`Checking report for ${r.filePath}`);

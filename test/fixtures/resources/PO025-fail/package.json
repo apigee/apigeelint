@@ -1,0 +1,19 @@
+{
+  "name": "apigeelint-cli-po025-test",
+  "version": "1.0.0",
+  "description": "test that apigeelint PO025 plugin will issue the right error when eslint is not found",
+  "devDependencies": {
+    "apigeelint": "2.x.x",
+    "debug": "4.3.5"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10.5"
+  },
+  "overrides": {
+    "apigeelint": {
+      "commander": "^14.0.3"
+    }
+  }
+}
