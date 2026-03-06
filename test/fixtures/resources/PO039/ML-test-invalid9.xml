@@ -1,0 +1,13 @@
+<MessageLogging name="ML-test-invalid9">
+    <CloudLogging>
+        <LogName>log</LogName>
+        <Message>msg</Message>
+        <Labels>
+            <Label>
+                <Key>k1</Key>
+                <Key>k2</Key>
+                <Value>v1</Value>
+            </Label>
+        </Labels>
+    </CloudLogging>
+</MessageLogging>

@@ -1,0 +1,9 @@
+<MessageLogging name="ML-test-invalid8">
+    <CloudLogging>
+        <LogName>log</LogName>
+        <Message>msg</Message>
+        <Labels>
+            <NotLabel>foo</NotLabel>
+        </Labels>
+    </CloudLogging>
+</MessageLogging>

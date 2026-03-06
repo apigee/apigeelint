@@ -1,0 +1,7 @@
+<MessageLogging name="ML-test-invalid7">
+    <CloudLogging>
+        <LogName>log</LogName>
+        <Message>msg</Message>
+        <ResourceType>  </ResourceType>
+    </CloudLogging>
+</MessageLogging>
