@@ -17,24 +17,23 @@ Copyright © 2019-2021,2024,2026 Google LLC
 /* jslint esversion:9 */
 
 const assert = require("node:assert"),
+  path = require("node:path"),
+  fs = require("node:fs"),
   debug = require("debug")("apigeelint:Formatters"),
   bl = require("../../lib/package/bundleLinter.js");
 
-const formatters = [
-  "checkstyle.js",
-  "codeframe.js",
-  "compact.js",
-  "html.js",
-  "jslint-xml.js",
-  "json.js",
-  "junit.js",
-  "stylish.js",
-  "table.js",
-  "tap.js",
-  "unix.js",
-  "visualstudio.js",
-  "pdf.js",
-];
+function listFiles(directory, filespec) {
+  const regex = new RegExp(
+    "^" + filespec.replace(/\./g, "\\.").replace(/\*/g, ".*") + "$",
+  );
+
+  return fs.readdirSync(directory).filter((file) => {
+    const fullPath = path.join(directory, file);
+    return fs.statSync(fullPath).isFile() && regex.test(file);
+  });
+}
+
+const formatters = listFiles("./lib/package/third_party/formatters", "*.js");
 
 function randomString(L) {
   L = L || 18;
@@ -46,7 +45,8 @@ function randomString(L) {
 }
 
 describe("Formatters", function () {
-  this.slow(8000); // on older machines this can be slow
+  this.timeout(8000);
+  this.slow(1500);
   let capturedOutput = null;
   configuration.source.path =
     "./test/fixtures/resources/sample-proxy-with-issues/response-shaping/apiproxy";
@@ -54,6 +54,10 @@ describe("Formatters", function () {
     capturedOutput = formatted;
   };
   debug("test configuration: " + JSON.stringify(configuration));
+
+  it(`Should find formatters`, function () {
+    assert.ok(formatters.length >= 13);
+  });
 
   formatters.forEach((formatter) => {
     it(`Formatter ${formatter} should succeed`, function () {
