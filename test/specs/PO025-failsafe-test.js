@@ -16,14 +16,16 @@
 
 /* global describe, it */
 
-const assert = require("node:assert"),
+const testID = "PO025",
+  assert = require("node:assert"),
   path = require("node:path"),
   fs = require("node:fs"),
   { runCliIntegrationTest } = require("../fixtures/cli-test-helper.js"),
-  testID = "PO025";
+  debug = require("debug")("apigeelint:" + testID);
 
 describe(`${testID} - esLint Failsafe`, function () {
-  this.timeout(180000); // npm install can be slow
+  this.timeout(180000);
+  this.slow(120000);
 
   it("should report an error message when the eslint binary is missing", function (done) {
     const fixtureDir = path.resolve(
@@ -36,6 +38,8 @@ describe(`${testID} - esLint Failsafe`, function () {
       cliArgs: [
         "-s",
         path.join(fixtureDir, "apiproxy"),
+        "-e",
+        "PO013",
         "--norc",
         "--formatter",
         "json.js",
@@ -66,6 +70,7 @@ describe(`${testID} - esLint Failsafe`, function () {
       assert.ok(jsFileReport, "Should have a report for source-code.js");
 
       const messages = jsFileReport.messages;
+      debug(JSON.stringify(messages));
       const hasFailsafeMessage = messages.some(
         (m) =>
           m.message.includes("ESLint execution error") ||

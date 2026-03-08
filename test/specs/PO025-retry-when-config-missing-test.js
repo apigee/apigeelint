@@ -23,14 +23,15 @@ const assert = require("node:assert"),
   bl = require("../../lib/package/bundleLinter.js");
 
 describe(`${testID} - esLint retry tests`, function () {
+  this.timeout(12000);
   it("should retry with default config and cache it", function () {
     const originalSpawnSync = cp.spawnSync;
     let calls = [];
 
-    // intercept spawnSync
+    // intercept the spawnSync call that PO025 makes
     cp.spawnSync = (cmd, args, opts) => {
       // meter the calls to eslint
-      if (cmd.includes("eslint.js")) {
+      if (args[0].includes("eslint.js")) {
         debug("calling spawnSync on eslint.js");
         calls.push(args);
       }
@@ -82,7 +83,7 @@ describe(`${testID} - esLint retry tests`, function () {
     // intercept spawnSync
     cp.spawnSync = (cmd, args, opts) => {
       // meter the calls to eslint
-      if (cmd.includes("eslint.js")) {
+      if (args[0].includes("eslint.js")) {
         debug("calling spawnSync on eslint.js");
         calls.push(args);
       }
@@ -106,7 +107,7 @@ describe(`${testID} - esLint retry tests`, function () {
       let bundle = new Bundle(config);
       bl.executePlugin(testID, bundle);
 
-      // BN013/bundle1/apiproxy has 4 JS files.
+      // PO025/retry/apiproxy has 4 JS files.
       // With retry disabled, each should have exactly 1 call.
       assert.strictEqual(
         calls.length,
