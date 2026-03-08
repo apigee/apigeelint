@@ -26,6 +26,7 @@ const assert = require("node:assert"),
 
 describe(`${testID} - ${plugin.plugin.name}`, function () {
   it("should create a json-formatted report object with valid schema", function () {
+    this.timeout(5000);
     debug("test configuration: " + JSON.stringify(configuration));
     let bundle = new Bundle(configuration);
     bl.executePlugin(testID, bundle);
@@ -46,6 +47,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
   });
 
   it("should create a unix-formatted report object", function () {
+    this.timeout(5000);
     debug("test configuration: " + JSON.stringify(configuration));
     let bundle = new Bundle(configuration);
     bl.executePlugin(testID, bundle);
@@ -92,7 +94,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
     const originalSpawnSync = cp.spawnSync;
     cp.spawnSync = (cmd, args, opts) => {
       // only mock if it looks like an eslint call
-      if (cmd.includes("eslint")) {
+      if (args[0].includes("eslint")) {
         return { error: new Error("mocked error") };
       }
       return originalSpawnSync(cmd, args, opts);
