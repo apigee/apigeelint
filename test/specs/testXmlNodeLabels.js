@@ -40,9 +40,10 @@ describe("xmldom path resolution verification", function () {
 
   it("should find xmldom", function (done) {
     this.timeout(58000);
+    this.slow(38000);
     const options = {
       testDir: proxyDir,
-      cliArgs: ["-s", path.join(proxyDir, "sample/apiproxy")]
+      cliArgs: ["-s", path.join(proxyDir, "sample/apiproxy")],
     };
 
     runCliIntegrationTest(options, (code, items, stderr) => {

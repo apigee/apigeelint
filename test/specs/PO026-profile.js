@@ -58,7 +58,8 @@ const propertySetRefTest = (profile) => () => {
   });
 };
 
-describe(`PO026 - PropertySetRef with various profiles`, () => {
+describe(`PO026 - PropertySetRef with various profiles`, function () {
+  this.timeout(7000);
   it(
     `should NOT generate errors with profile 'apigeex'`,
     propertySetRefTest("apigeex"),

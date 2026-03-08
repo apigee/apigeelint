@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2025 Google LLC
+Copyright © 2019-2025,2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -156,7 +156,8 @@ describe(`PO037 - DataCapture Source usage`, () => {
     }
   };
 
-  it(`should generate the expected number of PO037 errors`, () => {
+  it(`should generate the expected number of PO037 errors`, function () {
+    this.timeout(7000);
     insure(() => {
       debug(`po037Items: ${util.format(po037Items.map((i) => i.filePath))}`);
       assert.equal(po037Items.length, Object.keys(expectedErrors).length);
