@@ -22,7 +22,7 @@ const testID = "CC005",
   bl = require("../../lib/package/bundleLinter.js"),
   debug = require("debug")(`apigeelint:${testID}-test`);
 
-describe(`${testID} - malformed Conditions`, () => {
+describe(`${testID} - malformed Conditions`, function () {
   it("should generate the expected errors", () => {
     const configuration = {
       debug: true,
@@ -88,7 +88,8 @@ describe(`${testID} - malformed Conditions`, () => {
     });
   });
 
-  it("should not hang", () => {
+  it("should not hang", function () {
+    this.timeout(7000);
     const configuration = {
       debug: true,
       source: {

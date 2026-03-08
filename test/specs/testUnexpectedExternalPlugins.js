@@ -26,7 +26,7 @@ describe("cli external plugin warning verification", function () {
 
   it("should log a warning for stray files in the external plugins dir", function (done) {
     this.timeout(128000);
-
+    this.slow(45000);
     const options = {
       testDir: issue515Dir,
       cliArgs: [

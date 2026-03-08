@@ -17,6 +17,7 @@
 /* global describe, it */
 
 const assert = require("node:assert"),
+  fs = require("node:fs"),
   path = require("node:path"),
   util = require("node:util"),
   debug = require("debug")("apigeelint:EP002-test"),
@@ -43,14 +44,15 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
 
     // avoid re-run if not necessary
     if (items == null || lastRunProxy != proxydir) {
+      const proxyPath = path.resolve(
+        __dirname,
+        `../fixtures/resources/${proxydir}/apiproxy`,
+      );
       let configuration = {
         debug: true,
         source: {
           type: "filesystem",
-          path: path.resolve(
-            __dirname,
-            `../fixtures/resources/${proxydir}/apiproxy`,
-          ),
+          path: proxyPath,
           bundleType: "apiproxy",
         },
         profile: "apigeex",
@@ -60,6 +62,7 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
       };
 
       debug(`running and caching for ${proxydir}`);
+      assert.ok(fs.existsSync(proxyPath));
       bl.lint(configuration, (bundle) => {
         lastRunProxy = proxydir;
         items = bundle.getReport();

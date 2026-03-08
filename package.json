@@ -1,6 +1,6 @@
 {
   "name": "apigeelint",
-  "version": "2.83.0",
+  "version": "2.83.1",
   "description": "Node module and tool to lint a bundle for an Apigee API Proxy or sharedflow.",
   "main": "index.js",
   "bin": {
@@ -8,12 +8,12 @@
   },
   "scripts": {
     "badge": "mocha --reporter mocha-badge-generator",
-    "build-condition-parser": "npx mkdirp build && npx peggy -o build/ConditionParser.js lib/peggy/Apigee-Condition.pegjs",
-    "coverage": "npx c8 --reporter=text mocha",
-    "depcheck": "npx depcheck . --ignores=depcheck,mocha-lcov-reporter,apigee-jsc-debug",
+    "build-condition-parser": "shx mkdir -p build && npx peggy -o build/ConditionParser.js lib/peggy/Apigee-Condition.pegjs",
+    "coverage": "c8 --reporter=text mocha",
+    "depcheck": "depcheck . --ignores=depcheck,mocha-lcov-reporter,apigee-jsc-debug,eslint",
     "test": "mocha",
-    "clean": "rm -rf node_modules package-lock.json",
-    "release": "npm install; npm run test; npm run badge"
+    "clean": "shx rm -rf node_modules package-lock.json",
+    "release": "npm install && npm run test && npm run badge"
   },
   "repository": {
     "type": "git",
@@ -52,17 +52,19 @@
     "chai": "^4.3.10",
     "depcheck": "^1.4.7",
     "jsonschema": "latest",
-    "mkdirp": "^3.0.1",
     "mocha": "^11.1.0",
     "mocha-badge-generator": "^0.11.0",
     "mocha-lcov-reporter": "^1.3.0",
-    "peggy": "^5.0.6"
+    "peggy": "^5.0.6",
+    "shx": "^0.4.0"
   },
   "overrides": {
     "badge-up": "https://registry.npmjs.org/@rpl/badge-up/-/badge-up-3.0.0.tgz",
     "diff": "^8.0.3",
     "glob": "^10.5.0",
-    "jshint": { "minimatch": "^3.1.2" },
+    "jshint": {
+      "minimatch": "^3.1.2"
+    },
     "nth-check": "^2.0.1",
     "svgo": "^3.3.2",
     "uuid": "^7.0.3"

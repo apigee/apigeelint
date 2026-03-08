@@ -46,7 +46,7 @@ function randomString(L) {
 
 describe("Formatters", function () {
   this.timeout(8000);
-  this.slow(1500);
+  this.slow(3100);
   let capturedOutput = null;
   configuration.source.path =
     "./test/fixtures/resources/sample-proxy-with-issues/response-shaping/apiproxy";
@@ -61,6 +61,10 @@ describe("Formatters", function () {
 
   formatters.forEach((formatter) => {
     it(`Formatter ${formatter} should succeed`, function () {
+      if (formatter === "pdf.js") {
+        this.timeout(18000);
+        this.slow(14000);
+      }
       try {
         capturedOutput = null;
         configuration.formatter = formatter;

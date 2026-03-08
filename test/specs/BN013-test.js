@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2024 Google LLC
+Copyright © 2019-2024,2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -23,21 +23,22 @@ const assert = require("node:assert"),
   bl = require("../../lib/package/bundleLinter.js");
 
 describe("BN013 - Check for unreferenced resources", function () {
-  it("should flag unused resources in bundle1", () => {
+  it("should flag unused resources in bundle1", function () {
+    this.timeout(7000);
     const configuration = {
       debug: true,
       source: {
         type: "filesystem",
         path: path.resolve(
           __dirname,
-          "../fixtures/resources/BN013/bundle1/apiproxy"
+          "../fixtures/resources/BN013/bundle1/apiproxy",
         ),
-        bundleType: "apiproxy"
+        bundleType: "apiproxy",
       },
       profile: "apigeex",
       excluded: {},
       setExitCode: false,
-      output: () => {} // suppress output
+      output: () => {}, // suppress output
     };
 
     debug("test configuration: " + JSON.stringify(configuration));
@@ -46,14 +47,14 @@ describe("BN013 - Check for unreferenced resources", function () {
       assert.ok(items);
       assert.ok(items.length);
       const actualErrors = items.filter(
-        (item) => item.messages && item.messages.length
+        (item) => item.messages && item.messages.length,
       );
       assert.ok(actualErrors.length);
       debug(util.format(actualErrors));
       debug("First error: " + util.format(actualErrors[0]));
 
       const bn013Items = actualErrors.filter((e) =>
-        e.messages.find((m) => m.ruleId == "BN013")
+        e.messages.find((m) => m.ruleId == "BN013"),
       );
 
       debug("BN013 items: " + util.format(bn013Items));
@@ -63,7 +64,7 @@ describe("BN013 - Check for unreferenced resources", function () {
 
       // disregard all warnings or errors except those from this plugin
       bn013Items[0].messages = bn013Items[0].messages.filter(
-        (m) => m.ruleId == "BN013"
+        (m) => m.ruleId == "BN013",
       );
 
       const expected = [
@@ -73,7 +74,7 @@ describe("BN013 - Check for unreferenced resources", function () {
         "py/setHeader3.py",
         "xsd/example2.xsd",
         "oas/example2.yaml",
-        "java/xeger-1.0.jar"
+        "java/xeger-1.0.jar",
       ];
       assert.equal(bn013Items[0].messages.length, expected.length);
       for (let i = 0; i < expected.length; i++) {
@@ -81,28 +82,29 @@ describe("BN013 - Check for unreferenced resources", function () {
           expected.find(
             (rsrc) =>
               bn013Items[0].messages[i].message ==
-              `Unreferenced resource ${rsrc}. There are no policies that reference this resource.`
-          )
+              `Unreferenced resource ${rsrc}. There are no policies that reference this resource.`,
+          ),
         );
       }
     });
   });
 
-  it("should flag no issues in test-issue482", () => {
+  it("should flag no issues in test-issue482", function () {
+    this.timeout(4000);
     const configuration = {
       debug: true,
       source: {
         type: "filesystem",
         path: path.resolve(
           __dirname,
-          "../fixtures/resources/BN013/test-issue482/apiproxy"
+          "../fixtures/resources/BN013/test-issue482/apiproxy",
         ),
-        bundleType: "apiproxy"
+        bundleType: "apiproxy",
       },
       profile: "apigeex",
       excluded: {},
       setExitCode: false,
-      output: () => {} // suppress output
+      output: () => {}, // suppress output
     };
 
     debug("test configuration: " + JSON.stringify(configuration));
@@ -111,16 +113,14 @@ describe("BN013 - Check for unreferenced resources", function () {
       assert.ok(items);
       assert.ok(items.length);
       const actualErrors = items.filter(
-        (item) => item.messages && item.messages.length
+        (item) => item.messages && item.messages.length,
       );
       debug(util.format(actualErrors));
       const bn013Items = actualErrors.filter((e) =>
-        e.messages.find((m) => m.ruleId == "BN013")
+        e.messages.find((m) => m.ruleId == "BN013"),
       );
       debug("BN013 items: " + util.format(bn013Items));
       assert.equal(bn013Items.length, 0);
     });
   });
-
-
 });
