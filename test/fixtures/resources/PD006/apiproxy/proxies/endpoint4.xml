@@ -17,8 +17,6 @@
   </DefaultFaultRule>
 
   <PreFlow name="PreFlow">
-    <!-- Request is not valid here, should be flagged.
-         Because there is a no child Step, it is a warning. -->
     <Request>
     </Request>
     <Response/>
@@ -37,6 +35,8 @@
   </PostFlow>
 
   <PostClientFlow name="PostFlow">
+    <!-- Request is not valid here, should be flagged.
+         Because there is a no child Step, it is just a warning. -->
     <Request/>
     <Response>
     </Response>

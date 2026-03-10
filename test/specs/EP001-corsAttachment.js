@@ -17,46 +17,79 @@
 /* global describe, it */
 
 const assert = require("node:assert"),
-      path = require("node:path"),
-      bl = require("../../lib/package/bundleLinter.js");
+  path = require("node:path"),
+  bl = require("../../lib/package/bundleLinter.js");
 
 describe(`EP001 - bundle with properties resource`, () => {
-  it('should generate the expected errors', () => {
+  it("should generate the expected errors", () => {
     let configuration = {
-          debug: true,
-          source: {
-            type: "filesystem",
-            path: path.resolve(__dirname, '../fixtures/resources/EP001-cors-attachment/apiproxy'),
-            bundleType: "apiproxy"
-          },
-          profile: 'apigeex',
-          excluded: {},
-          setExitCode: false,
-          output: () => {} // suppress output
-        };
+      debug: true,
+      source: {
+        type: "filesystem",
+        path: path.resolve(
+          __dirname,
+          "../fixtures/resources/EP001-cors-attachment/apiproxy",
+        ),
+        bundleType: "apiproxy",
+      },
+      profile: "apigeex",
+      excluded: {},
+      setExitCode: false,
+      output: () => {}, // suppress output
+    };
 
     bl.lint(configuration, (bundle) => {
       let items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
-      let ep001Errors = items.filter(item => item.messages && item.messages.length &&
-                                      item.messages.find(m => m.ruleId == 'EP001'));
+      let ep001Errors = items.filter(
+        (item) =>
+          item.messages &&
+          item.messages.length &&
+          item.messages.find((m) => m.ruleId == "EP001"),
+      );
       assert.equal(ep001Errors.length, 2);
       assert.ok(ep001Errors[0].messages.length);
       assert.equal(ep001Errors[0].messages.length, 3);
       assert.ok(ep001Errors[0].messages[0].message);
-      assert.equal(ep001Errors[0].messages[0].message, 'There are multiple CORS policies and policy CORS-1 is attached to a Step without a Condition.');
-      assert.equal(ep001Errors[0].messages[1].message, 'There are multiple CORS policies and policy CORS-2 is attached to a Step without a Condition.');
-      assert.ok(ep001Errors[0].messages[2].message.startsWith('There are multiple CORS policies attached, at least one without a condition.'));
 
+      const epMsg = ep001Errors[0].messages.find(
+        (m) => m.nodeType == "Endpoint",
+      );
+      assert.ok(epMsg);
+      assert.ok(
+        epMsg.message.startsWith(
+          "There are multiple CORS policies attached, at least one without a condition.",
+        ),
+      );
+
+      const cors1Msg = ep001Errors[0].messages.find(
+        (m) => m.nodeType == "Step" && m.line == 15,
+      );
+      assert.ok(cors1Msg);
+      assert.equal(
+        cors1Msg.message,
+        "There are multiple CORS policies and policy CORS-1 is attached to a Step without a Condition.",
+      );
+      const cors2Msg = ep001Errors[0].messages.find(
+        (m) => m.nodeType == "Step" && m.line == 18,
+      );
+      assert.ok(cors2Msg);
+      assert.equal(
+        cors2Msg.message,
+        "There are multiple CORS policies and policy CORS-2 is attached to a Step without a Condition.",
+      );
 
       assert.ok(ep001Errors[1].messages.length);
-      let ep001Messages = ep001Errors[1].messages.filter( m => m.ruleId == 'EP001');
+      let ep001Messages = ep001Errors[1].messages.filter(
+        (m) => m.ruleId == "EP001",
+      );
       assert.equal(ep001Messages.length, 1);
       assert.ok(ep001Messages[0].message);
-      assert.equal(ep001Messages[0].message, 'There is a CORS policy attached to a TargetEndpoint.  Attach CORS policies to a ProxyEndpoint.');
-
+      assert.equal(
+        ep001Messages[0].message,
+        "There is a CORS policy attached to a TargetEndpoint.  Attach CORS policies to a ProxyEndpoint.",
+      );
     });
   });
-
 });

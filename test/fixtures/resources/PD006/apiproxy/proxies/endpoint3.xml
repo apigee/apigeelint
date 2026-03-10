@@ -6,6 +6,7 @@
         <BasePath></BasePath>
     -->
   </HTTPProxyConnection>
+<!--
 
   <FaultRules/>
   <DefaultFaultRule name="default-fault-rule">
@@ -20,6 +21,7 @@
     </Request>
     <Response/>
   </PreFlow>
+-->
 
   <PostFlow name="PostFlow">
     <Request/>
