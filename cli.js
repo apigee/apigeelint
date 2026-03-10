@@ -31,6 +31,7 @@ const program = new Command(),
   defaults = {
     formatter: "json.js",
     complexConditionTermCount: 12,
+    policyCountLimit: 100,
     profile: "apigee",
   };
 
@@ -126,7 +127,11 @@ const findBundle = (p) => {
     )
     .option(
       "--complexConditionTermCount [value]",
-      `Maximum number of terms in a condition before it is considered too complex (default: ${defaults.complexConditionTermCount})`,
+      `Maximum number of terms in a condition before it is considered too complex by CC004 (default: ${defaults.complexConditionTermCount})`,
+    )
+    .option(
+      "--policyCountLimit [value]",
+      `Maximum number of policies in a bundle before it is considered too complex by BN006 (default: ${defaults.policyCountLimit})`,
     )
     .option(
       "--profile [value]",
@@ -217,6 +222,8 @@ const findBundle = (p) => {
     complexConditionTermCount:
       Number(options.complexConditionTermCount) ||
       defaults.complexConditionTermCount,
+    policyCountLimit:
+      Number(options.policyCountLimit) || defaults.policyCountLimit,
     externalPluginsDirectory: options.externalPluginsDirectory,
     excluded: {},
     maxWarnings: -1,

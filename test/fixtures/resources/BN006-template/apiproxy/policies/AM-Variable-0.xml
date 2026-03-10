@@ -1,0 +1,8 @@
+<AssignMessage name='AM-Variable-0'>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <AssignVariable>
+    <Name>variable0</Name>
+    <Value>-unset-</Value>
+    <Template>{timeFormatUTCMs('yyyyMMdd',system.timestamp)}</Template>
+  </AssignVariable>
+</AssignMessage>
