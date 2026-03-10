@@ -17,11 +17,9 @@ Copyright © 2019-2022, 2026 Google LLC
 const assert = require("node:assert"),
   fs = require("node:fs"),
   path = require("node:path"),
-  schema = require("./../fixtures/reportSchema.js"),
+  schema = require("../fixtures/reportSchema.js"),
   Validator = require("jsonschema").Validator,
-  findFolders = require(
-    path.join(__dirname, "../../lib/package/findFolders.js"),
-  ),
+  findFolders = require("../fixtures/findFolders.js"),
   Bundle = require("../../lib/package/Bundle.js"),
   bl = require("../../lib/package/bundleLinter.js"),
   rootDir = path.resolve(__dirname, "../fixtures/resources");
