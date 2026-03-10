@@ -209,6 +209,21 @@ const findBundle = (p) => {
     }
   }
 
+  if (
+    options.complexConditionTermCount &&
+    options.complexConditionTermCount < 1
+  ) {
+    console.log(
+      "Specify a value greater than zero for complexConditionTermCount.\n",
+    );
+    process.exit(1);
+  }
+
+  if (options.policyCountLimit && options.policyCountLimit < 1) {
+    console.log("Specify a value greater than zero for policyCountLimit.\n");
+    process.exit(1);
+  }
+
   const configuration = {
     debug: true,
     source: {
