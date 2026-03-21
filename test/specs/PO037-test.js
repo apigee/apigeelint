@@ -113,8 +113,6 @@ const expectedErrors = {
 };
 
 describe(`PO037 - DataCapture Source usage`, () => {
-  // TODO: Remove this
-  require("debug").enable("apigeelint:BN006");
   const configuration = {
     debug: true,
     source: {
