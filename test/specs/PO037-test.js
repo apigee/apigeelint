@@ -175,11 +175,7 @@ describe(`PO037 - DataCapture Source usage`, () => {
       debug(
         `nonPO37Items: ${util.format(nonPO37Items.map((i) => i.filePath))}`,
       );
-      assert.equal(
-        nonPO37Items.length,
-        0,
-        `nonPO37Items: ${util.format(nonPO37Items.map((i) => i.filePath))}`,
-      );
+      assert.equal(nonPO37Items.length, 0, `all items: ${util.format(items)}`);
     });
   });
 
