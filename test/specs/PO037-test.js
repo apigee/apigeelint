@@ -113,6 +113,8 @@ const expectedErrors = {
 };
 
 describe(`PO037 - DataCapture Source usage`, () => {
+  // TODO: Remove this
+  require("debug").enable("apigeelint:BN006");
   const configuration = {
     debug: true,
     source: {
@@ -172,16 +174,11 @@ describe(`PO037 - DataCapture Source usage`, () => {
             m.ruleId != "PO037" && m.ruleId != "BN014" && m.ruleId != "PO025",
         ),
       );
-      debug(
-        `nonPO37Items: ${util.format(nonPO37Items.map((i) => i.filePath))}`,
-      );
       assert.equal(
         nonPO37Items.length,
         0,
-        `items w/msgs: ${util.inspect(
-          items.filter((item) => item.messages.length > 0),
-          { depth: 4 },
-        )}`,
+        `configuration: ${util.inspect(configuration)}\n\n` +
+          `nonPO37Items: ${util.inspect(nonPO37Items, { depth: 4 })}`,
       );
     });
   });
