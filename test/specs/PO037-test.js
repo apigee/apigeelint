@@ -175,7 +175,11 @@ describe(`PO037 - DataCapture Source usage`, () => {
       debug(
         `nonPO37Items: ${util.format(nonPO37Items.map((i) => i.filePath))}`,
       );
-      assert.equal(nonPO37Items.length, 0);
+      assert.equal(
+        nonPO37Items.length,
+        0,
+        `nonPO37Items: ${util.format(nonPO37Items.map((i) => i.filePath))}`,
+      );
     });
   });
 
@@ -193,10 +197,12 @@ describe(`PO037 - DataCapture Source usage`, () => {
         const po037Messages = policyItems[0].messages.filter(
           (m) => m.ruleId == "PO037",
         );
-        debug(`po037Messages: ${util.format(po037Messages)}`);
-        assert.equal(po037Messages.length, expected.length);
-        assert.equal(po037Messages.length, 1);
+        const diagnostic = `po037Messages: ${util.format(po037Messages)}`;
+        debug(diagnostic);
+        assert.equal(po037Messages.length, expected.length, diagnostic);
 
+        // assert only one, because the following assertion _tests_ only one.
+        assert.equal(po037Messages.length, 1);
         assert.equal(
           po037Messages[0].message,
           expected[0],
