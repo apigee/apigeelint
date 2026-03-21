@@ -57,10 +57,16 @@ describe("BN013 - Check for unreferenced resources", function () {
         e.messages.find((m) => m.ruleId == "BN013"),
       );
 
-      debug("BN013 items: " + util.format(bn013Items));
-      assert.equal(bn013Items.length, 1);
+      assert.equal(
+        bn013Items.length,
+        1,
+        `all items: ${util.inspect(items, { depth: 4 })}`,
+      );
       debug(util.format(bn013Items[0]));
-      assert.ok(bn013Items[0].messages);
+      assert.ok(
+        bn013Items[0].messages,
+        `bn013Items[0]: ${util.inspect(bn013Items[0], { depth: 4 })}`,
+      );
 
       // disregard all warnings or errors except those from this plugin
       bn013Items[0].messages = bn013Items[0].messages.filter(
@@ -120,7 +126,11 @@ describe("BN013 - Check for unreferenced resources", function () {
         e.messages.find((m) => m.ruleId == "BN013"),
       );
       debug("BN013 items: " + util.format(bn013Items));
-      assert.equal(bn013Items.length, 0);
+      assert.equal(
+        bn013Items.length,
+        0,
+        `bn013Items: ${util.inspect(bn013Items, { depth: 4 })}`,
+      );
     });
   });
 });

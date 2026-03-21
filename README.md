@@ -59,6 +59,7 @@ Options:
   --list                                  do not execute, instead list the available plugins and formatters
   --maxWarnings [value]                   Number of warnings to trigger nonzero exit code (default: -1)
   --complexConditionTermCount [value]     Maximum number of terms in a condition before it is considered too complex (default: 12)
+  --policyCountLimit [value]              Maximum number of policies allowed before BN006 issues a warning (default: 100)
   --profile [value]                       Either apigee or apigeex (default: apigee)
   --norc                                  do not search for and use the .apigeelintrc file for settings
   --ignoreDirectives                      ignore any directives within XML files that disable warnings
