@@ -1,5 +1,5 @@
 ﻿/*
-Copyright © 2019-2024,2026 Google LLC
+  Copyright © 2019-2024,2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -46,12 +46,16 @@ describe(`${ruleId} - bundle with conditional flows`, () => {
         (item) => item.messages && item.messages.length,
       );
       assert.ok(actualErrors.length);
-      debug(util.format(actualErrors));
+      debug(util.inspect(actualErrors, { depth: 4 }));
 
       const ep = actualErrors.find((e) => e.filePath.endsWith(endpointName));
       assert.ok(ep);
       const cc008Messages = ep.messages.filter((m) => m.ruleId == ruleId);
-      assert.equal(cc008Messages.length, expected.length);
+      assert.equal(
+        cc008Messages.length,
+        expected.length,
+        util.inspect(cc008Messages, { depth: 4 }),
+      );
 
       expected.forEach((item, ix) => {
         assert.equal(cc008Messages[ix].line, item.line, `case(${ix}) line`);
