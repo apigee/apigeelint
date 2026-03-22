@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright © 2019-2021, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -13,102 +13,101 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-/* global describe, it */
 
 const assert = require("node:assert"),
-      path = require("node:path"),
-      fs = require("node:fs"),
-      //debug = require("debug")("apigeelint:allplugins"),
-      Bundle = require("../../lib/package/Bundle.js"),
-      Validator = require("jsonschema").Validator,
-      bl = require("../../lib/package/bundleLinter.js"),
-      schema = require("./../fixtures/reportSchema.js"),
-      pluginSchema = require("./../fixtures/pluginSchema.js");
+  path = require("node:path"),
+  fs = require("node:fs"),
+  //debug = require("debug")("apigeelint:allplugins"),
+  Bundle = require("../../lib/package/Bundle.js"),
+  Validator = require("jsonschema").Validator,
+  bl = require("../../lib/package/bundleLinter.js"),
+  schema = require("./../fixtures/reportSchema.js"),
+  pluginSchema = require("./../fixtures/pluginSchema.js");
 
 const pluginPath = path.join(__dirname, "../../lib/package/plugins");
 
-describe("AllPlugins", function() {
+describe("All Plugins", function () {
   const pluginRe = {
-          id : new RegExp('^[A-Z]{2}[0-9]{3}$'),
-          filename: new RegExp('^([A-Z]{2}[0-9]{3})-(.+?)\\.js$')
-        };
+    id: new RegExp("^[A-Z]{2}[0-9]{3}$"),
+    filename: new RegExp("^([A-Z]{2}[0-9]{3})-(.+?)\\.js$"),
+  };
 
-  describe("StaticAnalysis", function() {
-    let knownIds = {};
-    bl.listPlugins().forEach(shortFileName => {
-      let fqPluginPath = bl.resolvePlugin(shortFileName);
-      if (fqPluginPath) {
-          let plugin = require(fqPluginPath).plugin;
+  describe("Static Analysis", function () {
+    const knownIds = {};
+    const allPlugins = bl.listPlugins();
+    it(`checks that there are the expected number of plugins`, function () {
+      assert.ok(allPlugins.length > 85);
+    });
 
-        it(`${shortFileName} should match the required pattern`, function() {
-          assert.ok(shortFileName.match(pluginRe.filename), `noncompliant plugin filename [${shortFileName}]`);
-        });
+    allPlugins.forEach((shortFileName) => {
+      it(`${shortFileName} should pass validity tests`, function () {
+        const fqPluginPath = bl.resolvePlugin(shortFileName);
+        assert.ok(fqPluginPath);
 
-        it(`${shortFileName} should export a ruleId with a compliant pattern`, function() {
-          assert.ok(plugin, `plugin not found [${shortFileName}]`);
-          assert.ok(plugin.ruleId, `plugin missing ruleId [${shortFileName}]`);
-          assert.ok(plugin.ruleId.match(pluginRe.id), `noncompliant plugin ruleId(${plugin.ruleId}) [${shortFileName}]`);
-        });
+        const plugin = require(fqPluginPath).plugin;
+        assert.ok(
+          shortFileName.match(pluginRe.filename),
+          `noncompliant plugin filename [${shortFileName}]`,
+        );
 
-        it(`${shortFileName} should export a unique ruleId`, function() {
-          if (knownIds[plugin.ruleId]) {
-            assert.fail(
-              `plugins have equal rule ids: [${shortFileName} ${knownIds[plugin.ruleId]}]`);
-          } else {
-            knownIds[plugin.ruleId] = shortFileName;
-          }
-        });
-      }
+        assert.ok(plugin, `plugin not found [${shortFileName}]`);
+        assert.ok(plugin.ruleId, `plugin missing ruleId [${shortFileName}]`);
+        assert.ok(
+          plugin.ruleId.match(pluginRe.id),
+          `noncompliant plugin ruleId(${plugin.ruleId}) [${shortFileName}]`,
+        );
+
+        if (knownIds[plugin.ruleId]) {
+          assert.fail(
+            `plugins have equal rule ids: [${shortFileName} ${knownIds[plugin.ruleId]}]`,
+          );
+        } else {
+          knownIds[plugin.ruleId] = shortFileName;
+        }
+      });
     });
   });
 
-  const runTests = function(configToRun) {
-    bl.listPlugins().forEach(shortFileName => {
-      let fqPluginPath = bl.resolvePlugin(shortFileName);
-      if (fqPluginPath) {
-              it(`${shortFileName} with ${configToRun.source.bundleType} should create a report object`,
-                 function() {
-                   let bundle = new Bundle(configToRun);
-                   bl.executePlugin(shortFileName, bundle);
+  const runTests = function (configToRun) {
+    bl.listPlugins().forEach((shortFileName) => {
+      const fqPluginPath = bl.resolvePlugin(shortFileName);
+      assert.ok(fqPluginPath);
 
-                   bundle.getReport(function(report) {
-                     let jsimpl = bl.getFormatter("json.js"),
-                         v = new Validator(),
-                         validationResult = v.validate(JSON.parse(jsimpl(report)), schema);
-                     assert.equal(
-                       validationResult.errors.length,
-                       0,
-                       validationResult.errors
-                     );
-                   });
-                 });
+      const bundle = new Bundle(configToRun);
+      bl.executePlugin(shortFileName, bundle);
 
-              it(
-                `${shortFileName} with ${configToRun.source.bundleType} should return no Validation errors`,
-                function() {
-                  let v = new Validator(),
-                  plugin = require(fqPluginPath).plugin;
+      bundle.getReport(function (report) {
+        let jsimpl = bl.getFormatter("json.js"),
+          v = new Validator(),
+          validationResult = v.validate(JSON.parse(jsimpl(report)), schema);
+        assert.equal(
+          validationResult.errors.length,
+          0,
+          validationResult.errors,
+        );
+      });
 
-                  assert.notEqual(plugin, `unexported plugin ${shortFileName}`);
+      let v = new Validator(),
+        plugin = require(fqPluginPath).plugin;
 
-                  let validationResult = v.validate(plugin.plugin, pluginSchema);
-                  assert.equal(
-                    validationResult.errors.length,
-                    0,
-                    validationResult.errors
-                  );
-                }
-              );
+      assert.ok(plugin, `unexported plugin ${shortFileName}`);
 
-            }
-          });
-        };
+      let validationResult = v.validate(plugin.plugin, pluginSchema);
+      assert.equal(validationResult.errors.length, 0, validationResult.errors);
+    });
+  };
 
-  describe("Proxies", function() {
-    runTests(configuration);
-  });
+  describe("Smoke test", function () {
+    this.timeout(30000);
+    this.slow(8000);
+    it(`ensures all plugins create a report when run with a proxy`, function () {
+      /* global configuration */
+      runTests(configuration);
+    });
 
-  describe("SharedFlows", function() {
-    runTests(sharedflowconfiguration);
+    it(`ensures all plugins create a report when run with a sharedflow`, function () {
+      /* global sharedflowconfiguration */
+      runTests(sharedflowconfiguration);
+    });
   });
 });
