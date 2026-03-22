@@ -1,5 +1,5 @@
 /*
-  Copyright © 2019-2021, 2026 Google LLC
+  Copyright © 2019-2021,2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@
 
 const assert = require("node:assert"),
   path = require("node:path"),
+  util = require("node:util"),
+  debug = require("debug")("apigeelint:PO026-test"),
   bl = require("../../lib/package/bundleLinter.js");
 
 describe(`PO026 - AssignVariableHygiene`, () => {
@@ -32,6 +34,7 @@ describe(`PO026 - AssignVariableHygiene`, () => {
         ),
         bundleType: "apiproxy",
       },
+      profile: "apigee",
       excluded: {},
       setExitCode: false,
       output: () => {}, // suppress output
@@ -115,9 +118,10 @@ describe(`PO026 - AssignVariableHygiene`, () => {
         m.messages.find((msg) => msg.message),
       );
       const expectedPnames = Object.keys(expected);
+      debug(`all items: ${util.inspect(items, { depth: 4 })}`);
       assert.equal(
-        expectedPnames.length,
         policiesReported.length,
+        expectedPnames.length,
         `reported but not expected: ${policiesReported.map((r) => path.basename(r.filePath)).filter((x) => !expectedPnames.includes(x))}`,
       );
 

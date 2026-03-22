@@ -13,7 +13,10 @@
     "depcheck": "depcheck . --ignores=depcheck,mocha-lcov-reporter,apigee-jsc-debug,eslint",
     "test": "mocha",
     "clean": "shx rm -rf node_modules package-lock.json",
-    "release": "npm install && npm run test && npm run badge"
+    "release": "npm install && npm run test && npm run badge",
+    "lint:plugins": "eslint \"lib/package/plugins/*.js\"",
+    "lint:src": "eslint \"lib/package/*.js\"",
+    "lint:test": "eslint \"test/specs/*.js\""
   },
   "repository": {
     "type": "git",
