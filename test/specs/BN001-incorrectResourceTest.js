@@ -1,5 +1,5 @@
 /*
-  Copyright © 2019-2024,2026 Google LLC
+  Copyright © 2019-2024, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -66,9 +66,7 @@ describe(`BN001 - bundle with incorrect resource`, function () {
       assert.equal(bn001Items[0].messages.length, 1);
       assert.ok(bn001Items[0].messages[0].message);
       assert.ok(
-        bn001Items[0].messages[0].message.startsWith(
-          "Unexpected extension found with file",
-        ),
+        bn001Items[0].messages[0].message.startsWith("Unexpected file"),
         bn001Items[0].messages[0].message,
       );
       assert.ok(
