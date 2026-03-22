@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2022 Google LLC
+  Copyright © 2019-2022, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -17,77 +17,88 @@
 /* global describe, it */
 
 const assert = require("node:assert"),
-      ruleId = 'ST007',
-      path = require("node:path"),
-      debug = require("debug")(`apigeelint:${ruleId}`),
-      util = require("node:util"),
-      bl = require("../../lib/package/bundleLinter.js");
+  ruleId = "ST007",
+  path = require("node:path"),
+  debug = require("debug")(`apigeelint:${ruleId}`),
+  util = require("node:util"),
+  bl = require("../../lib/package/bundleLinter.js");
 
-const expectedMessageRe =
-  new RegExp("^For the [A-Za-z]{4,} step \\([-A-Za-z0-9_]{2,}\\), an appropriate check for a message body was not found\\..*");
-
+const expectedMessageRe = new RegExp(
+  "^For the [A-Za-z]{4,} step \\([-A-Za-z0-9_]{2,}\\), an appropriate check for a message body was not found\\..*",
+);
 
 describe(`${ruleId} - XMLThreatProtection Conditions`, () => {
   function check(suffix, bundleType, expected) {
-    let configuration = {
-          debug: true,
-          source: {
-            type: "filesystem",
-            path: path.resolve(__dirname, `../fixtures/resources/ThreatProtection-Attachment/${bundleType}`),
-            bundleType
-          },
-          excluded: {},
-          setExitCode: false,
-          output: () => {} // suppress output
-        };
+    const configuration = {
+      debug: true,
+      source: {
+        type: "filesystem",
+        path: path.resolve(
+          __dirname,
+          `../fixtures/resources/ThreatProtection-Attachment/${bundleType}`,
+        ),
+        bundleType,
+      },
+      excluded: {},
+      setExitCode: false,
+      output: () => {}, // suppress output
+    };
 
     bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
+      const items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
       debug(util.format(items));
-      let proxyEndpointItems = items.filter( m => m.filePath.endsWith(suffix));
+      const proxyEndpointItems = items.filter((m) =>
+        m.filePath.endsWith(suffix),
+      );
       debug(util.format(proxyEndpointItems));
       assert.equal(proxyEndpointItems.length, 1);
-      proxyEndpointItems.forEach( item =>
-                                  debug(util.format(item.messages)));
-      let st007Messages = proxyEndpointItems[0].messages.filter( m => m.ruleId == ruleId);
+      proxyEndpointItems.forEach((item) => debug(util.format(item.messages)));
+      const st007Messages = proxyEndpointItems[0].messages.filter(
+        (m) => m.ruleId == ruleId,
+      );
 
       debug(util.format(st007Messages));
       assert.equal(st007Messages.length, expected.length);
 
-      expected.forEach( (item, ix) => {
+      expected.forEach((item, ix) => {
         assert.equal(st007Messages[ix].line, item.line, `case(${ix}) line`);
-        assert.equal(st007Messages[ix].column, item.column, `case(${ix}) column`);
+        assert.equal(
+          st007Messages[ix].column,
+          item.column,
+          `case(${ix}) column`,
+        );
         assert.equal(st007Messages[ix].severity, 1, `case(${ix}) severity`);
-        assert.ok(st007Messages[ix].message.match(expectedMessageRe), `case(${ix}) message: ${st007Messages[ix].message}`);
+        assert.ok(
+          st007Messages[ix].message.match(expectedMessageRe),
+          `case(${ix}) message: ${st007Messages[ix].message}`,
+        );
       });
-
     });
   }
 
-  it('should generate the expected warnings in an apiproxy', () => {
-      let expected = [
-            {
-              line: 59,
-              column: 9
-            },
-            {
-              line: 94,
-              column: 9
-            }
-          ];
-    check('endpoint1.xml', 'apiproxy', expected)
+  it("should generate the expected warnings in an apiproxy", () => {
+    const expected = [
+      {
+        line: 59,
+        column: 9,
+      },
+      {
+        line: 94,
+        column: 9,
+      },
+    ];
+    check("endpoint1.xml", "apiproxy", expected);
   });
 
-  it('should generate the expected warnings in a sharedflow', () => {
-      let expected = [
-            {
-              line: 10,
-              column: 3
-            }
-          ];
-    check('sf-default.xml', 'sharedflowbundle', expected)
+  it("should generate the expected warnings in a sharedflow", () => {
+    const expected = [
+      {
+        line: 10,
+        column: 3,
+      },
+    ];
+    check("sf-default.xml", "sharedflowbundle", expected);
   });
-
 });

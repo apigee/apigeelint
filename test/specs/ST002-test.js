@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021,2025 Google LLC
+  Copyright © 2019-2021, 2025-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ const assert = require("node:assert"),
 
 describe(`ST002 - StepHygiene - apiproxy`, () => {
   it("should generate the expected errors", () => {
-    let configuration = {
+    const configuration = {
       debug: true,
       source: {
         type: "filesystem",
@@ -40,21 +40,21 @@ describe(`ST002 - StepHygiene - apiproxy`, () => {
     };
 
     bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
+      const items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
       debug(util.format(items));
-      let proxyEndpointItems = items.filter((m) =>
+      const proxyEndpointItems = items.filter((m) =>
         m.filePath.endsWith("endpoint1.xml"),
       );
       debug(util.format(proxyEndpointItems));
       assert.equal(proxyEndpointItems.length, 1);
       proxyEndpointItems.forEach((item) => debug(util.format(item.messages)));
-      let st002Messages = proxyEndpointItems[0].messages.filter(
+      const st002Messages = proxyEndpointItems[0].messages.filter(
         (m) => m.ruleId == "ST002",
       );
 
-      let expected = [
+      const expected = [
         {
           line: 13,
           column: 5,

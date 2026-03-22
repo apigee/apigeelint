@@ -14,15 +14,11 @@
   limitations under the License.
 */
 
-/* global describe, it */
-
 const ruleId = "BN006",
   assert = require("node:assert"),
   path = require("node:path"),
   fs = require("node:fs"),
   tmp = require("tmp"),
-  util = require("node:util"),
-  debug = require("debug")(`apigeelint:${ruleId}`),
   bl = require("../../lib/package/bundleLinter.js");
 
 describe(`BN006 - bundle exceeding policy count`, function () {
@@ -80,8 +76,8 @@ describe(`BN006 - bundle exceeding policy count`, function () {
   };
 
   const runOne = (policyCount, expectedNumberOfIssues, policyCountLimit) => {
-    let bundlePath = createBundleInTempDir(policyCount);
-    let configuration = {
+    const bundlePath = createBundleInTempDir(policyCount);
+    const configuration = {
       debug: true,
       source: {
         type: "filesystem",
@@ -98,10 +94,10 @@ describe(`BN006 - bundle exceeding policy count`, function () {
     }
 
     bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
+      const items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
-      let actualIssues = items.filter(
+      const actualIssues = items.filter(
         (item) =>
           item.messages &&
           item.messages.length &&

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2022,2025 Google LLC
+  Copyright © 2019-2022, 2025-2026  Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 
 const assert = require("node:assert"),
   path = require("node:path"),
-  debug = require("debug")(`apigeelint:issue546`),
   bl = require("../../lib/package/bundleLinter.js");
 
 describe(`issue546 - proxyEndpoint basepath check`, () => {
@@ -46,7 +45,7 @@ describe(`issue546 - proxyEndpoint basepath check`, () => {
       const proxyEndpoints = bundle.getProxyEndpoints();
       assert.ok(proxyEndpoints.length > 1);
       proxyEndpoints.forEach((ep) => {
-        let hpc = ep.getHTTPProxyConnection();
+        const hpc = ep.getHTTPProxyConnection();
         assert.equal(typeof hpc.getBasePath(), "string");
       });
       assert.equal(

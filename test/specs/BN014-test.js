@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2025 Google LLC
+  Copyright © 2019-2025, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -53,7 +53,7 @@ const testOneProxy = (proxyName, expectedErrors) => {
     debug(`bn014Items: ${util.format(bn014Items.map((i) => i.filePath))}`);
     assert.equal(bn014Items.length, Object.keys(expectedErrors).length);
 
-    Object.keys(expectedErrors).forEach((policyName, caseNum) => {
+    Object.keys(expectedErrors).forEach((policyName) => {
       debug(`policyName: ${policyName}`);
       const expectedThisPolicy = expectedErrors[policyName];
       const policyItems = bn014Items.filter((item) =>

@@ -1,5 +1,5 @@
 /*
-Copyright © 2019-2024,2026 Google LLC
+  Copyright © 2019-2024, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -113,7 +113,7 @@ describe(`PO012 - AssignToHygiene`, function () {
         const policyItem = items.find((item) =>
           item.filePath.endsWith(policyName),
         );
-        let po012Messages = policyItem
+        const po012Messages = policyItem
           ? policyItem.messages.filter((m) => m.ruleId == "PO012")
           : [];
 
@@ -123,7 +123,7 @@ describe(`PO012 - AssignToHygiene`, function () {
           `Unexpected message count for ${policyName}`,
         );
 
-        po012Messages.forEach((m, ix) => assert.equal(m.severity, 1));
+        po012Messages.forEach((m) => assert.equal(m.severity, 1));
 
         expected[policyName].forEach((item, ix) => {
           Object.keys(item).forEach((key) => {

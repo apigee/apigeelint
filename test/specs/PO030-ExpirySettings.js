@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2024 Google LLC
+  Copyright © 2019-2024, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ const testID = "PO030",
   assert = require("node:assert"),
   fs = require("node:fs"),
   path = require("node:path"),
-  util = require("node:util"),
   bl = require("../../lib/package/bundleLinter.js"),
   plugin = require(bl.resolvePlugin(testID)),
   Policy = require("../../lib/package/Policy.js"),
@@ -32,7 +31,7 @@ const testID = "PO030",
   debug = require("debug")("apigeelint:" + testID);
 
 const loadPolicy = function (sourceDir, shortFileName) {
-  let fqPath = path.join(sourceDir, shortFileName),
+  const fqPath = path.join(sourceDir, shortFileName),
     policyXml = fs.readFileSync(fqPath).toString("utf-8"),
     doc = new Dom().parseFromString(policyXml),
     p = new Policy(rootDir, shortFileName, this, doc);
@@ -42,20 +41,20 @@ const loadPolicy = function (sourceDir, shortFileName) {
 };
 
 describe(`${testID} - ExpirySettings looks good`, function () {
-  let sourceDir = path.join(rootDir, "pass");
-  let testOne = (shortFileName) => {
+  const sourceDir = path.join(rootDir, "pass");
+  const testOne = (shortFileName) => {
     it(`checks no error (${shortFileName})`, () => {
-      let policy = loadPolicy(sourceDir, shortFileName);
-      // I don't know why this it function must return a Promise, in order
-      // for the assertions to actually work.  It seems the similar tests
-      // for PO029 do not require this. Not clear why. But in any case, do
-      // not change this unless you're sure.
+      const policy = loadPolicy(sourceDir, shortFileName);
+      // I believe because we are using an anonymous function, this must return a
+      // Promise, in order for the assertions to actually work.  It seems the
+      // similar tests for PO029 do not require this. Not clear why. But in any
+      // case, do not change this unless you're sure.
       return new Promise(function (resolve, reject) {
         plugin.onPolicy(policy, (e, foundIssues) => {
           try {
             assert.equal(e, undefined, "should be undefined");
             assert.equal(foundIssues, false, "should be no issues");
-            let messages = policy.getReport().messages;
+            const messages = policy.getReport().messages;
             assert.ok(messages, "messages should exist");
             assert.equal(messages.length, 0, "unexpected number of messages");
           } catch (ex) {
@@ -73,11 +72,11 @@ describe(`${testID} - ExpirySettings looks good`, function () {
 });
 
 describe(`${testID} - ExpirySettings looks wrong`, () => {
-  let sourceDir = path.join(rootDir, "fail");
+  const sourceDir = path.join(rootDir, "fail");
   const expectedErrorMessages = require(path.join(sourceDir, "messages.js"));
 
-  let testOne = (shortFileName) => {
-    let policy = loadPolicy(sourceDir, shortFileName);
+  const testOne = (shortFileName) => {
+    const policy = loadPolicy(sourceDir, shortFileName);
     it(`checks expected error (${shortFileName})`, () => {
       assert.ok(policy, "policy should exist");
       // I don't know why this it function must return a Promise, in order
@@ -89,11 +88,11 @@ describe(`${testID} - ExpirySettings looks wrong`, () => {
           try {
             assert.equal(e, undefined, "should be undefined");
             assert.equal(foundIssues, true, "should be issues");
-            let messages = policy.getReport().messages;
+            const messages = policy.getReport().messages;
             assert.ok(messages, "messages should exist");
             assert.equal(messages.length, 1, "unexpected number of messages");
             assert.ok(messages[0].message, "did not find message member");
-            let expected = expectedErrorMessages[policy.fileName];
+            const expected = expectedErrorMessages[policy.fileName];
             assert.ok(
               expected,
               "test configuration failure: did not find an expected message",

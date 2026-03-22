@@ -62,7 +62,7 @@ describe(`${testID} - esLint Failsafe`, function () {
       env: { DEBUG: "apigeelint:PO025,apigeelint:cli-test-helper" },
     };
 
-    runCliIntegrationTest(options, (code, items, stderr) => {
+    runCliIntegrationTest(options, (code, items, _stderr) => {
       // Find the report for the JS file
       const jsFileReport = items.find((r) =>
         r.filePath.endsWith("source-code.js"),

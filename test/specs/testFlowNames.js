@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright © 2019-2021, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ const assert = require("node:assert"),
       Dom = require("@xmldom/xmldom").DOMParser,
       test = function(exp, assertion) {
         it("should find flow names", function() {
-          let doc = new Dom().parseFromString(exp),
+          const doc = new Dom().parseFromString(exp),
               ep = new Endpoint(doc, this, "/dummy/test/apiproxy/proxies/foo.xml"),
               flows = ep.getFlows(),
               result = flows.map( f => f.getName() );

@@ -25,11 +25,11 @@ configuration.source.path =
     let report = null;
     const insure = () => {
       if (report == null) {
-        let c = { ...configuration };
+        const c = { ...configuration };
         c.source.path =
           "./test/fixtures/resources/sampleProxy/24Solver/apiproxy/";
         debug("test configuration: " + JSON.stringify(c));
-        let bundle = new Bundle(c);
+        const bundle = new Bundle(c);
         debug(`looking in ${bundle.root}`);
         bl.executePlugin(testID, bundle);
         report = bundle.getReport();

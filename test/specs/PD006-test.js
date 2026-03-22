@@ -71,14 +71,14 @@ describe(`${ruleId} - proxyEndpoint basepath and other hygiene`, () => {
   };
 
   Object.keys(expectations).forEach((key) => {
-    let expectedMsgs = expectations[key];
+    const expectedMsgs = expectations[key];
     it(`should find ${expectedMsgs.length > 0 ? "the expected errors" : "no errors"} in ${key}`, () => {
       const epItems = reportedItems.filter((e) => e.filePath.endsWith(key));
       assert.ok(epItems);
       debug(util.format(epItems));
       //assert.equal(expectations[key], epItems.length);
       assert.equal(1, epItems.length);
-      let pd006Messages = epItems[0].messages.filter((m) => m.ruleId == ruleId);
+      const pd006Messages = epItems[0].messages.filter((m) => m.ruleId == ruleId);
       debug(util.format(pd006Messages));
       assert.equal(expectedMsgs.length, pd006Messages.length);
       expectedMsgs.forEach((msgObject) => {

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2023 Google LLC
+  Copyright © 2019-2023, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,13 +14,9 @@
   limitations under the License.
 */
 
-/* global describe, it */
-
 const ruleId = "BN011",
   assert = require("node:assert"),
   path = require("node:path"),
-  util = require("node:util"),
-  debug = require("debug")(`apigeelint:${ruleId}`),
   bl = require("../../lib/package/bundleLinter.js");
 
 describe(`BN011 - bundle with malformed XML`, () => {

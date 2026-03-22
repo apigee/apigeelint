@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2024 Google LLC
+  Copyright © 2019-2024, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ describe(`${testID} - MessageLogging RessourceType element`, () => {
   // test all the valid cases
   fs.readdirSync(rootDir)
     .map((shortFileName) => {
-      let m = shortFileName.match("^.+-(valid.+)\\.xml$");
+      const m = shortFileName.match("^.+-(valid.+)\\.xml$");
       if (m) {
         return m[1];
       }

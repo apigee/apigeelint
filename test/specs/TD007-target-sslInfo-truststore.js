@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2025 Google LLC
+  Copyright © 2019-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
 */
 /* global describe, it, configuration */
 
-const assert = require("node:assert"),
-  testID = "TD007",
+const testID = "TD007",
+  assert = require("node:assert"),
   util = require("node:util"),
   debug = require("debug")("apigeelint:" + testID),
   Bundle = require("../../lib/package/Bundle.js"),
@@ -376,13 +376,13 @@ describe(`${testID} - Print plugin results`, function () {
     debug("test configuration: " + JSON.stringify(configuration));
     const bundle = new Bundle(configuration);
     bl.executePlugin(testID, bundle);
-    let report = bundle.getReport();
+    const report = bundle.getReport();
     assert.ok(report);
 
-    let formatter = bl.getFormatter("json.js");
+    const formatter = bl.getFormatter("json.js");
     assert.ok(formatter);
 
-    let schema = require("./../fixtures/reportSchema.js"),
+    const schema = require("./../fixtures/reportSchema.js"),
       Validator = require("jsonschema").Validator,
       v = new Validator(),
       jsonReport = JSON.parse(formatter(report)),

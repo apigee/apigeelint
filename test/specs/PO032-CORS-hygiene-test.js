@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2022 Google LLC
+  Copyright © 2019-2022, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
 const testID = "PO032",
   assert = require("node:assert"),
   fs = require("node:fs"),
-  util = require("node:util"),
   path = require("node:path"),
   bl = require("../../lib/package/bundleLinter.js"),
   plugin = require(bl.resolvePlugin(testID)),
@@ -38,16 +37,16 @@ const loadPolicy = (sourceDir, shortFileName) => {
 };
 
 describe(`${testID} - policy passes hygiene evaluation`, function () {
-  let sourceDir = path.join(rootDir, "pass");
-  let testOne = (shortFileName) => {
-    let policy = loadPolicy(sourceDir, shortFileName);
-    let policyType = policy.getType();
+  const sourceDir = path.join(rootDir, "pass");
+  const testOne = (shortFileName) => {
+    const policy = loadPolicy(sourceDir, shortFileName);
+    const policyType = policy.getType();
     it(`check ${shortFileName} passes`, () => {
       assert.notEqual(policyType, undefined, `${policyType} should be defined`);
       plugin.onPolicy(policy, (e, foundIssues) => {
         assert.equal(e, undefined, "should be undefined");
         assert.equal(foundIssues, false, "should be no issues");
-        let messages = policy.getReport().messages;
+        const messages = policy.getReport().messages;
         assert.ok(messages, "messages should exist");
         assert.equal(messages.length, 0, "unexpected number of messages");
       });
@@ -66,30 +65,30 @@ describe(`${testID} - policy passes hygiene evaluation`, function () {
 });
 
 describe(`${testID} - policy does not pass hygiene evaluation`, () => {
-  let sourceDir = path.join(rootDir, "fail");
+  const sourceDir = path.join(rootDir, "fail");
   const expectedErrorMessages = require(path.join(sourceDir, "messages.js"));
-  let testOne = (shortFileName) => {
-    let policy = loadPolicy(sourceDir, shortFileName);
-    let policyType = policy.getType();
+  const testOne = (shortFileName) => {
+    const policy = loadPolicy(sourceDir, shortFileName);
+    const policyType = policy.getType();
     it(`check ${shortFileName} throws appropriate error`, () => {
       assert.notEqual(policyType, undefined, `${policyType} should be defined`);
       plugin.onPolicy(policy, (e, foundIssues) => {
         assert.equal(undefined, e, "should be undefined");
         assert.equal(true, foundIssues, "should be issues");
-        let messages = policy.getReport().messages;
+        const messages = policy.getReport().messages;
         assert.ok(messages, "messages should exist");
         //console.log(util.format(messages));
         assert.equal(1, messages.length, "unexpected number of messages");
         assert.ok(messages[0].message, "did not find message member");
-        let expected = expectedErrorMessages[policy.fileName];
+        const expected = expectedErrorMessages[policy.fileName];
         assert.ok(
           expected,
-          "test configuration failure: did not find an expected message"
+          "test configuration failure: did not find an expected message",
         );
         assert.equal(
           expected,
           messages[0].message,
-          "did not find expected message"
+          "did not find expected message",
         );
         debug(`message[0]: ${messages[0].message}`);
       });

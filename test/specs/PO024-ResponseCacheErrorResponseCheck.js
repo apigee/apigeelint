@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2025 Google LLC
+  Copyright © 2019-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ const assert = require("node:assert"),
   Dom = require("@xmldom/xmldom").DOMParser,
   test = function (caseNum, exp, assertion) {
     it(`tests case ${caseNum}, expect(${assertion})`, function () {
-      let doc = new Dom().parseFromString(exp),
+      const doc = new Dom().parseFromString(exp),
         p = new Policy("/", "fakename", this, doc);
 
       p.addMessage = function (msg) {
@@ -111,26 +111,26 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
     it("should create a report object with valid schema", function () {
       debug("test configuration: " + JSON.stringify(configuration));
 
-      var bundle = new Bundle(configuration);
+      const bundle = new Bundle(configuration);
       bl.executePlugin(testID, bundle);
 
       //need a case where we are using ref for the key
       //also prefix
-      let report = bundle.getReport();
+      const report = bundle.getReport();
       assert.ok(report);
-      let formatter = bl.getFormatter("json.js");
+      const formatter = bl.getFormatter("json.js");
       assert.ok(formatter);
 
-      let schema = require("./../fixtures/reportSchema.js"),
+      const schema = require("./../fixtures/reportSchema.js"),
         Validator = require("jsonschema").Validator,
         v = new Validator(),
         jsonReport = JSON.parse(formatter(bundle.getReport())),
         validationResult = v.validate(jsonReport, schema);
       assert.equal(validationResult.errors.length, 0, validationResult.errors);
 
-      let stylimpl = bl.getFormatter("unix.js");
+      const stylimpl = bl.getFormatter("unix.js");
       assert.ok(stylimpl);
-      let stylReport = stylimpl(bundle.getReport());
+      const stylReport = stylimpl(bundle.getReport());
       assert.ok(stylReport);
       debug("unix formatted report: \n" + stylReport);
     });

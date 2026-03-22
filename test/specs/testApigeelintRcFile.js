@@ -116,7 +116,7 @@ describe("cli options handling", function () {
     this.timeout(58000);
     runOne(
       ["-s", path.resolve(issue608Dir, "some-errors/apiproxy")],
-      (code, items) => {
+      (code, _items) => {
         // expect status code 1 = apigeelint found at least one error
         assert.equal(code, 1, "return status code");
         done();

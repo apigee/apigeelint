@@ -26,7 +26,7 @@ describe(`${testID} - esLint retry tests`, function () {
   this.timeout(12000);
   it("should retry with default config and cache it", function () {
     const originalSpawnSync = cp.spawnSync;
-    let calls = [];
+    const calls = [];
 
     // intercept the spawnSync call that PO025 makes
     cp.spawnSync = (cmd, args, opts) => {
@@ -51,7 +51,7 @@ describe(`${testID} - esLint retry tests`, function () {
         },
         excluded: {},
       };
-      let bundle = new Bundle(config);
+      const bundle = new Bundle(config);
       bl.executePlugin(testID, bundle);
 
       // BN013/bundle1/apiproxy has 4 JS files: sourceFile1.js, sourceFile2.js, sourceFile3.js, URI.js
@@ -78,7 +78,7 @@ describe(`${testID} - esLint retry tests`, function () {
 
   it("should NOT retry when eslintRetry is false", function () {
     const originalSpawnSync = cp.spawnSync;
-    let calls = [];
+    const calls = [];
 
     // intercept spawnSync
     cp.spawnSync = (cmd, args, opts) => {
@@ -104,7 +104,7 @@ describe(`${testID} - esLint retry tests`, function () {
         excluded: {},
         po025NoRetry: true, // Disabling retry
       };
-      let bundle = new Bundle(config);
+      const bundle = new Bundle(config);
       bl.executePlugin(testID, bundle);
 
       // PO025/retry/apiproxy has 4 JS files.

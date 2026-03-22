@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2024 Google LLC
+  Copyright © 2019-2024, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-/* global configuration, describe, it */
+
 const assert = require("node:assert"),
   path = require("node:path"),
   util = require("node:util"),
@@ -30,14 +30,14 @@ describe("BN012 - Check for unreferenced targets", function () {
         type: "filesystem",
         path: path.resolve(
           __dirname,
-          "../fixtures/resources/BN012-unreferenced-target/apiproxy"
+          "../fixtures/resources/BN012-unreferenced-target/apiproxy",
         ),
-        bundleType: "apiproxy"
+        bundleType: "apiproxy",
       },
       //profile: 'apigeex',
       excluded: {},
       setExitCode: false,
-      output: () => {} // suppress output
+      output: () => {}, // suppress output
     };
 
     debug("test configuration: " + JSON.stringify(configuration));
@@ -46,13 +46,13 @@ describe("BN012 - Check for unreferenced targets", function () {
       assert.ok(items);
       assert.ok(items.length);
       const actualErrors = items.filter(
-        (item) => item.messages && item.messages.length
+        (item) => item.messages && item.messages.length,
       );
       assert.ok(actualErrors.length);
       debug("actualErrors: " + util.format(actualErrors));
 
       const bn012Items = actualErrors.filter((e) =>
-        e.messages.find((m) => m.ruleId == "BN012")
+        e.messages.find((m) => m.ruleId == "BN012"),
       );
 
       // target-3 is un-referenced
@@ -61,12 +61,12 @@ describe("BN012 - Check for unreferenced targets", function () {
       debug(util.format(bn012Items[0]));
       assert.ok(bn012Items[0].messages);
       const bn012Messages = bn012Items[0].messages.filter(
-        (m) => m.ruleId == "BN012"
+        (m) => m.ruleId == "BN012",
       );
       assert.equal(bn012Messages.length, 1);
       assert.equal(
         bn012Messages[0].message,
-        "Unreferenced TargetEndpoint target-3. There are no RouteRules that reference this TargetEndpoint."
+        "Unreferenced TargetEndpoint target-3. There are no RouteRules that reference this TargetEndpoint.",
       );
     });
   });

@@ -19,7 +19,6 @@
 const assert = require("node:assert"),
   fs = require("node:fs"),
   path = require("node:path"),
-  util = require("node:util"),
   debug = require("debug")("apigeelint:EP002-test"),
   bl = require("../../lib/package/bundleLinter.js");
 
@@ -48,7 +47,7 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
         __dirname,
         `../fixtures/resources/${proxydir}/apiproxy`,
       );
-      let configuration = {
+      const configuration = {
         debug: true,
         source: {
           type: "filesystem",
@@ -91,7 +90,7 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
 
   it("should generate the correct messages for proxy endpoint 1", () => {
     insure(() => {
-      let proxyEp1Errors = ep002Errors.filter((item, ix) =>
+      const proxyEp1Errors = ep002Errors.filter((item) =>
         item.filePath.endsWith(
           path.normalize("/apiproxy/proxies/proxy-endpoint-1.xml"),
         ),
@@ -123,7 +122,7 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
 
   it("should generate the correct messages for proxy endpoint 2", () => {
     insure(() => {
-      let proxyEp2Errors = ep002Errors.filter((item) =>
+      const proxyEp2Errors = ep002Errors.filter((item) =>
         item.filePath.endsWith("/apiproxy/proxies/proxy-endpoint-2.xml"),
       );
       assert.ok(proxyEp2Errors);
@@ -141,12 +140,11 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
 
   it("should generate the correct messages for the target endpoint", () => {
     insure(() => {
-      let targetErrors = ep002Errors.filter((item) =>
+      const targetErrors = ep002Errors.filter((item) =>
         item.filePath.endsWith(path.normalize("/apiproxy/targets/http-1.xml")),
       );
       assert.ok(targetErrors);
       assert.equal(targetErrors.length, 1);
-      // console.log(util.format(targetErrors[0].messages));
       let expectedErrors = [
         "Extra Flows element",
         "Misplaced 'SocketReadTimeoutInSec' element child of Request",
@@ -180,7 +178,7 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
 
   it("should generate the correct messages for the target endpoint with URL", () => {
     insure(() => {
-      let targetErrors = ep002Errors.filter((item) => {
+      const targetErrors = ep002Errors.filter((item) => {
         const normalizedPath = item.filePath.split(path.sep).join("/");
         return normalizedPath.endsWith("/apiproxy/targets/http-2.xml");
       });
@@ -192,7 +190,7 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
   it("should generate the correct messages for the SSLInfo element in the TargetEndpoint", () => {
     insure("EP002-issue-437", () => {
       debug(ep002Errors);
-      let errorsofInterest = ep002Errors.filter((item) => {
+      const errorsofInterest = ep002Errors.filter((item) => {
         const normalizedPath = item.filePath.split(path.sep).join("/");
         debug(`checking ${normalizedPath}`);
         return normalizedPath.endsWith("/apiproxy/targets/target1.xml");
@@ -211,7 +209,7 @@ describe(`EP002 - apiproxy bundle with misplaced elements`, () => {
 });
 
 describe(`EP002 - sharedflowbundle with no misplaced elements`, () => {
-  let configuration = {
+  const configuration = {
     debug: true,
     source: {
       type: "filesystem",
@@ -265,7 +263,7 @@ describe(`EP002 - sharedflowbundle with no misplaced elements`, () => {
 });
 
 describe(`EP002 - EventFlow within API Proxy and Target Endpoints`, () => {
-  let configuration = {
+  const configuration = {
     debug: true,
     source: {
       type: "filesystem",

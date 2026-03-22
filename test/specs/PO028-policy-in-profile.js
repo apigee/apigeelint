@@ -29,7 +29,7 @@ const testID = "PO028",
   debug = require("debug")("apigeelint:" + testID);
 
 const loadPolicy = (sourceDir, shortFileName) => {
-  let fqPath = path.join(sourceDir, shortFileName),
+  const fqPath = path.join(sourceDir, shortFileName),
     policyXml = fs.readFileSync(fqPath).toString("utf-8"),
     doc = new Dom().parseFromString(policyXml),
     p = new Policy(rootDir, shortFileName, this, doc);
@@ -43,10 +43,10 @@ const messageRe = new RegExp(
 );
 
 const testOneProfile = function (okExpected, profile) {
-  let testOne = (testCasesDir) => (shortFileName) => {
-    let policy = loadPolicy(testCasesDir, shortFileName);
-    let policyType = policy.getType();
-    let expectedResult = okExpected ? "succeeds" : "throws error";
+  const testOne = (testCasesDir) => (shortFileName) => {
+    const policy = loadPolicy(testCasesDir, shortFileName);
+    const policyType = policy.getType();
+    const expectedResult = okExpected ? "succeeds" : "throws error";
     it(`check ${policyType} ${expectedResult}`, () => {
       assert.notEqual(policyType, undefined, `${policyType} should be defined`);
       plugin.onBundle({ profile });
@@ -55,13 +55,13 @@ const testOneProfile = function (okExpected, profile) {
         if (okExpected) {
           debug(`foundIssues: ${foundIssues}`);
           assert.equal(foundIssues, false, "should be issues");
-          let messages = policy.getReport().messages;
+          const messages = policy.getReport().messages;
           debug(`messages:` + util.format(messages));
           assert.ok(messages, "messages should exist");
           assert.equal(messages.length, 0, "unexpected number of messages");
         } else {
           assert.equal(foundIssues, true, "should be issues");
-          let messages = policy.getReport().messages;
+          const messages = policy.getReport().messages;
           assert.ok(messages, "messages should exist");
           assert.equal(messages.length, 1, "unexpected number of messages");
           debug(`message[0]: ${messages[0].message}`);
@@ -76,11 +76,11 @@ const testOneProfile = function (okExpected, profile) {
     });
   };
 
-  let profileDir = path.join(rootDir, profile);
-  let subdir = okExpected ? "positive" : "negative";
-  let testCasesDir = path.join(profileDir, subdir);
+  const profileDir = path.join(rootDir, profile);
+  const subdir = okExpected ? "positive" : "negative";
+  const testCasesDir = path.join(profileDir, subdir);
 
-  let testCases = fs
+  const testCases = fs
     .readdirSync(testCasesDir)
     .filter((n) => n.endsWith(".xml"));
   assert.ok(testCases.length, "test cases do not exist");

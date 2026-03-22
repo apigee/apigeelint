@@ -17,13 +17,12 @@
 const assert = require("node:assert"),
   path = require("node:path"),
   fs = require("node:fs"),
-  Bundle = require("../../lib/package/Bundle.js"),
-  bundleType = require("../../lib/package/BundleTypes.js");
+  Bundle = require("../../lib/package/Bundle.js");
 
-const subdirnames = [
-  bundleType.BundleType.SHAREDFLOW,
-  bundleType.BundleType.APIPROXY,
-];
+// const subdirnames = [
+//   bundleType.BundleType.SHAREDFLOW,
+//   bundleType.BundleType.APIPROXY,
+// ];
 
 describe("BundleEx", function () {
   it("Should correctly identify and build a SharedFlow bundle", function () {
@@ -39,7 +38,7 @@ describe("BundleEx", function () {
       },
     };
 
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     assert.equal(bundle.bundleTypeName, "sharedflowbundle");
 
     const endpoints = bundle.getEndpoints();
@@ -71,11 +70,11 @@ describe("BundleEx", function () {
 
     // The CLI finds the apiproxy or sharedflowbundle dir and appends it;
     // but programs directly using the Bundle() class must specify it.
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     assert.ok(bundle);
-    let report = bundle.getReport();
+    const report = bundle.getReport();
     assert.ok(report);
-    let missingFolderMsg = report[0].messages.find((m) =>
+    const missingFolderMsg = report[0].messages.find((m) =>
       m.message.includes("No apiproxy folder found"),
     );
     assert.ok(missingFolderMsg, "Should warn about missing apiproxy folder");
@@ -92,11 +91,11 @@ describe("BundleEx", function () {
         bundleType: "apiproxy",
       },
     };
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     bundle.addMessage({ message: "No plugin test", severity: 2 });
 
-    let report = bundle.getReport();
-    let msg = report[0].messages.find((m) => m.message === "No plugin test");
+    const report = bundle.getReport();
+    const msg = report[0].messages.find((m) => m.message === "No plugin test");
     assert.ok(msg);
     assert.equal(msg.severity, 2);
     assert.equal(bundle.report.errorCount, 1);
@@ -113,14 +112,14 @@ describe("BundleEx", function () {
         bundleType: "apiproxy",
       },
     };
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     bundle.addMessage({
       plugin: { ruleId: "TEST01", severity: 1 },
       message: "Default severity test",
     });
 
-    let report = bundle.getReport();
-    let msg = report[0].messages.find(
+    const report = bundle.getReport();
+    const msg = report[0].messages.find(
       (m) => m.message === "Default severity test",
     );
     assert.ok(msg);
@@ -138,13 +137,13 @@ describe("BundleEx", function () {
         bundleType: "apiproxy",
       },
     };
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     // addMessage will default entity to 'this' (the bundle)
     bundle.addMessage({ message: "Entity test" });
-    let report = bundle.getReport();
+    const report = bundle.getReport();
     // const util = require("util");
     // console.log("report: " + util.format(report[0]));
-    let msg = report[0].messages.find((m) => m.message === "Entity test");
+    const msg = report[0].messages.find((m) => m.message === "Entity test");
     assert.ok(msg);
     assert.ok(msg.source);
   });
@@ -161,7 +160,7 @@ describe("BundleEx", function () {
         bundleType: "apiproxy",
       },
     };
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     // Manually mess with it to trigger catch blocks if possible,
     // or just rely on the fact that getName/getRevision might fail if we don't have the right structure.
     // In lib/package/Bundle.js:
@@ -183,43 +182,43 @@ describe("BundleEx", function () {
         bundleType: "apiproxy",
       },
     };
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     // Mock getProxyEndpoints and getTargetEndpoints to return null/empty
     bundle.getProxyEndpoints = () => null;
     bundle.getTargetEndpoints = () => [];
 
     bundle.onSteps(
       () => {},
-      (err, result) => {
-        assert.equal(err, null);
+      (e, _result) => {
+        assert.equal(e, null);
       },
     );
 
     bundle.onConditions(
       () => {},
-      (err, result) => {
-        assert.equal(err, null);
+      (e, _result) => {
+        assert.equal(e, null);
       },
     );
 
     bundle.onResources(
       () => {},
-      (err, result) => {
-        assert.equal(err, null);
+      (e, _result) => {
+        assert.equal(e, null);
       },
     );
 
     bundle.onFaultRules(
       () => {},
-      (err, result) => {
-        assert.equal(err, null);
+      (e, _result) => {
+        assert.equal(e, null);
       },
     );
 
     bundle.onDefaultFaultRules(
       () => {},
-      (err, result) => {
-        assert.equal(err, null);
+      (e, _result) => {
+        assert.equal(e, null);
       },
     );
   });
@@ -236,7 +235,7 @@ describe("BundleEx", function () {
         bundleType: "apiproxy",
       },
     };
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     const summary = bundle.summarize();
     assert.ok(summary);
     assert.equal(summary.name, "TwentyFour");
@@ -277,7 +276,7 @@ describe("BundleEx", function () {
         bundleType: "apiproxy",
       },
     };
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
 
     // Entity with getElement but no column
     const mockElement = { lineNumber: 10, columnNumber: 5 };
@@ -321,7 +320,7 @@ describe("BundleEx", function () {
     // Need a dummy .xml at root
     fs.writeFileSync(path.join(tmpDir.name, "bundle.xml"), "<APIProxy/>");
 
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     const resources = bundle.getResources();
     assert.ok(resources.find((r) => r.fname === "test.js"));
     assert.ok(resources.find((r) => r.fname === "root.js"));
@@ -342,7 +341,7 @@ describe("BundleEx", function () {
         bundleType: "apiproxy",
       },
     };
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
 
     bundle.onSteps(
       () => {},
@@ -365,7 +364,7 @@ describe("BundleEx", function () {
         bundleType: "apiproxy",
       },
     };
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     // Mock readdirSync to throw an error inside _buildEndpoints
     const origReaddir = fs.readdirSync;
     fs.readdirSync = (p) => {
@@ -383,7 +382,7 @@ describe("BundleEx", function () {
   it("Should exercise the catch block in getReport directives", function () {
     const tmp = require("tmp");
     const tmpDir = tmp.dirSync({ unsafeCleanup: true });
-    
+
     // Create a subdirectory for the malformed file to avoid root XML collision
     const policiesDir = path.join(tmpDir.name, "policies");
     fs.mkdirSync(policiesDir);
@@ -400,11 +399,16 @@ describe("BundleEx", function () {
     // Only one .xml at root
     fs.writeFileSync(path.join(tmpDir.name, "bundle.xml"), "<APIProxy/>");
 
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     // Trick getReport into processing the malformed file
-    bundle.getPolicies = () => [{
-      getReport: () => ({ filePath: malformedXml, messages: [{ ruleId: "R1" }] })
-    }];
+    bundle.getPolicies = () => [
+      {
+        getReport: () => ({
+          filePath: malformedXml,
+          messages: [{ ruleId: "R1" }],
+        }),
+      },
+    ];
 
     bundle.getReport();
     tmpDir.removeCallback();

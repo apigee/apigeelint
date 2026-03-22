@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2022 Google LLC
+  Copyright © 2019-2022, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@
 const ruleId = "PD005",
   assert = require("node:assert"),
   path = require("node:path"),
-  util = require("node:util"),
-  debug = require("debug")(`apigeelint:${ruleId}`),
   bl = require("../../lib/package/bundleLinter.js");
 
 describe(`${ruleId} - bundle with VirtualHost elements`, () => {
@@ -30,35 +28,35 @@ describe(`${ruleId} - bundle with VirtualHost elements`, () => {
     apigeex: {
       "endpoint1.xml": ["Unnecessary VirtualHost element."],
       "endpoint-multiple.xml": ["Multiple HTTPProxyConnection elements."],
-      "endpoint-missing.xml": ["Missing HTTPProxyConnection."]
+      "endpoint-missing.xml": ["Missing HTTPProxyConnection."],
     },
     apigee: {
       "endpoint1.xml": [],
       "endpoint-multiple.xml": ["Multiple HTTPProxyConnection elements."],
-      "endpoint-missing.xml": ["Missing HTTPProxyConnection."]
-    }
+      "endpoint-missing.xml": ["Missing HTTPProxyConnection."],
+    },
   };
 
   profiles.forEach((profile) => {
     it(`should generate the expected errors for profile ${profile}`, () => {
-      let configuration = {
+      const configuration = {
         debug: true,
         source: {
           type: "filesystem",
           path: path.resolve(
             __dirname,
-            "../fixtures/resources/PD005-VirtualHost/apiproxy"
+            "../fixtures/resources/PD005-VirtualHost/apiproxy",
           ),
-          bundleType: "apiproxy"
+          bundleType: "apiproxy",
         },
         profile,
         excluded: {},
         setExitCode: false,
-        output: () => {} // suppress output
+        output: () => {}, // suppress output
       };
 
       bl.lint(configuration, (bundle) => {
-        let items = bundle.getReport();
+        const items = bundle.getReport();
         assert.ok(items);
         assert.ok(items.length);
 
@@ -73,7 +71,7 @@ describe(`${ruleId} - bundle with VirtualHost elements`, () => {
           assert.deepEqual(
             pd005Messages,
             expectations[profile][fileName],
-            `Unexpected messages for ${fileName} in profile ${profile}`
+            `Unexpected messages for ${fileName} in profile ${profile}`,
           );
         });
       });

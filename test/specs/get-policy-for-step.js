@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2025 Google LLC
+  Copyright © 2019-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -45,16 +45,16 @@ const getConfig = (partialProxyPath) => {
 
 describe("step-get Bundle", function () {
   it("Should return the bundle from every step", function () {
-    let configuration = getConfig("sampleProxy/24Solver");
-    let bundle = new Bundle(configuration);
-    let endpoints = [
+    const configuration = getConfig("sampleProxy/24Solver");
+    const bundle = new Bundle(configuration);
+    const endpoints = [
       ...bundle.getProxyEndpoints(),
       ...bundle.getTargetEndpoints(),
     ];
     endpoints.forEach((endpt) => {
       debug(`endpt ${endpt.constructor.name}`);
-      let steps = endpt.getSteps();
-      let foundBundleCount = steps.reduce((acc, step) => {
+      const steps = endpt.getSteps();
+      const foundBundleCount = steps.reduce((acc, step) => {
         if (step.getBundle() == bundle) {
           acc++;
         }
@@ -67,14 +67,14 @@ describe("step-get Bundle", function () {
 
 describe("step-get Policy", function () {
   it("Should return the policy for any step that refers to a real policy", function () {
-    let configuration = getConfig("step-get-sample-proxy");
-    let bundle = new Bundle(configuration);
+    const configuration = getConfig("step-get-sample-proxy");
+    const bundle = new Bundle(configuration);
 
     // look for missing policies
     bl.executePlugin("BN010", bundle);
-    let reportItems = bundle.getReport();
+    const reportItems = bundle.getReport();
     debug(`reportItems: ${JSON.stringify(reportItems)}`);
-    let bn010Errors = reportItems.filter(
+    const bn010Errors = reportItems.filter(
       (item) =>
         item.messages &&
         item.messages.length &&
@@ -82,16 +82,16 @@ describe("step-get Policy", function () {
     );
     debug(`found: ${bn010Errors.length} Step(s) with missing policies`);
 
-    let endpoints = [
+    const endpoints = [
       ...bundle.getProxyEndpoints(),
       ...bundle.getTargetEndpoints(),
     ];
     endpoints.forEach((endpt) => {
       debug(`endpt ${endpt.constructor.name}`);
-      let steps = endpt.getSteps();
-      let resolvedPolicies = steps
+      const steps = endpt.getSteps();
+      const resolvedPolicies = steps
         .map((step) => [step, step.resolvePolicy()])
-        .filter(([s, p]) => !!p);
+        .filter(([_s, p]) => !!p);
 
       assert.equal(resolvedPolicies.length, steps.length - bn010Errors.length);
 

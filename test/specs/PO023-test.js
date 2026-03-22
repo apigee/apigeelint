@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2025 Google LLC
+  Copyright © 2019-2025, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
 
 /* global describe, it */
 
-const assert = require("node:assert"),
+const ruleId = "PO023",
+  assert = require("node:assert"),
   path = require("node:path"),
   util = require("node:util"),
-  ruleId = "PO023",
-  debug = require("debug")("apigeelint:" + ruleId),
+  debug = require("debug")(`apigeelint:${ruleId}`),
   bl = require("../../lib/package/bundleLinter.js");
 
 const testOne = (testcase, _label) => {

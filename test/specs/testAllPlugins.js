@@ -15,16 +15,12 @@
 */
 
 const assert = require("node:assert"),
-  path = require("node:path"),
-  fs = require("node:fs"),
   //debug = require("debug")("apigeelint:allplugins"),
   Bundle = require("../../lib/package/Bundle.js"),
   Validator = require("jsonschema").Validator,
   bl = require("../../lib/package/bundleLinter.js"),
   schema = require("./../fixtures/reportSchema.js"),
   pluginSchema = require("./../fixtures/pluginSchema.js");
-
-const pluginPath = path.join(__dirname, "../../lib/package/plugins");
 
 describe("All Plugins", function () {
   const pluginRe = {
@@ -77,7 +73,7 @@ describe("All Plugins", function () {
       bl.executePlugin(shortFileName, bundle);
 
       bundle.getReport(function (report) {
-        let jsimpl = bl.getFormatter("json.js"),
+        const jsimpl = bl.getFormatter("json.js"),
           v = new Validator(),
           validationResult = v.validate(JSON.parse(jsimpl(report)), schema);
         assert.equal(
@@ -87,12 +83,12 @@ describe("All Plugins", function () {
         );
       });
 
-      let v = new Validator(),
+      const v = new Validator(),
         plugin = require(fqPluginPath).plugin;
 
       assert.ok(plugin, `unexported plugin ${shortFileName}`);
 
-      let validationResult = v.validate(plugin.plugin, pluginSchema);
+      const validationResult = v.validate(plugin.plugin, pluginSchema);
       assert.equal(validationResult.errors.length, 0, validationResult.errors);
     });
   };

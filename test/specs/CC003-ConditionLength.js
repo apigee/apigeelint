@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright © 2019-2021, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,37 +16,35 @@
 /* global describe, it */
 
 const assert = require("node:assert"),
-      testID = "CC003",
-      bl = require("../../lib/package/bundleLinter.js"),
-      plugin = require(bl.resolvePlugin(testID)),
-      debug = require("debug")("apigeelint:" + testID),
-      Dom = require("@xmldom/xmldom").DOMParser,
-      Condition = require("../../lib/package/Condition.js"),
-      test = function(exp, caseNum, assertion) {
-        it(`condition complexity case ${caseNum}, expect(${assertion})`,
-           function() {
-             let doc = new Dom().parseFromString(exp),
-                 c = new Condition(doc, this);
+  testID = "CC003",
+  bl = require("../../lib/package/bundleLinter.js"),
+  plugin = require(bl.resolvePlugin(testID)),
+  debug = require("debug")("apigeelint:" + testID),
+  Dom = require("@xmldom/xmldom").DOMParser,
+  Condition = require("../../lib/package/Condition.js"),
+  test = function (exp, caseNum, assertion) {
+    it(`condition complexity case ${caseNum}, expect(${assertion})`, function () {
+      const doc = new Dom().parseFromString(exp),
+        c = new Condition(doc, this);
 
-             c.addMessage = function(msg) {
-               debug(msg);
-             };
-             plugin.onCondition(c, function(e, result) {
-               assert.equal(e, undefined);
-               assert.equal(
-                 result,
-                 assertion,
-                 result ? " warning created " : "no warning created"
-               );
-             });
-           }
-        );
+      c.addMessage = function (msg) {
+        debug(msg);
       };
-describe(`${testID} - ${plugin.plugin.name}`, function() {
+      plugin.onCondition(c, function (e, result) {
+        assert.equal(e, undefined);
+        assert.equal(
+          result,
+          assertion,
+          result ? " warning created " : "no warning created",
+        );
+      });
+    });
+  };
+describe(`${testID} - ${plugin.plugin.name}`, function () {
   test(
     "b OR c AND (a OR B AND C or D and True) and someverylongname=someotherverylongvariablename or b OR c AND (a OR B AND C or D and True) and someverylongname=someotherverylongvariablename or b OR c AND (a OR B AND C or D and True) and someverylongname=someotherverylongvariablename or b OR c AND (a OR B AND C or D and True) and someverylongname=someotherverylongvariablename",
     1,
-    true
+    true,
   );
   test("false", 2, false);
   test("true OR false", 3, false);
