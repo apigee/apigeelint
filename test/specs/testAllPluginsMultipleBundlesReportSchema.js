@@ -1,5 +1,5 @@
 /*
-Copyright © 2019-2022, 2026 Google LLC
+  Copyright © 2019-2022, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -25,13 +25,22 @@ const assert = require("node:assert"),
   rootDir = path.resolve(__dirname, "../fixtures/resources");
 
 describe(`Report Schema`, () => {
-  findFolders(rootDir, "apiproxy").forEach((folder, ix) => {
+  const allProxyFolders = findFolders(rootDir, "apiproxy");
+  it(`checks that there are the expected proxy folders`, function () {
+    assert.ok(allProxyFolders);
+    assert.ok(allProxyFolders.length > 48);
+  });
+
+  allProxyFolders.forEach((folder, ix) => {
     const shortFolder = folder.replace(
       rootDir,
-      path.normalize("../fixtures/resources"),
+      "...",
+      // path.normalize("../fixtures/resources"),
     );
-    describe(`Reports for proxy ${shortFolder}`, () => {
-      let config = {
+    it(`checks all plugins for proxy ${shortFolder}`, function () {
+      this.timeout(30000);
+      this.slow(10000);
+      const config = {
         debug: true,
         source: {
           type: "filesystem",
@@ -41,26 +50,21 @@ describe(`Report Schema`, () => {
         formatter: "table.js",
       };
       const bundle = new Bundle(config);
-
-      return bl.listPlugins().forEach((pluginName) => {
+      const allPlugins = bl.listPlugins();
+      assert.ok(allPlugins && allPlugins.length > 50);
+      allPlugins.forEach((pluginName) => {
         if (bl.resolvePlugin(pluginName)) {
           const parts = pluginName.split("-");
-          it(`plugin ${parts[0]}`, function () {
-            this.timeout(10000);
-            bl.executePlugin(pluginName, bundle);
-            bundle.getReport((report) => {
-              const jsimpl = bl.getFormatter("json.js"),
-                v = new Validator(),
-                validationResult = v.validate(
-                  JSON.parse(jsimpl(report)),
-                  schema,
-                );
-              assert.equal(
-                validationResult.errors.length,
-                0,
-                validationResult.errors,
-              );
-            });
+          bl.executePlugin(pluginName, bundle);
+          bundle.getReport((report) => {
+            const jsimpl = bl.getFormatter("json.js"),
+              v = new Validator(),
+              validationResult = v.validate(JSON.parse(jsimpl(report)), schema);
+            assert.equal(
+              validationResult.errors.length,
+              0,
+              validationResult.errors,
+            );
           });
         }
       });
