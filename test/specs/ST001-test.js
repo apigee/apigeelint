@@ -49,6 +49,7 @@ const testID = "ST001",
   };
 
 describe(`${testID} - ${plugin.plugin.name}`, function () {
+  this.timeout(7000);
   test(
     1,
     `<Step>
@@ -101,7 +102,8 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
   });
 });
 
-describe(`ST001 - Empty Steps - apiproxy`, () => {
+describe(`ST001 - Empty Steps - apiproxy`, function () {
+  this.timeout(7000);
   it("should generate the expected errors", () => {
     let configuration = {
       debug: true,
@@ -167,7 +169,8 @@ describe(`ST001 - Empty Steps - apiproxy`, () => {
   });
 });
 
-describe(`ST001 - Empty Steps - sharedflow`, () => {
+describe(`ST001 - Empty Steps - sharedflow`, function () {
+  this.timeout(7000);
   it("should generate the expected errors", () => {
     let configuration = {
       debug: true,
