@@ -150,9 +150,10 @@ describe("TruthTable AST", function () {
 
   const testAst = function (exp, expected) {
     it(`${exp} should parse correctly`, function () {
+      let ast;
       try {
-        const tt = new TruthTable(exp),
-          ast = tt.getAST();
+        const tt = new TruthTable(exp);
+        ast = tt.getAST();
 
         debug(`ast: ${ast}`);
       } catch (parseExc) {
