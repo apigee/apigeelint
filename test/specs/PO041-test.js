@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2025 Google LLC
+  Copyright © 2019-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -28,36 +28,41 @@ const testID = "PO041",
   rootDir = path.resolve(__dirname, "../fixtures/resources/PO041"),
   debug = require("debug")(`apigeelint:${testID}-test`);
 
-const loadPolicy = (sourceDir, shortFileName) => {
+const loadPolicy = (sourceDir, shortFileName, profile) => {
   const fqPath = path.join(sourceDir, shortFileName),
     policyXml = fs.readFileSync(fqPath).toString("utf-8"),
     doc = new Dom().parseFromString(policyXml),
-    p = new Policy(rootDir, shortFileName, this, doc);
+    p = new Policy(rootDir, shortFileName, this, doc),
+    bundle = { profile };
   p.getElement = () => doc.documentElement;
+  p.getBundle = () => bundle;
   p.fileName = shortFileName;
   return p;
 };
 
 describe(`${testID} - policy passes KVM hygiene check`, function () {
-  const sourceDir = path.join(rootDir, "pass");
-  const testOne = (shortFileName) => {
-    const policy = loadPolicy(sourceDir, shortFileName);
-    const profile = shortFileName.split(".")[0].split("-").slice(-1)[0];
-    const policyType = policy.getType();
-    it(`check ${shortFileName} passes`, () => {
-      assert.notEqual(policyType, undefined, `${policyType} should be defined`);
-      plugin.onBundle({ profile });
-      plugin.onPolicy(policy);
-      const report = policy.getReport();
-      const foundIssues = report.errorCount != 0 || report.warningCount != 0;
-      const messages = report.messages;
-      debug(`pass ${shortFileName} issues: ${foundIssues}`);
-      debug(`pass ${shortFileName} messages: ${util.format(messages)}`);
-      assert.equal(foundIssues, false, "should be no issues");
-      assert.ok(messages, "messages should exist");
-      assert.equal(messages.length, 0, "unexpected number of messages");
-    });
-  };
+  const sourceDir = path.join(rootDir, "pass"),
+    testOne = (shortFileName) => {
+      const profile = shortFileName.split(".")[0].split("-").slice(-1)[0],
+        policy = loadPolicy(sourceDir, shortFileName, profile),
+        policyType = policy.getType();
+      it(`check ${shortFileName} passes`, () => {
+        assert.notEqual(
+          policyType,
+          undefined,
+          `${policyType} should be defined`,
+        );
+        plugin.onPolicy(policy);
+        const report = policy.getReport(),
+          foundIssues = report.errorCount != 0 || report.warningCount != 0,
+          messages = report.messages;
+        debug(`pass ${shortFileName} issues: ${foundIssues}`);
+        debug(`pass ${shortFileName} messages: ${util.format(messages)}`);
+        assert.equal(foundIssues, false, "should be no issues");
+        assert.ok(messages, "messages should exist");
+        assert.equal(messages.length, 0, "unexpected number of messages");
+      });
+    };
 
   fs.readdirSync(sourceDir)
     .filter((shortFileName) => shortFileName.endsWith(".xml"))
@@ -65,52 +70,55 @@ describe(`${testID} - policy passes KVM hygiene check`, function () {
 });
 
 describe(`${testID} - policy does not pass KVM hygiene check`, () => {
-  const sourceDir = path.join(rootDir, "fail");
-  const expectedErrorMessages = require(path.join(sourceDir, "messages.js"));
-  const testOne = (shortFileName) => {
-    const policy = loadPolicy(sourceDir, shortFileName);
-    const profile = shortFileName.split(".")[0].split("-").slice(-1)[0];
-    const policyType = policy.getType();
-    it(`check ${shortFileName} throws error`, () => {
-      assert.notEqual(policyType, undefined, `${policyType} should be defined`);
-      plugin.onBundle({ profile });
-      plugin.onPolicy(policy);
-      const report = policy.getReport();
-      const foundIssues = report.errorCount != 0 || report.warningCount != 0;
-      debug(`onPolicy: ${policy.getName()}`);
-      assert.equal(true, foundIssues, "should be issues");
-      const messages = report.messages;
-      assert.ok(messages, "messages should exist");
-      debug(util.format(messages));
-      let expectedList = expectedErrorMessages[policy.fileName];
-      assert.ok(
-        expectedList,
-        "test configuration failure: did not find an expected message",
-      );
-      if (typeof expectedList == "string") {
-        expectedList = [expectedList];
-      }
-      assert.equal(
-        messages.length,
-        expectedList.length,
-        "unexpected number of messages",
-      );
-
-      expectedList.forEach((expected, ix) => {
-        debug(`expected: ${expected}`);
-        debug(`actual: ${messages[ix].message}`);
-        assert.ok(messages[ix]);
-        assert.ok(messages[ix].message);
-        assert.equal(typeof messages[ix].message, "string");
-        assert.equal(typeof expected, "string");
-        assert.equal(
-          expected,
-          messages[ix].message,
-          "did not find expected message",
+  const sourceDir = path.join(rootDir, "fail"),
+    expectedErrorMessages = require(path.join(sourceDir, "messages.js")),
+    testOne = (shortFileName) => {
+      const profile = shortFileName.split(".")[0].split("-").slice(-1)[0],
+        policy = loadPolicy(sourceDir, shortFileName, profile),
+        policyType = policy.getType();
+      it(`check ${shortFileName} throws error`, () => {
+        assert.notEqual(
+          policyType,
+          undefined,
+          `${policyType} should be defined`,
         );
+        plugin.onPolicy(policy);
+        const report = policy.getReport(),
+          foundIssues = report.errorCount != 0 || report.warningCount != 0;
+        debug(`onPolicy: ${policy.getName()}`);
+        assert.equal(true, foundIssues, "should be issues");
+        const messages = report.messages;
+        assert.ok(messages, "messages should exist");
+        debug(util.format(messages));
+        let expectedList = expectedErrorMessages[policy.fileName];
+        assert.ok(
+          expectedList,
+          "test configuration failure: did not find an expected message",
+        );
+        if (typeof expectedList == "string") {
+          expectedList = [expectedList];
+        }
+        assert.equal(
+          messages.length,
+          expectedList.length,
+          "unexpected number of messages",
+        );
+
+        expectedList.forEach((expected, ix) => {
+          debug(`expected: ${expected}`);
+          debug(`actual: ${messages[ix].message}`);
+          assert.ok(messages[ix]);
+          assert.ok(messages[ix].message);
+          assert.equal(typeof messages[ix].message, "string");
+          assert.equal(typeof expected, "string");
+          assert.equal(
+            expected,
+            messages[ix].message,
+            "did not find expected message",
+          );
+        });
       });
-    });
-  };
+    };
 
   fs.readdirSync(sourceDir)
     .filter((shortFileName) => shortFileName.endsWith(".xml"))

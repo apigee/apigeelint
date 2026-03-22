@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2024 Google LLC
+  Copyright © 2019-2024,2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -28,12 +28,14 @@ const testID = "PO028",
   rootDir = path.resolve(__dirname, "../fixtures/resources/PO028"),
   debug = require("debug")("apigeelint:" + testID);
 
-const loadPolicy = (sourceDir, shortFileName) => {
+const loadPolicy = (sourceDir, shortFileName, profile) => {
   const fqPath = path.join(sourceDir, shortFileName),
     policyXml = fs.readFileSync(fqPath).toString("utf-8"),
     doc = new Dom().parseFromString(policyXml),
-    p = new Policy(rootDir, shortFileName, this, doc);
+    p = new Policy(rootDir, shortFileName, this, doc),
+    bundle = { profile };
   p.getElement = () => doc.documentElement;
+  p.getBundle = () => bundle;
   p.fileName = shortFileName;
   return p;
 };
@@ -44,12 +46,11 @@ const messageRe = new RegExp(
 
 const testOneProfile = function (okExpected, profile) {
   const testOne = (testCasesDir) => (shortFileName) => {
-    const policy = loadPolicy(testCasesDir, shortFileName);
+    const policy = loadPolicy(testCasesDir, shortFileName, profile);
     const policyType = policy.getType();
     const expectedResult = okExpected ? "succeeds" : "throws error";
     it(`check ${policyType} ${expectedResult}`, () => {
       assert.notEqual(policyType, undefined, `${policyType} should be defined`);
-      plugin.onBundle({ profile });
       plugin.onPolicy(policy, (e, foundIssues) => {
         assert.equal(e, undefined, "should be undefined");
         if (okExpected) {

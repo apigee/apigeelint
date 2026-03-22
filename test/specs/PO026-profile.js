@@ -1,5 +1,5 @@
 ﻿/*
-  Copyright 2019-2025 Google LLC
+  Copyright © 2019-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -85,11 +85,12 @@ const po026Test = (filename, profile, cb) => {
       fqfname = path.resolve(baseDir, filename),
       policyXml = fs.readFileSync(fqfname, "utf-8"),
       doc = new Dom().parseFromString(policyXml),
-      p = new Policy(baseDir, filename, this, doc);
+      p = new Policy(baseDir, filename, this, doc),
+      bundle = { profile };
 
     p.getElement = () => doc.documentElement;
+    p.getBundle = () => bundle;
 
-    plugin.onBundle({ profile });
     plugin.onPolicy(p, (e, foundIssues) => {
       assert.equal(e, undefined, "should be undefined");
       cb(p, foundIssues);
