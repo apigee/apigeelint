@@ -25,7 +25,7 @@ const assert = require("node:assert"),
   plugin = require(bl.resolvePlugin(testID)),
   Dom = require("@xmldom/xmldom").DOMParser,
   testBase = function (caseNum, profile, desc, targetDef, messages) {
-    it(`case ${caseNum} ${desc}`, function () {
+    it(`case ${caseNum} ${desc} [profile=${profile}]`, function () {
       const tDoc = new Dom().parseFromString(targetDef),
         target = new Endpoint(tDoc.documentElement, this, "");
 
@@ -60,10 +60,9 @@ const assert = require("node:assert"),
   };
 
 const test = function (caseNum, desc, targetDef, messages) {
-  return testBase(caseNum, "apigee", desc, targetDef, messages);
-};
-const testApigeeX = function (caseNum, desc, targetDef, messages) {
-  return testBase(caseNum, "apigeex", desc, targetDef, messages);
+  ["apigee", "apigeex"].forEach((profile) =>
+    testBase(caseNum, profile, desc, targetDef, messages),
+  );
 };
 
 describe(`${testID} - ${plugin.plugin.name}`, function () {
@@ -218,12 +217,12 @@ describe(`${testID} - Print plugin results`, function () {
     debug("test configuration: " + JSON.stringify(configuration));
     const bundle = new Bundle(configuration);
     bl.executePlugin(testID, bundle);
-    let report = bundle.getReport();
+    const report = bundle.getReport();
     assert.ok(report);
-    let formatter = bl.getFormatter("json.js");
+    const formatter = bl.getFormatter("json.js");
     assert.ok(formatter);
 
-    let schema = require("./../fixtures/reportSchema.js"),
+    const schema = require("./../fixtures/reportSchema.js"),
       Validator = require("jsonschema").Validator,
       v = new Validator(),
       jsonReport = JSON.parse(formatter(report)),

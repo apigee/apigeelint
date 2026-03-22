@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2025 Google LLC
+  Copyright © 2019-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ const assert = require("node:assert"),
 
 describe(`TD002 - Not an Edgemicro proxy`, () => {
   it("should generate Target Server warning", () => {
-    let configuration = {
+    const configuration = {
       debug: true,
       source: {
         type: "filesystem",

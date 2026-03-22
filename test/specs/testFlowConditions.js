@@ -1,5 +1,5 @@
 /*
-Copyright © 2019-2021,2026 Google LLC
+  Copyright © 2019-2021, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,12 +16,12 @@ Copyright © 2019-2021,2026 Google LLC
 /* global it, describe */
 
 const assert = require("node:assert"),
-  debug = require("debug")("apigeelint:flowConditions"),
+  // debug = require("debug")("apigeelint:flowConditions"),
   Endpoint = require("../../lib/package/Endpoint.js"),
   Dom = require("@xmldom/xmldom").DOMParser,
   test = function (exp, assertion) {
     it("testing flow conditions", function () {
-      var result = [],
+      const result = [],
         doc = new Dom().parseFromString(exp),
         ep = new Endpoint(doc, this, "/dummy/test/apiproxy/proxies/foo.xml"),
         flows = ep.getFlows();

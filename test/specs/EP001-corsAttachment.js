@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2022 Google LLC
+  Copyright © 2019-2022, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ const assert = require("node:assert"),
 
 describe(`EP001 - bundle with properties resource`, () => {
   it("should generate the expected errors", () => {
-    let configuration = {
+    const configuration = {
       debug: true,
       source: {
         type: "filesystem",
@@ -39,10 +39,10 @@ describe(`EP001 - bundle with properties resource`, () => {
     };
 
     bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
+      const items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
-      let ep001Errors = items.filter(
+      const ep001Errors = items.filter(
         (item) =>
           item.messages &&
           item.messages.length &&
@@ -81,7 +81,7 @@ describe(`EP001 - bundle with properties resource`, () => {
       );
 
       assert.ok(ep001Errors[1].messages.length);
-      let ep001Messages = ep001Errors[1].messages.filter(
+      const ep001Messages = ep001Errors[1].messages.filter(
         (m) => m.ruleId == "EP001",
       );
       assert.equal(ep001Messages.length, 1);

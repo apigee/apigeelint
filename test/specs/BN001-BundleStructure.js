@@ -35,23 +35,23 @@ describe("BN001 - report results", function () {
 
   it("should generate a unix-formatted report", () => {
     insure();
-    let report = bundle.getReport();
+    const report = bundle.getReport();
     assert.ok(report);
-    let formatterImpl = bl.getFormatter("unix.js");
+    const formatterImpl = bl.getFormatter("unix.js");
     assert.ok(formatterImpl);
 
-    let outputReport = formatterImpl(report);
+    const outputReport = formatterImpl(report);
     debug("unix formatted report: \n" + outputReport);
     assert.ok(outputReport);
   });
 
   it("should create a json-formatted report object with valid schema", function () {
     insure();
-    let report = bundle.getReport();
+    const report = bundle.getReport();
     assert.ok(report);
-    let formatter = bl.getFormatter("json.js");
+    const formatter = bl.getFormatter("json.js");
     assert.ok(formatter);
-    let v = new Validator(),
+    const v = new Validator(),
       jsonReport = JSON.parse(formatter(report)),
       validationResult = v.validate(jsonReport, schema);
     assert.equal(validationResult.errors.length, 0, validationResult.errors);

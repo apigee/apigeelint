@@ -1,5 +1,5 @@
 ﻿/*
-Copyright © 2019-2022,2026 Google LLC
+  Copyright © 2019-2022, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ const expectedMessageRe = new RegExp(
 
 describe(`${ruleId} - ExtractVariables JSONPayload Conditions`, () => {
   function check(suffix, bundleType, expected) {
-    let configuration = {
+    const configuration = {
       debug: true,
       source: {
         type: "filesystem",
@@ -45,15 +45,17 @@ describe(`${ruleId} - ExtractVariables JSONPayload Conditions`, () => {
     };
 
     bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
+      const items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
       debug(util.format(items));
-      let sfItems = items.filter((m) => m.filePath.endsWith(suffix));
+      const sfItems = items.filter((m) => m.filePath.endsWith(suffix));
       debug(util.format(sfItems));
       assert.equal(sfItems.length, 1);
       sfItems.forEach((item) => debug(util.format(item.messages)));
-      let st003Messages = sfItems[0].messages.filter((m) => m.ruleId == ruleId);
+      const st003Messages = sfItems[0].messages.filter(
+        (m) => m.ruleId == ruleId,
+      );
       debug(util.format(st003Messages));
       assert.equal(st003Messages.length, expected.length);
 
@@ -74,7 +76,7 @@ describe(`${ruleId} - ExtractVariables JSONPayload Conditions`, () => {
   }
 
   it("should find the expected warnings in an apiproxy", () => {
-    let expected = [
+    const expected = [
       {
         line: 100,
         column: 9,
@@ -97,7 +99,7 @@ describe(`${ruleId} - ExtractVariables JSONPayload Conditions`, () => {
   });
 
   it("should find the expected warnings in a sharedflow", () => {
-    let expected = [{ line: 5, column: 3 }];
+    const expected = [{ line: 5, column: 3 }];
     check("sf-default.xml", "sharedflowbundle", expected);
   });
 });

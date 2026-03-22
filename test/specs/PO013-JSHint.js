@@ -36,9 +36,9 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
 
   it("should create a json-formatted report object with valid schema", function () {
     insure();
-    let formatter = bl.getFormatter("json.js");
+    const formatter = bl.getFormatter("json.js");
     assert.ok(formatter);
-    let schema = require("./../fixtures/reportSchema.js"),
+    const schema = require("./../fixtures/reportSchema.js"),
       Validator = require("jsonschema").Validator,
       v = new Validator(),
       jsonReport = JSON.parse(formatter(report)),
@@ -48,9 +48,9 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
 
   it("should create a unix-formatted report object", function () {
     insure();
-    let formatterImpl = bl.getFormatter("unix.js");
+    const formatterImpl = bl.getFormatter("unix.js");
     assert.ok(formatterImpl);
-    let formattedReport = formatterImpl(report);
+    const formattedReport = formatterImpl(report);
     debug("unix formatted report: \n" + formattedReport);
     assert.ok(formattedReport);
   });

@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2022,2025 Google LLC
+  Copyright © 2019-2022, 2025-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ const assert = require("node:assert"),
   Dom = require("@xmldom/xmldom").DOMParser,
   test = function (caseNum, desc, targetDef, messages) {
     it(`case ${caseNum} ${desc}`, function () {
-      let tDoc = new Dom().parseFromString(targetDef),
+      const tDoc = new Dom().parseFromString(targetDef),
         target = new Endpoint(tDoc.documentElement, this, "");
 
       plugin.onTargetEndpoint(target, function (e, result) {
@@ -166,15 +166,15 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
 describe(`${testID} - Print plugin results`, function () {
   it("should create a report object with valid schema", function () {
     debug("test configuration: " + JSON.stringify(configuration));
-    var bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     bl.executePlugin(testID, bundle);
-    let report = bundle.getReport();
+    const report = bundle.getReport();
     assert.ok(report);
 
-    let formatter = bl.getFormatter("json.js");
+    const formatter = bl.getFormatter("json.js");
     assert.ok(formatter);
 
-    let schema = require("./../fixtures/reportSchema.js"),
+    const schema = require("./../fixtures/reportSchema.js"),
       Validator = require("jsonschema").Validator,
       v = new Validator(),
       jsonReport = JSON.parse(formatter(report)),

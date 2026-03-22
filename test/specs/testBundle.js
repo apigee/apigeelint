@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2025 Google LLC
+  Copyright © 2019-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -45,18 +45,18 @@ describe("addMessage", function () {
       nodeType: "Bundle",
     };
 
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     bundle.addMessage({ plugin, message });
 
     bundle.getReport((report) => {
-      let bundleResult = report.find(
+      const bundleResult = report.find(
         (element) =>
           path.normalize(element.filePath) === path.normalize(proxyPath),
       );
 
       assert.ok(bundleResult);
       assert.equal(bundleResult.warningCount, 1);
-      let m = bundleResult.messages.find(
+      const m = bundleResult.messages.find(
         (element) => element.message === message,
       );
       assert.equal(m.ruleId, plugin.ruleId);

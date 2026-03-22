@@ -222,12 +222,12 @@ describe(`${testID} - Print plugin results`, function () {
     debug("test configuration: " + JSON.stringify(configuration));
     const bundle = new Bundle(configuration);
     bl.executePlugin(testID, bundle);
-    let report = bundle.getReport();
+    const report = bundle.getReport();
     assert.ok(report);
-    let formatter = bl.getFormatter("json.js");
+    const formatter = bl.getFormatter("json.js");
     assert.ok(formatter);
 
-    let schema = require("./../fixtures/reportSchema.js"),
+    const schema = require("./../fixtures/reportSchema.js"),
       Validator = require("jsonschema").Validator,
       v = new Validator(),
       jsonReport = JSON.parse(formatter(report)),

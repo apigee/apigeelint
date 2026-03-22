@@ -1,5 +1,5 @@
 /*
-  Copyright © 2019-2021,2025 Google LLC
+  Copyright © 2019-2021, 2025-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ const assert = require("node:assert"),
   test = function (exp, checks) {
     it(`${exp} should ${"object" == typeof checks ? "produce expected AST" : "throw an error"}`, function () {
       try {
-        var tt = new TruthTable(exp),
+        const tt = new TruthTable(exp),
           actualAst = tt.getAST();
         assert.ok(actualAst);
         debug(`AST: ${JSON.stringify(actualAst, null, 2)}`);
@@ -150,9 +150,10 @@ describe("TruthTable AST", function () {
 
   const testAst = function (exp, expected) {
     it(`${exp} should parse correctly`, function () {
+      let ast;
       try {
-        var tt = new TruthTable(exp),
-          ast = tt.getAST();
+        const tt = new TruthTable(exp);
+        ast = tt.getAST();
 
         debug(`ast: ${ast}`);
       } catch (parseExc) {

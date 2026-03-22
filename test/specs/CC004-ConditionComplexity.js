@@ -31,7 +31,7 @@ const assert = require("node:assert"),
 describe(`${testID} - ${plugin.plugin.name}`, function () {
   const test = function (exp, expected) {
     it(`testing condition complexity of "${exp}" expect(${expected})`, function () {
-      let doc = new Dom().parseFromString(exp),
+      const doc = new Dom().parseFromString(exp),
         c = new Condition(doc, this);
 
       c.addMessage = function (msg) {
@@ -60,15 +60,15 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
 describe(`${testID} - Print plugin results`, function () {
   it("should create a report object with valid schema", function () {
     debug("test configuration: " + JSON.stringify(configuration));
-    var bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     bl.executePlugin(testID, bundle);
-    let report = bundle.getReport();
+    assert.ok(bundle.getReport());
 
-    let formatter = bl.getFormatter("json.js");
+    const formatter = bl.getFormatter("json.js");
     if (!formatter) {
       assert.fail("formatter implementation not defined");
     }
-    let v = new Validator(),
+    const v = new Validator(),
       jsonReport = JSON.parse(formatter(bundle.getReport())),
       validationResult = v.validate(jsonReport, schema);
     assert.equal(validationResult.errors.length, 0, validationResult.errors);

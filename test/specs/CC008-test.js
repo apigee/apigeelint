@@ -50,7 +50,7 @@ describe(`${ruleId} - bundle with conditional flows`, () => {
 
       const ep = actualErrors.find((e) => e.filePath.endsWith(endpointName));
       assert.ok(ep);
-      let cc008Messages = ep.messages.filter((m) => m.ruleId == ruleId);
+      const cc008Messages = ep.messages.filter((m) => m.ruleId == ruleId);
       assert.equal(cc008Messages.length, expected.length);
 
       expected.forEach((item, ix) => {
@@ -77,7 +77,7 @@ describe(`${ruleId} - bundle with conditional flows`, () => {
     );
 
   it("should find equivalent conditions in a proxy endpoint", () => {
-    let expected = [
+    const expected = [
       {
         line: 24,
         column: 5,
@@ -103,7 +103,7 @@ describe(`${ruleId} - bundle with conditional flows`, () => {
   });
 
   it("should find duplicate names on flows", () => {
-    let expected = [
+    const expected = [
       {
         line: 25,
         column: 5,
@@ -114,7 +114,7 @@ describe(`${ruleId} - bundle with conditional flows`, () => {
   });
 
   it("should find equivalent conditions in faultrules", () => {
-    let expected = [
+    const expected = [
       {
         line: 22,
         column: 5,
@@ -125,7 +125,7 @@ describe(`${ruleId} - bundle with conditional flows`, () => {
   });
 
   it("should find duplicate names on FaultRules", () => {
-    let expected = [
+    const expected = [
       {
         line: 22,
         column: 5,
@@ -136,7 +136,7 @@ describe(`${ruleId} - bundle with conditional flows`, () => {
   });
 
   it("should find equivalent conditions on RouteRules", () => {
-    let expected = [
+    const expected = [
       {
         line: 49,
         column: 3,
@@ -147,7 +147,7 @@ describe(`${ruleId} - bundle with conditional flows`, () => {
   });
 
   it("should find duplicate names on RouteRules", () => {
-    let expected = [
+    const expected = [
       {
         line: 50,
         column: 3,

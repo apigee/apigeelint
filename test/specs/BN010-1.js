@@ -22,7 +22,7 @@ const assert = require("node:assert"),
 
 describe(`${testID} - bundle with reference to missing policy`, () => {
   it("should generate the expected error", () => {
-    let configuration = {
+    const configuration = {
       debug: true,
       source: {
         type: "filesystem",
@@ -39,10 +39,10 @@ describe(`${testID} - bundle with reference to missing policy`, () => {
     };
 
     bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
+      const items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
-      let actualErrors = items.filter(
+      const actualErrors = items.filter(
         (item) =>
           item.messages &&
           item.messages.length &&

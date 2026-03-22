@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021,2025 Google LLC
+  Copyright © 2019-2021, 2025-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -28,17 +28,14 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
   it("should create a json-formatted report object with valid schema", function () {
     this.timeout(5000);
     debug("test configuration: " + JSON.stringify(configuration));
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     bl.executePlugin(testID, bundle);
-    let report = bundle.getReport();
+    const report = bundle.getReport();
 
-    let formatter = bl.getFormatter("json.js");
+    const formatter = bl.getFormatter("json.js");
+    assert.ok(formatter, "formatter implementation not defined");
 
-    if (!formatter) {
-      assert.fail("formatter implementation not defined");
-    }
-
-    let schema = require("../fixtures/reportSchema.js"),
+    const schema = require("../fixtures/reportSchema.js"),
       Validator = require("jsonschema").Validator,
       v = new Validator(),
       jsonReport = JSON.parse(formatter(report)),
@@ -49,11 +46,11 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
   it("should create a unix-formatted report object", function () {
     this.timeout(5000);
     debug("test configuration: " + JSON.stringify(configuration));
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     bl.executePlugin(testID, bundle);
-    let report = bundle.getReport();
+    const report = bundle.getReport();
 
-    let formatter = bl.getFormatter("unix.js"),
+    const formatter = bl.getFormatter("unix.js"),
       formattedReport = formatter(report);
     debug("unix formatted report: \n" + formattedReport);
     assert.ok(formattedReport);
@@ -69,10 +66,10 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       },
       excluded: {},
     };
-    let bundle = new Bundle(config);
+    const bundle = new Bundle(config);
     // The ESLint will find the eslint.config.js file in the apiproxy directory.
     bl.executePlugin(testID, bundle);
-    let report = bundle.getReport();
+    const report = bundle.getReport();
 
     // Find the report for the JS file
     const jsFileReport = report.find((r) =>
@@ -101,9 +98,9 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
     };
 
     try {
-      let bundle = new Bundle(configuration);
+      const bundle = new Bundle(configuration);
       bl.executePlugin(testID, bundle);
-      let report = bundle.getReport();
+      const report = bundle.getReport();
 
       const jsFileReports = report.filter((r) => r.filePath.endsWith(".js"));
       debug(`jsFileReports count: ${jsFileReports.length}`);
@@ -137,7 +134,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
     });
 
     try {
-      let bundle = new Bundle(configuration);
+      const bundle = new Bundle(configuration);
       bl.executePlugin(testID, bundle);
       // We mainly verify that it doesn't crash and completes.
       // The stderr is logged to debug which we don't assert here easily.

@@ -15,7 +15,6 @@
 */
 
 const assert = require("node:assert"),
-  fs = require("node:fs"),
   path = require("node:path"),
   schema = require("../fixtures/reportSchema.js"),
   Validator = require("jsonschema").Validator,
@@ -31,7 +30,7 @@ describe(`Report Schema`, () => {
     assert.ok(allProxyFolders.length > 48);
   });
 
-  allProxyFolders.forEach((folder, ix) => {
+  allProxyFolders.forEach((folder, _ix) => {
     const shortFolder = folder.replace(
       rootDir,
       "...",
@@ -54,7 +53,6 @@ describe(`Report Schema`, () => {
       assert.ok(allPlugins && allPlugins.length > 50);
       allPlugins.forEach((pluginName) => {
         if (bl.resolvePlugin(pluginName)) {
-          const parts = pluginName.split("-");
           bl.executePlugin(pluginName, bundle);
           bundle.getReport((report) => {
             const jsimpl = bl.getFormatter("json.js"),

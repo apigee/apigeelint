@@ -28,16 +28,14 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
   it("should create a json-formatted report object with valid schema", function () {
     debug("test configuration: " + JSON.stringify(configuration));
 
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     bl.executePlugin(testID, bundle);
-    let report = bundle.getReport();
+    const report = bundle.getReport();
 
-    let formatter = bl.getFormatter("json.js");
+    const formatter = bl.getFormatter("json.js");
+    assert.ok(formatter, "formatter implementation not defined");
 
-    if (!formatter) {
-      assert.fail("formatter implementation not defined");
-    }
-    let jsonReport = JSON.parse(formatter(report)),
+    const jsonReport = JSON.parse(formatter(report)),
       v = new Validator(),
       validationResult = v.validate(jsonReport, schema);
     assert.equal(validationResult.errors.length, 0, validationResult.errors);
@@ -46,11 +44,11 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
   it("should create a unix-formatted report object with valid schema", function () {
     debug("test configuration: " + JSON.stringify(configuration));
 
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     bl.executePlugin(testID, bundle);
-    let report = bundle.getReport();
+    const report = bundle.getReport();
 
-    let formatter = bl.getFormatter("unix.js"),
+    const formatter = bl.getFormatter("unix.js"),
       formattedReport = formatter(report);
     debug("unix formatted report: \n" + formattedReport);
     assert.ok(formattedReport);

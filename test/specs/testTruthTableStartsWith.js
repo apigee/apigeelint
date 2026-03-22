@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright © 2019-2021, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -17,24 +17,23 @@
 /* global describe, it */
 
 const assert = require("node:assert"),
-      TruthTable = require("../../lib/package/TruthTable.js"),
-      test = function(exp, assertion) {
-        it(`${exp} should be ${assertion}`, function() {
-          var tt = new TruthTable(exp);
+  TruthTable = require("../../lib/package/TruthTable.js"),
+  test = function (exp, assertion) {
+    it(`${exp} should be ${assertion}`, function () {
+      const tt = new TruthTable(exp);
 
-          assert.equal(
-            tt.getEvaluation(),
-            assertion,
-            JSON.stringify({
-              truthTable: tt,
-              evaluation: tt.getEvaluation()
-            })
-          );
-        });
-      };
+      assert.equal(
+        tt.getEvaluation(),
+        assertion,
+        JSON.stringify({
+          truthTable: tt,
+          evaluation: tt.getEvaluation(),
+        }),
+      );
+    });
+  };
 
-describe("TruthTable StartsWith", function() {
-
+describe("TruthTable StartsWith", function () {
   test('a ="foobar"', "valid");
   test('a StartsWith "foo"', "valid");
   test('a StartsWith "foo" AND a ="foobar"', "valid");
@@ -46,7 +45,6 @@ describe("TruthTable StartsWith", function() {
   test('a StartsWith "boo" AND a ="foobar"', "absurdity");
   test(
     "(a StartsWith b OR c=d) AND (d=c OR x=y) AND a!=b and c=e and e=d and c!=d",
-    "absurdity"
+    "absurdity",
   );
-
 });

@@ -1,5 +1,5 @@
 ﻿/*
-Copyright © 2019-2022,2026 Google LLC
+  Copyright © 2019-2022, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ const expectedMessageRe = new RegExp(
 
 describe(`${ruleId} - ExtractVariables XMLPayload Conditions`, () => {
   function check(suffix, bundleType, expected) {
-    let configuration = {
+    const configuration = {
       debug: true,
       source: {
         type: "filesystem",
@@ -45,18 +45,18 @@ describe(`${ruleId} - ExtractVariables XMLPayload Conditions`, () => {
     };
 
     bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
+      const items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
       debug("all items: " + util.format(items));
-      let itemsForFileOfInterest = items.filter((m) =>
+      const itemsForFileOfInterest = items.filter((m) =>
         m.filePath.endsWith(suffix),
       );
       debug("items for that filepath: " + util.format(itemsForFileOfInterest));
       assert.equal(itemsForFileOfInterest.length, 1);
       // itemsForFileOfInterest.forEach( item =>
       //                  debug(util.format(item.messages)));
-      let st004Messages = itemsForFileOfInterest[0].messages.filter(
+      const st004Messages = itemsForFileOfInterest[0].messages.filter(
         (m) => m.ruleId == ruleId,
       );
 
@@ -83,7 +83,7 @@ describe(`${ruleId} - ExtractVariables XMLPayload Conditions`, () => {
   }
 
   it("should generate the expected warnings in an apiproxy", () => {
-    let expected = [
+    const expected = [
       {
         line: 29,
         column: 7,
@@ -117,7 +117,7 @@ describe(`${ruleId} - ExtractVariables XMLPayload Conditions`, () => {
   });
 
   it("should find the expected warnings in a sharedflow", () => {
-    let expected = [{ line: 12, column: 3 }];
+    const expected = [{ line: 12, column: 3 }];
     check("sf-default.xml", "sharedflowbundle", expected);
   });
 });

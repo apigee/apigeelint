@@ -15,16 +15,14 @@
 */
 /* global it, describe */
 
-const ruleId = "PD006",
-  assert = require("node:assert"),
+const assert = require("node:assert"),
   path = require("node:path"),
   fs = require("node:fs"),
   bl = require("../../lib/package/bundleLinter.js"),
-  debug = require("debug")(`apigeelint:${ruleId}`),
   Endpoint = require("../../lib/package/Endpoint.js"),
   Dom = require("@xmldom/xmldom").DOMParser;
 
-describe("Endpoint", function () {
+describe(`Endpoint`, function () {
   describe("Direct Unit Tests", function () {
     const fixturePath = path.resolve(
       __dirname,

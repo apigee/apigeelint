@@ -33,7 +33,7 @@ describe("xmldom path resolution verification", function () {
       const p = lintUtil.getNodeModulesPathFor("@xmldom/xmldom");
       assert.ok(p);
     } catch (e) {
-      assert.fail();
+      assert.fail(e);
     }
     done();
   });
@@ -95,7 +95,7 @@ describe("xmldom element name tests", function () {
     debug(`attrs(${attr})`);
     debug(`attrs(${util.format(attr)})`);
     assert.ok(attr);
-    let nodeTypeString = lintUtil.xmlNodeTypeAsString(attr.nodeType);
+    const nodeTypeString = lintUtil.xmlNodeTypeAsString(attr.nodeType);
     debug(`nodeTypeString(${nodeTypeString})`);
     assert.ok(nodeTypeString);
     assert.equal(nodeTypeString, "ATTRIBUTE_NODE");

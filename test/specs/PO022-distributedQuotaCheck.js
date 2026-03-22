@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2025 Google LLC
+  Copyright © 2019-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ const assert = require("node:assert"),
   Dom = require("@xmldom/xmldom").DOMParser,
   test = function (exp, caseNum, assertion) {
     it(`tests ${caseNum}, expect(${assertion})`, function () {
-      let doc = new Dom().parseFromString(exp),
+      const doc = new Dom().parseFromString(exp),
         p = new Policy("/", "fakename.xml", this, doc);
 
       p.addMessage = function (msg) {
@@ -95,15 +95,14 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
 describe(`${testID} - Print plugin results`, function () {
   it("should create a report object with valid schema", function () {
     debug("test configuration: " + JSON.stringify(configuration));
-    var bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
     bl.executePlugin(testID, bundle);
-    let report = bundle.getReport();
+    const report = bundle.getReport();
 
-    let formatter = bl.getFormatter("json.js");
-    if (!formatter) {
-      assert.fail("formatter implementation not defined");
-    }
-    let schema = require("./../fixtures/reportSchema.js"),
+    const formatter = bl.getFormatter("json.js");
+    assert.ok(formatter, "formatter implementation not defined");
+
+    const schema = require("./../fixtures/reportSchema.js"),
       Validator = require("jsonschema").Validator,
       v = new Validator(),
       jsonReport = JSON.parse(formatter(report)),

@@ -27,9 +27,9 @@ const testID = "PO026",
   Dom = require("@xmldom/xmldom").DOMParser;
 
 const test = (suffix, cb) => {
-  let filename = `RF-Example-TextPlain-${suffix}.xml`;
+  const filename = `RF-Example-TextPlain-${suffix}.xml`;
   it(`should correctly process ${filename}`, () => {
-    let baseDir = path.resolve(
+    const baseDir = path.resolve(
         __dirname,
         "../fixtures/resources/PO026-assignVariable-in-RaiseFault",
       ),

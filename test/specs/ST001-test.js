@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021,2025 Google LLC
+  Copyright © 2019-2021, 2025-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -26,11 +26,11 @@ const testID = "ST001",
   Dom = require("@xmldom/xmldom").DOMParser,
   test = function (caseNum, stepExp, assertion) {
     it(`tests case ${caseNum}, expect(${assertion})`, function () {
-      var sDoc = new Dom().parseFromString(stepExp);
+      const sDoc = new Dom().parseFromString(stepExp);
       this.getLines = function () {
         return stepExp;
       };
-      let step = new Step(sDoc.documentElement, this);
+      const step = new Step(sDoc.documentElement, this);
       step.addMessage = function (msg) {
         debug(msg);
       };
@@ -84,19 +84,19 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
       Validator = require("jsonschema").Validator,
       schema = require("./../fixtures/reportSchema.js");
 
-    let bundle = new Bundle(configuration);
+    const bundle = new Bundle(configuration);
 
     bl.executePlugin(testID, bundle);
-    let formatter = bl.getFormatter("json.js"),
+    const formatter = bl.getFormatter("json.js"),
       v = new Validator(),
       jsonReport = JSON.parse(formatter(bundle.getReport())),
       validationResult = v.validate(jsonReport, schema);
 
     assert.equal(validationResult.errors.length, 0, validationResult.errors);
 
-    let stylimpl = bl.getFormatter("table.js");
+    const stylimpl = bl.getFormatter("table.js");
     assert.ok(stylimpl);
-    let stylReport = stylimpl(bundle.getReport());
+    const stylReport = stylimpl(bundle.getReport());
     assert.ok(stylReport);
     debug("table formatted report: \n" + stylReport);
   });
@@ -105,7 +105,7 @@ describe(`${testID} - ${plugin.plugin.name}`, function () {
 describe(`ST001 - Empty Steps - apiproxy`, function () {
   this.timeout(7000);
   it("should generate the expected errors", () => {
-    let configuration = {
+    const configuration = {
       debug: true,
       source: {
         type: "filesystem",
@@ -121,21 +121,21 @@ describe(`ST001 - Empty Steps - apiproxy`, function () {
     };
 
     bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
+      const items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
       debug(util.format(items));
-      let proxyEndpointItems = items.filter((m) =>
+      const proxyEndpointItems = items.filter((m) =>
         m.filePath.endsWith("endpoint1.xml"),
       );
       debug(util.format(proxyEndpointItems));
       assert.equal(proxyEndpointItems.length, 1);
       proxyEndpointItems.forEach((item) => debug(util.format(item.messages)));
-      let st001Messages = proxyEndpointItems[0].messages.filter(
+      const st001Messages = proxyEndpointItems[0].messages.filter(
         (m) => m.ruleId == "ST001",
       );
 
-      let expected = [
+      const expected = [
         {
           line: 44,
           column: 7,
@@ -172,7 +172,7 @@ describe(`ST001 - Empty Steps - apiproxy`, function () {
 describe(`ST001 - Empty Steps - sharedflow`, function () {
   this.timeout(7000);
   it("should generate the expected errors", () => {
-    let configuration = {
+    const configuration = {
       debug: true,
       source: {
         type: "filesystem",
@@ -188,21 +188,21 @@ describe(`ST001 - Empty Steps - sharedflow`, function () {
     };
 
     bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
+      const items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
       debug(util.format(items));
-      let endpointItems = items.filter((m) =>
+      const endpointItems = items.filter((m) =>
         m.filePath.endsWith("default.xml"),
       );
       debug(util.format(endpointItems));
       assert.equal(endpointItems.length, 1);
       endpointItems.forEach((item) => debug(util.format(item.messages)));
-      let st001Messages = endpointItems[0].messages.filter(
+      const st001Messages = endpointItems[0].messages.filter(
         (m) => m.ruleId == "ST001",
       );
 
-      let expected = [
+      const expected = [
         {
           line: 6,
           column: 3,

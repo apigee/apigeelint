@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021 Google LLC
+  Copyright © 2019-2021, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,43 +14,50 @@
   limitations under the License.
 */
 
-/* global describe, it */
-
-const ruleId = 'BN001',
-      assert = require("node:assert"),
-      path = require("node:path"),
-      util = require("node:util"),
-      debug = require("debug")(`apigeelint:${ruleId}`),
-      bl = require("../../lib/package/bundleLinter.js");
+const ruleId = "BN001",
+  assert = require("node:assert"),
+  path = require("node:path"),
+  debug = require("debug")(`apigeelint:${ruleId}`),
+  bl = require("../../lib/package/bundleLinter.js");
 
 describe(`BN001 - bundle with properties resource`, () => {
-  it('should generate the expected errors', () => {
-    let configuration = {
-          debug: true,
-          source: {
-            type: "filesystem",
-            path: path.resolve(__dirname, '../fixtures/resources/BN001-propertiesset-demo1/apiproxy'),
-            bundleType: "apiproxy"
-          },
-          profile: 'apigeex',
-          excluded: {},
-          setExitCode: false,
-          output: () => {} // suppress output
-        };
+  it("should generate the expected errors", () => {
+    const configuration = {
+      debug: true,
+      source: {
+        type: "filesystem",
+        path: path.resolve(
+          __dirname,
+          "../fixtures/resources/BN001-propertiesset-demo1/apiproxy",
+        ),
+        bundleType: "apiproxy",
+      },
+      profile: "apigeex",
+      excluded: {},
+      setExitCode: false,
+      output: () => {}, // suppress output
+    };
 
     bl.lint(configuration, (bundle) => {
-      let items = bundle.getReport();
+      const items = bundle.getReport();
       assert.ok(items);
       assert.ok(items.length);
-      let actualIssues = items.filter(item => item.messages && item.messages.length && item.messages.find( m => m.ruleId == ruleId));
+      const actualIssues = items.filter(
+        (item) =>
+          item.messages &&
+          item.messages.length &&
+          item.messages.find((m) => m.ruleId == ruleId),
+      );
       assert.equal(actualIssues.length, 1);
       debug(JSON.stringify(actualIssues, null, 2));
       assert.ok(actualIssues[0].messages.length);
       assert.equal(actualIssues[0].messages.length, 1);
       assert.ok(actualIssues[0].messages[0].message);
-      assert.ok(actualIssues[0].messages[0].message.startsWith('Unexpected folder found "frobjo"'));
-
+      assert.ok(
+        actualIssues[0].messages[0].message.startsWith(
+          'Unexpected folder found "frobjo"',
+        ),
+      );
     });
   });
-
 });

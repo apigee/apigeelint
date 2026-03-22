@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2021,2025 Google LLC
+  Copyright © 2019-2021, 2025 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ const assert = require("node:assert"),
   test = function (exp, assertion) {
     it(`${exp} should be ${assertion}`, function () {
       try {
-        var tt = new TruthTable(exp);
+        const tt = new TruthTable(exp);
 
         assert.equal(
           tt.getEvaluation(),
@@ -32,7 +32,7 @@ const assert = require("node:assert"),
           }),
         );
       } catch (parseExc) {
-        assert.equal(assertion, "exception");
+        assert.equal(assertion, "exception", parseExc);
       }
     });
   };

@@ -44,7 +44,7 @@ describe(`${testID} - policy passes ServiceCallout SSLInfo check`, function () {
     const policy = loadPolicy(sourceDir, shortFileName);
     const profile = shortFileName.split(".")[0].split("-").slice(-1)[0];
     const policyType = policy.getType();
-    it(`check ${shortFileName} passes`, () => {
+    it(`check ${shortFileName} passes [profile=${profile}]`, () => {
       assert.notEqual(policyType, undefined, `${policyType} should be defined`);
       // plugin.onBundle({ profile });
       plugin.onPolicy(policy);
@@ -71,7 +71,7 @@ describe(`${testID} - policy does not pass KVM hygiene check`, () => {
     const policy = loadPolicy(sourceDir, shortFileName);
     const profile = shortFileName.split(".")[0].split("-").slice(-1)[0];
     const policyType = policy.getType();
-    it(`check ${shortFileName} throws error`, () => {
+    it(`check ${shortFileName} throws error [profile=${profile}]`, () => {
       assert.notEqual(policyType, undefined, `${policyType} should be defined`);
       // plugin.onBundle({ profile });
       plugin.onPolicy(policy);

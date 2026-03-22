@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-/* global configuration, describe, it */
+/* global describe, it */
 const assert = require("node:assert"),
   path = require("node:path"),
   util = require("node:util"),
@@ -31,15 +31,15 @@ describe("Directives - Check that <!-- apigeelint disable=XXX --> works", functi
           type: "filesystem",
           path: path.resolve(
             __dirname,
-            "../fixtures/resources/disable-directives/apiproxy"
+            "../fixtures/resources/disable-directives/apiproxy",
           ),
-          bundleType: "apiproxy"
+          bundleType: "apiproxy",
         },
         //profile: 'apigeex',
         ignoreDirectives,
         excluded: {},
         setExitCode: false,
-        output: () => {} // suppress output
+        output: () => {}, // suppress output
       };
 
       debug("test configuration: " + JSON.stringify(configuration));
@@ -48,14 +48,14 @@ describe("Directives - Check that <!-- apigeelint disable=XXX --> works", functi
         assert.ok(items);
         assert.ok(items.length);
         const actualErrors = items.filter(
-          (item) => item.messages && item.messages.length
+          (item) => item.messages && item.messages.length,
         );
         assert.ok(actualErrors.length);
         debug("actualErrors: " + util.format(actualErrors));
 
         // this test looks only for BN012 warnings
         const bn012Items = actualErrors.filter((e) =>
-          e.messages.find((m) => m.ruleId == "BN012")
+          e.messages.find((m) => m.ruleId == "BN012"),
         );
 
         // Both target-3 and target-4 are un-referenced; target-3
@@ -64,17 +64,17 @@ describe("Directives - Check that <!-- apigeelint disable=XXX --> works", functi
         if (ignoreDirectives) {
           assert.equal(bn012Items.length, 2);
           const expectedMessageRe = new RegExp(
-            "^Unreferenced TargetEndpoint target-[34]\\. There are no RouteRules that reference this TargetEndpoint.$"
+            "^Unreferenced TargetEndpoint target-[34]\\. There are no RouteRules that reference this TargetEndpoint.$",
           );
           bn012Items.forEach((item, ix) => {
             const bn012Messages = item.messages.filter(
-              (m) => m.ruleId == "BN012"
+              (m) => m.ruleId == "BN012",
             );
             assert.equal(bn012Messages.length, 1);
 
             assert.ok(
               bn012Messages[0].message.match(expectedMessageRe),
-              `item(${ix}) message`
+              `item(${ix}) message`,
             );
           });
         } else {
@@ -82,16 +82,16 @@ describe("Directives - Check that <!-- apigeelint disable=XXX --> works", functi
           assert.ok(bn012Items[0].messages);
 
           const bn012Messages = bn012Items[0].messages.filter(
-            (m) => m.ruleId == "BN012"
+            (m) => m.ruleId == "BN012",
           );
 
           assert.equal(bn012Messages.length, 1);
           assert.equal(
             bn012Messages[0].message,
-            "Unreferenced TargetEndpoint target-4. There are no RouteRules that reference this TargetEndpoint."
+            "Unreferenced TargetEndpoint target-4. There are no RouteRules that reference this TargetEndpoint.",
           );
         }
       });
-    })
+    }),
   );
 });

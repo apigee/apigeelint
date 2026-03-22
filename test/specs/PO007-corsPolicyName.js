@@ -1,5 +1,5 @@
 /*
-  Copyright 2022-2024 Google LLC
+  Copyright © 2022-2024, 2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ const testID = "PO007",
 
 const test = (filename, cb) => {
   it(`should correctly process ${filename}`, () => {
-    let baseDir = path.resolve(
+    const baseDir = path.resolve(
         __dirname,
         "../fixtures/resources/PO007-cors-policy",
       ),
