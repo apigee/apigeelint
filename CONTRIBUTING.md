@@ -21,3 +21,25 @@ All submissions, including submissions by project members, require review. We
 use GitHub pull requests for this purpose. Consult
 [GitHub Help](https://help.github.com/articles/about-pull-requests/) for more
 information on using pull requests.
+
+## Pull Requests
+
+To make a contribution, you need to submit a pull request.
+
+- fork the apigee/apigeelint repo
+
+- create a branch on your local workstation
+
+- make your changes
+
+- run the tests:
+  `npm run test`
+  If the tests do not pass, we cannot merge your PR.
+
+- lint your code:
+  `npm run eslint`
+  If the lint does not pass, we cannot merge your PR.
+
+- When the tests and lint passes, push your change to your forked apigeelint github repo.
+
+- Go to your Github repo, you should see a banner inviting you to submit a Pull request.
