@@ -1,6 +1,6 @@
 {
   "name": "apigeelint",
-  "version": "2.84.3",
+  "version": "2.84.4",
   "description": "Node module and tool to lint a bundle for an Apigee API Proxy or sharedflow.",
   "main": "index.js",
   "bin": {
@@ -10,13 +10,15 @@
     "badge": "mocha --reporter mocha-badge-generator",
     "build-condition-parser": "shx mkdir -p build && npx peggy -o build/ConditionParser.js lib/peggy/Apigee-Condition.pegjs",
     "coverage": "c8 --reporter=text mocha",
-    "depcheck": "depcheck . --ignores=depcheck,mocha-lcov-reporter,apigee-jsc-debug,eslint",
+    "depcheck": "depcheck . --ignores=depcheck,mocha-lcov-reporter,apigee-jsc-debug",
     "test": "mocha",
     "clean": "shx rm -rf node_modules package-lock.json",
     "release": "npm install && npm run test && npm run badge",
-    "lint:plugins": "eslint \"lib/package/plugins/*.js\"",
-    "lint:src": "eslint \"lib/package/*.js\"",
-    "lint:test": "eslint \"test/specs/*.js\""
+    "eslint:plugins": "eslint \"lib/package/plugins/*.js\"",
+    "eslint:src": "eslint \"lib/package/*.js\"",
+    "eslint:test": "eslint \"test/specs/*.js\"",
+    "eslint:all": "eslint \"lib/package/*.js\" \"lib/package/plugins/*.js\" \"test/specs/*.js\"",
+    "eslint": "npm run eslint:all"
   },
   "repository": {
     "type": "git",

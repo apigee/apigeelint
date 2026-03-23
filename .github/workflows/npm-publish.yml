@@ -20,6 +20,7 @@ jobs:
         with:
           node-version: 24
       - run: npm ci
+      - run: npm run eslint
       - run: npm test
 
   publish-npm:
