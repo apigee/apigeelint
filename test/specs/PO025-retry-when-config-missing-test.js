@@ -14,112 +14,155 @@
   limitations under the License.
 */
 
-const assert = require("node:assert"),
+const testID = "PO025",
+  assert = require("node:assert"),
   cp = require("node:child_process"),
+  fs = require("node:fs"),
   path = require("node:path"),
-  testID = "PO025",
   Bundle = require("../../lib/package/Bundle.js"),
   debug = require("debug")("apigeelint:PO025-retry-test"),
+  tmp = require("tmp"),
   bl = require("../../lib/package/bundleLinter.js");
+
+function getAvailableDriveLetter() {
+  // Check from Z down to avoid common drives like C
+  const letters = "ZYXWVUTSRQPONMLKJIHGFEDCBA".split("");
+  for (const letter of letters) {
+    try {
+      // If this throws, the drive letter is likely not mapped/available
+      fs.accessSync(`${letter}:\\`, fs.constants.F_OK);
+    } catch (e) {
+      debug(`error on accessSync: ${e}`);
+      return letter;
+    }
+  }
+  throw new Error("No available drive letters found.");
+}
 
 describe(`${testID} - esLint retry tests`, function () {
   this.timeout(12000);
-  it("should retry with default config and cache it", function () {
-    const originalSpawnSync = cp.spawnSync;
-    const calls = [];
+  this.slow(8000);
+  const fixtureDir = path.resolve(
+    __dirname,
+    "../fixtures/resources/PO025/retry",
+  );
 
-    // intercept the spawnSync call that PO025 makes
+  let tmpDir;
+  let driveLetter;
+  let proxyParentDir;
+
+  const spyOnSpawn = (calls) => {
+    const originalSpawnSync = cp.spawnSync;
     cp.spawnSync = (cmd, args, opts) => {
-      // meter the calls to eslint
       if (args[0].includes("eslint.js")) {
         debug("calling spawnSync on eslint.js");
         calls.push(args);
       }
       return originalSpawnSync(cmd, args, opts);
     };
+    return () => (cp.spawnSync = originalSpawnSync);
+  };
 
+  const executePlugin = (overrides) => {
+    const config = {
+      debug: false,
+      source: {
+        type: "filesystem",
+        path: path.resolve(proxyParentDir, "apiproxy"),
+        bundleType: "apiproxy",
+      },
+      excluded: {},
+      ...overrides,
+    };
+    const bundle = new Bundle(config);
+    bl.executePlugin(testID, bundle);
+  };
+
+  before(function () {
+    /*
+     * Copy the proxy files so that when eslint searches for eslint.config.js,
+     * it will not find the one in the apigeelint project root.
+     **/
+    tmpDir = tmp.dirSync({
+      prefix: `apigeelint-eslint-retry-test`,
+      keep: false,
+      unsafeCleanup: true,
+    });
+    proxyParentDir = tmpDir.name;
+    fs.cpSync(fixtureDir, tmpDir.name, { recursive: true, force: true });
+    /*
+     * On Windows, used by developers and also used by Azure DevOps, eg Github
+     * Actions, a TEMP dir is under the user's home directory.  This means that
+     * the eslint search-for-config may find a eslint.config.js file in the
+     * user's home, which is undesired for the purposes of this test. To prevent
+     * THAT, substitute a drive letter, and use THAT as the location of the
+     * files to be scanned.
+     **/
+    if (process.platform == "win32") {
+      driveLetter = getAvailableDriveLetter();
+      // console.log(`Mapping ${tmpDir.name} to ${driveLetter}:\\`);
+      cp.execSync(`subst ${driveLetter}: "${tmpDir.name}"`);
+      proxyParentDir = `${driveLetter}:\\`;
+    }
+  });
+
+  after(function () {
+    if (process.platform == "win32" && driveLetter) {
+      try {
+        cp.execSync(`subst ${driveLetter}: /D`);
+      } catch (e) {
+        console.error(`Failed to unmap drive ${driveLetter}:`, e.message);
+      }
+    }
+    tmpDir.removeCallback();
+  });
+
+  it("should retry with default config and cache it", function () {
+    const calls = [];
+    const restoreSpawn = spyOnSpawn(calls);
     try {
-      const config = {
-        debug: false,
-        source: {
-          type: "filesystem",
-          path: path.resolve(
-            __dirname,
-            "../fixtures/resources/PO025/retry/apiproxy",
-          ),
-          bundleType: "apiproxy",
-        },
-        excluded: {},
-      };
-      const bundle = new Bundle(config);
-      bl.executePlugin(testID, bundle);
+      executePlugin();
 
-      // BN013/bundle1/apiproxy has 4 JS files: sourceFile1.js, sourceFile2.js, sourceFile3.js, URI.js
+      // PO025/retry/apiproxy has 4 JS files: sourceFile1.js, sourceFile2.js, sourceFile3.js, URI.js
       // First resource: fail + retry = 2 calls
       // Other 3 resources: 1 call each (cached) = 3 calls
       // Total = 5 calls
       assert.strictEqual(
         calls.length,
         5,
-        "Should have 5 calls total (2 for first resource, 1 each for remaining 3)",
+        "Should have 5 calls total (1 failed call for first resource, then 1 retry, then 1 each for the remaining 3)",
       );
 
-      const retryCall = calls[1];
-      assert.ok(retryCall.includes("-c"), "Second call should include -c");
+      assert.ok(!calls[0].includes("-c"), `Call 0 should NOT include -c`);
 
-      // Verify subsequent calls also used -c
-      assert.ok(calls[2].includes("-c"), "Third call should include -c");
-      assert.ok(calls[3].includes("-c"), "Fourth call should include -c");
-      assert.ok(calls[4].includes("-c"), "Fifth call should include -c");
+      calls.slice(1).forEach((args, index) => {
+        assert.ok(args.includes("-c"), `Call ${index} should include -c`);
+      });
     } finally {
-      cp.spawnSync = originalSpawnSync;
+      restoreSpawn();
     }
   });
 
   it("should NOT retry when eslintRetry is false", function () {
-    const originalSpawnSync = cp.spawnSync;
     const calls = [];
-
-    // intercept spawnSync
-    cp.spawnSync = (cmd, args, opts) => {
-      // meter the calls to eslint
-      if (args[0].includes("eslint.js")) {
-        debug("calling spawnSync on eslint.js");
-        calls.push(args);
-      }
-      return originalSpawnSync(cmd, args, opts);
-    };
-
+    const restoreSpawn = spyOnSpawn(calls);
     try {
-      const config = {
-        debug: false,
-        source: {
-          type: "filesystem",
-          path: path.resolve(
-            __dirname,
-            "../fixtures/resources/PO025/retry/apiproxy",
-          ),
-          bundleType: "apiproxy",
-        },
-        excluded: {},
-        po025NoRetry: true, // Disabling retry
-      };
-      const bundle = new Bundle(config);
-      bl.executePlugin(testID, bundle);
+      executePlugin({ po025NoRetry: true });
 
       // PO025/retry/apiproxy has 4 JS files.
-      // With retry disabled, each should have exactly 1 call.
+      // With retry disabled, each should have exactly 1 call. (With no
+      // eslint.config.js, all calls will fail to run eslint!)
       assert.strictEqual(
         calls.length,
         4,
-        "Should have exactly 4 calls total (1 for each resource, no retries)",
+        "Should have exactly 4 calls total (1 for each resource, all failures, no retries)",
       );
 
       calls.forEach((args, index) => {
         assert.ok(!args.includes("-c"), `Call ${index} should NOT include -c`);
       });
     } finally {
-      cp.spawnSync = originalSpawnSync;
+      restoreSpawn();
     }
   });
 });
