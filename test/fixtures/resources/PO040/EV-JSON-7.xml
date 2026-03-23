@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--
-  Copyright 2025 Google LLC
+  Copyright © 2025,2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -14,17 +14,15 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  -->
-<ExtractVariables name="EV-JSON-3">
+<ExtractVariables name="EV-JSON-7">
     <JSONPayload>
-      <Variable name="extracted" type="boolean">
-          <!-- These are all ok -->
-          <JSONPath>$.store.book[0].author</JSONPath>
-          <JSONPath>$.quota.[*].appname</JSONPath>
-          <JSONPath><![CDATA[
-          $.quota[?(@.appname=='A' && @.operation=='ManageOrder')].appname
-          ]]></JSONPath>
-          <JSONPath>$.quota[-2:]</JSONPath>
-          <JSONPath>$.quota[2]</JSONPath>
+      <Variable name="extracted">
+        <!--
+            Syntax with a dash in the field is ok in ApigeeX which uses jayway's
+            java jsonpath, but not accepted in npm jsonpath. This should be
+            a warning.
+         -->
+          <JSONPath>$.selected-index</JSONPath>
         </Variable>
     </JSONPayload>
     <Source clearPayload="false">response</Source>

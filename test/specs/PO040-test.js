@@ -1,5 +1,5 @@
 /*
-  Copyright 2019-2025 Google LLC
+  Copyright © 2019-2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -27,13 +27,15 @@ const testID = "PO040",
   rootDir = path.resolve(__dirname, "../fixtures/resources/PO040"),
   debug = require("debug")(`apigeelint:${testID}-test`);
 
-const loadPolicy = (sourceDir, shortFileName) => {
+const loadPolicy = (sourceDir, shortFileName, profile) => {
   const fqPath = path.join(sourceDir, shortFileName),
     policyXml = fs.readFileSync(fqPath).toString("utf-8"),
     doc = new Dom().parseFromString(policyXml),
-    p = new Policy(rootDir, shortFileName, this, doc);
+    p = new Policy(rootDir, shortFileName, this, doc),
+    bundle = { profile };
 
   p.getElement = () => doc.documentElement;
+  p.getBundle = () => bundle;
   p.fileName = shortFileName;
   return p;
 };
@@ -45,9 +47,15 @@ describe(`${testID} - ExtractVariables/JSONPath returns correct results for poli
     );
 
     return (shortFileName) => {
-      const policy = loadPolicy(rootDir, shortFileName);
-      const policyType = policy.getType();
-      let expected = expectedErrorMessages[shortFileName];
+      const policy = loadPolicy(rootDir, shortFileName, profile),
+        policyType = policy.getType();
+      let expected = expectedErrorMessages[shortFileName] || [];
+      if (!Array.isArray(expected)) {
+        expected = [expected];
+      }
+      expected = expected.map((item) =>
+        typeof item == "string" ? { severity: 2, message: item } : item,
+      );
 
       it(`should ${expected ? "flag" : "pass"} ${shortFileName} in profile ${profile}`, () => {
         assert.notEqual(
@@ -55,31 +63,31 @@ describe(`${testID} - ExtractVariables/JSONPath returns correct results for poli
           undefined,
           `${policyType} should be defined`,
         );
-        plugin.onBundle({ profile });
+
         plugin.onPolicy(policy, (e, foundIssues) => {
           assert.equal(undefined, e, "should be undefined");
           const messages = policy.getReport().messages;
           assert.ok(messages, "messages should exist");
-          if (expected) {
-            if (!Array.isArray(expected)) {
-              expected = [expected];
-            }
+          if (expected && expected.length) {
             assert.equal(true, foundIssues, "should be issues");
             assert.equal(
-              expected.length,
               messages.length,
+              expected.length,
               "unexpected number of messages",
             );
             debug(`${shortFileName}: messages: ${JSON.stringify(messages)}`);
-            expected.forEach((expectedMessageStart, ix) => {
+            expected.forEach((expectation, ix) => {
               debug(`${shortFileName}: message[0]: ${messages[0].message}`);
               assert.ok(messages[ix].message, "did not find message member");
-              assert.ok(
-                messages.find((item) =>
-                  item.message.startsWith(expectedMessageStart),
-                ),
-                `did not find expected message (${expectedMessageStart}... not in ${messages.map((m) => m.message).join(",")}`,
+              const found = messages.find((item) =>
+                item.message.startsWith(expectation.message),
               );
+
+              assert.ok(
+                found,
+                `did not find expected message (${expectation.message}... not in ${messages.map((m) => m.message).join(",")}`,
+              );
+              assert.equal(found.severity, expectation.severity);
             });
           } else {
             debug(`${shortFileName}: messages: ${JSON.stringify(messages)}`);
