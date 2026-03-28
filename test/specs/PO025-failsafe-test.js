@@ -33,6 +33,9 @@ describe(`${testID} - esLint Failsafe`, function () {
       "../fixtures/resources/PO025/fail",
     );
 
+    const currentEslintPath = path.join(require.resolve("eslint"), "../..");
+    const backupEslintPath = path.join(require.resolve("eslint"), "../../../eslint-backup");
+
     const options = {
       testDir: fixtureDir,
       cliArgs: [
@@ -58,11 +61,20 @@ describe(`${testID} - esLint Failsafe`, function () {
           assert.fail("eslint package should exist before deletion");
         }
         fs.rmSync(eslintPkg, { recursive: true, force: true });
+
+        // Move the project installed eslint as that can be picked up
+        if (fs.existsSync(currentEslintPath)) {
+          fs.renameSync(currentEslintPath, backupEslintPath);
+        }
       },
       env: { DEBUG: "apigeelint:PO025,apigeelint:cli-test-helper" },
     };
 
     runCliIntegrationTest(options, (code, items, _stderr) => {
+      // Move the project installed eslint back before any checks can throw an error
+      if (fs.existsSync(backupEslintPath)) {
+        fs.renameSync(backupEslintPath, currentEslintPath);
+      }
       // Find the report for the JS file
       const jsFileReport = items.find((r) =>
         r.filePath.endsWith("source-code.js"),
