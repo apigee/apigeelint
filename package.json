@@ -1,6 +1,6 @@
 {
   "name": "apigeelint",
-  "version": "2.84.4",
+  "version": "2.84.5",
   "description": "Node module and tool to lint a bundle for an Apigee API Proxy or sharedflow.",
   "main": "index.js",
   "bin": {
@@ -66,10 +66,34 @@
   "overrides": {
     "badge-up": "https://registry.npmjs.org/@rpl/badge-up/-/badge-up-3.0.0.tgz",
     "diff": "^8.0.3",
-    "glob": "^10.5.0",
+    "glob": {
+      ".": "^10.5.0",
+      "minimatch": {
+        "brace-expansion": "^2.0.3"
+      }
+    },
     "flatted": "^3.4.2",
     "jshint": {
-      "minimatch": "^3.1.2"
+      "minimatch": "^3.1.2",
+      "brace-expansion": "^1.1.13"
+    },
+    "multimatch": {
+      "minimatch": {
+        "brace-expansion": "^1.1.13"
+      }
+    },
+    "depcheck": {
+      "minimatch": {
+        "brace-expansion": "^2.0.3"
+      }
+    },
+    "mocha": {
+      "minimatch": {
+        "brace-expansion": "^2.0.3"
+      }
+    },
+    "minimatch": {
+      "brace-expansion": "^5.0.5"
     },
     "nth-check": "^2.0.1",
     "svgo": "^3.3.3",
