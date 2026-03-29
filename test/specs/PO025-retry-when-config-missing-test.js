@@ -22,22 +22,8 @@ const testID = "PO025",
   Bundle = require("../../lib/package/Bundle.js"),
   debug = require("debug")("apigeelint:PO025-retry-test"),
   tmp = require("tmp"),
+  { getAvailableDriveLetter } = require("../fixtures/filesystem-helpers.js"),
   bl = require("../../lib/package/bundleLinter.js");
-
-function getAvailableDriveLetter() {
-  // Check from Z down to avoid common drives like C
-  const letters = "ZYXWVUTSRQPONMLKJIHGFEDCBA".split("");
-  for (const letter of letters) {
-    try {
-      // If this throws, the drive letter is likely not mapped/available
-      fs.accessSync(`${letter}:\\`, fs.constants.F_OK);
-    } catch (e) {
-      debug(`error on accessSync: ${e}`);
-      return letter;
-    }
-  }
-  throw new Error("No available drive letters found.");
-}
 
 describe(`${testID} - esLint retry tests`, function () {
   this.timeout(12000);
@@ -99,7 +85,7 @@ describe(`${testID} - esLint retry tests`, function () {
      * files to be scanned.
      **/
     if (process.platform == "win32") {
-      driveLetter = getAvailableDriveLetter();
+      driveLetter = getAvailableDriveLetter(debug);
       // console.log(`Mapping ${tmpDir.name} to ${driveLetter}:\\`);
       cp.execSync(`subst ${driveLetter}: "${tmpDir.name}"`);
       proxyParentDir = `${driveLetter}:\\`;
