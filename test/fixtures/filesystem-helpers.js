@@ -1,5 +1,5 @@
 /*
-  Copyright 2022, 2025 Google LLC
+  Copyright © 2022,2025,2026 Google LLC
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -18,12 +18,12 @@ const fs = require("node:fs");
 const path = require("node:path");
 const DO_NOT_FOLLOW = [".git", "node_modules"];
 const findFoldersRecursiveSync = (src, targetFoldername) => {
-  let exists = fs.existsSync(src),
+  const exists = fs.existsSync(src),
     stats = exists && fs.lstatSync(src),
     isDirectory = exists && stats.isDirectory();
   if (isDirectory) {
-    let reducer = (accumulator, current) => {
-      let fullpath = path.join(src, current),
+    const reducer = (accumulator, current) => {
+      const fullpath = path.join(src, current),
         stats = fs.lstatSync(fullpath),
         isDirectory = stats.isDirectory();
       if (isDirectory) {
@@ -42,4 +42,22 @@ const findFoldersRecursiveSync = (src, targetFoldername) => {
   return [];
 };
 
-module.exports = findFoldersRecursiveSync;
+const getAvailableDriveLetter = function (debug) {
+  // Check from Z down to avoid common drives like C
+  const letters = "ZYXWVUTSRQPONMLKJIHGFEDCBA".split("");
+  for (const letter of letters) {
+    try {
+      // If this throws, the drive letter is likely not mapped/available
+      fs.accessSync(`${letter}:\\`, fs.constants.F_OK);
+    } catch (e) {
+      debug(`error on accessSync: ${e}`);
+      return letter;
+    }
+  }
+  throw new Error("No available drive letters found.");
+};
+
+module.exports = {
+  findFolders: findFoldersRecursiveSync,
+  getAvailableDriveLetter,
+};

@@ -1,0 +1,26 @@
+.env
+.git/
+test/
+NOT-USED/
+.github/
+.aider.*/
+.aider.*
+coverage/
+apigee-release/
+
+Notes.*.txt
+
+*.tgz
+**/#*.*#
+**/*.*~
+**/#*#
+**/*~
+
+# Exclude config files not needed at runtime
+.c8rc
+.gitignore
+.mocharc.yaml
+.jshintrc
+eslint.config.js
+
+apigeelint-report.pdf
