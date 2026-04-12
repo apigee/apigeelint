@@ -1,0 +1,15 @@
+<GenerateJWT name='GenerateJWT-with-Id'>
+  <DisplayName>GenerateJWT-with-Id</DisplayName>
+  <Algorithm>HS256</Algorithm>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <SecretKey>
+    <Value ref='private.secretkey'/>
+    <Id ref='key-id'/>
+  </SecretKey>
+  <Subject ref='my-subject'/>
+  <Issuer ref='variable-with-name-of-issuer'/>
+  <Audience>audience-here</Audience>
+  <ExpiresIn>30m</ExpiresIn>
+  <Id/>
+  <OutputVariable>output_variable_name</OutputVariable>
+</GenerateJWT>
