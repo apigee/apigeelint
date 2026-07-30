@@ -41,6 +41,7 @@
   "OAuthV1" :{"indications":["oauthv1","oauth","oa","accesstoken","verify"], "profiles":["apigee"] },
   "OAuthV2" :{"indications":["oauthv2","oauth","oa","accesstoken","verify"]},
   "ParseDialogflowRequest":{"indications":["parsedialogflowrequest","dialogflow","pdfr","^parsedialogflowrequest$"], "profiles":["apigeex"] },
+  "ParsePayload" :{"indications":["parsepayload","pp","^parsepayload$"], "profiles":["apigeex"] },
   "PopulateCache" :{"indications":["populate","pop","populatecache","pc","cache"]},
   "PromptTokenLimit" :{"indications":["ptl","prompttokenlimit","promptlimit","^prompt$"], "profiles":["apigeex"]},
   "PublishMessage" :{"indications":["publishmessage","pm","publish","^publishmessage$"], "profiles":["apigeex"] },
