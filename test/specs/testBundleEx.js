@@ -80,6 +80,24 @@ describe("BundleEx", function () {
     assert.ok(missingFolderMsg, "Should warn about missing apiproxy folder");
   });
 
+  it("Should leave filePath undefined when the manifest .xml file is missing", function () {
+    const missingManifestPath = path.resolve(
+      __dirname,
+      "../fixtures/resources/missingManifest/apiproxy",
+    );
+    const configuration = {
+      source: {
+        type: "filesystem",
+        path: missingManifestPath,
+        bundleType: "apiproxy",
+      },
+    };
+
+    const bundle = new Bundle(configuration);
+    assert.ok(bundle);
+    assert.equal(bundle.filePath, undefined);
+  });
+
   it("Should handle messages without a plugin object", function () {
     const configuration = {
       source: {
