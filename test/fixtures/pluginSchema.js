@@ -33,7 +33,10 @@ module.exports = {
     },
     message: {
       id: "/properties/message",
-      type: "string"
+      type: "string",
+      minLength: 25, //the rule-level description; must say what the rule checks
+      required: true,
+      optional: false
     },
     nodeType: {
       id: "/properties/nodeType",

@@ -15,6 +15,8 @@
 */
 
 const assert = require("node:assert"),
+  fs = require("node:fs"),
+  path = require("node:path"),
   //debug = require("debug")("apigeelint:allplugins"),
   Bundle = require("../../lib/package/Bundle.js"),
   Validator = require("jsonschema").Validator,
@@ -26,6 +28,22 @@ describe("All Plugins", function () {
   const pluginRe = {
     id: new RegExp("^[A-Z]{2}[0-9]{3}$"),
     filename: new RegExp("^([A-Z]{2}[0-9]{3})-(.+?)\\.js$"),
+  };
+
+  const externalPluginRe = {
+    id: new RegExp("^EX-[A-Z]{2}[0-9]{3}$"),
+    filename: new RegExp("^(EX-[A-Z]{2}[0-9]{3})-(.+?)\\.(js|cjs)$"),
+  };
+
+  const checkDescriptor = function (plugin, shortFileName) {
+    const validationResult = new Validator().validate(plugin, pluginSchema);
+    assert.equal(
+      validationResult.errors.length,
+      0,
+      `invalid plugin descriptor [${shortFileName}]: ${validationResult.errors
+        .map((e) => e.stack)
+        .join("; ")}`,
+    );
   };
 
   describe("Static Analysis", function () {
@@ -60,6 +78,36 @@ describe("All Plugins", function () {
         } else {
           knownIds[plugin.ruleId] = shortFileName;
         }
+
+        checkDescriptor(plugin, shortFileName);
+      });
+    });
+  });
+
+  describe("Static Analysis of external plugins", function () {
+    const externalPluginsDir = path.resolve(__dirname, "../../externalPlugins");
+    const allPlugins = fs
+      .readdirSync(externalPluginsDir)
+      .filter((fname) => externalPluginRe.filename.test(fname));
+
+    it(`checks that there is at least one external plugin`, function () {
+      assert.ok(allPlugins.length > 0);
+    });
+
+    allPlugins.forEach((shortFileName) => {
+      it(`${shortFileName} should pass validity tests`, function () {
+        const plugin = require(
+          path.resolve(externalPluginsDir, shortFileName),
+        ).plugin;
+
+        assert.ok(plugin, `plugin not found [${shortFileName}]`);
+        assert.ok(plugin.ruleId, `plugin missing ruleId [${shortFileName}]`);
+        assert.ok(
+          plugin.ruleId.match(externalPluginRe.id),
+          `noncompliant plugin ruleId(${plugin.ruleId}) [${shortFileName}]`,
+        );
+
+        checkDescriptor(plugin, shortFileName);
       });
     });
   });
@@ -82,14 +130,6 @@ describe("All Plugins", function () {
           validationResult.errors,
         );
       });
-
-      const v = new Validator(),
-        plugin = require(fqPluginPath).plugin;
-
-      assert.ok(plugin, `unexported plugin ${shortFileName}`);
-
-      const validationResult = v.validate(plugin.plugin, pluginSchema);
-      assert.equal(validationResult.errors.length, 0, validationResult.errors);
     });
   };
 
