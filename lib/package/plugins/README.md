@@ -63,13 +63,15 @@ plugin = {
   }
 ```
 
-Consider all of these fields to be mandatory.
+Consider all of these fields to be mandatory. The bundle linter validates the descriptor when it loads a plugin, and refuses to run a plugin whose descriptor is structurally invalid — a missing or wrongly typed field, a `severity` outside `{0,1,2}`, or a `message` shorter than 25 characters. The failure is reported as `plugin error: ...` and the rest of the lint run continues. The test suite additionally validates every plugin in this repository against `test/fixtures/pluginSchema.js`.
 
 Notes:
 
 * *ruleId* can be inferred from the filename by calling a helper function: `require("../lintUtil.js").getRuleId()`
 
 * *severity* is an enum: 0 implies ignore the output of this rule; 1 is a warning; 2 is an error.
+
+* *message* is the rule-level description: a sentence saying what the rule checks. It is distinct from the per-finding `message` passed to `addMessage`, which describes one specific observation.
 
 * *nodeType* is a description of the primary unit of evaluation by the rule. Rules may span many underlying entities (Flows, Conditions, Steps, Policies, etc) so it is left to the rule provider to decide which node is primary. nodeType is an arbitrary label, it need not be one of the objects exposed by the API.
 
